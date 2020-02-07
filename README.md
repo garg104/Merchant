@@ -1,4 +1,4 @@
-# Merchant_backend
+# Merchant
 # For the love of Turkey Daddy
 
 LINK TO FRONTEND - https://github.com/aakarshitpandey/merchant
