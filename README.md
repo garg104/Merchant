@@ -1,7 +1,6 @@
 # Merchant
 # For the love of Turkey Daddy
 
-LINK TO FRONTEND - https://github.com/aakarshitpandey/merchant
-
-
-All the documents would be attached to both Frontend and Backend repositories. 
+Docs - All the Documents realted to the software are in this subdirectory
+Frontend - Xcode Project 
+Backend - Express/Node Server
