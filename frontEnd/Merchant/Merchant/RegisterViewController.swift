@@ -1,14 +1,14 @@
 //
-//  ViewController.swift
+//  RegisterViewController.swift
 //  Merchant
 //
-//  Created by Chirayu Garg on 2/11/20.
+//  Created by Domenic Conversa on 2/12/20.
 //  Copyright © 2020 CS307 Team 4. All rights reserved.
 //
 
 import UIKit
 
-class ViewController: UIViewController {
+class RegisterViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -17,4 +17,3 @@ class ViewController: UIViewController {
 
 
 }
-
