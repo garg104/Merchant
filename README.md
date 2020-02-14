@@ -3,6 +3,9 @@
 
 ## Subdirectories
 docs: Contains all the Documents related to the software.
+
 frontEnd: Contains Xcode Project and related resources.
+
 backEnd: Contains Express/Node Server.
+
 screenshots: Contains screenshots of application.
