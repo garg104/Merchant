@@ -107,6 +107,8 @@ iOSInjectionProject/
 
 # misc
 .DS_Store
+/backend/.DS_Store
+/frontEnd/.DS_Store
 .env
 .env.local
 .env.development.local
