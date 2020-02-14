@@ -254,7 +254,7 @@
                     <navigationItem key="navigationItem" title="Register" id="4Ks-Jw-e7f">
                         <barButtonItem key="leftBarButtonItem" title="Cancel" image="chevron.left" catalog="system" style="plain" id="eqz-t6-ZUX">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="cUq-a3-mWU">
-                                <rect key="frame" x="-23" y="-15" width="69" height="22"/>
+                                <rect key="frame" x="16" y="16.666666666666668" width="74.333333333333329" height="23.000000000000004"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="16"/>
                                 <state key="normal" title=" Cancel" image="chevron.left" catalog="system"/>
