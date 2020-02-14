@@ -50,7 +50,7 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <segue destination="ugd-jh-3Wd" kind="show" id="96n-5L-u1j"/>
+                                    <segue destination="3jw-1u-bgI" kind="show" id="96n-5L-u1j"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8ef-fN-saA">
@@ -215,7 +215,7 @@
             </objects>
             <point key="canvasLocation" x="568.79999999999995" y="68.7192118226601"/>
         </scene>
-        <!--Register View Controller-->
+        <!--Register-->
         <scene sceneID="Lgb-Oo-J8a">
             <objects>
                 <viewController id="ugd-jh-3Wd" customClass="RegisterViewController" customModule="Merchant" customModuleProvider="target" sceneMemberID="viewController">
@@ -223,25 +223,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="758"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Register" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="28" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dYI-bl-SRD">
-                                <rect key="frame" x="16" y="55" width="142" height="48"/>
-                                <fontDescription key="fontDescription" name="Poppins-SemiBold" family="Poppins" pointSize="34"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wct-Bs-BuP">
-                                <rect key="frame" x="16" y="20" width="74.333333333333329" height="41"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="41" id="e1h-c7-udU"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="16"/>
-                                <state key="normal" title=" Cancel" image="chevron.left" catalog="system">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <connections>
-                                    <segue destination="Hc4-QV-GfT" kind="unwind" unwindAction="unwindToWelcomeViewControllerWithSegue:" id="TO0-s2-Epj"/>
-                                </connections>
-                            </button>
                             <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="first name" minimumFontSize="15" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="YTj-iJ-wli">
                                 <rect key="frame" x="16" y="111" width="343" height="34"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -268,15 +249,22 @@
                             </textField>
                         </subviews>
                         <color key="backgroundColor" red="0.46274509800000002" green="0.70980392160000005" blue="0.30196078430000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                        <constraints>
-                            <constraint firstItem="dYI-bl-SRD" firstAttribute="leading" secondItem="bv8-ho-yht" secondAttribute="leading" constant="16" id="1tk-Kd-lkI"/>
-                            <constraint firstItem="dYI-bl-SRD" firstAttribute="top" secondItem="wct-Bs-BuP" secondAttribute="bottom" constant="-6" id="ddq-UZ-CSq"/>
-                            <constraint firstItem="wct-Bs-BuP" firstAttribute="top" secondItem="bv8-ho-yht" secondAttribute="top" constant="20" id="o1p-7l-mvU"/>
-                            <constraint firstItem="wct-Bs-BuP" firstAttribute="leading" secondItem="bv8-ho-yht" secondAttribute="leading" constant="16" id="zdM-vV-Dp9"/>
-                        </constraints>
                         <viewLayoutGuide key="safeArea" id="bv8-ho-yht"/>
                     </view>
-                    <navigationItem key="navigationItem" id="4Ks-Jw-e7f"/>
+                    <navigationItem key="navigationItem" title="Register" id="4Ks-Jw-e7f">
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" image="chevron.left" catalog="system" style="plain" id="eqz-t6-ZUX">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="cUq-a3-mWU">
+                                <rect key="frame" x="-23" y="-15" width="69" height="22"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="16"/>
+                                <state key="normal" title=" Cancel" image="chevron.left" catalog="system"/>
+                            </button>
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <segue destination="Hc4-QV-GfT" kind="unwind" unwindAction="unwindToWelcomeViewControllerWithSegue:" id="xoz-mQ-xLv"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="emailTextField" destination="lQu-EE-aYw" id="XD6-bD-bLG"/>
                         <outlet property="firstNameTextField" destination="YTj-iJ-wli" id="nGN-8c-zZo"/>
@@ -285,6 +273,34 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9z4-DR-bvu" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="Hc4-QV-GfT" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="1511.2" y="-640.64039408866995"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="wdd-vl-BLz">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="3jw-1u-bgI" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" id="wB7-J7-auj"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="z2G-kW-tZq">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="108"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <textAttributes key="titleTextAttributes">
+                            <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="17"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </textAttributes>
+                        <textAttributes key="largeTitleTextAttributes">
+                            <fontDescription key="fontDescription" name="Poppins-SemiBold" family="Poppins" pointSize="34"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </textAttributes>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="ugd-jh-3Wd" kind="relationship" relationship="rootViewController" id="yc8-KX-gn4"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Y0M-80-qIS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="568.79999999999995" y="-640.64039408866995"/>
         </scene>
