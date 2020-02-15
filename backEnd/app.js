@@ -11,7 +11,10 @@ var usersRouter = require('./routes/users');
 
 var app = express();
 
-//connection to MongoDB: TODO
+//connection to MongoDB Atlas
+mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+
+//ADD database schemas: TODO
 
 
 //initial configuration
@@ -33,7 +36,7 @@ app.use((req, res, next) => {
 app.use((err, req, res, next) => {
     //only providing error message in development
     res.locals.message = err.message
-    res.locals.error = req.app.get('env') === 'development' ? err : {};
+    res.locals.error = req.app.get('env') === 'dev' ? err : {};
 
     //rendering error response
     res.status(err.status || 500)
