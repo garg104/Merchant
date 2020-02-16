@@ -21,4 +21,5 @@ router.post('/validate', async (req, res) => {
   }
 })
 
+
 module.exports = router;
