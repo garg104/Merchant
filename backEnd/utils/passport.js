@@ -4,10 +4,15 @@ let extractJWT = require('passport-jwt').ExtractJwt
 let JWTStrategy = require('passport-jwt').Strategy
 
 let opts = {}
+
+//get the JWT as bearer token
 opts.jwtRecieved = extractJWT.fromAuthHeaderAsBearerToken();
+
+//get the secret key from the environment variable
 opts.secret = process.env.SECRET || 'secret';
 
-module.exports = passport => {
+//setting up the JWT authentication strategy
+module.exports = (passport) => {
     passport.use(
         new JWTStrategy(opts, (jwt_payload, done) => {
             User.findById(jwt_payload.id)

@@ -1,21 +1,28 @@
 require('dotenv').config()
 
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var throwError = require('http-errors')
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const throwError = require('http-errors')
+const passport = require('passport')
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+const indexRouter = require('./routes/index');
+const userRouter = require('./routes/user');
 
-var app = express();
+const app = express();
 
 //connection to MongoDB Atlas
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
 
 //ADD database schemas: TODO
 
+
+//setup passport for JWT authentication
+app.use(passport.initialize())
+
+//passport config
+require('./utils/passport')(passport)
 
 //initial configuration
 app.use(logger('dev'));
@@ -25,7 +32,7 @@ app.use(cookieParser());
 
 //router integration
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/user', userRouter);
 
 //error handling
 app.use((req, res, next) => {
