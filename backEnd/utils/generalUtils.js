@@ -19,10 +19,28 @@ export const sendEmail = async (msg) => {
     sgMail
         .send(msg)
         .then(() => {
-            return new Promise.resolve(msg.otp)
+            return new Promise.resolve({ msg: 'Email sent successfully' })
         })
         .catch((err) => {
             console.log(err)
             return new Promise.reject(err)
         })
 } //sendEmail
+
+/**
+ * Generate a email for otp generation
+ *
+ * @author Aakarshit Pandey
+ */
+
+export const generateEmailMsg = (email, opts) => {
+    return {
+        to: `${email}`,
+        from: 'merchant@example.com',
+        subject: opts.subject || 'ATTENTION: Verify your merchant account',
+        text: opts.message || 'Hi,\n Thank you for creating an account on Merchant.' +
+            `Please enter the following One Time Password on your app to verify your accont: ${opts.otp}` +
+            '\nRegards,\nMerchant Team!',
+        html: opts.html || `<p>${message}</p>`,
+    };
+}
