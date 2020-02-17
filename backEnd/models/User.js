@@ -1,6 +1,5 @@
 const mongoose = require('./node_modules/mongoose');
 
-
 const userSchema = mongoose.Schema({
     userName: {
         type: String,
@@ -32,3 +31,5 @@ const userSchema = mongoose.Schema({
         ref: "Conversation",
     },
 })
+
+module.exports = mongoose.model("User", userSchema);
