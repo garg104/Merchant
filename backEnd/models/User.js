@@ -1,4 +1,4 @@
-const mongoose = require('./node_modules/mongoose');
+const mongoose = require('mongoose');
 
 const userSchema = mongoose.Schema({
     userName: {
@@ -19,15 +19,15 @@ const userSchema = mongoose.Schema({
         required: true,
     },
     sellingHistory: {
-        type: [Schema.Types.ObjectID],
+        type: [mongoose.Schema.Types.ObjectID],
         ref: "Items",
     },
     forSale: {
-        type: [Schema.Types.ObjectID],
+        type: [mongoose.Schema.Types.ObjectID],
         ref: "Items",
     },
     chats: {
-        type: Schema.Types.ObjectID,
+        type: mongoose.Schema.Types.ObjectID,
         ref: "Conversation",
     },
 })
