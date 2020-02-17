@@ -33,8 +33,10 @@ class CreateAccountViewController: UIViewController {
         
         // check if the username is unique
         // find out a way to dynamically do it
-        
+        // auto fill ERROR
+        // password field is BUGGY
         // check if the passwords are same
+        
         if (passwordTextField.text != confirmPasswordTextField.text) {
             let alert = UIAlertController(title: "Passwords Do Not Match", message: "Please make sure that both the passwords match", preferredStyle: .alert)
             alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
@@ -42,6 +44,8 @@ class CreateAccountViewController: UIViewController {
             passwordTextField.text = ""
             confirmPasswordTextField.text = ""
         }
+        
+        
         
         print(firstName)
         print(lastName)
