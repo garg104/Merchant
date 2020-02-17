@@ -1,6 +1,6 @@
 import { otpGenerator } from '../utils/generalUtils'
 
-var User = require('../models/User')
+var User = require('../models/User').default
 var express = require('express');
 var router = express.Router();
 

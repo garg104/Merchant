@@ -1,6 +1,6 @@
 require('dotenv').config()
 
-const User = require('../models/User')
+const User = require('../models/User').default
 let extractJWT = require('passport-jwt').ExtractJwt
 let JWTStrategy = require('passport-jwt').Strategy
 
