@@ -3,13 +3,14 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "NODE_ENV=production node ./bin/www",
-    "dev": "NODE_ENV=dev nodemon ./bin/www"
+    "start": "NODE_ENV=production node -r esm ./bin/www",
+    "dev": "NODE_ENV=dev nodemon -r esm ./bin/www"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "dotenv": "^8.2.0",
+    "esm": "^3.2.25",
     "express": "~4.16.1",
     "http-errors": "^1.7.3",
     "mongoose": "^5.9.1",
@@ -17,5 +18,6 @@
     "nodemon": "^2.0.2",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0"
-  }
+  },
+  "devDependencies": {}
 }

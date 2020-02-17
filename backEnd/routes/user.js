@@ -1,4 +1,4 @@
-import { otpGenerator, sendEmail, generateEmailMsg } from '../utils/generalUtils'
+import { otpGenerator } from '../utils/generalUtils'
 
 var express = require('express');
 var router = express.Router();
