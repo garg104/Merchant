@@ -4,3 +4,4 @@
  * @author Chirayu Garg
  */
 
+export const sgMail = undefined //TODO
