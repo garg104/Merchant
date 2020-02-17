@@ -9,6 +9,7 @@ const passport = require('passport')
 
 const indexRouter = require('./routes/index');
 const userRouter = require('./routes/user');
+const mongoose = require('mongoose')
 
 const app = express();
 

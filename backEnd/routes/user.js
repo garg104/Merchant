@@ -1,4 +1,4 @@
-import { otpGenerator, sendEmail, generateEmailMsg } from '../utils/generalUtils'
+import { otpGenerator } from '../utils/generalUtils'
 
 var express = require('express');
 var router = express.Router();
@@ -20,6 +20,5 @@ router.post('/validate', async (req, res) => {
     res.status(400).send(err)
   }
 })
-
 
 module.exports = router;
