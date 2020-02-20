@@ -10,14 +10,36 @@ import UIKit
 
 class ProfileViewController: UIViewController {
 
-    @IBOutlet weak var ProfilePicture: UIImageView!
+    @IBOutlet weak var profilePicture: UIImageView!
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var usernameLabel: UILabel!
+    @IBOutlet weak var emailLabel: UILabel!
+    @IBOutlet weak var sellHistoryButton: UIButton!
+    @IBOutlet weak var resetPasswordLabel: UIButton!
+    @IBOutlet weak var deleteAccountButton: UIButton!
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-        
-
         // Do any additional setup after loading the view.
+        addOverlines()
+    }
+    
+    func addOverlines() {
+        //create underline for username and password textfields
+        let underLine = CALayer()
+        underLine.frame = CGRect(x: 0, y: 0, width: sellHistoryButton.frame.width, height: 0.5)
+        underLine.backgroundColor = UIColor.init(red: 0/255, green: 0/255, blue: 0/255, alpha: 1.0).cgColor
+        let underLine2 = CALayer()
+        underLine2.frame = CGRect(x: 0, y: 0, width: resetPasswordLabel.frame.width, height: 0.5)
+        underLine2.backgroundColor = UIColor.init(red: 0/255, green: 0/255, blue: 0/255, alpha: 1.0).cgColor
+        let underLine3 = CALayer()
+        underLine3.frame = CGRect(x: 0, y: 0, width: deleteAccountButton.frame.width, height: 0.5)
+        underLine3.backgroundColor = UIColor.init(red: 0/255, green: 0/255, blue: 0/255, alpha: 1.0).cgColor
+        sellHistoryButton.layer.addSublayer(underLine)
+        resetPasswordLabel.layer.addSublayer(underLine2)
+        deleteAccountButton.layer.addSublayer(underLine3)
     }
     
 
