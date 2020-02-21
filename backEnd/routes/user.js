@@ -11,7 +11,7 @@ router.get('/', function (req, res, next) {
 
 /* Register */
 router.post('/register', async (req, res) => {
-  const { firstName, lastName, email, username, password } = req.body
+  const { firstName, lastName, email, username, password, university } = req.body
 
   //checking for empty fields
   // if (!firstName || !lastName || !email || !username || !password) {
@@ -22,15 +22,21 @@ router.post('/register', async (req, res) => {
   try {
     //checking the db for existing user
     const user = await User.find({ username })
-    res.status(409).json({ msg: 'Username already exists' })
+    console.log(user)
+    if (user.length === 0) {
+      try {
+        const user = await User.create({ firstName, lastName, email, username, password, university })
+        res.status(201).json({ user: user, msg: 'Successfully Registered' })
+      } catch (e) {
+        console.log(e)
+        res.status(500).json({ msg: 'User could not be created' })
+      }
+    } else {
+      res.status(409).json({ msg: 'Username already exists' })
+    }
   } catch (e) {
     //creating the new user
-    try {
-      const user = await User.create({ firstName, lastName, email, username, password })
-      res.status(201).json({ user: user, msg: 'Successfully Registered' })
-    } catch (e) {
-      res.status(500).json({ msg: 'User could not be created' })
-    }
+    console.log(e)
   }
 })
 
