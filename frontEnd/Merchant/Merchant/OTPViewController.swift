@@ -9,12 +9,37 @@
 import UIKit
 
 class OTPViewController: UIViewController {
+    
+    @IBOutlet weak var OTP: UITextField!
+    
+    
+    var firstName = ""
+    var lastName = ""
+    var email = ""
+    
+    @IBAction func OTPNext(_ sender: Any) {
+        
+        
+        
+        
+        // check and validate the OTP.
 
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
         
+        // Do any additional setup after loading the view.
+    }
+    
+   
+    
+    // pass the data to the next view controller
+    override func prepare(for segue: UIStoryboardSegue, sender: (Any)?) {
+        let vc = segue.destination as! CreateAccountViewController
+        vc.firstName = self.firstName
+        vc.lastName = self.lastName
+        vc.email = self.lastName
     }
     
     /*

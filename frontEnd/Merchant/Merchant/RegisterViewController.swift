@@ -14,6 +14,30 @@ class RegisterViewController: UIViewController {
     @IBOutlet weak var lastNameTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
     
+    @IBAction func nextToOTP(_ sender: Any) {
+        if (firstNameTextField.text == "" ||
+            lastNameTextField.text == "" ||
+            emailTextField.text == "") {
+            let alert = UIAlertController(title: "Empty Field", message: "Please enter all the fields", preferredStyle: .alert)
+            alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
+            self.present(alert, animated: true)
+        }
+        
+
+        // check if the email is a valid school email
+        // database of universities
+        
+    }
+    
+    // pass the data to the next view controller
+    override func prepare(for segue: UIStoryboardSegue, sender: (Any)?) {
+        if (segue.identifier == "nextToOTP") {
+            let vc = segue.destination as! OTPViewController
+            vc.firstName = firstNameTextField.text!
+            vc.lastName = lastNameTextField.text!
+            vc.email = emailTextField.text!
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
