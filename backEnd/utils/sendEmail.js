@@ -26,15 +26,12 @@ export const otpGenerator = () => {
  * @author Aakarshit Pandey
  */
 export const sendEmail = async (msg) => {
-    sgMail
-        .send(msg)
-        .then(() => {
-            return new Promise.resolve({ msg: 'Email sent successfully' })
-        })
-        .catch((err) => {
-            console.log(err)
-            return new Promise.reject(err)
-        })
+    try {
+        const apiRes = await sgMail.send(msg)
+        return Promise.resolve({ msg: 'Email sent successfully' })
+    } catch (e) {
+        return Promise.reject({ ...e })
+    }
 } //sendEmail
 
 /**
