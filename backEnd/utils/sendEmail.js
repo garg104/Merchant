@@ -43,15 +43,14 @@ export const sendEmail = async (msg) => {
  * @author Aakarshit Pandey
  */
 
-export const generateEmailMsg = (email, opts) => {
+export const generateOtpMsg = (email, otp) => {
     return {
         to: `${email}`,
-        from: 'merchant@example.com',
-        subject: opts.subject || 'ATTENTION: Verify your merchant account',
-        text: opts.message || 'Hi,\n Thank you for creating an account on Merchant.' +
-            `Please enter the following One Time Password on your app to verify your accont: ${opts.otp}` +
+        from: 'merchant@gmail.com',
+        subject: 'ATTENTION: Verify your merchant account',
+        text: 'Hi,\n Thank you for creating an account on Merchant.' +
+            `Please enter the following One Time Password on your app to verify your accont: ${otp}` +
             '\nRegards,\nMerchant Team!',
-        html: opts.html || `<p>${message}</p>`,
     };
 }
 
@@ -64,11 +63,25 @@ export const generateEmailMsg = (email, opts) => {
 export const generateDeleteAcctMsg = (email, opts) => {
     return {
         to: `${email}`,
-        from: 'merchant@example.com',
-        subject: opts.subject || 'ATTENTION: Verify your merchant account',
-        text: opts.message || 'Hi,\n Thank you for creating an account on Merchant.' +
-            `Please enter the following One Time Password on your app to verify your accont: ${opts.otp}` +
-            '\nRegards,\nMerchant Team!',
-        html: opts.html || `<p>${message}</p>`,
+        from: 'merchant@gmail.com',
+        subject: 'Thank you for using Merchant: Your account has been deleted',
+        text: 'Hi,\n Thank you for using Merchant.',
     };
 }
+
+/**
+ * Send an email with custom content
+ *
+ * @author Aakarshit Pandey
+ */
+
+export const generateEmailMsg = (email, opts) => {
+    return {
+        to: `${email}`,
+        from: 'merchant@example.com',
+        subject: opts.subject,
+        text: opts.message,
+        html: opts.html
+    };
+}
+
