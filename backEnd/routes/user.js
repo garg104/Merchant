@@ -13,6 +13,10 @@ router.get('/', function (req, res, next) {
 router.get('/validate', async (req, res) => {
   //get the fields
   const { email, OTP } = req.body
+  console.log(req.body)
+  console.log(req.params)
+  console.log(req.body.email)
+  console.log(req.body.OTP)
   console.log(`Email: ${email} and OTP: ${OTP}`)
   const otp = OTP
 
