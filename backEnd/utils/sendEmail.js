@@ -1,4 +1,14 @@
-import { sgMail } from './sendgridConfig'
+/**
+ * Configure emailing sevice using sendgrid
+ *
+ * @author Chirayu Garg
+ */
+require('dotenv').config()
+const sgMail = require('@sendgrid/mail') 
+sgMail.setApiKey(process.env.SEND_GRID_API_KEY)
+
+// there is a way to add photos and customize the email we send of the SendGrid website.
+
 
 /**
  * Generate the OTP which will be sent to the client-side

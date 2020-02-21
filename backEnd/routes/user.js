@@ -1,4 +1,4 @@
-import { otpGenerator } from '../utils/generalUtils'
+import { otpGenerator } from '../utils/sendEmail'
 
 var User = require('../models/User').default
 var express = require('express');
