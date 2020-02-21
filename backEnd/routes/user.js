@@ -1,4 +1,4 @@
-import { otpGenerator } from '../utils/sendEmail'
+import { otpGenerator, generateEmailMsg } from '../utils/sendEmail'
 
 var User = require('../models/User').default
 var express = require('express');
@@ -15,9 +15,9 @@ router.get('/validate', async (req, res) => {
   const { email } = req.body
   const generatedOTP = otpGenerator()
 
-  //wait for the sendEmail funtion to return and send a valid response
+  // wait for the sendEmail funtion to return and send a valid response
   try {
-    const ret = await sendEmail(generateEmailMsg(email, { otp: generatedOTP }))
+    const ret = await sendEmail(generateEmailMsg(email, generatedOTP))
     res.status(200).json({ otp: generatedOTP, ...ret.msg })
   } catch (err) {
     console.log(err)
