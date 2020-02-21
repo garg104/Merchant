@@ -12,8 +12,7 @@ router.get('/', function (req, res, next) {
 /* Send an OTP to the client email */
 router.get('/validate', async (req, res) => {
   //get the fields
-  const { email, OTP } = req.params
-  console.log(`email: ${email} and OTP: ${OTP}`)
+  const { email, OTP } = req.body
   const otp = OTP
 
   // wait for the sendEmail funtion to return and send a valid response
