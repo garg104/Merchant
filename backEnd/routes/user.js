@@ -1,6 +1,6 @@
 import { generateOtpMsg, sendEmail } from '../utils/sendEmail'
 
-var User = require('../models/User').default
+var User = require('../models/User')
 var express = require('express');
 var router = express.Router();
 
@@ -8,6 +8,22 @@ var router = express.Router();
 router.get('/', function (req, res, next) {
 
 });
+
+/* Register */
+router.post('/register', async (req, res) => {
+  const { firstName, lastName, email, username, password } = req.body
+  try {
+    const user = await User.find({ username })
+    res.status(409).json({ msg: 'Username already exists' })
+  } catch (e) {
+    try {
+      const user = await User.create({ firstName, lastName, email, username, password })
+      res.status(201).json({ user: user, msg: 'Successfully Registered' })
+    } catch (e) {
+      res.status(500).json({ msg: 'User could not be created' })
+    }
+  }
+})
 
 /* Send an OTP to the client email */
 router.post('/validate', async (req, res) => {
