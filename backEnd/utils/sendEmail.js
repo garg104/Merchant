@@ -30,6 +30,7 @@ export const sendEmail = async (msg) => {
         const apiRes = await sgMail.send(msg)
         return Promise.resolve({ msg: 'Email sent successfully' })
     } catch (e) {
+        console.log('Email could not be sent')
         return Promise.reject({ ...e })
     }
 } //sendEmail
