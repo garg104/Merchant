@@ -11,8 +11,11 @@ router.get('/', function (req, res, next) {
 
 /* Send an OTP to the client email */
 router.get('/validate', async (req, res) => {
+  //get the fields
   const { email } = req.body
   const generatedOTP = otpGenerator()
+
+  //wait for the sendEmail funtion to return and send a valid response
   try {
     const ret = await sendEmail(generateEmailMsg(email, { otp: generatedOTP }))
     res.status(200).json({ otp: generatedOTP, ...ret.msg })
