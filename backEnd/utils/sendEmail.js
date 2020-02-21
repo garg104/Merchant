@@ -4,7 +4,7 @@
  * @author Chirayu Garg
  */
 require('dotenv').config()
-const sgMail = require('@sendgrid/mail') 
+const sgMail = require('@sendgrid/mail')
 sgMail.setApiKey(process.env.SEND_GRID_API_KEY)
 
 // there is a way to add photos and customize the email we send of the SendGrid website.
@@ -44,6 +44,24 @@ export const sendEmail = async (msg) => {
  */
 
 export const generateEmailMsg = (email, opts) => {
+    return {
+        to: `${email}`,
+        from: 'merchant@example.com',
+        subject: opts.subject || 'ATTENTION: Verify your merchant account',
+        text: opts.message || 'Hi,\n Thank you for creating an account on Merchant.' +
+            `Please enter the following One Time Password on your app to verify your accont: ${opts.otp}` +
+            '\nRegards,\nMerchant Team!',
+        html: opts.html || `<p>${message}</p>`,
+    };
+}
+
+/**
+ * Generate a email for otp generation
+ *
+ * @author Aakarshit Pandey
+ */
+
+export const generateDeleteAcctMsg = (email, opts) => {
     return {
         to: `${email}`,
         from: 'merchant@example.com',
