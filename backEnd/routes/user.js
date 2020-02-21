@@ -10,7 +10,7 @@ router.get('/', function (req, res, next) {
 });
 
 /* Send an OTP to the client email */
-router.get('/validate', async (req, res) => {
+router.post('/validate', async (req, res) => {
   //get the fields
   const { email, OTP } = req.body
   console.log(req.body)
