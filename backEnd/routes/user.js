@@ -14,9 +14,10 @@ router.post('/register', async (req, res) => {
   const { firstName, lastName, email, username, password } = req.body
 
   //checking for empty fields
-  if (!firstName || !lastName || !email || !username || !password) {
-    res.status(404).json({ msg: 'Some of the fields are empty' });
-  }
+  // if (!firstName || !lastName || !email || !username || !password) {
+  //   res.status(404).json({ msg: 'Some of the fields are empty' });
+  // }
+  console.log(req.body)
 
   try {
     //checking the db for existing user
