@@ -18,9 +18,9 @@ router.get('/validate', async (req, res) => {
   // wait for the sendEmail funtion to return and send a valid response
   try {
     const ret = await sendEmail(generateOtpMsg(email, otp))
-    res.status(200).json({ otp: otp, ...ret })
+    res.status(200).json({ msg: "Email sent successfully" })
   } catch (err) {
-    res.status(400).json({ msg: "OTP couldn't be sent" })
+    res.status(400).json({ msg: "Email couldn't be sent successfully" })
   }
 })
 
