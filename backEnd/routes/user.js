@@ -12,10 +12,18 @@ router.get('/', function (req, res, next) {
 /* Register */
 router.post('/register', async (req, res) => {
   const { firstName, lastName, email, username, password } = req.body
+
+  //checking for empty fields
+  if (!firstName || !lastName || !email || !username || !password) {
+    res.status(404).json({ msg: 'Some of the fields are empty' });
+  }
+
   try {
+    //checking the db for existing user
     const user = await User.find({ username })
     res.status(409).json({ msg: 'Username already exists' })
   } catch (e) {
+    //creating the new user
     try {
       const user = await User.create({ firstName, lastName, email, username, password })
       res.status(201).json({ user: user, msg: 'Successfully Registered' })
