@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/garg104/Merchant/issues"
   },
-  "homepage": "https://github.com/garg104/Merchant#readme"
+  "homepage": "https://github.com/garg104/Merchant#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3"
+  }
 }

@@ -1,12 +1,19 @@
 import { generateOtpMsg, sendEmail } from '../utils/sendEmail'
 
-var User = require('../models/User')
-var express = require('express');
-var router = express.Router();
+const bcrypt = require('bcryptjs')
+const User = require('../models/User')
+const express = require('express');
+const router = express.Router();
 
 /* GET users listing. */
-router.get('/', function (req, res, next) {
-
+router.get('/', async (req, res) => {
+  try {
+    //get all the users in the DB
+    const users = await User.find({})
+    res.status(200).json({ users })
+  } catch (e) {
+    res.status(404).json({ msg: e.message })
+  }
 });
 
 /* Register */
@@ -15,17 +22,33 @@ router.post('/register', async (req, res) => {
 
   try {
     //checking the db for existing user
-    const user = await User.find({ username })
-    if (user.length === 0) {
-      try {
-        //create new user in the Database
-        const user = await User.create({ firstName, lastName, email, username, password, university })
-        res.status(201).json({ user: user, msg: 'Successfully Registered' })
-      } catch (e) {
-        //logging errors
-        console.log(e)
-        res.status(500).json({ msg: 'User could not be created' })
-      }
+    const checkUser = await User.find({ username })
+    if (checkUser.length === 0) {
+      //create new user in the Database
+      const user = new User({ firstName, lastName, email, username, password, university })
+
+      //Hashing the password before saving it in the database (check the resources page for more info)
+      bcrypt.genSalt(10, (err, salt) => {
+        //error checking
+        if (err) { throw err }
+        //hashing the password using the salt generated
+        bcrypt.hash(user.password, salt, async (err, hash) => {
+          //error handling
+          if (err) { throw err }
+
+          //assigning the hashed password to the user object
+          user.password = hash
+          try {
+            //saving the user in the database (save() is same as User.create)
+            const savedUser = await user.save()
+            res.status(201).json({ user: savedUser, msg: 'Successfully Registered' })
+          } catch (e) {
+            //logging errors
+            console.log(e)
+            res.status(500).json({ msg: 'User could not be created' })
+          }
+        })
+      })
     } else {
       //username already exists
       res.status(409).json({ msg: 'Username already exists' })
