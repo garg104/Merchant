@@ -13,9 +13,11 @@ class OTPViewController: UIViewController {
     @IBOutlet weak var OTP: UITextField!
     
     
+    
     var firstName = ""
     var lastName = ""
     var email = ""
+    var otp = ""
     
     @IBAction func OTPNext(_ sender: Any) {
         
@@ -28,7 +30,7 @@ class OTPViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        print(otp)
         // Do any additional setup after loading the view.
     }
     

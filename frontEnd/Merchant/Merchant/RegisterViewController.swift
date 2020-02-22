@@ -7,12 +7,17 @@
 //
 
 import UIKit
+import Alamofire
+
 
 class RegisterViewController: UIViewController {
 
     @IBOutlet weak var firstNameTextField: UITextField!
     @IBOutlet weak var lastNameTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
+    
+    var OTP = ""
+    
     
     @IBAction func nextToOTP(_ sender: Any) {
         if (firstNameTextField.text == "" ||
@@ -21,11 +26,33 @@ class RegisterViewController: UIViewController {
             let alert = UIAlertController(title: "Empty Field", message: "Please enter all the fields", preferredStyle: .alert)
             alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
             self.present(alert, animated: true)
+        } else {
+            print("the email is \(emailTextField.text!)")
+            struct parameter: Encodable {
+                var OTP: String
+                var email: String
+            }
+            // generate the OTP to send to the backend
+            OTP = "1234"
+            // check if the email is a valid school email
+            let details = parameter(OTP: OTP, email: emailTextField.text!)
+            //parameter.init(OTP: "1234", email: emailTextField.text!)
+            // = generateOTP()
+            // send the email and the OTP to the backend
+            // send the OTP to the next page
+            // database of universities
+            
+            
+            
+            AF.request("https://merchant307.herokuapp.com/user/validate", method: .post, parameters: details, encoder: URLEncodedFormParameterEncoder.default).response { response in
+                debugPrint(response)
+            }
+        
         }
         
-
-        // check if the email is a valid school email
-        // database of universities
+    }
+    
+    func generateOTP () {
         
     }
     
@@ -36,6 +63,7 @@ class RegisterViewController: UIViewController {
             vc.firstName = firstNameTextField.text!
             vc.lastName = lastNameTextField.text!
             vc.email = emailTextField.text!
+            vc.otp = OTP
         }
     }
     

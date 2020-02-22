@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Alamofire
 
 class CreateAccountViewController: UIViewController {
 
@@ -29,31 +30,38 @@ class CreateAccountViewController: UIViewController {
             let alert = UIAlertController(title: "Empty Field", message: "Please enter all the fields", preferredStyle: .alert)
             alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
             self.present(alert, animated: true)
-        }
-        
-        // check if the username is unique
-        // find out a way to dynamically do it
-        // auto fill ERROR
-        // password field is BUGGY
-        // check if the passwords are same
-        
-        if (passwordTextField.text != confirmPasswordTextField.text) {
+        } else if (passwordTextField.text != confirmPasswordTextField.text) {
+            // check if the passwords are same
             let alert = UIAlertController(title: "Passwords Do Not Match", message: "Please make sure that both the passwords match", preferredStyle: .alert)
             alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
             self.present(alert, animated: true)
             passwordTextField.text = ""
             confirmPasswordTextField.text = ""
+        } else {
+            // check if the username is unique
+            // find out a way to dynamically do it
+            
+            struct parameters: Encodable {
+                var firstName = ""
+                var lastName = ""
+                var username = ""
+                var password = ""
+                var email = ""
+            }
+            
+            let details = parameters(firstName: firstName, lastName: lastName, username: usernameTextField.text!, password: passwordTextField.text!, email: email)
+            
+            AF.request(API.URL + "/user/register", method: .post, parameters: details, encoder: URLEncodedFormParameterEncoder.default).response { response in
+                debugPrint(response)
+            }
+            
+            print(firstName)
+            print(lastName)
+            print(email)
+            print(usernameTextField.text!)
+            print(passwordTextField.text!)
+            print(confirmPasswordTextField.text!)
         }
-        
-        
-        
-        print(firstName)
-        print(lastName)
-        print(email)
-        print(usernameTextField.text!)
-        print(passwordTextField.text!)
-        print(confirmPasswordTextField.text!)
-        
         // send the data to the 
         
     }
