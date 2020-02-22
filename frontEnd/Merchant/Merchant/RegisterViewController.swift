@@ -16,7 +16,7 @@ class RegisterViewController: UIViewController {
     @IBOutlet weak var lastNameTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
     
-    var OTP = ""
+    var otp = ""
     
     
     @IBAction func nextToOTP(_ sender: Any) {
@@ -33,16 +33,14 @@ class RegisterViewController: UIViewController {
                 var email: String
             }
             // generate the OTP to send to the backend
-            OTP = "1234"
+            otp = String(Int.random(in: 1000 ... 9999))
             // check if the email is a valid school email
-            let details = parameter(OTP: OTP, email: emailTextField.text!)
+            let details = parameter(OTP: otp, email: emailTextField.text!)
             //parameter.init(OTP: "1234", email: emailTextField.text!)
             // = generateOTP()
             // send the email and the OTP to the backend
             // send the OTP to the next page
             // database of universities
-            
-            
             
             AF.request("https://merchant307.herokuapp.com/user/validate", method: .post, parameters: details, encoder: URLEncodedFormParameterEncoder.default).response { response in
                 debugPrint(response)
@@ -63,7 +61,7 @@ class RegisterViewController: UIViewController {
             vc.firstName = firstNameTextField.text!
             vc.lastName = lastNameTextField.text!
             vc.email = emailTextField.text!
-            vc.otp = OTP
+            vc.otp = otp
         }
     }
     

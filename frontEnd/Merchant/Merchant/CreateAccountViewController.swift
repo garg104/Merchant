@@ -47,6 +47,7 @@ class CreateAccountViewController: UIViewController {
                 var username = ""
                 var password = ""
                 var email = ""
+                var university = "Purdue University"
             }
             
             let details = parameters(firstName: firstName, lastName: lastName, username: usernameTextField.text!, password: passwordTextField.text!, email: email)
