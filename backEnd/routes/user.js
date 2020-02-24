@@ -79,4 +79,20 @@ router.post('/validate', async (req, res) => {
   }
 })
 
+/* Delete user */
+router.delete('/delete', async (req, res) => {
+  try {
+    const userToYeet = await User.remove({ username })
+    res.json(userToYeet);
+    if (userToYeet.length == 0) {
+      throw new err;
+    }
+  } catch (err) {
+    // TODO what goes in the (idk)?
+    // res.status(idk).json({ msg: "User could not be deleted" })
+
+  }
+
+})
+
 module.exports = router;
