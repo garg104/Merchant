@@ -6,14 +6,6 @@
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
-    <customFonts key="customFonts">
-        <array key="Poppins-Regular.otf">
-            <string>Poppins-Regular</string>
-        </array>
-        <array key="Poppins-SemiBold.otf">
-            <string>Poppins-SemiBold</string>
-        </array>
-    </customFonts>
     <scenes>
         <!--View Controller-->
         <scene sceneID="aBW-qY-AEC">
@@ -22,27 +14,7 @@
                     <view key="view" contentMode="scaleToFill" id="VQj-Yu-kmQ">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Merchant" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="56x-RR-R4Q">
-                                <rect key="frame" x="20" y="641" width="167" height="48"/>
-                                <fontDescription key="fontDescription" name="Poppins-SemiBold" family="Poppins" pointSize="34"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your college marketplace" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mcz-cm-D8Q">
-                                <rect key="frame" x="20" y="697" width="257" height="28"/>
-                                <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="20"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
                         <color key="backgroundColor" red="0.46274509800000002" green="0.70980392160000005" blue="0.30196078430000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                        <constraints>
-                            <constraint firstItem="56x-RR-R4Q" firstAttribute="leading" secondItem="VQj-Yu-kmQ" secondAttribute="leadingMargin" id="5E7-HO-IKt"/>
-                            <constraint firstItem="56x-RR-R4Q" firstAttribute="leading" secondItem="Mcz-cm-D8Q" secondAttribute="leading" id="KJT-He-cyZ"/>
-                            <constraint firstItem="OTF-yX-BoL" firstAttribute="bottom" secondItem="Mcz-cm-D8Q" secondAttribute="bottom" constant="137" id="Kcf-t4-CIh"/>
-                            <constraint firstItem="Mcz-cm-D8Q" firstAttribute="top" secondItem="56x-RR-R4Q" secondAttribute="bottom" constant="8" id="fXL-qR-zOP"/>
-                        </constraints>
                         <viewLayoutGuide key="safeArea" id="OTF-yX-BoL"/>
                     </view>
                     <navigationItem key="navigationItem" id="KSL-Eu-Mb8"/>
