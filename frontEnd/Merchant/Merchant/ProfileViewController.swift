@@ -16,6 +16,7 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var emailLabel: UILabel!
     @IBOutlet weak var sellHistoryButton: UIButton!
     @IBOutlet weak var resetPasswordLabel: UIButton!
+    @IBOutlet weak var logoutButton: UIButton!
     @IBOutlet weak var deleteAccountButton: UIButton!
     
     
@@ -37,9 +38,13 @@ class ProfileViewController: UIViewController {
         let underLine3 = CALayer()
         underLine3.frame = CGRect(x: 0, y: 0, width: deleteAccountButton.frame.width, height: 0.5)
         underLine3.backgroundColor = UIColor.init(red: 0/255, green: 0/255, blue: 0/255, alpha: 1.0).cgColor
+        let underLine4 = CALayer()
+        underLine4.frame = CGRect(x: 0, y: 0, width: deleteAccountButton.frame.width, height: 0.5)
+        underLine4.backgroundColor = UIColor.init(red: 0/255, green: 0/255, blue: 0/255, alpha: 1.0).cgColor
         sellHistoryButton.layer.addSublayer(underLine)
         resetPasswordLabel.layer.addSublayer(underLine2)
         deleteAccountButton.layer.addSublayer(underLine3)
+        logoutButton.layer.addSublayer(underLine4)
     }
     
 
