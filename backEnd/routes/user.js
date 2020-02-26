@@ -80,7 +80,7 @@ router.post('/validate', async (req, res) => {
 })
 
 /* Login the user and send a legitimate JWT token */
-router.post('/login', async (req, res) => {
+router.post('/login', (req, res) => {
   //get the fields from the request body
   const { username, password } = req.body
   //find the user in the database
