@@ -350,13 +350,34 @@
                                     <segue destination="w0z-Ao-GuE" kind="show" id="TBB-by-0UK"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jfG-bE-Z7Z">
+                                <rect key="frame" x="16" y="299" width="343" height="36"/>
+                                <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="17"/>
+                                <state key="normal" title="Resend Code">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="18"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
+                                        <integer key="value" value="2"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="resendOTP:" destination="iwR-tn-fML" eventType="touchUpInside" id="cfA-4X-yDX"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.46274509800000002" green="0.70980392160000005" blue="0.30196078430000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
+                            <constraint firstItem="jfG-bE-Z7Z" firstAttribute="top" secondItem="9eI-F4-kOL" secondAttribute="bottom" constant="12" id="5wY-6v-fRj"/>
                             <constraint firstItem="NDP-Nm-Tqt" firstAttribute="trailing" secondItem="wYx-fW-DtE" secondAttribute="trailingMargin" id="5xx-4S-q2m"/>
                             <constraint firstItem="9eI-F4-kOL" firstAttribute="top" secondItem="NDP-Nm-Tqt" secondAttribute="bottom" constant="8" id="Bab-IW-hN1"/>
+                            <constraint firstItem="mrY-dH-yHh" firstAttribute="trailing" secondItem="jfG-bE-Z7Z" secondAttribute="trailing" constant="16" id="Ibe-9Y-JWZ"/>
                             <constraint firstItem="NDP-Nm-Tqt" firstAttribute="top" secondItem="mrY-dH-yHh" secondAttribute="top" constant="11" id="TPQ-vA-wxm"/>
                             <constraint firstItem="NDP-Nm-Tqt" firstAttribute="leading" secondItem="wYx-fW-DtE" secondAttribute="leadingMargin" id="XMN-mh-Cj0"/>
+                            <constraint firstItem="jfG-bE-Z7Z" firstAttribute="leading" secondItem="mrY-dH-yHh" secondAttribute="leading" constant="16" id="bt0-Ol-GtT"/>
                             <constraint firstItem="NDP-Nm-Tqt" firstAttribute="trailing" secondItem="9eI-F4-kOL" secondAttribute="trailing" id="uVu-Ov-sV1"/>
                             <constraint firstItem="NDP-Nm-Tqt" firstAttribute="leading" secondItem="9eI-F4-kOL" secondAttribute="leading" id="wPH-rq-vMd"/>
                         </constraints>
@@ -364,7 +385,8 @@
                     </view>
                     <navigationItem key="navigationItem" title="Enter Code" id="OaO-bW-DDk"/>
                     <connections>
-                        <outlet property="OTP" destination="NDP-Nm-Tqt" id="zKH-ko-PgZ"/>
+                        <outlet property="OTPTextField" destination="NDP-Nm-Tqt" id="nIT-MQ-mWL"/>
+                        <outlet property="resendOTP" destination="jfG-bE-Z7Z" id="MFs-3Y-CRS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cOj-qK-NLc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
