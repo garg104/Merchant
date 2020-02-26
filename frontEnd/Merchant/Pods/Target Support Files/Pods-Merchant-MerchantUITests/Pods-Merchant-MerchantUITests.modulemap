@@ -1,6 +1,0 @@
-framework module Pods_Merchant_MerchantUITests {
-  umbrella header "Pods-Merchant-MerchantUITests-umbrella.h"
-
-  export *
-  module * { export * }
-}
