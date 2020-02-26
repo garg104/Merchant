@@ -1,5 +1,7 @@
-import { generateOtpMsg, sendEmail } from '../utils/sendEmail'
+require('dotenv').config()
 
+import { generateOtpMsg, sendEmail } from '../utils/sendEmail'
+const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const User = require('../models/User')
 const express = require('express');
@@ -95,9 +97,29 @@ router.post('/login', (req, res) => {
         //if the passwords don't match, return error
         if (!isMatching) {
           res.status(401).json({ msg: "Passwords don't match" })
+          return
         }
-        //TODO: Append proper JWT to the response
-        res.status(200).json({ msg: "Login Successful" })
+        //define a payload to be attached to the JWT (more info: https://jwt.io/introduction/)
+        const payload = {
+          id: dbUser.id,
+          username: dbUser.username,
+          firstName: dbUser.firstName,
+          lastName: dbUser.lastName,
+        }
+
+        //signing the jwt using the payload and encryption key
+        jwt.sign(payload, process.env.JWT_KEY, { expiresIn: 31556926 }, (err, token) => {
+          if (err) {
+            //handle error if jwt doesn't get signed
+            res.status(500).json({ msg: "Login failed, please try again" })
+            return;
+          }
+          //signing jwt successful, append it to the response json
+          res.status(200).json({
+            token: token,
+            msg: `Welcome to Merchant, ${dbUser.firstName}!`
+          })
+        })
       })
     })
 })
