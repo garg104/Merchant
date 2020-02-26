@@ -2,7 +2,7 @@ PODS:
   - Alamofire (5.0.0-rc.3)
 
 DEPENDENCIES:
-  - Alamofire (~> 5.0.0-rc.3)
+  - Alamofire (~> 5.0.0-rc)
 
 SPEC REPOS:
   trunk:
