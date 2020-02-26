@@ -123,5 +123,5 @@ yarn-debug.log*
 yarn-error.log*
 
 #Pods
-Pods/
-/frontEnd/Merchant/Pods
+#Pods/
+#/frontEnd/Merchant/Pods
