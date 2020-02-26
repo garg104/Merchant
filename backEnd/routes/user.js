@@ -92,6 +92,7 @@ router.post('/login', (req, res) => {
         //if the username couldn't be found, return a 404
         res.status(404).json({ msg: "Username couldn't be found" })
       }
+
       //compare the password from the database with the client-provided password
       bcrypt.compare(password, dbUser.password, (isMatching) => {
         //if the passwords don't match, return error
@@ -99,6 +100,7 @@ router.post('/login', (req, res) => {
           res.status(401).json({ msg: "Passwords don't match" })
           return
         }
+
         //define a payload to be attached to the JWT (more info: https://jwt.io/introduction/)
         const payload = {
           id: dbUser.id,

@@ -9,6 +9,10 @@ const userSchema = mongoose.Schema({
         type: String,
         required: true,
     },
+    email: {
+        type: String,
+        required: true,
+    },
     firstName: {
         type: String,
         required: true
@@ -16,10 +20,6 @@ const userSchema = mongoose.Schema({
     lastName: {
         type: String,
         required: true
-    },
-    email: {
-        type: String,
-        required: true,
     },
     // add photo here - https://stackoverflow.com/questions/4796914/store-images-in-a-mongodb-database
     university: {
