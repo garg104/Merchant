@@ -86,20 +86,19 @@ router.post('/login', (req, res) => {
   //find the user in the database
   User.findOne({ username })
     .then((dbUser) => {
+      if (!dbUser) {
+        //if the username couldn't be found, return a 404
+        res.status(404).json({ msg: "Username couldn't be found" })
+      }
       //compare the password from the database with the client-provided password
-      bcrypt.compare(password, dbUser.password, (err, result) => {
+      bcrypt.compare(password, dbUser.password, (isMatching) => {
         //if the passwords don't match, return error
-        if (err || !result) {
+        if (!isMatching) {
           res.status(401).json({ msg: "Passwords don't match" })
-        } else {
-          //TODO: Append proper JWT to the response
-          res.status(200).json({ msg: "Login Successful" })
         }
+        //TODO: Append proper JWT to the response
+        res.status(200).json({ msg: "Login Successful" })
       })
-    })
-    .catch((e) => {
-      //if the username couldn't be found, return a 404
-      res.status(404).json({ msg: "Username couldn't be found" })
     })
 })
 
