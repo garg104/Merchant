@@ -5,7 +5,7 @@ const User = require('../models/User')
 const express = require('express');
 const router = express.Router();
 
-/* GET users listing. */
+/* GET users listing. (for debugging) */
 router.get('/', async (req, res) => {
   try {
     //get all the users in the DB
@@ -15,6 +15,12 @@ router.get('/', async (req, res) => {
     res.status(404).json({ msg: e.message })
   }
 });
+
+/**
+ * Routes for registering the new user
+ * has routes for sending the OTP
+ * to the user and registering them
+ */
 
 /* Register */
 router.post('/register', async (req, res) => {
@@ -63,20 +69,38 @@ router.post('/register', async (req, res) => {
 router.post('/validate', async (req, res) => {
   //get the fields
   const { email, OTP } = req.body
-  console.log(req.body)
-  console.log(req.params)
-  console.log(req.body.email)
-  console.log(req.body.OTP)
-  console.log(`Email: ${email} and OTP: ${OTP}`)
-  const otp = OTP
 
   // wait for the sendEmail funtion to return and send a valid response
   try {
-    const ret = await sendEmail(generateOtpMsg(email, otp))
+    const ret = await sendEmail(generateOtpMsg(email, OTP))
     res.status(200).json({ msg: "Email sent successfully" })
   } catch (err) {
     res.status(400).json({ msg: "Email couldn't be sent successfully" })
   }
+})
+
+/* Login the user and send a legitimate JWT token */
+router.post('/login', async (req, res) => {
+  //get the fields from the request body
+  const { username, password } = req.body
+  //find the user in the database
+  User.findOne({ username })
+    .then((dbUser) => {
+      //compare the password from the database with the client-provided password
+      bcrypt.compare(password, dbUser.password, (err, result) => {
+        //if the passwords don't match, return error
+        if (err || !result) {
+          res.status(401).json({ msg: "Passwords don't match" })
+        } else {
+          //TODO: Append proper JWT to the response
+          res.status(200).json({ msg: "Login Successful" })
+        }
+      })
+    })
+    .catch((e) => {
+      //if the username couldn't be found, return a 404
+      res.status(404).json({ msg: "Username couldn't be found" })
+    })
 })
 
 module.exports = router;
