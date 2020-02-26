@@ -79,7 +79,6 @@ router.post('/validate', async (req, res) => {
   }
 })
 
-<<<<<<< HEAD
 /* Login the user and send a legitimate JWT token */
 router.post('/login', (req, res) => {
   //get the fields from the request body
@@ -101,24 +100,24 @@ router.post('/login', (req, res) => {
         res.status(200).json({ msg: "Login Successful" })
       })
     })
-=======
+})
+
 /* Delete user */
 router.delete('/delete', async (req, res) => {
   try {
+    //getting the fields
     const { username } = req.body
-
-    // null check
+    //checking if the client sent a proper response
     if (username.length == 0) {
-      throw new err;
+      res.status(404).json({ msg: "The username is empty" })
+      return
     }
+    //make the call to the database
     await User.deleteOne({ username })
     res.status(200).json({ msg: "The specified user was deleted.", username: username })
-
   } catch (err) {
-     res.status(404).json({ msg: "The specified user could not be found." })
+    res.status(404).json({ msg: "The specified user could not be found." })
   }
-
->>>>>>> 61b17b10eaf9d0046de67609f7f558b457accafb
 })
 
 module.exports = router;
