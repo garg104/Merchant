@@ -82,14 +82,13 @@ router.post('/validate', async (req, res) => {
 /* Delete user */
 router.delete('/delete', async (req, res) => {
   try {
-    const userToYeet = await User.remove({ username })
+    const userToYeet = await User.deleteOne({ username })
     res.json(userToYeet);
     if (userToYeet.length == 0) {
       throw new err;
     }
   } catch (err) {
-    // TODO what goes in the (idk)?
-    // res.status(idk).json({ msg: "User could not be deleted" })
+     res.status(404).json({ msg: "The specified user could not be found." })
 
   }
 
