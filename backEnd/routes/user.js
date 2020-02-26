@@ -82,14 +82,17 @@ router.post('/validate', async (req, res) => {
 /* Delete user */
 router.delete('/delete', async (req, res) => {
   try {
-    const userToYeet = await User.deleteOne({ username })
-    res.json(userToYeet);
-    if (userToYeet.length == 0) {
+    const { username } = req.body
+
+    // null check
+    if (username.length == 0) {
       throw new err;
     }
+    await User.deleteOne({ username })
+    res.status(200).json({ msg: "The specified user was deleted.", username: username })
+
   } catch (err) {
      res.status(404).json({ msg: "The specified user could not be found." })
-
   }
 
 })
