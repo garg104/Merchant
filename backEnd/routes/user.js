@@ -94,7 +94,12 @@ router.post('/login', (req, res) => {
       }
 
       //compare the password from the database with the client-provided password
-      bcrypt.compare(password, dbUser.password, (isMatching) => {
+      bcrypt.compare(password, dbUser.password, (err, isMatching) => {
+        if (err) {
+          //error checking
+          console.log(err)
+          res.status(501).json({ msg: "Internal server error" })
+        }
         //if the passwords don't match, return error
         if (!isMatching) {
           res.status(401).json({ msg: "Passwords don't match" })
@@ -113,6 +118,7 @@ router.post('/login', (req, res) => {
         jwt.sign(payload, process.env.JWT_KEY, { expiresIn: 31556926 }, (err, token) => {
           if (err) {
             //handle error if jwt doesn't get signed
+            console.log(err)
             res.status(500).json({ msg: "Login failed, please try again" })
             return;
           }
