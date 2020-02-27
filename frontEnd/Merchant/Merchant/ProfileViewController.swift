@@ -25,6 +25,7 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         addOverlines()
+        
     }
     
     func addOverlines() {
@@ -48,14 +49,14 @@ class ProfileViewController: UIViewController {
     }
     
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        //do anything that needs to be done before logging out here
+        debugPrint("LOGGING OUT")
     }
-    */
+    
 
 }

@@ -637,6 +637,9 @@
                                 <state key="normal" title="Logout">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <segue destination="imn-mi-caM" kind="unwind" unwindAction="unwindToWelcomeViewControllerWithSegue:" id="E9o-L8-QmI"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qZT-d6-QBI">
                                 <rect key="frame" x="16" y="288" width="343" height="47"/>
@@ -712,6 +715,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zJN-CZ-zMx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="imn-mi-caM" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="5946" y="2302"/>
         </scene>

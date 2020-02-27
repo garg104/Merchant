@@ -67,19 +67,24 @@ class LogInViewController: UIViewController {
         
     }
     
+    //function to validate user logging in
     private func validateFields(completion: @escaping (_ validCode: Int)->()) {
         
         var validationCode = -1;
         
+        //set parameter for database request
         struct parameter: Encodable {
             var username: String
             var password: String
         }
+        
         // set parameters for logging in user
         let details = parameter(username: usernameTextField.text!, password: passwordTextField.text!)
         
+        //request account validation from database
         AF.request("https://merchant307.herokuapp.com/user/login", method: .post, parameters: details, encoder: URLEncodedFormParameterEncoder.default).responseJSON { response in
             
+            //obtain status code returned from request
             let status = (response.response?.statusCode ?? 0)
             
             if (status != 0) {
@@ -109,8 +114,6 @@ class LogInViewController: UIViewController {
             debugPrint(response)
             
         }.resume()
-        //debugPrint("Before return", validationCode)
-        //return validationCode
     }
     
     private func addUnderlines() {
@@ -128,14 +131,20 @@ class LogInViewController: UIViewController {
     }
     
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
+        
+        if (segue.identifier == "toTabBar") {
+            let vc = segue.destination as! MainTabBarController
+            vc.username = usernameTextField.text!
+        }
+        
     }
-    */
+    
 
 }
