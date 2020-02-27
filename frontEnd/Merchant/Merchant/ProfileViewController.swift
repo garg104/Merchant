@@ -19,13 +19,15 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var logoutButton: UIButton!
     @IBOutlet weak var deleteAccountButton: UIButton!
     
-    
+    var username = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         addOverlines()
-        
+        debugPrint("USERNAME PROF", username)
+        //display username
+        usernameLabel.text = username
     }
     
     func addOverlines() {
