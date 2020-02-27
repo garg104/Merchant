@@ -165,7 +165,7 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <segue destination="ynS-1h-DN9" kind="presentation" modalPresentationStyle="fullScreen" id="JgB-Xh-aQM"/>
+                                    <action selector="loginClicked:" destination="Gz0-Ms-ZPN" eventType="touchUpInside" id="nSt-DB-eWX"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cTf-Bb-Rn3">
@@ -185,6 +185,9 @@
                                         <integer key="value" value="2"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="forgotPasswordClicked:" destination="Gz0-Ms-ZPN" eventType="touchUpInside" id="8zc-vJ-gl3"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="0.46274509803921571" green="0.70980392156862748" blue="0.30196078431372547" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -214,12 +217,13 @@
                         <outlet property="loginButton" destination="cHW-xW-Dio" id="wUd-hz-zXm"/>
                         <outlet property="passwordTextField" destination="nhd-v3-xfC" id="lKS-gY-79z"/>
                         <outlet property="usernameTextField" destination="hGo-Z7-da3" id="AhA-NB-v3N"/>
+                        <segue destination="ynS-1h-DN9" kind="presentation" identifier="toTabBar" modalPresentationStyle="fullScreen" id="JjF-JT-nfG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="P3k-Pv-n8f" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="CRV-Tr-Wj0" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="2453.5999999999999" y="68.7192118226601"/>
+            <point key="canvasLocation" x="2454" y="69"/>
         </scene>
         <!--Register-->
         <scene sceneID="Lgb-Oo-J8a">
@@ -602,7 +606,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bLp-lA-0rD" userLabel="ProfilePicture">
-                                <rect key="frame" x="117" y="139" width="141" height="140.66666666666669"/>
+                                <rect key="frame" x="117" y="140" width="141" height="140"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="email" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E7M-14-qxb">
                                 <rect key="frame" x="46" y="379" width="282" height="28"/>
@@ -823,12 +827,13 @@
             </objects>
             <point key="canvasLocation" x="5110" y="69"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--Main Tab Bar Controller-->
         <scene sceneID="eeM-2h-Lep">
             <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="ynS-1h-DN9" sceneMemberID="viewController">
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="ynS-1h-DN9" customClass="MainTabBarController" customModule="Merchant" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="9Im-yC-yRP">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="selectedImageTintColor" red="0.46274509800000002" green="0.70980392160000005" blue="0.30196078430000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -846,7 +851,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="JgB-Xh-aQM"/>
+        <segue reference="JjF-JT-nfG"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
 </document>
