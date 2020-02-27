@@ -48,6 +48,11 @@ class ProfileViewController: UIViewController {
     }
     
 
+    @IBAction func deleteAccount(_ sender: UIButton) {
+        AF.request("https://merchant307.herokuapp.com/user/delete", method: .post, parameters: details, encoder: URLEncodedFormParameterEncoder.default).response { response in
+            debugPrint(response)
+        }
+    }
     /*
     // MARK: - Navigation
 
