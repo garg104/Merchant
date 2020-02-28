@@ -58,12 +58,13 @@ export const generateOtpMsg = (email, otp) => {
  * @author Aakarshit Pandey
  */
 
-export const generateDeleteAcctMsg = (email, opts) => {
+export const generateDeleteAcctMsg = (email) => {
     return {
         to: `${email}`,
         from: 'merchant@gmail.com',
-        subject: 'Thank you for using Merchant: Your account has been deleted',
-        text: 'Hi,\n Thank you for using Merchant.',
+        subject: 'Account Deleted',
+        text: 'Hi,\n Thank you for using Merchant. Your account has been deleted.' +
+            '\nRegards,\nMerchant Team!', 
     };
 }
 

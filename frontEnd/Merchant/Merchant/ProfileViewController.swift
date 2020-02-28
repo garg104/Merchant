@@ -80,9 +80,17 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         }
         
         let details = parameter(username: usernameLabel.text!)
-        AF.request("https://merchant307.herokuapp.com/user/delete", method: .delete, parameters: details, encoder: URLEncodedFormParameterEncoder.default).responseJSON { response in
-            debugPrint(response)
+        AF.request(API.URL + "/user/delete", method: .delete, parameters: details, encoder: URLEncodedFormParameterEncoder.default).responseJSON { response in
+            
+            if (response.response?.statusCode != 200) {
+                // for now very basic FALIURE MESSAGE. WILL NEED TO CHANGE.
+                let alert = UIAlertController(title: "Could Not Delete Account", message: "Your account could not be deleted. Please try again.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
+                self.present(alert, animated: true)
+            }
         }
+        
+        
     }
     
     
@@ -94,6 +102,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         self.present(image, animated: true) {
             // after complete
         }
+        
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
@@ -125,8 +134,6 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
             let vc = segue.destination as! ResetPasswordViewController
             vc.username = usernameLabel.text!
         }
-        
-        
         
     }
     

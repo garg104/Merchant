@@ -1,5 +1,5 @@
 require('dotenv').config()
-import { generateOtpMsg, sendEmail, generateTempPassword, generateResetPassword } from '../utils/sendEmail'
+import { generateOtpMsg, sendEmail, generateTempPassword, generateResetPassword, generateDeleteAcctMsg } from '../utils/sendEmail'
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const User = require('../models/User')
@@ -135,7 +135,7 @@ router.post('/login', (req, res) => {
 })
 
 /* Delete user */
-router.post('/delete', async (req, res) => {
+router.delete('/delete', async (req, res) => {
   try {
     //getting the fields
     const { username } = req.body
@@ -145,9 +145,17 @@ router.post('/delete', async (req, res) => {
       return
     }
     //make the call to the database
+    const user = await User.findOne({ username });
+    console.log(user)
+    const email = user.email
+    console.log(email)
+
+    // itterate through the Items and delete the Items if not sold i.e. for sale items.
+
     await User.deleteOne({ username })
     res.status(200).json({ msg: "The specified user was deleted.", username: username })
   } catch (err) {
+    console.log(e)
     res.status(404).json({ msg: "yeet" })
   }
 })
