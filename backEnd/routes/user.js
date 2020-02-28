@@ -170,8 +170,10 @@ router.put('/username', async (req, res) => {
 /* get user info */
 router.post('/info', async (req, res) => {
   try {
-    const ret = await User.findOne({ username: req.body.username })
-    res.status(200).json({ ...ret })
+    const { username } = req.body
+    const ret = await User.findOne({ username })
+    ret._doc.password = "None of your business ;-)"
+    res.status(200).json({ ...ret._doc })
   } catch (e) {
     res.status(404).json({ msg: "User couldn't be found" })
   }
