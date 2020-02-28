@@ -133,7 +133,7 @@ router.post('/login', (req, res) => {
 })
 
 /* Delete user */
-router.delete('/delete', async (req, res) => {
+router.post('/delete', async (req, res) => {
   try {
     //getting the fields
     const { username } = req.body
@@ -146,7 +146,7 @@ router.delete('/delete', async (req, res) => {
     await User.deleteOne({ username })
     res.status(200).json({ msg: "The specified user was deleted.", username: username })
   } catch (err) {
-    res.status(404).json({ msg: "The specified user could not be found." })
+    res.status(404).json({ msg: "yeet" })
   }
 })
 

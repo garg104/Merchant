@@ -66,8 +66,8 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
             var username: String
         }
         
-        let details = parameter(username: "asdf")
-        AF.request("https://merchant307.herokuapp.com/user/delete", method: .delete, parameters: details, encoder: URLEncodedFormParameterEncoder.default).response { response in
+        let details = parameter(username: "keirna")
+        AF.request("https://merchant307.herokuapp.com/user/delete", method: .delete, parameters: details, encoder: URLEncodedFormParameterEncoder.default).responseJSON { response in
             debugPrint(response)
         }
     }
