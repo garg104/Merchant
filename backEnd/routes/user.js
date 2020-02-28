@@ -167,6 +167,16 @@ router.put('/username', async (req, res) => {
   }
 })
 
+/* get user info */
+router.post('/info', async (req, res) => {
+  try {
+    const ret = await User.findOne({ username: req.body.username })
+    res.status(200).json({ ...ret })
+  } catch (e) {
+    res.status(404).json({ msg: "User couldn't be found" })
+  }
+})
+
 /* upload the user profile */
 router.post('/picture', upload.single("file"), async (req, res) => {
   const { username } = req.body
