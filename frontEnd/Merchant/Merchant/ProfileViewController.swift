@@ -80,7 +80,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         }
         
         let details = parameter(username: usernameLabel.text!)
-        AF.request(API.URL + "/user/delete", method: .delete, parameters: details, encoder: URLEncodedFormParameterEncoder.default).responseJSON { response in
+        AF.request(API.URL + "/user/delete", method: .post, parameters: details, encoder: URLEncodedFormParameterEncoder.default).responseJSON { response in
             
             if (response.response?.statusCode != 200) {
                 // for now very basic FALIURE MESSAGE. WILL NEED TO CHANGE.

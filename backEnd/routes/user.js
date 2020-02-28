@@ -135,7 +135,7 @@ router.post('/login', (req, res) => {
 })
 
 /* Delete user */
-router.delete('/delete', async (req, res) => {
+router.post('/delete', async (req, res) => {
   try {
     //getting the fields
     const { username } = req.body
@@ -151,7 +151,7 @@ router.delete('/delete', async (req, res) => {
       console.log(email)
       // itterate through the Items and delete the Items if not sold i.e. for sale items.
       try {
-          const ret =   await User.deleteOne({ username })
+          const ret = await User.deleteOne({ username })
       } catch (e) {
           console.log("in deleteing")
           console.log(e)
