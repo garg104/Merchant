@@ -144,16 +144,25 @@ router.delete('/delete', async (req, res) => {
       res.status(404).json({ msg: "The username is empty" })
       return
     }
+    try {
+      const user = await User.findOne({ username });
+      console.log(user)
+      const email = user.email
+      console.log(email)
+      // itterate through the Items and delete the Items if not sold i.e. for sale items.
+      try {
+          const ret =   await User.deleteOne({ username })
+      } catch (e) {
+          console.log("in deleteing")
+          console.log(e)
+      }
+      res.status(200).json({ msg: "The specified user was deleted.", username: username })
+    } catch (e) {
+        console.log("here")
+        console.log(e)
+    }
     //make the call to the database
-    const user = await User.findOne({ username });
-    console.log(user)
-    const email = user.email
-    console.log(email)
-
-    // itterate through the Items and delete the Items if not sold i.e. for sale items.
-
-    await User.deleteOne({ username })
-    res.status(200).json({ msg: "The specified user was deleted.", username: username })
+    
   } catch (err) {
     console.log(e)
     res.status(404).json({ msg: "yeet" })
