@@ -28,22 +28,42 @@ class RegisterViewController: UIViewController {
             self.present(alert, animated: true)
         } else {
             print("the email is \(emailTextField.text!)")
-            struct parameter: Encodable {
-                var OTP: String
-                var email: String
-            }
-            // generate the OTP to send to the backend
-            otp = String(Int.random(in: 1000 ... 9999))
-            // check if the email is a valid school email
-            let details = parameter(OTP: otp, email: emailTextField.text!)
-            //parameter.init(OTP: "1234", email: emailTextField.text!)
-            // = generateOTP()
-            // send the email and the OTP to the backend
-            // send the OTP to the next page
-            // database of universities
+            let email = emailTextField.text!
             
-            AF.request("https://merchant307.herokuapp.com/user/validate", method: .post, parameters: details, encoder: URLEncodedFormParameterEncoder.default).response { response in
-                debugPrint(response)
+            if (!email.contains("@")) {
+                let alert = UIAlertController(title: "Invalid Email", message: "Please enter a valid university email.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
+                self.present(alert, animated: true)
+            } else {
+            
+                let lastAt = email.lastIndex(of: "@")!
+                let ending = email[lastAt...]
+                debugPrint(ending)
+                
+                if (ending != "@purdue.edu") {
+                    let alert = UIAlertController(title: "Invalid Email", message: "Please enter a valid university email.", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
+                    self.present(alert, animated: true)
+                } else {
+                
+                    struct parameter: Encodable {
+                        var OTP: String
+                        var email: String
+                    }
+                    // generate the OTP to send to the backend
+                    otp = String(Int.random(in: 1000 ... 9999))
+                    // check if the email is a valid school email
+                    let details = parameter(OTP: otp, email: emailTextField.text!)
+                    //parameter.init(OTP: "1234", email: emailTextField.text!)
+                    // = generateOTP()
+                    // send the email and the OTP to the backend
+                    // send the OTP to the next page
+                    // database of universities
+                    
+                    AF.request("https://merchant307.herokuapp.com/user/validate", method: .post, parameters: details, encoder: URLEncodedFormParameterEncoder.default).response { response in
+                        debugPrint(response)
+                    }
+                }
             }
         
         }
