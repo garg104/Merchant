@@ -150,4 +150,19 @@ router.delete('/delete', async (req, res) => {
   }
 })
 
+/* update user info */
+router.put('/', async (req, res) => {
+  try {
+    //finding the user update the info
+    const ret = await User.findOneAndUpdate({ username: req.body.username }, { ...req.body.update })
+    console.log(req.body)
+    //sending a response to the user
+    res.status(200).json({ updated: { ...req.body.update }, msg: "The user settings have been updated" })
+  } catch (e) {
+    //sending an error response
+    console.log(e)
+    res.status(400).json({ msg: "The user settings couldn't be updated" })
+  }
+})
+
 module.exports = router;
