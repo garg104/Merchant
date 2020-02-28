@@ -152,14 +152,14 @@ router.delete('/delete', async (req, res) => {
 })
 
 /* update user info */
-router.put('/', async (req, res) => {
+router.put('/username', async (req, res) => {
   try {
     //finding the user update the info
     //here update is a JSON which contains all the info to be updated
-    const ret = await User.findOneAndUpdate({ username: req.body.username }, { ...req.body.update })
+    const ret = await User.findOneAndUpdate({ username: req.body.username }, { username: req.body.newUsername })
     console.log(req.body)
     //sending a response to the user
-    res.status(200).json({ updated: { ...req.body.update }, msg: "The user settings have been updated" })
+    res.status(200).json({ updated: { ...req.body.newUsername }, msg: "The user settings have been updated" })
   } catch (e) {
     //sending an error response
     console.log(e)
