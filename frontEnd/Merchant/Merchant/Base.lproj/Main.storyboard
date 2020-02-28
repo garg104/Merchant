@@ -660,6 +660,18 @@
                                 </state>
                                 <connections>
                                     <action selector="deleteAccount:" destination="FJK-9X-qxK" eventType="touchUpInside" id="vJA-fD-cM9"/>
+                                    <segue destination="d3K-X6-WV1" kind="unwind" unwindAction="unwindToWelcomeViewControllerWithSegue:" id="CBR-Rp-8GS"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XwH-Ux-ys2" userLabel="Change Profile Picture">
+                                <rect key="frame" x="16" y="618" width="359" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                                <state key="normal" title="Change Profile Picture">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="changeProfilePicture:" destination="FJK-9X-qxK" eventType="touchUpInside" id="Dk7-oW-aqj"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -711,8 +723,9 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zJN-CZ-zMx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="d3K-X6-WV1" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="5946" y="2302"/>
+            <point key="canvasLocation" x="5944.8000000000002" y="2301.7241379310344"/>
         </scene>
         <!--Account-->
         <scene sceneID="taN-wl-kp5">

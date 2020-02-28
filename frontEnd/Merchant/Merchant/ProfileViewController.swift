@@ -9,7 +9,7 @@
 import UIKit
 import Alamofire
 
-class ProfileViewController: UIViewController {
+class ProfileViewController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
 
     @IBOutlet weak var profilePicture: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
@@ -55,11 +55,36 @@ class ProfileViewController: UIViewController {
             var username: String
         }
         
-        let details = parameter(username: usernameLabel.text!)
+        let details = parameter(username: "asdf")
         AF.request("https://merchant307.herokuapp.com/user/delete", method: .delete, parameters: details, encoder: URLEncodedFormParameterEncoder.default).response { response in
             debugPrint(response)
         }
     }
+    
+    
+    @IBAction func changeProfilePicture(_ sender: UIButton) {
+        let image = UIImagePickerController()
+        image.delegate = self
+        image.sourceType = UIImagePickerController.SourceType.photoLibrary
+        image.allowsEditing = false
+        self.present(image, animated: true) {
+            // after complete
+        }
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        // check if possible to convert image (prevent crash)
+        if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            profilePicture.image = image
+        }
+        else {
+            // Error message
+        }
+        
+        // hide controller bc the user has chosen
+        self.dismiss(animated: true, completion: nil)
+    }
+    
     /*
     // MARK: - Navigation
 
