@@ -1,5 +1,5 @@
 require('dotenv').config()
-import { generateOtpMsg, sendEmail, generateTempPassword } from '../utils/sendEmail'
+import { generateOtpMsg, sendEmail, generateTempPassword, generateResetPassword } from '../utils/sendEmail'
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const User = require('../models/User')
@@ -234,7 +234,9 @@ router.post('/forgotPassword', async (req, res) => {
         //hashing the password using the salt generated
         bcrypt.hash(password, salt, async (err, hash) => {
         //error handling
-        if (err) { throw err }
+          if (err) { 
+            throw err 
+          }
           // updating the password in the database
           try {
             console.log(hash)
@@ -247,6 +249,7 @@ router.post('/forgotPassword', async (req, res) => {
           }
         })
       })
+      // wait for the sendEmail funtion to return and send a valid response
       await sendEmail(generateTempPassword(email, firstName, password))
       res.status(200).json({ msg: "Email sent successfully" })
     } catch (err) {
@@ -257,5 +260,89 @@ router.post('/forgotPassword', async (req, res) => {
     res.status(417).json({msg: "Please try again!"})
   }
 })
+
+
+/* resets the password of a user */
+router.post('/resetPassword', async (req, res) => {
+  const { username, password, newPassword } = req.body
+  console.log(username)
+  try {
+    const user = await User.findOne({username})
+    // the user does not exist
+    console.log(user)
+    if (user == null) {
+      res.status(404).json({msg: "User does not exist!"})
+    }
+
+    // find the email of the user from the database 
+    const email = user.email
+    console.log(email)
+    
+    // make sure that the user email is in the database.
+    if (email.length == 0) {
+      res.status(409).json({msg: "User email could not be found!"})
+    }
+
+    let firstName = ""
+    // make sure that the firstName exists
+    if (user.firstName.length != 0) {
+      firstName = user.firstName
+    }
+
+    try {
+      bcrypt.compare(password, user.password, async (err, isMatching) => {
+        if (err) {
+          //error checking
+          console.log(err)
+          res.status(501).json({ msg: "Internal server error" })
+        }
+        //if the passwords don't match, return error
+        if (!isMatching) {
+          res.status(401).json({ msg: "Passwords don't match" })
+          return
+        }
+        try {
+          // Hashing the password before updating it in the database (check the resources page for more info)
+          bcrypt.genSalt(10, (err, salt) => {
+            //error checking
+            if (err) { 
+              throw err 
+            }
+            //hashing the password using the salt generated
+            bcrypt.hash(newPassword, salt, async (err, hash) => {
+              //error handling
+              if (err) { 
+                throw err 
+              }
+              // updating the password in the database
+              try {
+                console.log(hash)
+                await User.findOneAndUpdate({username}, {password: hash})
+                //console.log(User.findOne({username}))
+              } catch (e) {
+                //logging errors
+                console.log(e)
+                res.status(500).json({ msg: 'Password could not be updated on the DB!' })
+              }
+            })
+          })
+          await sendEmail(generateResetPassword(email, firstName))
+          res.status(200).json({ msg: "Email sent successfully" })
+        } catch (e) {
+          console.log(e)
+          res.status(400).json({ msg: "Email couldn't be sent successfully" })
+        }
+      })
+    } catch (err) {
+      res.status(500).json({ msg: 'Password could not be reset!' })
+    }
+  } catch (e) {
+    console.log(e)
+    res.status(417).json({msg: "Please try again!"})
+  }
+}) 
+
+
+
 
 module.exports = router;

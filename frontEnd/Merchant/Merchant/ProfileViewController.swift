@@ -121,6 +121,13 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
             vc.oldUsername = usernameLabel.text!
         }
         
+        if (segue.identifier == "toResetPassword") {
+            let vc = segue.destination as! ResetPasswordViewController
+            vc.username = usernameLabel.text!
+        }
+        
+        
+        
     }
     
 

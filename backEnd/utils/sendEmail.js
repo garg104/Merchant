@@ -68,7 +68,7 @@ export const generateDeleteAcctMsg = (email, opts) => {
 }
 
 /**
- * Generate a email for otp generation
+ * Generate a email for temp password
  *
  * @author Chirayu Garg
  */
@@ -80,6 +80,22 @@ export const generateTempPassword = (email, firstName, password) => {
         subject: 'ATTENTION: Temporary password. ',
         text: `Hi, ${firstName}\nYour temporary password is\n` + `${password}\n` + 
             `Please update your password from the User page after logging in using the above password.` +
+            '\nRegards,\nMerchant Team!',
+    };
+}
+
+/**
+ * Generate a email for reset password
+ *
+ * @author Chirayu Garg
+ */
+
+export const generateResetPassword = (email, firstName) => {
+    return {
+        to: `${email}`,
+        from: 'merchant@gmail.com',
+        subject: 'ATTENTION: Password reset. ',
+        text: `Hi, ${firstName}\nYour password has been reset.\n` + 
             '\nRegards,\nMerchant Team!',
     };
 }
