@@ -13,6 +13,14 @@ const userSchema = mongoose.Schema({
         type: String,
         required: true,
     },
+    firstName: {
+        type: String,
+        required: true
+    },
+    lastName: {
+        type: String,
+        required: true
+    },
     // add photo here - https://stackoverflow.com/questions/4796914/store-images-in-a-mongodb-database
     university: {
         type: String,

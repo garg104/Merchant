@@ -1,5 +1,7 @@
-import { generateOtpMsg, sendEmail } from '../utils/sendEmail'
+require('dotenv').config()
 
+import { generateOtpMsg, sendEmail } from '../utils/sendEmail'
+const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const User = require('../models/User')
 const express = require('express');
@@ -79,7 +81,6 @@ router.post('/validate', async (req, res) => {
   }
 })
 
-<<<<<<< HEAD
 /* Login the user and send a legitimate JWT token */
 router.post('/login', (req, res) => {
   //get the fields from the request body
@@ -91,34 +92,78 @@ router.post('/login', (req, res) => {
         //if the username couldn't be found, return a 404
         res.status(404).json({ msg: "Username couldn't be found" })
       }
+
       //compare the password from the database with the client-provided password
-      bcrypt.compare(password, dbUser.password, (isMatching) => {
+      bcrypt.compare(password, dbUser.password, (err, isMatching) => {
+        if (err) {
+          //error checking
+          console.log(err)
+          res.status(501).json({ msg: "Internal server error" })
+        }
         //if the passwords don't match, return error
         if (!isMatching) {
           res.status(401).json({ msg: "Passwords don't match" })
+          return
         }
-        //TODO: Append proper JWT to the response
-        res.status(200).json({ msg: "Login Successful" })
+
+        //define a payload to be attached to the JWT (more info: https://jwt.io/introduction/)
+        const payload = {
+          id: dbUser.id,
+          username: dbUser.username,
+          firstName: dbUser.firstName,
+          lastName: dbUser.lastName,
+        }
+
+        //signing the jwt using the payload and encryption key
+        jwt.sign(payload, process.env.JWT_KEY, { expiresIn: 31556926 }, (err, token) => {
+          if (err) {
+            //handle error if jwt doesn't get signed
+            console.log(err)
+            res.status(500).json({ msg: "Login failed, please try again" })
+            return;
+          }
+          //signing jwt successful, append it to the response json
+          res.status(200).json({
+            token: token,
+            msg: `Welcome to Merchant, ${dbUser.firstName}!`
+          })
+        })
       })
     })
-=======
+})
+
 /* Delete user */
 router.delete('/delete', async (req, res) => {
   try {
+    //getting the fields
     const { username } = req.body
-
-    // null check
+    //checking if the client sent a proper response
     if (username.length == 0) {
-      throw new err;
+      res.status(404).json({ msg: "The username is empty" })
+      return
     }
+    //make the call to the database
     await User.deleteOne({ username })
     res.status(200).json({ msg: "The specified user was deleted.", username: username })
-
   } catch (err) {
-     res.status(404).json({ msg: "The specified user could not be found." })
+    res.status(404).json({ msg: "The specified user could not be found." })
   }
+})
 
->>>>>>> 61b17b10eaf9d0046de67609f7f558b457accafb
+/* update user info */
+router.put('/', async (req, res) => {
+  try {
+    //finding the user update the info
+    //here update is a JSON which contains all the info to be updated
+    const ret = await User.findOneAndUpdate({ username: req.body.username }, { ...req.body.update })
+    console.log(req.body)
+    //sending a response to the user
+    res.status(200).json({ updated: { ...req.body.update }, msg: "The user settings have been updated" })
+  } catch (e) {
+    //sending an error response
+    console.log(e)
+    res.status(400).json({ msg: "The user settings couldn't be updated" })
+  }
 })
 
 module.exports = router;
