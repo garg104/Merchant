@@ -20,12 +20,23 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     @IBOutlet weak var logoutButton: UIButton!
     @IBOutlet weak var deleteAccountButton: UIButton!
     
+    var name = ""
+    var username = ""
+    var email = ""
     
+    @IBAction func unwindToProfileViewController(segue: UIStoryboardSegue) {
+        if let senderVC = segue.source as? EditProfileViewController {
+            usernameLabel.text = senderVC.newUsername
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         addOverlines()
+        debugPrint("USERNAME PROF", username)
+        //display username
+        usernameLabel.text = username
     }
     
     func addOverlines() {
@@ -85,14 +96,19 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         self.dismiss(animated: true, completion: nil)
     }
     
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        //do anything that needs to be done before logging out here
+        
+        if (segue.identifier == "toEditProfile") {
+            let vc = segue.destination as! EditProfileViewController
+            vc.oldUsername = usernameLabel.text!
+        }
+        
     }
-    */
+    
 
 }

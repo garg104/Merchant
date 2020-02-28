@@ -14,7 +14,6 @@ class WelcomeViewController: UIViewController {
     
     //segue to return to welcomViewController
     @IBAction func unwindToWelcomeViewController(segue: UIStoryboardSegue) {
-
     }
     
     override func viewDidLoad() {
