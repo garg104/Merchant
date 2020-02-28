@@ -35,6 +35,7 @@ class EditProfileViewController: UIViewController {
         //update oldUsername to have newUsername
         newUsername = editUsernameTextField.text!
         
+        
     }
     
 

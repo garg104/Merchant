@@ -26,6 +26,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     
     @IBAction func unwindToProfileViewController(segue: UIStoryboardSegue) {
         if let senderVC = segue.source as? EditProfileViewController {
+            username = senderVC.newUsername
             usernameLabel.text = senderVC.newUsername
         }
     }
