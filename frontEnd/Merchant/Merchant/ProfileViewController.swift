@@ -19,7 +19,15 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var logoutButton: UIButton!
     @IBOutlet weak var deleteAccountButton: UIButton!
     
+    var name = ""
     var username = ""
+    var email = ""
+    
+    @IBAction func unwindToProfileViewController(segue: UIStoryboardSegue) {
+        if let senderVC = segue.source as? EditProfileViewController {
+            usernameLabel.text = senderVC.newUsername
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,7 +65,12 @@ class ProfileViewController: UIViewController {
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         //do anything that needs to be done before logging out here
-        debugPrint("LOGGING OUT")
+        
+        if (segue.identifier == "toEditProfile") {
+            let vc = segue.destination as! EditProfileViewController
+            vc.oldUsername = usernameLabel.text!
+        }
+        
     }
     
 

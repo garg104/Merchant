@@ -96,14 +96,20 @@ class CreateAccountViewController: UIViewController {
         confirmPasswordTextField.layer.addSublayer(underLine3)
     }
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
+        
+        if (segue.identifier == "toTabBarFromRegister") {
+            let vc = segue.destination as! MainTabBarController
+            vc.username = usernameTextField.text!
+        }
+        
     }
-    */
+    
 
 }
