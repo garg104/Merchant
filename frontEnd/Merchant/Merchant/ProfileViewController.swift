@@ -91,6 +91,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
                 let alert = UIAlertController(title: "Account Deleted", message: "Your account has successfully been deleted", preferredStyle: .alert)
                 //alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
                 self.present(alert, animated: true)
+                
                 self.performSegue(withIdentifier: "unwindAfterDelete", sender: nil)
             }
         }

@@ -56,19 +56,25 @@ class CreateAccountViewController: UIViewController {
             // check if the username is unique
             // find out a way to dynamically do it
             
-            struct parameters: Encodable {
-                var firstName = ""
-                var lastName = ""
-                var username = ""
-                var password = ""
-                var email = ""
-                var university = "Purdue University"
-            }
-            
-            let details = parameters(firstName: firstName, lastName: lastName, username: usernameTextField.text!, password: passwordTextField.text!, email: email)
-            
-            AF.request(API.URL + "/user/register", method: .post, parameters: details, encoder: URLEncodedFormParameterEncoder.default).response { response in
-                debugPrint(response)
+            validateFields() { (validCode) in
+                
+                if (validCode == 201) { //success
+                    debugPrint("SUCCESS!!!!")
+                    self.performSegue(withIdentifier: "toTabBarFromRegister", sender: nil)
+                } else if (validCode == 409) { //username already exists
+                    let alert = UIAlertController(title: "Username Already Exists", message: "Please enter different username.", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
+                    self.present(alert, animated: true)
+                } else if (validCode == 500) { //password invalid
+                    let alert = UIAlertController(title: "Error", message: "Error while creating account, please try again.", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
+                    self.present(alert, animated: true)
+                } else { //error in database check
+                    let alert = UIAlertController(title: "Error", message: "Error while creating account, please try again.", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
+                    self.present(alert, animated: true)
+                }
+                
             }
             
             print(firstName)
@@ -90,6 +96,45 @@ class CreateAccountViewController: UIViewController {
         
         // adds underlines in the view
         addUnderlines()
+    }
+    
+    private func validateFields(completion: @escaping (_ validCode: Int)->()) {
+        
+        struct parameters: Encodable {
+            var firstName = ""
+            var lastName = ""
+            var username = ""
+            var password = ""
+            var email = ""
+            var university = "Purdue University"
+        }
+        
+        let details = parameters(firstName: firstName, lastName: lastName, username: usernameTextField.text!, password: passwordTextField.text!, email: email)
+        
+        AF.request(API.URL + "/user/register", method: .post, parameters: details, encoder: URLEncodedFormParameterEncoder.default).response { response in
+            
+            //obtain status code returned from request
+            let status = (response.response?.statusCode ?? 0)
+            
+            if (status != 0) {
+                switch status {
+                case 409: //username exists already
+                    completion(status)
+                    break
+                case 500: //error
+                    completion(status)
+                    break
+                case 201: //success
+                    completion(status)
+                    break
+                default:
+                    completion(status)
+                    break
+                }
+            }
+            
+        }.resume()
+            
     }
     
     func passwordStrength(password: String) ->Bool {

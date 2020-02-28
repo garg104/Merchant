@@ -519,7 +519,6 @@
                                 </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="createAccount:" destination="w0z-Ao-GuE" eventType="touchUpInside" id="pfU-ba-4nL"/>
-                                    <segue destination="ynS-1h-DN9" kind="presentation" identifier="toTabBarFromRegister" modalPresentationStyle="fullScreen" id="lKc-4p-MmA"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -545,6 +544,7 @@
                         <outlet property="confirmPasswordTextField" destination="zFH-DC-BjS" id="Fx1-xz-7y6"/>
                         <outlet property="passwordTextField" destination="Osa-94-WyC" id="qFz-an-Vqc"/>
                         <outlet property="usernameTextField" destination="hIg-SS-rHD" id="urR-ev-deI"/>
+                        <segue destination="ynS-1h-DN9" kind="presentation" identifier="toTabBarFromRegister" modalPresentationStyle="fullScreen" id="RJa-gb-PbL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gCI-eO-WZ1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1051,7 +1051,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="JjF-JT-nfG"/>
+        <segue reference="RJa-gb-PbL"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
 </document>
