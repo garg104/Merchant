@@ -16,6 +16,7 @@ class LogInViewController: UIViewController {
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var forgotPasswordButton: UIButton!
     
+    
     @IBAction func loginClicked(_ sender: Any) {
         
         //show alert if textfields are empty
