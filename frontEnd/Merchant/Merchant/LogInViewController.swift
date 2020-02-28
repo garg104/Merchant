@@ -55,9 +55,6 @@ class LogInViewController: UIViewController {
 
     }
     
-    @IBAction func forgotPasswordClicked(_ sender: Any) {
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
