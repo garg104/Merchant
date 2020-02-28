@@ -16,6 +16,37 @@ class LogInViewController: UIViewController {
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var forgotPasswordButton: UIButton!
     
+
+    @IBAction func forgetPassword(_ sender: Any) {
+        if (usernameTextField.text == "") {
+            let alert = UIAlertController(title: "Empty Field", message: "Please enter the username to get a temporary password", preferredStyle: .alert)
+            alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
+            self.present(alert, animated: true)
+        }
+        
+        struct parameter: Encodable {
+            var username: String
+        }
+        
+        // set parameters for logging in user
+        let details = parameter(username: usernameTextField.text!)
+        
+        //request account validation from database
+        AF.request(API.URL + "/user/forgetPassword", method: .post, parameters: details, encoder: URLEncodedFormParameterEncoder.default).responseJSON { response in
+            if (response.response?.statusCode == 404) {
+                // user not found
+                let alert = UIAlertController(title: "Invalid User", message: "User does not exist. Please enter a valid username.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
+                self.present(alert, animated: true)
+            } else if (response.response?.statusCode == 200) {
+                // email sent
+                let alert = UIAlertController(title: "Email Sent", message: "An email with a temporary password has been sent to your email.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
+                self.present(alert, animated: true)
+            }
+        }
+    }
+    
     @IBAction func loginClicked(_ sender: Any) {
         
         //show alert if textfields are empty
@@ -52,9 +83,6 @@ class LogInViewController: UIViewController {
             
         }
 
-    }
-    
-    @IBAction func forgotPasswordClicked(_ sender: Any) {
     }
     
     override func viewDidLoad() {
