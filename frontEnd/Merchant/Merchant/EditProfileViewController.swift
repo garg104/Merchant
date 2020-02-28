@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Alamofire
 
 class EditProfileViewController: UIViewController {
 
@@ -34,6 +35,16 @@ class EditProfileViewController: UIViewController {
         
         //update oldUsername to have newUsername
         newUsername = editUsernameTextField.text!
+        
+        struct parameter: Encodable {
+            var username: String
+            var newUsername: String
+        }
+        
+        let details = parameter(username: oldUsername, newUsername: newUsername)
+        AF.request("https://merchant307.herokuapp.com/user/username", method: .put, parameters: details, encoder: URLEncodedFormParameterEncoder.default).response { response in
+            debugPrint(response)
+        }
         
     }
     

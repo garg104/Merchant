@@ -107,6 +107,9 @@ class CreateAccountViewController: UIViewController {
         if (segue.identifier == "toTabBarFromRegister") {
             let vc = segue.destination as! MainTabBarController
             vc.username = usernameTextField.text!
+            vc.firstName = self.firstName
+            vc.lastName = self.lastName
+            vc.email = self.email
         }
         
     }

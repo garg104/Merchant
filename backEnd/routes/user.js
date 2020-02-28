@@ -1,11 +1,13 @@
 require('dotenv').config()
-
-import { generateOtpMsg, sendEmail } from '../utils/sendEmail'
+import { generateOtpMsg, sendEmail, generateTempPassword } from '../utils/sendEmail'
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const User = require('../models/User')
 const express = require('express');
 const router = express.Router();
+import { config } from '../utils/fileUpload'
+const upload = config()
+const randomstring = require('../node_modules/randomstring')
 
 /* GET users listing. (for debugging) */
 router.get('/', async (req, res) => {
@@ -151,18 +153,108 @@ router.post('/delete', async (req, res) => {
 })
 
 /* update user info */
-router.put('/', async (req, res) => {
+router.put('/username', async (req, res) => {
   try {
     //finding the user update the info
     //here update is a JSON which contains all the info to be updated
-    const ret = await User.findOneAndUpdate({ username: req.body.username }, { ...req.body.update })
+    const ret = await User.findOneAndUpdate({ username: req.body.username }, { username: req.body.newUsername })
     console.log(req.body)
     //sending a response to the user
-    res.status(200).json({ updated: { ...req.body.update }, msg: "The user settings have been updated" })
+    res.status(200).json({ updated: { ...req.body.newUsername }, msg: "The user settings have been updated" })
   } catch (e) {
     //sending an error response
     console.log(e)
     res.status(400).json({ msg: "The user settings couldn't be updated" })
+  }
+})
+
+/* get user info */
+router.post('/info', async (req, res) => {
+  try {
+    const { username } = req.body
+    const ret = await User.findOne({ username })
+    ret._doc.password = "None of your business ;-)"
+    res.status(200).json({ ...ret._doc })
+  } catch (e) {
+    res.status(404).json({ msg: "User couldn't be found" })
+  }
+})
+
+/* upload the user profile */
+router.post('/picture', upload.single("file"), async (req, res) => {
+  const { username } = req.body
+  const { id } = req.file
+  try {
+    const ret = await User.findOneAndUpdate({ username }, { picture: id })
+  } catch (e) {
+    res.status(404).json({ msg: "User profile couldn't be updated" })
+  }
+  res.status(201).json({ file: req.file, msg: "User profile picture has been updated" })
+})
+
+/* check if the user exists and send a recovery email. */
+router.post('/forgotPassword', async (req, res) => {
+  const { username } = req.body
+  console.log(username)
+  try {
+    const user = await User.findOne({username})
+    // the user does not exist
+    console.log(user)
+    if (user == null) {
+      res.status(404).json({msg: "User does not exist!"})
+    }
+
+    // find the email of the user from the database 
+    const email = user.email
+    console.log(email)
+    
+    // make sure that the user email is in the database.
+    if (email.length == 0) {
+      res.status(409).json({msg: "User email could not be found!"})
+    }
+
+    let firstName = ""
+    // make sure that the firstName exists
+    if (user.firstName.length != 0) {
+      firstName = user.firstName
+    }
+
+    // wait for the sendEmail funtion to return and send a valid response
+    try {
+      console.log("here")
+      const password = randomstring.generate({
+        length: 12,
+        charset: 'alphabetic'
+      })
+
+      // Hashing the password before updating it in the database (check the resources page for more info)
+      bcrypt.genSalt(10, (err, salt) => {
+        //error checking
+        if (err) { throw err }
+        //hashing the password using the salt generated
+        bcrypt.hash(password, salt, async (err, hash) => {
+        //error handling
+        if (err) { throw err }
+          // updating the password in the database
+          try {
+            console.log(hash)
+            await User.findOneAndUpdate({username}, {password: hash})
+            //console.log(User.findOne({username}))
+          } catch (e) {
+            //logging errors
+            console.log(e)
+            res.status(500).json({ msg: 'Password could not be updated on the DB!' })
+          }
+        })
+      })
+      await sendEmail(generateTempPassword(email, firstName, password))
+      res.status(200).json({ msg: "Email sent successfully" })
+    } catch (err) {
+      res.status(400).json({ msg: "Email couldn't be sent successfully" })
+    }
+  } catch (e) {
+    console.log(e)
+    res.status(417).json({msg: "Please try again!"})
   }
 })
 

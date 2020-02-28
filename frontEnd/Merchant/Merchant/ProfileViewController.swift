@@ -26,17 +26,30 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     
     @IBAction func unwindToProfileViewController(segue: UIStoryboardSegue) {
         if let senderVC = segue.source as? EditProfileViewController {
+            username = senderVC.newUsername
             usernameLabel.text = senderVC.newUsername
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+        //add underlines to buttons
         addOverlines()
+        
+        //round profile picture
+        self.profilePicture.layer.cornerRadius = self.profilePicture.frame.size.width / 2
+        self.profilePicture.clipsToBounds = true
+        self.profilePicture.layer.borderWidth = 3.0
+        self.profilePicture.layer.borderColor = UIColor.init(red: 118/255, green: 181/255, blue: 77/255, alpha: 1.0).cgColor
+        
+        //display user info
         debugPrint("USERNAME PROF", username)
-        //display username
+        debugPrint("NAME PROF", name)
+        debugPrint("EMAIL PROF", email)
         usernameLabel.text = username
+        nameLabel.text = name
+        emailLabel.text = email
     }
     
     func addOverlines() {

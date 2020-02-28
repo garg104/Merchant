@@ -6,6 +6,8 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const throwError = require('http-errors')
 const passport = require('passport')
+const Grid = require('gridfs-stream')
+const multer = require('multer')
 
 const indexRouter = require('./routes/index');
 const userRouter = require('./routes/user');
@@ -18,8 +20,15 @@ mongoose.connect(process.env.DB_CONNECTION, { useNewUrlParser: true, useUnifiedT
     console.log("connected to the database")
 })
 
-//ADD database schemas: TODO
-
+// //Add the file upload settings
+let gfs;
+const db = mongoose.connection
+db.once('open', () => {
+    gfs = Grid(db.db, mongoose.mongo);
+    gfs.collection('profile-pictures')
+})
+// const storageSettings = require('./utils/uploadFile')
+// export const upload = multer({ storageSettings });
 
 //setup passport for JWT authentication
 app.use(passport.initialize())

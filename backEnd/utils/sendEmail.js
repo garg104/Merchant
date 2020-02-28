@@ -68,6 +68,24 @@ export const generateDeleteAcctMsg = (email, opts) => {
 }
 
 /**
+ * Generate a email for otp generation
+ *
+ * @author Chirayu Garg
+ */
+
+export const generateTempPassword = (email, firstName, password) => {
+    return {
+        to: `${email}`,
+        from: 'merchant@gmail.com',
+        subject: 'ATTENTION: Temporary password. ',
+        text: `Hi, ${firstName}\nYour temporary password is\n` + `${password}\n` + 
+            `Please update your password from the User page after logging in using the above password.` +
+            '\nRegards,\nMerchant Team!',
+    };
+}
+
+
+/**
  * Send an email with custom content
  *
  * @author Aakarshit Pandey
