@@ -154,6 +154,7 @@ router.delete('/delete', async (req, res) => {
 router.put('/', async (req, res) => {
   try {
     //finding the user update the info
+    //here update is a JSON which contains all the info to be updated
     const ret = await User.findOneAndUpdate({ username: req.body.username }, { ...req.body.update })
     console.log(req.body)
     //sending a response to the user
