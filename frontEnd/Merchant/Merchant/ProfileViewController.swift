@@ -96,7 +96,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         self.dismiss(animated: true, completion: nil)
     }
     
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -109,6 +109,6 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         }
         
     }
-    */
+    
 
 }
