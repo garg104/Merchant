@@ -135,7 +135,7 @@ router.post('/login', (req, res) => {
 })
 
 /* Delete user */
-router.delete('/delete', async (req, res) => {
+router.post('/delete', async (req, res) => {
   try {
     //getting the fields
     const { username } = req.body

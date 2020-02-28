@@ -32,8 +32,8 @@ class LogInViewController: UIViewController {
         let details = parameter(username: usernameTextField.text!)
         
         //request account validation from database
-        AF.request(API.URL + "/user/forgetPassword", method: .post, parameters: details, encoder: URLEncodedFormParameterEncoder.default).responseJSON { response in
-            if (response.response?.statusCode == 404) {
+        AF.request(API.URL + "/user/forgotPassword", method: .post, parameters: details, encoder: URLEncodedFormParameterEncoder.default).responseJSON { response in
+            if (response.response?.statusCode != 200) {
                 // user not found
                 let alert = UIAlertController(title: "Invalid User", message: "User does not exist. Please enter a valid username.", preferredStyle: .alert)
                 alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
