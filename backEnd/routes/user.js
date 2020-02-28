@@ -1,11 +1,13 @@
 require('dotenv').config()
-
 import { generateOtpMsg, sendEmail } from '../utils/sendEmail'
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
+const path = require('path');
 const User = require('../models/User')
 const express = require('express');
 const router = express.Router();
+import { config } from '../utils/fileUpload'
+const upload = config()
 
 /* GET users listing. (for debugging) */
 router.get('/', async (req, res) => {
@@ -164,6 +166,18 @@ router.put('/', async (req, res) => {
     console.log(e)
     res.status(400).json({ msg: "The user settings couldn't be updated" })
   }
+})
+
+/* upload the user profile */
+router.post('/picture', upload.single("file"), async (req, res) => {
+  const { username } = req.body
+  const { id } = req.file
+  try {
+    const ret = await User.findOneAndUpdate({ username }, { picture: id })
+  } catch (e) {
+    res.status(404).json({ msg: "User profile couldn't be updated" })
+  }
+  res.status(201).json({ file: req.file, msg: "User profile picture has been updated" })
 })
 
 module.exports = router;

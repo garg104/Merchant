@@ -22,6 +22,10 @@ const userSchema = mongoose.Schema({
         required: true
     },
     // add photo here - https://stackoverflow.com/questions/4796914/store-images-in-a-mongodb-database
+    picture: {
+        type: mongoose.Schema.Types.ObjectID,
+        ref: "profile-picture"
+    },
     university: {
         type: String,
         required: true,
