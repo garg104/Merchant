@@ -108,7 +108,6 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         self.present(image, animated: true) {
             // after complete
         }
-        
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
@@ -123,6 +122,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         // hide controller bc the user has chosen
         self.dismiss(animated: true, completion: nil)
     }
+    
     
     
     // MARK: - Navigation

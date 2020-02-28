@@ -77,15 +77,13 @@ class CreateAccountViewController: UIViewController {
                 
             }
             
-            print(firstName)
-            print(lastName)
-            print(email)
-            print(usernameTextField.text!)
-            print(passwordTextField.text!)
-            print(confirmPasswordTextField.text!)
+//            print(firstName)
+//            print(lastName)
+//            print(email)
+//            print(usernameTextField.text!)
+//            print(passwordTextField.text!)
+//            print(confirmPasswordTextField.text!)
         }
-        // send the data to the 
-        
     }
     
     override func viewDidLoad() {

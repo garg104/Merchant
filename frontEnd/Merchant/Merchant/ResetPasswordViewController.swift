@@ -14,6 +14,7 @@ class ResetPasswordViewController: UIViewController {
     @IBOutlet weak var newPassword: UITextField!
     @IBOutlet weak var newPasswordConfirm: UITextField!
     var username = ""
+    let passwordChecker = CreateAccountViewController()
     
     @IBAction func resetButton(_ sender: Any) {
         if (password.text == "" ||
@@ -22,39 +23,44 @@ class ResetPasswordViewController: UIViewController {
             let alert = UIAlertController(title: "Empty Field", message: "Please enter all the fields", preferredStyle: .alert)
             alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
             self.present(alert, animated: true)
-        }
-        if (newPasswordConfirm.text != newPassword.text) {
+        } else if (newPasswordConfirm.text != newPassword.text) {
             let alert = UIAlertController(title: "New Passwords Do Not Match", message: "Please make sure that both the passwords match", preferredStyle: .alert)
             alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
             self.present(alert, animated: true)
             newPassword.text = ""
             newPasswordConfirm.text = ""
-        }
+        } else if (!passwordChecker.passwordStrength(password: newPassword.text!)) {
+            let alert = UIAlertController(title: "Password Not Strong", message: "Password length must be at least 6 characters and include a number, lowercase letter and uppercase letter.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
+            self.present(alert, animated: true)
+            newPassword.text = ""
+            newPasswordConfirm.text = ""
+        } else {
         
-        struct parameter: Encodable {
-            var username: String
-            var password: String
-            var newPassword: String
-        }
-               
-        // set parameters for logging in user
-        let details = parameter(username: username, password: password.text!, newPassword: newPassword.text! )
-               
-               //request account validation from database
-        AF.request(API.URL + "/user/resetPassword", method: .post, parameters: details, encoder: URLEncodedFormParameterEncoder.default).responseJSON { response in
-            if (response.response?.statusCode == 404) {
-                // user not found
-                let alert = UIAlertController(title: "Invalid User", message: "User does not exist. Please enter a valid username.", preferredStyle: .alert)
-                    alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
-                    self.present(alert, animated: true)
-                } else if (response.response?.statusCode == 200) {
-                    // email sent
-                    let alert = UIAlertController(title: "Password Reset", message: "Your password has been succesfully reset.", preferredStyle: .alert)
-                    alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
-                    self.present(alert, animated: true)
-                }
+            struct parameter: Encodable {
+                var username: String
+                var password: String
+                var newPassword: String
             }
-        
+                   
+            // set parameters for logging in user
+            let details = parameter(username: username, password: password.text!, newPassword: newPassword.text! )
+                   
+                   //request account validation from database
+            AF.request(API.URL + "/user/resetPassword", method: .post, parameters: details, encoder: URLEncodedFormParameterEncoder.default).responseJSON { response in
+                if (response.response?.statusCode == 404) {
+                    // user not found
+                    let alert = UIAlertController(title: "Invalid User", message: "User does not exist. Please enter a valid username.", preferredStyle: .alert)
+                        alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
+                        self.present(alert, animated: true)
+                    } else if (response.response?.statusCode == 200) {
+                        // email sent
+                        let alert = UIAlertController(title: "Password Reset", message: "Your password has been succesfully reset.", preferredStyle: .alert)
+                        alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
+                        self.present(alert, animated: true)
+                    }
+                }
+        }
         
     }
     

@@ -42,7 +42,7 @@ class EditProfileViewController: UIViewController {
         }
         
         let details = parameter(username: oldUsername, newUsername: newUsername)
-        AF.request("https://merchant307.herokuapp.com/user/username", method: .put, parameters: details, encoder: URLEncodedFormParameterEncoder.default).response { response in
+        AF.request(API.URL + "/user/username", method: .post, parameters: details, encoder: URLEncodedFormParameterEncoder.default).response { response in
             debugPrint(response)
         }
         
