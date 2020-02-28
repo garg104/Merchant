@@ -171,13 +171,21 @@ router.post('/delete', async (req, res) => {
 
 /* update user info */
 router.put('/username', async (req, res) => {
+  const { username, newUsername } = req.body
   try {
     //finding the user update the info
     //here update is a JSON which contains all the info to be updated
-    const ret = await User.findOneAndUpdate({ username: req.body.username }, { username: req.body.newUsername })
-    console.log(req.body)
-    //sending a response to the user
-    res.status(200).json({ updated: { ...req.body.newUsername }, msg: "The user settings have been updated" })
+    const exists = await User.findOne({ newUsername })
+    console.log(exists)
+    if (exists == null) {
+      const ret = await User.findOneAndUpdate({ username: req.body.username }, { username: req.body.newUsername })
+      console.log(req.body)
+      //sending a response to the user
+      res.status(200).json({ updated: { ...req.body.newUsername }, msg: "The user settings have been updated" })
+    } else {
+      res.status(409).json({ msg: "Username already exists" })
+    }
+    
   } catch (e) {
     //sending an error response
     console.log(e)
