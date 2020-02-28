@@ -8,6 +8,14 @@
 
 import UIKit
 import Alamofire
+import Foundation
+
+extension NSRegularExpression {
+    func matches(_ string: String) -> Bool {
+        let range = NSRange(location: 0, length: string.utf16.count)
+        return firstMatch(in: string, options: [], range: range) != nil
+    }
+}
 
 class CreateAccountViewController: UIViewController {
 
@@ -33,6 +41,13 @@ class CreateAccountViewController: UIViewController {
         } else if (passwordTextField.text != confirmPasswordTextField.text) {
             // check if the passwords are same
             let alert = UIAlertController(title: "Passwords Do Not Match", message: "Please make sure that both the passwords match", preferredStyle: .alert)
+            alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
+            self.present(alert, animated: true)
+            passwordTextField.text = ""
+            confirmPasswordTextField.text = ""
+        } else if (!passwordStrength(password: passwordTextField.text!)){
+            //password strength checker
+            let alert = UIAlertController(title: "Password Not Strong", message: "Password length must be at least 6 characters and include a number, lowercase letter and uppercase letter.", preferredStyle: .alert)
             alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
             self.present(alert, animated: true)
             passwordTextField.text = ""
@@ -77,6 +92,19 @@ class CreateAccountViewController: UIViewController {
         addUnderlines()
     }
     
+    func passwordStrength(password: String) ->Bool {
+        
+        if ((password.range(of: "[a-z]", options: .regularExpression) != nil) &&
+            (password.range(of: "[A-Z]", options: .regularExpression) != nil) &&
+            (password.range(of: "[0-9]", options: .regularExpression) != nil) &&
+            (password.count >= 6)) {
+            debugPrint("password strong")
+            return true
+        } else {
+            return false
+        }
+    }
+    
     func addUnderlines() {
         //create underline for username and password textfields
         let underLine = CALayer()
@@ -95,7 +123,6 @@ class CreateAccountViewController: UIViewController {
         confirmPasswordTextField.borderStyle = .none
         confirmPasswordTextField.layer.addSublayer(underLine3)
     }
-
     
     // MARK: - Navigation
 
