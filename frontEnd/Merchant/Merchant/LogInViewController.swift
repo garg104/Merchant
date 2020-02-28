@@ -16,6 +16,43 @@ class LogInViewController: UIViewController {
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var forgotPasswordButton: UIButton!
     
+    @IBAction func forgotPassword(_ sender: Any) {
+        // check if the user entered the username
+        if (usernameTextField.text == "") {
+            let alert = UIAlertController(title: "Empty Field", message: "Please enter the Username", preferredStyle: .alert)
+            alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
+            self.present(alert, animated: true)
+        }
+        
+        // prepare the username to be sent to the backend
+        
+        struct parameters: Encodable {
+            var username = ""
+        }
+        let parameter = parameters(username: usernameTextField.text!)
+
+        // send the username to the backend
+        
+        AF.request(API.URL + "/user/forgotPassword", method: .post, parameters: parameter, encoder: URLEncodedFormParameterEncoder.default).response { response in
+            debugPrint(response)
+            
+            // handle the various status codes
+            if (response.response?.statusCode == 404) {
+                // invalid username
+                let alert = UIAlertController(title: "Invalid User", message: "User does not exist", preferredStyle: .alert)
+                alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
+                self.present(alert, animated: true)
+            } else if (response.response?.statusCode == 200) {
+                // if the password was updated correctly
+                let alert = UIAlertController(title: "Email sent", message: "An email with a temporary password has been sent to your email registered with the user name.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
+                self.present(alert, animated: true)
+            }
+            
+        }
+        
+        
+    }
     @IBAction func loginClicked(_ sender: Any) {
         
         //show alert if textfields are empty
