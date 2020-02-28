@@ -73,7 +73,7 @@ class OTPViewController: UIViewController {
         let vc = segue.destination as! CreateAccountViewController
         vc.firstName = self.firstName
         vc.lastName = self.lastName
-        vc.email = self.lastName
+        vc.email = self.email
     }
     
     /*

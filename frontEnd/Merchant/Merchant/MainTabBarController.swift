@@ -12,12 +12,13 @@ import Alamofire
 class MainTabBarController: UITabBarController {
 
     var username = ""
+    var firstName = ""
+    var lastName = ""
+    var email = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        
-        
         
         //initialize individual tab's view controllers
         let buyNavVC = self.viewControllers?[0] as! UINavigationController
@@ -26,9 +27,55 @@ class MainTabBarController: UITabBarController {
         let profNavVC = self.viewControllers?[3] as! UINavigationController
         
         //initialize profile view controller
-        let profVC = profNavVC.viewControllers[0] as! ProfileViewController
-        profVC.username = username
-
+        obtainUserInfo() { (finished) in
+            let profVC = profNavVC.viewControllers[0] as! ProfileViewController
+            profVC.username = self.username
+            profVC.email = self.email
+            let fullName = self.firstName + " " + self.lastName
+            profVC.name = fullName
+            debugPrint("FULL NAMEEEE:", fullName)
+        }
+    }
+    
+    func obtainUserInfo(completion: @escaping (_ finished: Int)->()) {
+        //set parameter for database request
+        struct parameter: Encodable {
+            var username: String
+        }
+        
+        // set parameters for logging in user
+        let details = parameter(username: username)
+        
+        //request account validation from database
+        AF.request("https://merchant307.herokuapp.com/user/info", method: .post, parameters: details, encoder: URLEncodedFormParameterEncoder.default).responseJSON { response in
+            
+            //obtain status code returned from request
+            let status = (response.response?.statusCode ?? 0)
+            
+            if (status != 0) {
+                switch status {
+                case 200:
+                    if let info = response.value {
+                        let JSON = info as! NSDictionary
+                        debugPrint("JSON:", JSON)
+                        self.email = JSON["email"]! as! String
+                        debugPrint("NEW EMAIL:", self.email)
+                        self.firstName = JSON["firstName"]! as! String
+                        self.lastName = JSON["lastName"]! as! String
+                        debugPrint("NEW NAME:", self.firstName, self.lastName)
+                    }
+                    completion(1)
+                    break
+                default:
+                    debugPrint("ERROR in getting user data from username")
+                    completion(0)
+                    break
+                }
+            }
+            debugPrint(response)
+        }.resume()
+        
+        
         
     }
     

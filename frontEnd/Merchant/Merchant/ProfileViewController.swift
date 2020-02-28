@@ -43,9 +43,13 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         self.profilePicture.layer.borderWidth = 3.0
         self.profilePicture.layer.borderColor = UIColor.init(red: 118/255, green: 181/255, blue: 77/255, alpha: 1.0).cgColor
         
-        //display username
+        //display user info
         debugPrint("USERNAME PROF", username)
+        debugPrint("NAME PROF", name)
+        debugPrint("EMAIL PROF", email)
         usernameLabel.text = username
+        nameLabel.text = name
+        emailLabel.text = email
     }
     
     func addOverlines() {
