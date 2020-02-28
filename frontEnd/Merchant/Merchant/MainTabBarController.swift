@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Alamofire
 
 class MainTabBarController: UITabBarController {
 
@@ -16,12 +17,15 @@ class MainTabBarController: UITabBarController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
+        
+        
         //initialize individual tab's view controllers
         let buyNavVC = self.viewControllers?[0] as! UINavigationController
         let sellNavVC = self.viewControllers?[1] as! UINavigationController
         let charNavVC = self.viewControllers?[2] as! UINavigationController
         let profNavVC = self.viewControllers?[3] as! UINavigationController
         
+        //initialize profile view controller
         let profVC = profNavVC.viewControllers[0] as! ProfileViewController
         profVC.username = username
 
