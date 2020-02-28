@@ -168,6 +168,7 @@ router.put('/', async (req, res) => {
   }
 })
 
+<<<<<<< HEAD
 /* upload the user profile */
 router.post('/picture', upload.single("file"), async (req, res) => {
   const { username } = req.body
@@ -181,3 +182,6 @@ router.post('/picture', upload.single("file"), async (req, res) => {
 })
 
 module.exports = router;
+=======
+module.exports = router;
+>>>>>>> dbc2383220eabe72063de1f19106bf59d669f01b
