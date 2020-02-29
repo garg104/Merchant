@@ -1,2 +1,3 @@
 ${PODS_ROOT}/Target Support Files/Pods-Merchant/Pods-Merchant-frameworks.sh
 ${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework
+${BUILT_PRODUCTS_DIR}/JWTDecode/JWTDecode.framework

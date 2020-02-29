@@ -127,7 +127,8 @@ router.post('/login', (req, res) => {
           //signing jwt successful, append it to the response json
           res.status(200).json({
             token: token,
-            msg: `Welcome to Merchant, ${dbUser.firstName}!`
+            msg: `Welcome to Merchant, ${dbUser.firstName}!`,
+            user: payload
           })
         })
       })

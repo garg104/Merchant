@@ -7,6 +7,7 @@ target 'Merchant' do
 
   # Pods for Merchant
   pod 'Alamofire', '~> 5.0.0-rc'
+  pod 'JWTDecode', '~> 2.4'
 
   target 'MerchantTests' do
     inherit! :search_paths

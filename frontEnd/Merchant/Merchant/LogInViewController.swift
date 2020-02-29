@@ -8,6 +8,7 @@
 
 import UIKit
 import Alamofire
+import JWTDecode
 
 class LogInViewController: UIViewController {
 
@@ -115,8 +116,29 @@ class LogInViewController: UIViewController {
         let details = parameter(username: usernameTextField.text!, password: passwordTextField.text!)
         
         //request account validation from database
-        AF.request(API.URL + "/user/login", method: .post, parameters: details, encoder: URLEncodedFormParameterEncoder.default).responseJSON { response in
+        
+        let headers: HTTPHeaders = [
+            .authorization(username: usernameTextField.text!, password: passwordTextField.text!),
+            .accept("application/json")
+        ]
+        
+        AF.request(API.URL + "/user/login", method: .post, parameters: details, encoder: URLEncodedFormParameterEncoder.default, headers: headers).responseJSON { response in
             
+            let info = response.value
+            let JSON = info as! NSDictionary
+            debugPrint("JSON:", JSON["token"]!)
+            do {
+                let jwt = try decode(jwt: JSON["token"]! as! String)
+                debugPrint(jwt)
+                debugPrint("here2")
+                debugPrint("here2")
+                debugPrint("here2")
+                debugPrint("here2")
+
+            } catch {
+                print("decoding error:", error)
+            }
+
             //obtain status code returned from request
             let status = (response.response?.statusCode ?? 0)
             
@@ -144,8 +166,6 @@ class LogInViewController: UIViewController {
                     break
                 }
             }
-            debugPrint(response)
-            
         }.resume()
     }
     
