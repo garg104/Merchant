@@ -47,7 +47,7 @@ export const generateOtpMsg = (email, otp) => {
         from: 'merchant@gmail.com',
         subject: 'ATTENTION: Verify your merchant account',
         text: 'Hi,\n Thank you for creating an account on Merchant.' +
-            `Please enter the following One Time Password on your app to verify your accont: ${otp}` +
+            `Please enter the following One Time Password on your app to verify your account: ${otp}` +
             '\nRegards,\nMerchant Team!',
     };
 }
