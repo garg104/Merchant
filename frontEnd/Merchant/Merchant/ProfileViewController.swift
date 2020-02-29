@@ -9,7 +9,7 @@
 import UIKit
 import Alamofire
 
-class ProfileViewController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+class ProfileViewController: UIViewController {
 
     @IBOutlet weak var profilePicture: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
@@ -20,6 +20,8 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     @IBOutlet weak var logoutButton: UIButton!
     @IBOutlet weak var deleteAccountButton: UIButton!
     
+    var firstName = ""
+    var lastName = ""
     var name = ""
     var username = ""
     var email = ""
@@ -34,16 +36,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //round profile picture
-        //self.profilePicture.layer.cornerRadius = self.profilePicture.frame.size.width / 2
-        self.profilePicture.clipsToBounds = true
-        self.profilePicture.layer.borderWidth = 3.0
-        self.profilePicture.layer.borderColor = UIColor.init(red: 118/255, green: 181/255, blue: 77/255, alpha: 1.0).cgColor
-        
         //display user info
-        debugPrint("USERNAME PROF", username)
-        debugPrint("NAME PROF", name)
-        debugPrint("EMAIL PROF", email)
         usernameLabel.text = username
         nameLabel.text = name
         emailLabel.text = email
@@ -52,6 +45,10 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
+        //add border to profile picture
+        self.profilePicture.clipsToBounds = true
+        self.profilePicture.layer.borderWidth = 3.0
+        self.profilePicture.layer.borderColor = UIColor.init(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0).cgColor
         //round profile picture
         profilePicture.layer.cornerRadius = profilePicture.frame.size.width / 2
         //add underlines to buttons
@@ -72,7 +69,6 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         let underLine4 = CALayer()
         underLine4.frame = CGRect(x: 0, y: 0, width: deleteAccountButton.frame.width, height: 0.5)
         underLine4.backgroundColor = UIColor.init(red: 0/255, green: 0/255, blue: 0/255, alpha: 1.0).cgColor
-        sellHistoryButton.layer.addSublayer(underLine)
         resetPasswordLabel.layer.addSublayer(underLine2)
         deleteAccountButton.layer.addSublayer(underLine3)
         logoutButton.layer.addSublayer(underLine4)
@@ -105,32 +101,6 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         
     }
     
-    
-    @IBAction func changeProfilePicture(_ sender: UIButton) {
-        let image = UIImagePickerController()
-        image.delegate = self
-        image.sourceType = UIImagePickerController.SourceType.photoLibrary
-        image.allowsEditing = false
-        self.present(image, animated: true) {
-            // after complete
-        }
-    }
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        // check if possible to convert image (prevent crash)
-        if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-            profilePicture.image = image
-        }
-        else {
-            // Error message
-        }
-        
-        // hide controller bc the user has chosen
-        self.dismiss(animated: true, completion: nil)
-    }
-    
-    
-    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -140,6 +110,8 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         if (segue.identifier == "toEditProfile") {
             let vc = segue.destination as! EditProfileViewController
             vc.oldUsername = usernameLabel.text!
+            vc.oldFirstName = firstName
+            vc.oldLastName = lastName
         }
         
         if (segue.identifier == "toResetPassword") {
