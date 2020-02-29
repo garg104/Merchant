@@ -755,7 +755,7 @@
                                     <segue destination="5OR-G5-nfV" kind="unwind" identifier="saveEditUnwind" unwindAction="unwindToProfileViewControllerWithSegue:" id="zsn-YQ-TjH"/>
                                 </connections>
                             </button>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Jha-G8-XZ1">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Jha-G8-XZ1">
                                 <rect key="frame" x="132" y="101" width="111" height="111"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="Jha-G8-XZ1" secondAttribute="height" multiplier="1:1" id="zIs-bJ-ea4"/>
@@ -807,6 +807,9 @@
                                 <state key="normal" title="Change Picture">
                                     <color key="titleColor" red="0.46274509800000002" green="0.70980392160000005" blue="0.30196078430000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 </state>
+                                <connections>
+                                    <action selector="changeProfilePicture:" destination="ns2-i9-mbE" eventType="touchUpInside" id="3eE-0u-lCN"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>

@@ -9,7 +9,7 @@
 import UIKit
 import Alamofire
 
-class EditProfileViewController: UIViewController, UITextFieldDelegate {
+class EditProfileViewController: UIViewController, UITextFieldDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
 
     @IBOutlet weak var profilePictureImageView: UIImageView!
     @IBOutlet weak var editUsernameTextField: UITextField!
@@ -94,6 +94,29 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate {
     {
         textField.resignFirstResponder()
         return true
+    }
+    
+    @IBAction func changeProfilePicture(_ sender: UIButton) {
+        let image = UIImagePickerController()
+        image.delegate = self
+        image.sourceType = UIImagePickerController.SourceType.photoLibrary
+        image.allowsEditing = false
+        self.present(image, animated: true) {
+            // after complete
+        }
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        // check if possible to convert image (prevent crash)
+        if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            profilePictureImageView.image = image
+        }
+        else {
+            // Error message
+        }
+        
+        // hide controller bc the user has chosen
+        self.dismiss(animated: true, completion: nil)
     }
     
     // MARK: - Navigation
