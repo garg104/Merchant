@@ -20,6 +20,8 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     @IBOutlet weak var logoutButton: UIButton!
     @IBOutlet weak var deleteAccountButton: UIButton!
     
+    var firstName = ""
+    var lastName = ""
     var name = ""
     var username = ""
     var email = ""
@@ -34,16 +36,7 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //round profile picture
-        //self.profilePicture.layer.cornerRadius = self.profilePicture.frame.size.width / 2
-        self.profilePicture.clipsToBounds = true
-        self.profilePicture.layer.borderWidth = 3.0
-        self.profilePicture.layer.borderColor = UIColor.init(red: 118/255, green: 181/255, blue: 77/255, alpha: 1.0).cgColor
-        
         //display user info
-        debugPrint("USERNAME PROF", username)
-        debugPrint("NAME PROF", name)
-        debugPrint("EMAIL PROF", email)
         usernameLabel.text = username
         nameLabel.text = name
         emailLabel.text = email
@@ -52,6 +45,10 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
+        //add border to profile picture
+        self.profilePicture.clipsToBounds = true
+        self.profilePicture.layer.borderWidth = 3.0
+        self.profilePicture.layer.borderColor = UIColor.init(red: 118/255, green: 181/255, blue: 77/255, alpha: 1.0).cgColor
         //round profile picture
         profilePicture.layer.cornerRadius = profilePicture.frame.size.width / 2
         //add underlines to buttons
@@ -140,6 +137,8 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         if (segue.identifier == "toEditProfile") {
             let vc = segue.destination as! EditProfileViewController
             vc.oldUsername = usernameLabel.text!
+            vc.oldFirstName = firstName
+            vc.oldLastName = lastName
         }
         
         if (segue.identifier == "toResetPassword") {

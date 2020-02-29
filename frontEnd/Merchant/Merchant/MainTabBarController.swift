@@ -31,9 +31,10 @@ class MainTabBarController: UITabBarController {
             let profVC = profNavVC.viewControllers[0] as! ProfileViewController
             profVC.username = self.username
             profVC.email = self.email
+            profVC.firstName = self.firstName
+            profVC.lastName = self.lastName
             let fullName = self.firstName + " " + self.lastName
             profVC.name = fullName
-            debugPrint("FULL NAMEEEE:", fullName)
         }
     }
     
