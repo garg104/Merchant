@@ -170,20 +170,23 @@ router.post('/delete', async (req, res) => {
 })
 
 /* update user info */
-router.put('/username', async (req, res) => {
+router.post('/username', async (req, res) => {
   const { username, newUsername } = req.body
   try {
-    //finding the user update the info
-    //here update is a JSON which contains all the info to be updated
-    const exists = await User.findOne({ newUsername })
-    console.log(exists)
-    if (exists == null) {
+    // make sure that the user exists. This will always return true, as the user has to be logged in to call this route.
+    // Thi can be removed, but is there for testing right now.
+    if ((await User.findOne({ username })) == null) {
+      console.log("the user does not exist")
+      res.status(404).json({msg: "Invalid user"})
+    } 
+
+    // Make sure that the newUsername is not alreay in use.
+    const ifExists = await User.findOne({ username: newUsername })
+    if (ifExists == null) { // newUsername does not exist
       const ret = await User.findOneAndUpdate({ username: req.body.username }, { username: req.body.newUsername })
-      console.log(req.body)
-      //sending a response to the user
       res.status(200).json({ updated: { ...req.body.newUsername }, msg: "The user settings have been updated" })
     } else {
-      res.status(409).json({ msg: "Username already exists" })
+      res.status(409).json({ msg: "Username already taken" })
     }
     
   } catch (e) {
