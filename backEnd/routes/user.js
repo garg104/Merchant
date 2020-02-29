@@ -246,11 +246,19 @@ router.post('/forgotPassword', async (req, res) => {
 
     // wait for the sendEmail funtion to return and send a valid response
     try {
-      console.log("here")
       const password = randomstring.generate({
         length: 12,
-        charset: 'alphabetic'
+        charset: 'alphanumeric'
       })
+
+      // make sure that the new password follows the password strength rule.
+      while (password.match(/[A-Z]/g) == null || password.match(/[a-z]/g) == null || password.match(/[0-9]/g) == null) {
+        console.log(password)
+        const password = randomstring.generate({
+          length: 12,
+          charset: 'alphanumeric'
+        })
+      }
 
       // Hashing the password before updating it in the database (check the resources page for more info)
       bcrypt.genSalt(10, (err, salt) => {
