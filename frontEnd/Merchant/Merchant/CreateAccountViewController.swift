@@ -88,11 +88,13 @@ class CreateAccountViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
         
-        
-        // adds underlines in the view
+        //add underlines to the textfields
         addUnderlines()
     }
     

@@ -47,7 +47,7 @@ class MainTabBarController: UITabBarController {
         let details = parameter(username: username)
         
         //request account validation from database
-        AF.request("https://merchant307.herokuapp.com/user/info", method: .post, parameters: details, encoder: URLEncodedFormParameterEncoder.default).responseJSON { response in
+        AF.request(API.URL + "/user/info", method: .post, parameters: details, encoder: URLEncodedFormParameterEncoder.default).responseJSON { response in
             
             //obtain status code returned from request
             let status = (response.response?.statusCode ?? 0)

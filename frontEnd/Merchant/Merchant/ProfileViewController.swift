@@ -34,11 +34,8 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //add underlines to buttons
-        addOverlines()
-        
         //round profile picture
-        self.profilePicture.layer.cornerRadius = self.profilePicture.frame.size.width / 2
+        //self.profilePicture.layer.cornerRadius = self.profilePicture.frame.size.width / 2
         self.profilePicture.clipsToBounds = true
         self.profilePicture.layer.borderWidth = 3.0
         self.profilePicture.layer.borderColor = UIColor.init(red: 118/255, green: 181/255, blue: 77/255, alpha: 1.0).cgColor
@@ -50,6 +47,15 @@ class ProfileViewController: UIViewController, UINavigationControllerDelegate, U
         usernameLabel.text = username
         nameLabel.text = name
         emailLabel.text = email
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
+        //round profile picture
+        profilePicture.layer.cornerRadius = profilePicture.frame.size.width / 2
+        //add underlines to buttons
+        addOverlines()
     }
     
     func addOverlines() {

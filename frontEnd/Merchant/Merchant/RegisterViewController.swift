@@ -60,7 +60,7 @@ class RegisterViewController: UIViewController {
                     // send the OTP to the next page
                     // database of universities
                     
-                    AF.request("https://merchant307.herokuapp.com/user/validate", method: .post, parameters: details, encoder: URLEncodedFormParameterEncoder.default).response { response in
+                    AF.request(API.URL + "/user/validate", method: .post, parameters: details, encoder: URLEncodedFormParameterEncoder.default).response { response in
                         debugPrint(response)
                     }
                 }
@@ -88,7 +88,13 @@ class RegisterViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        addUnderlines() //add underlines to textfields
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
+        //add underlines to the textfields
+        addUnderlines()
     }
     
     func addUnderlines() {
