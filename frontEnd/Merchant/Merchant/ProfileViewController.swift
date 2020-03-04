@@ -76,29 +76,53 @@ class ProfileViewController: UIViewController {
     
 
     @IBAction func deleteAccount(_ sender: UIButton) {
+        // create alert
+        let alert = UIAlertController(title: "Confirm Deletion!", message: "Please confirm if you wish to delete your account", preferredStyle: .alert)
         
-        struct parameter: Encodable {
-            var username: String
-        }
+        // Create Cancel button with action handlder
+        let cancel = UIAlertAction(title: "Cancel",
+                                   style: .cancel,
+                                   handler: { (action) -> Void in
+            // add action if needed
+        })
         
-        let details = parameter(username: usernameLabel.text!)
-        AF.request(API.URL + "/user/delete", method: .post, parameters: details, encoder: URLEncodedFormParameterEncoder.default).responseJSON { response in
-            
-            if (response.response?.statusCode != 200) {
-                // for now very basic FALIURE MESSAGE. WILL NEED TO CHANGE.
-                let alert = UIAlertController(title: "Could Not Delete Account", message: "Your account could not be deleted. Please try again.", preferredStyle: .alert)
-                alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
-                self.present(alert, animated: true)
-            } else {
-                let alert = UIAlertController(title: "Account Deleted", message: "Your account has successfully been deleted", preferredStyle: .alert)
-                //alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
-                self.present(alert, animated: true)
-                
-                self.performSegue(withIdentifier: "unwindAfterDelete", sender: nil)
-            }
-        }
+        // Create Confirm button with action handler
+        let confirm = UIAlertAction(title: "Confirm",
+                                    style: .default,
+                                    handler: { (action) -> Void in
+            self.deleteAccountHandler()
+        })
+
+        // add actions to the alert
+        alert.addAction(confirm)
+        alert.addAction(cancel)
+
+        // display alert
+        self.present(alert, animated: true)
         
-        
+    }
+    
+    func deleteAccountHandler() {
+      struct parameter: Encodable {
+          var username: String
+      }
+      let details = parameter(username: usernameLabel.text!)
+      AF.request(API.URL + "/user/delete", method: .post, parameters: details, encoder: URLEncodedFormParameterEncoder.default).responseJSON { response in
+          
+          if (response.response?.statusCode != 200) {
+              // for now very basic FALIURE MESSAGE. WILL NEED TO CHANGE.
+              let alert = UIAlertController(title: "Could Not Delete Account", message: "Your account could not be deleted. Please try again.", preferredStyle: .alert)
+              alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
+              self.present(alert, animated: true)
+          } else {
+              let alert = UIAlertController(title: "Account Deleted", message: "Your account has successfully been deleted", preferredStyle: .alert)
+              let okDeleteion = UIAlertAction( title: "Ok",
+                                               style: .cancel,
+                                               handler: { (action) -> Void in self.performSegue(withIdentifier: "unwindAfterDelete", sender: nil)})
+              alert.addAction(okDeleteion)
+              self.present(alert, animated: true)
+          }
+      }
     }
     
     // MARK: - Navigation
