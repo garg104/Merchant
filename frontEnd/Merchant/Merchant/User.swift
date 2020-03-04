@@ -17,6 +17,18 @@ struct Constants {
 }
 
 class User: Codable {
+    
+    let firstName: String
+    let lastName: String
+    let username: String
+    // let firstName: String
+
+    init(firstName: String, lastName: String, username: String ) {
+        self.firstName = firstName
+        self.username = username
+        self.lastName = lastName
+    }
+    
     private static var _current: User?
     static var current: User {
         guard let currentUser = _current else {

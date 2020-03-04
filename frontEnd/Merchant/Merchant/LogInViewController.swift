@@ -123,21 +123,26 @@ class LogInViewController: UIViewController {
         ]
         
         AF.request(API.URL + "/user/login", method: .post, parameters: details, encoder: URLEncodedFormParameterEncoder.default, headers: headers).responseJSON { response in
-            
+            // Handle if the password is incorrect and the respose is not a valid token
             let info = response.value
             let JSON = info as! NSDictionary
-            debugPrint("JSON:", JSON["token"]!)
+            //debugPrint(JSON)
+            //debugPrint("JSON:", JSON)
             do {
                 let jwt = try decode(jwt: JSON["token"]! as! String)
+                debugPrint("here2")
                 debugPrint(jwt)
                 debugPrint("here2")
+                debugPrint(jwt.body)
                 debugPrint("here2")
-                debugPrint("here2")
-                debugPrint("here2")
+                //User.setCurrent(jwt.body., writeToUserDefaults: true)
+                debugPrint("here3")
 
+                print(User.current)
             } catch {
                 print("decoding error:", error)
             }
+            
 
             //obtain status code returned from request
             let status = (response.response?.statusCode ?? 0)
