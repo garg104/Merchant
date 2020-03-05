@@ -125,18 +125,53 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, UINaviga
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
-        
+               
         //update oldUsername to have newUsername
         newUsername = editUsernameTextField.text!
-        
+        newLastName = editLastNameTextField.text!
+        newFirstName = editFirstNameTextField.text!
+       
+        if (newUsername == "") {
+            // display an alert
+            let alert = UIAlertController(title: "Empty Field", message: "Please enter a username.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
+            self.present(alert, animated: true)
+        }
+       
         struct parameter: Encodable {
             var username: String
+            var lastName: String
+            var firstName: String
             var newUsername: String
         }
-        
-        let details = parameter(username: oldUsername, newUsername: newUsername)
-        AF.request(API.URL + "/user/username", method: .post, parameters: details, encoder: URLEncodedFormParameterEncoder.default).response { response in
-            debugPrint(response)
+       
+        let details = parameter(username: oldUsername,
+                                lastName: newLastName,
+                                firstName: newFirstName,
+                                newUsername: newUsername)
+       
+       
+        AF.request(API.URL + "/user/updateProfile", method: .put, parameters: details, encoder:    URLEncodedFormParameterEncoder.default).response { response in
+//            debugPrint(response)
+            
+            let validationCode = response.response?.statusCode
+            
+            if (validationCode == 200) { //success
+//                debugPrint("SUCCESS!!!!")
+//                self.performSegue(withIdentifier: "toTabBar", sender: nil)
+            } else if (validationCode == 409) { //username invalid
+                let alert = UIAlertController(title: "Username already taken", message: "Please enter an username which has not been taken already.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
+                self.present(alert, animated: true)
+            } else { //error in database check
+                let alert = UIAlertController(title: "Error", message: "Profile could not be updated. Please try again.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
+                self.present(alert, animated: true)
+            }
+            
+            
+            
+            
         }
         
     }
