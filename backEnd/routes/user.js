@@ -167,6 +167,8 @@ router.post('/delete', async (req, res) => {
 })
 
 
+
+
 /* update user info */
 router.put('/updateProfile', async (req, res) => {
   const { username, lastName, firstName, newUsername } = req.body
@@ -182,7 +184,7 @@ router.put('/updateProfile', async (req, res) => {
     if (newUsername == username) { // the user did not update username
       if (user.lastName != lastName) { // user updated the last name
         const ret = await User.findOneAndUpdate({ username: username }, { lastName: lastName })
-      } 
+      }
       if (user.firstName != firstName) { // user updated the first name
         const ret = await User.findOneAndUpdate({ username: username }, { firstName: firstName })
       } 
@@ -199,10 +201,10 @@ router.put('/updateProfile', async (req, res) => {
       if (ifExists == null) { // newUsername does not exist
         if (user.lastName != lastName) { // user updated the last name
           const ret = await User.findOneAndUpdate({ username: username }, { lastName: lastName })
-        } 
+        }
         if (user.firstName != firstName) { // user updated the first name
           const ret = await User.findOneAndUpdate({ username: username }, { firstName: firstName })
-        } 
+        }
         const ret = await User.findOneAndUpdate({ username: username }, { username: newUsername })
         res.status(200).json({ updated: {
                                           username: newUsername, 
@@ -215,8 +217,8 @@ router.put('/updateProfile', async (req, res) => {
         res.status(409).json({ msg: "Username already taken. Nothing was updated." })
       }
     }
-    
-    
+
+
   } catch (e) {
     //sending an error response
     console.log(e)
