@@ -184,45 +184,43 @@ router.put('/updateProfile', async (req, res) => {
     if (newUsername == username) { // the user did not update username
       if (user.lastName != lastName) { // user updated the last name
         const ret = await User.findOneAndUpdate({ username: username }, { lastName: lastName })
-      } 
+      }
       if (user.firstName != firstName) { // user updated the first name
         const ret = await User.findOneAndUpdate({ username: username }, { firstName: firstName })
-      } 
-      res.status(200).json({ updated: {
-                                        username: newUsername, 
-                                        firstName: firstName, 
-                                        lastName: lastName 
-                                      }, 
-                             msg: "The user settings have been updated" 
-                          })
+      }
+      res.status(200).json({
+        updated: {
+          username: newUsername,
+          firstName: firstName,
+          lastName: lastName
+        },
+        msg: "The user settings have been updated"
+      })
     } else { // the user updated username
       // Make sure that the newUsername is not alreay in use.
       const ifExists = await User.findOne({ username: newUsername })
       if (ifExists == null) { // newUsername does not exist
         if (user.lastName != lastName) { // user updated the last name
           const ret = await User.findOneAndUpdate({ username: username }, { lastName: lastName })
-        } 
+        }
         if (user.firstName != firstName) { // user updated the first name
           const ret = await User.findOneAndUpdate({ username: username }, { firstName: firstName })
-        } 
+        }
         const ret = await User.findOneAndUpdate({ username: username }, { username: newUsername })
-        res.status(200).json({ updated: {
-                                          username: newUsername, 
-                                          firstName: firstName, 
-                                          lastName: lastName 
-                                        }, 
-                               msg: "The user settings have been updated" 
-                              })
+        res.status(200).json({
+          updated: {
+            username: newUsername,
+            firstName: firstName,
+            lastName: lastName
+          },
+          msg: "The user settings have been updated"
+        })
       } else {
         res.status(409).json({ msg: "Username already taken. Nothing was updated." })
       }
     }
-<<<<<<< HEAD
 
-=======
-    
-    
->>>>>>> b3215b6455c7375c253bded5c06d7ba84802c0a8
+
   } catch (e) {
     //sending an error response
     console.log(e)
