@@ -100,6 +100,10 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, UINaviga
         let image = UIImagePickerController()
         image.delegate = self
         image.sourceType = UIImagePickerController.SourceType.photoLibrary
+        if (UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.camera)) {
+            image.sourceType = UIImagePickerController.SourceType.camera
+        }
+            
         image.allowsEditing = false
         self.present(image, animated: true) {
             // after complete
