@@ -119,14 +119,10 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, UINaviga
         self.dismiss(animated: true, completion: nil)
     }
     
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-               
-        //update oldUsername to have newUsername
+    
+    
+    
+    @IBAction func updateProfile(_ sender: Any) {
         newUsername = editUsernameTextField.text!
         newLastName = editLastNameTextField.text!
         newFirstName = editFirstNameTextField.text!
@@ -149,16 +145,22 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, UINaviga
                                 lastName: newLastName,
                                 firstName: newFirstName,
                                 newUsername: newUsername)
-       
+
+//        var success = 0
+
        
         AF.request(API.URL + "/user/updateProfile", method: .put, parameters: details, encoder:    URLEncodedFormParameterEncoder.default).response { response in
-//            debugPrint(response)
+            debugPrint(response)
             
             let validationCode = response.response?.statusCode
             
             if (validationCode == 200) { //success
 //                debugPrint("SUCCESS!!!!")
 //                self.performSegue(withIdentifier: "toTabBar", sender: nil)
+                let alert = UIAlertController(title: "Profile Updated", message: "", preferredStyle: .alert)
+                alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
+                self.present(alert, animated: true)
+//                success = 1
             } else if (validationCode == 409) { //username invalid
                 let alert = UIAlertController(title: "Username already taken", message: "Please enter an username which has not been taken already.", preferredStyle: .alert)
                 alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
@@ -170,11 +172,35 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, UINaviga
             }
             
             
-            
-            
         }
+                
+        //        if (success == 1) {
+        //            segue.destination as! ProfileViewController
+        //        } else {
+        //            segue.destination as! EditProfileViewController
+        //        }
         
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        // Get the new view controller using segue.destination.
+//        // Pass the selected object to the new view controller.
+//
+//        //update oldUsername to have newUsername
+//
+//
+//
+//    }
     
 
 }
