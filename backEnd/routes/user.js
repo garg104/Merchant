@@ -136,48 +136,56 @@ router.post('/login', (req, res) => {
 
 /* Delete user */
 router.post('/delete', async (req, res) => {
+  const { username } = req.body
   try {
-    //getting the fields
-    const { username } = req.body
-    //checking if the client sent a proper response
-    if (username.length == 0) {
-      res.status(404).json({ msg: "The username is empty" })
-      return
+    const user = await User.findOne({ username });
+    if (user == null) {
+      res.status(404).json({ msg: "The user does not exist." })
     }
-    try {
-      const user = await User.findOne({ username });
-      console.log(user)
-      const email = user.email
-      console.log(email)
-      // itterate through the Items and delete the Items if not sold i.e. for sale items.
-      try {
-        const ret = await User.deleteOne({ username })
-      } catch (e) {
-        console.log("in deleteing")
-        console.log(e)
-      }
-      res.status(200).json({ msg: "The specified user was deleted.", username: username })
-    } catch (e) {
-      console.log("here")
-      console.log(e)
-    }
-    //make the call to the database
 
-  } catch (err) {
-    console.log(e)
-    res.status(404).json({ msg: "yeet" })
+    // itterate through the Items and delete the Items if not sold i.e. for sale items.
+    // NEED TO IMPLEMENT
+
+    try {
+      await User.deleteOne(user)
+    } catch (e) {
+      console.log(e)
+      res.status(400).json({ msg: "The account could not be deleted. Please try again." })
+    }
+    const email = user.email
+    try {
+      await sendEmail(generateDeleteAcctMsg(email))
+    } catch (e) {
+      res.status(206).json({ msg: ": The account has been deleted but there was an error sending the confirmation email." })
+    }
+    res.status(200).json({ msg: "The specified user was deleted.", username: username })
+  } catch (e) {
+    res.status(400).json({ msg: "The account could not be deleted. Please try again." })
   }
+  //make the call to the database
+
 })
 
 /* update user info */
 router.put('/username', async (req, res) => {
+  const { username, newUsername } = req.body
   try {
-    //finding the user update the info
-    //here update is a JSON which contains all the info to be updated
-    const ret = await User.findOneAndUpdate({ username: req.body.username }, { username: req.body.newUsername })
-    console.log(req.body)
-    //sending a response to the user
-    res.status(200).json({ updated: { ...req.body.newUsername }, msg: "The user settings have been updated" })
+    // make sure that the user exists. This will always return true, as the user has to be logged in to call this route.
+    // Thi can be removed, but is there for testing right now.
+    if ((await User.findOne({ username })) == null) {
+      console.log("the user does not exist")
+      res.status(404).json({ msg: "Invalid user" })
+    }
+
+    // Make sure that the newUsername is not alreay in use.
+    const ifExists = await User.findOne({ username: newUsername })
+    if (ifExists == null) { // newUsername does not exist
+      const ret = await User.findOneAndUpdate({ username: req.body.username }, { username: req.body.newUsername })
+      res.status(200).json({ updated: { ...req.body.newUsername }, msg: "The user settings have been updated" })
+    } else {
+      res.status(409).json({ msg: "Username already taken" })
+    }
+
   } catch (e) {
     //sending an error response
     console.log(e)
@@ -238,11 +246,19 @@ router.post('/forgotPassword', async (req, res) => {
 
     // wait for the sendEmail funtion to return and send a valid response
     try {
-      console.log("here")
       const password = randomstring.generate({
         length: 12,
-        charset: 'alphabetic'
+        charset: 'alphanumeric'
       })
+
+      // make sure that the new password follows the password strength rule.
+      while (password.match(/[A-Z]/g) == null || password.match(/[a-z]/g) == null || password.match(/[0-9]/g) == null) {
+        console.log(password)
+        const password = randomstring.generate({
+          length: 12,
+          charset: 'alphanumeric'
+        })
+      }
 
       // Hashing the password before updating it in the database (check the resources page for more info)
       bcrypt.genSalt(10, (err, salt) => {
@@ -277,7 +293,6 @@ router.post('/forgotPassword', async (req, res) => {
     res.status(417).json({ msg: "Please try again!" })
   }
 })
-
 
 /* resets the password of a user */
 router.post('/resetPassword', async (req, res) => {

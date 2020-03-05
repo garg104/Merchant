@@ -90,9 +90,14 @@ class LogInViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         
-        addUnderlines() //add underlines to textfields
+        //addUnderlines() //add underlines to textfields
         forgotPasswordButton.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0) //add forgotPasswordButton border
         
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        addUnderlines()
     }
     
     //function to validate user logging in
@@ -110,7 +115,7 @@ class LogInViewController: UIViewController {
         let details = parameter(username: usernameTextField.text!, password: passwordTextField.text!)
         
         //request account validation from database
-        AF.request("https://merchant307.herokuapp.com/user/login", method: .post, parameters: details, encoder: URLEncodedFormParameterEncoder.default).responseJSON { response in
+        AF.request(API.URL + "/user/login", method: .post, parameters: details, encoder: URLEncodedFormParameterEncoder.default).responseJSON { response in
             
             //obtain status code returned from request
             let status = (response.response?.statusCode ?? 0)

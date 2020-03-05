@@ -9,22 +9,115 @@
 import UIKit
 import Alamofire
 
-class EditProfileViewController: UIViewController {
+class EditProfileViewController: UIViewController, UITextFieldDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
 
+    @IBOutlet weak var profilePictureImageView: UIImageView!
     @IBOutlet weak var editUsernameTextField: UITextField!
+    @IBOutlet weak var editFirstNameTextField: UITextField!
+    @IBOutlet weak var editLastNameTextField: UITextField!
+    
     var oldUsername = ""
     var newUsername = ""
+    var oldFirstName = ""
+    var newFirstName = ""
+    var oldLastName = ""
+    var newLastName = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         
+        self.editUsernameTextField.delegate = self
+        self.editFirstNameTextField.delegate = self
+        self.editLastNameTextField.delegate = self
+        
+        //adjust view for typing
+        NotificationCenter.default.addObserver(self, selector: #selector(EditProfileViewController.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(EditProfileViewController.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+        //populate textfields with current info
         editUsernameTextField.text = oldUsername
+        editFirstNameTextField.text = oldFirstName
+        editLastNameTextField.text = oldLastName
         
     }
     
-
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
+        //add border to profile picture
+        self.profilePictureImageView.clipsToBounds = true
+        self.profilePictureImageView.layer.borderWidth = 3.0
+        self.profilePictureImageView.layer.borderColor = UIColor.init(red: 118/255, green: 181/255, blue: 77/255, alpha: 1.0).cgColor
+        //round profile picture
+        profilePictureImageView.layer.cornerRadius = profilePictureImageView.frame.size.width / 2
+        //add underlines to textfields
+        addUnderlines()
+    }
+    
+    func addUnderlines() {
+        //create underline for username and password textfields
+        let underLine = CALayer()
+        underLine.frame = CGRect(x: 0, y: editUsernameTextField.frame.height - 2, width: editUsernameTextField.frame.width, height: 2)
+        underLine.backgroundColor = UIColor.init(red: 0/255, green: 0/255, blue: 0/255, alpha: 1.0).cgColor
+        let underLine2 = CALayer()
+        underLine2.frame = CGRect(x: 0, y: editFirstNameTextField.frame.height - 2, width: editFirstNameTextField.frame.width, height: 2)
+        underLine2.backgroundColor = UIColor.init(red: 0/255, green: 0/255, blue: 0/255, alpha: 1.0).cgColor
+        let underLine3 = CALayer()
+        underLine3.frame = CGRect(x: 0, y: editLastNameTextField.frame.height - 2, width: editLastNameTextField.frame.width, height: 2)
+        underLine3.backgroundColor = UIColor.init(red: 0/255, green: 0/255, blue: 0/255, alpha: 1.0).cgColor
+        editUsernameTextField.borderStyle = .none
+        editUsernameTextField.layer.addSublayer(underLine)
+        editFirstNameTextField.borderStyle = .none
+        editFirstNameTextField.layer.addSublayer(underLine2)
+        editLastNameTextField.borderStyle = .none
+        editLastNameTextField.layer.addSublayer(underLine3)
+    }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        /*guard let userInfo = notification.userInfo else {return}
+        guard let keyboardSize = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {return}
+        let keyboardFrame = keyboardSize.cgRectValue*/
+        if self.view.frame.origin.y == 0 {
+            self.view.frame.origin.y -= 50
+        }
+    }
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+        if self.view.frame.origin.y != 0 {
+            self.view.frame.origin.y = 0
+        }
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool
+    {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    @IBAction func changeProfilePicture(_ sender: UIButton) {
+        let image = UIImagePickerController()
+        image.delegate = self
+        image.sourceType = UIImagePickerController.SourceType.photoLibrary
+        image.allowsEditing = false
+        self.present(image, animated: true) {
+            // after complete
+        }
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        // check if possible to convert image (prevent crash)
+        if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            profilePictureImageView.image = image
+        }
+        else {
+            // Error message
+        }
+        
+        // hide controller bc the user has chosen
+        self.dismiss(animated: true, completion: nil)
+    }
     
     // MARK: - Navigation
 
@@ -42,7 +135,7 @@ class EditProfileViewController: UIViewController {
         }
         
         let details = parameter(username: oldUsername, newUsername: newUsername)
-        AF.request("https://merchant307.herokuapp.com/user/username", method: .put, parameters: details, encoder: URLEncodedFormParameterEncoder.default).response { response in
+        AF.request(API.URL + "/user/username", method: .post, parameters: details, encoder: URLEncodedFormParameterEncoder.default).response { response in
             debugPrint(response)
         }
         

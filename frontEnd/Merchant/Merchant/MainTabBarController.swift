@@ -31,9 +31,10 @@ class MainTabBarController: UITabBarController {
             let profVC = profNavVC.viewControllers[0] as! ProfileViewController
             profVC.username = self.username
             profVC.email = self.email
+            profVC.firstName = self.firstName
+            profVC.lastName = self.lastName
             let fullName = self.firstName + " " + self.lastName
             profVC.name = fullName
-            debugPrint("FULL NAMEEEE:", fullName)
         }
     }
     
@@ -47,7 +48,7 @@ class MainTabBarController: UITabBarController {
         let details = parameter(username: username)
         
         //request account validation from database
-        AF.request("https://merchant307.herokuapp.com/user/info", method: .post, parameters: details, encoder: URLEncodedFormParameterEncoder.default).responseJSON { response in
+        AF.request(API.URL + "/user/info", method: .post, parameters: details, encoder: URLEncodedFormParameterEncoder.default).responseJSON { response in
             
             //obtain status code returned from request
             let status = (response.response?.statusCode ?? 0)
