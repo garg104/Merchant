@@ -63,10 +63,10 @@ class LogInViewController: UIViewController {
         validateFields() { (validCode) in
             let validationCode = validCode
             
-            debugPrint("VALIDATION CODE:", validationCode)
+//            debugPrint("VALIDATION CODE:", validationCode)
             
             if (validationCode == 0) { //success
-                debugPrint("SUCCESS!!!!")
+//                debugPrint("SUCCESS!!!!")
                 self.performSegue(withIdentifier: "toTabBar", sender: nil)
             } else if (validationCode == 1) { //username invalid
                 let alert = UIAlertController(title: "Invalid Username", message: "Please enter a valid username", preferredStyle: .alert)
@@ -123,25 +123,6 @@ class LogInViewController: UIViewController {
         ]
         
         AF.request(API.URL + "/user/login", method: .post, parameters: details, encoder: URLEncodedFormParameterEncoder.default, headers: headers).responseJSON { response in
-            // Handle if the password is incorrect and the respose is not a valid token
-            let info = response.value
-            let JSON = info as! NSDictionary
-            //debugPrint(JSON)
-            //debugPrint("JSON:", JSON)
-            do {
-                let jwt = try decode(jwt: JSON["token"]! as! String)
-                debugPrint("here2")
-                debugPrint(jwt)
-                debugPrint("here2")
-                debugPrint(jwt.body)
-                debugPrint("here2")
-                //User.setCurrent(jwt.body., writeToUserDefaults: true)
-                debugPrint("here3")
-
-                print(User.current)
-            } catch {
-                print("decoding error:", error)
-            }
             
 
             //obtain status code returned from request
@@ -161,6 +142,22 @@ class LogInViewController: UIViewController {
                     break
                 case 200:
                     debugPrint("Login Successful")
+                    // handling JWT
+                    let info = response.value
+                    let JSON = info as! NSDictionary
+                    do {
+                        let jwt = try decode(jwt: JSON["token"]! as! String)
+                        debugPrint(jwt)
+                        debugPrint(jwt.body)
+                        let user = User.init(firstName: jwt.body["firstName"] as! String,
+                                             lastName: jwt.body["lastName"] as! String,
+                                             username: jwt.body["username"] as! String)
+                        User.setCurrent(user, writeToUserDefaults: true)
+                        debugPrint(User.current.firstName);
+                    } catch {
+                        print("decoding error:", error)
+                    }
+                                
                     validationCode = 0 //success
                     completion(validationCode)
                     break
