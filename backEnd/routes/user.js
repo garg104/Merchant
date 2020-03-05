@@ -253,20 +253,20 @@ router.post('/forgotPassword', async (req, res) => {
   const { username } = req.body
   console.log(username)
   try {
-    const user = await User.findOne({username})
+    const user = await User.findOne({ username })
     // the user does not exist
     console.log(user)
     if (user == null) {
-      res.status(404).json({msg: "User does not exist!"})
+      res.status(404).json({ msg: "User does not exist!" })
     }
 
     // find the email of the user from the database 
     const email = user.email
     console.log(email)
-    
+
     // make sure that the user email is in the database.
     if (email.length == 0) {
-      res.status(409).json({msg: "User email could not be found!"})
+      res.status(409).json({ msg: "User email could not be found!" })
     }
 
     let firstName = ""
@@ -297,14 +297,14 @@ router.post('/forgotPassword', async (req, res) => {
         if (err) { throw err }
         //hashing the password using the salt generated
         bcrypt.hash(password, salt, async (err, hash) => {
-        //error handling
-          if (err) { 
-            throw err 
+          //error handling
+          if (err) {
+            throw err
           }
           // updating the password in the database
           try {
             console.log(hash)
-            await User.findOneAndUpdate({username}, {password: hash})
+            await User.findOneAndUpdate({ username }, { password: hash })
             //console.log(User.findOne({username}))
           } catch (e) {
             //logging errors
@@ -321,7 +321,7 @@ router.post('/forgotPassword', async (req, res) => {
     }
   } catch (e) {
     console.log(e)
-    res.status(417).json({msg: "Please try again!"})
+    res.status(417).json({ msg: "Please try again!" })
   }
 })
 
@@ -330,20 +330,20 @@ router.post('/resetPassword', async (req, res) => {
   const { username, password, newPassword } = req.body
   console.log(username)
   try {
-    const user = await User.findOne({username})
+    const user = await User.findOne({ username })
     // the user does not exist
     console.log(user)
     if (user == null) {
-      res.status(404).json({msg: "User does not exist!"})
+      res.status(404).json({ msg: "User does not exist!" })
     }
 
     // find the email of the user from the database 
     const email = user.email
     console.log(email)
-    
+
     // make sure that the user email is in the database.
     if (email.length == 0) {
-      res.status(409).json({msg: "User email could not be found!"})
+      res.status(409).json({ msg: "User email could not be found!" })
     }
 
     let firstName = ""
@@ -368,19 +368,19 @@ router.post('/resetPassword', async (req, res) => {
           // Hashing the password before updating it in the database (check the resources page for more info)
           bcrypt.genSalt(10, (err, salt) => {
             //error checking
-            if (err) { 
-              throw err 
+            if (err) {
+              throw err
             }
             //hashing the password using the salt generated
             bcrypt.hash(newPassword, salt, async (err, hash) => {
               //error handling
-              if (err) { 
-                throw err 
+              if (err) {
+                throw err
               }
               // updating the password in the database
               try {
                 console.log(hash)
-                await User.findOneAndUpdate({username}, {password: hash})
+                await User.findOneAndUpdate({ username }, { password: hash })
                 //console.log(User.findOne({username}))
               } catch (e) {
                 //logging errors
@@ -401,11 +401,8 @@ router.post('/resetPassword', async (req, res) => {
     }
   } catch (e) {
     console.log(e)
-    res.status(417).json({msg: "Please try again!"})
+    res.status(417).json({ msg: "Please try again!" })
   }
-}) 
-
-
-
+})
 
 module.exports = router;
