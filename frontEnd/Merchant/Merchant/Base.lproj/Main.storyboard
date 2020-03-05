@@ -760,7 +760,7 @@
                                     <color key="titleColor" red="0.46274509800000002" green="0.70980392160000005" blue="0.30196078430000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 </state>
                                 <connections>
-                                    <action selector="updateProfile:" destination="ns2-i9-mbE" eventType="touchUpInside" id="syc-jK-ReI"/>
+                                    <action selector="updateProfile:" destination="ns2-i9-mbE" eventType="touchUpInside" id="jcg-HT-58M"/>
                                 </connections>
                             </button>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Jha-G8-XZ1">
