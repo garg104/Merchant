@@ -9,7 +9,7 @@
 import UIKit
 import Alamofire
 
-class OTPViewController: UIViewController {
+class OTPViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var resendOTP: UIButton!
     
@@ -64,16 +64,26 @@ class OTPViewController: UIViewController {
         // Do any additional setup after loading the view.
         print(otp)
         resendOTP.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0) //add forgotPasswordButton border
+        
+        OTPTextField.delegate = self;
     }
     
    
-    
     // pass the data to the next view controller
     override func prepare(for segue: UIStoryboardSegue, sender: (Any)?) {
         let vc = segue.destination as! CreateAccountViewController
         vc.firstName = self.firstName
         vc.lastName = self.lastName
         vc.email = self.email
+    }
+    
+    //restrict textfield to only 4 characters
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let maxLength = 4
+        let currentString: NSString = textField.text! as NSString
+        let newString: NSString =
+            currentString.replacingCharacters(in: range, with: string) as NSString
+        return newString.length <= maxLength
     }
     
     /*

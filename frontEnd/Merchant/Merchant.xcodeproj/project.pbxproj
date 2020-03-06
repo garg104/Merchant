@@ -36,6 +36,8 @@
 		6CFBD1E623F7664E009F492F /* OTPViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CFBD1E523F7664E009F492F /* OTPViewController.swift */; };
 		6CFBD1E823F76695009F492F /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CFBD1E723F76695009F492F /* CreateAccountViewController.swift */; };
 		755F14CF240AFF3700FD309E /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755F14CE240AFF3600FD309E /* User.swift */; };
+		7504A268241293C800299AAE /* Pods_Merchant.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F88B7190818A5EECEE76F94 /* Pods_Merchant.framework */; };
+		7504A269241293C800299AAE /* Pods_Merchant.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4F88B7190818A5EECEE76F94 /* Pods_Merchant.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		7571D7DF23F351EF00C46379 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7571D7DE23F351EF00C46379 /* AppDelegate.swift */; };
 		7571D7E123F351EF00C46379 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7571D7E023F351EF00C46379 /* SceneDelegate.swift */; };
 		7571D7E323F351EF00C46379 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7571D7E223F351EF00C46379 /* WelcomeViewController.swift */; };
@@ -46,7 +48,6 @@
 		7571D80123F351F000C46379 /* MerchantUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7571D80023F351F000C46379 /* MerchantUITests.swift */; };
 		757F2D97240086AF00B7054F /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 757F2D96240086AF00B7054F /* API.swift */; };
 		88CD861BD9537BF10202E4C5 /* Pods_Merchant_MerchantUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22068D62C0BE1BEC8BD7C016 /* Pods_Merchant_MerchantUITests.framework */; };
-		EA164D8A9060FEF585B5B095 /* Pods_Merchant.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F88B7190818A5EECEE76F94 /* Pods_Merchant.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +66,20 @@
 			remoteInfo = Merchant;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		7504A267241293A000299AAE /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				7504A269241293C800299AAE /* Pods_Merchant.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		1554FFAD23FAE2C50066A4F3 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -102,6 +117,7 @@
 		6CF50D1323F4ECCF008A306D /* LogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
 		6CFBD1E523F7664E009F492F /* OTPViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OTPViewController.swift; sourceTree = "<group>"; };
 		6CFBD1E723F76695009F492F /* CreateAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccountViewController.swift; sourceTree = "<group>"; };
+		7504A264241293A000299AAE /* Alamofire.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Alamofire.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		755F14CE240AFF3600FD309E /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		7571D7DB23F351EF00C46379 /* Merchant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Merchant.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7571D7DE23F351EF00C46379 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -126,7 +142,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EA164D8A9060FEF585B5B095 /* Pods_Merchant.framework in Frameworks */,
+				7504A268241293C800299AAE /* Pods_Merchant.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -256,6 +272,7 @@
 		DCB558BB8AA280E3FFE9ECBC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7504A264241293A000299AAE /* Alamofire.framework */,
 				4F88B7190818A5EECEE76F94 /* Pods_Merchant.framework */,
 				22068D62C0BE1BEC8BD7C016 /* Pods_Merchant_MerchantUITests.framework */,
 				81826771851C55C82DB8E48E /* Pods_MerchantTests.framework */,
@@ -275,6 +292,7 @@
 				7571D7D823F351EF00C46379 /* Frameworks */,
 				7571D7D923F351EF00C46379 /* Resources */,
 				3D8A1CD20342D05A6CA057B0 /* [CP] Embed Pods Frameworks */,
+				7504A267241293A000299AAE /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -710,6 +728,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = BWNBBDW27S;
 				INFOPLIST_FILE = Merchant/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -729,6 +748,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = BWNBBDW27S;
 				INFOPLIST_FILE = Merchant/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

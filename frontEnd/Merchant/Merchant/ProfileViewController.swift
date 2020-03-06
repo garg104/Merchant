@@ -27,9 +27,26 @@ class ProfileViewController: UIViewController {
     var email = ""
     
     @IBAction func unwindToProfileViewController(segue: UIStoryboardSegue) {
-        if let senderVC = segue.source as? EditProfileViewController {
-            username = senderVC.newUsername
-            usernameLabel.text = senderVC.newUsername
+        
+        if (segue.identifier == "saveEditUnwind") {
+        
+            if let senderVC = segue.source as? EditProfileViewController {
+              
+                // check the return values from editViewController and update accordingly
+                if (senderVC.newFirstName != "") {
+                    firstName = senderVC.newFirstName
+                }
+                if (senderVC.newLastName != "") {
+                    lastName = senderVC.newLastName
+                }
+                if (senderVC.newUsername != "" && senderVC.newUsername != senderVC.oldUsername) {
+                    username = senderVC.newUsername
+                }
+                
+                // set the text in the labels
+                usernameLabel.text = username
+                nameLabel.text = firstName + " " + lastName
+            }
         }
     }
     
@@ -125,9 +142,7 @@ class ProfileViewController: UIViewController {
       }
     }
     
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
+   
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         //do anything that needs to be done before logging out here
         

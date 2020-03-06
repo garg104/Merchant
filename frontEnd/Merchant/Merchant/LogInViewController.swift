@@ -17,7 +17,6 @@ class LogInViewController: UIViewController {
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var forgotPasswordButton: UIButton!
     
-
     @IBAction func forgetPassword(_ sender: Any) {
         if (usernameTextField.text == "") {
             let alert = UIAlertController(title: "Empty Field", message: "Please enter the username to get a temporary password", preferredStyle: .alert)
