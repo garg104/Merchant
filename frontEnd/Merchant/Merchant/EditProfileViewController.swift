@@ -96,6 +96,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, UINaviga
     }
     
     @IBAction func changeProfilePicture(_ sender: UIButton) {
+        // MAKE SURE IT WORKS ON DEVICE PROPERLY
         let image = UIImagePickerController()
         image.delegate = self
         image.sourceType = UIImagePickerController.SourceType.photoLibrary
