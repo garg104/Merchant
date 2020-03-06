@@ -27,22 +27,26 @@ class ProfileViewController: UIViewController {
     var email = ""
     
     @IBAction func unwindToProfileViewController(segue: UIStoryboardSegue) {
-        if let senderVC = segue.source as? EditProfileViewController {
-          
-            // check the return values from editViewController and update accordingly
-            if (senderVC.newFirstName != "") {
-                firstName = senderVC.newFirstName
+        
+        if (segue.identifier == "saveEditUnwind") {
+        
+            if let senderVC = segue.source as? EditProfileViewController {
+              
+                // check the return values from editViewController and update accordingly
+                if (senderVC.newFirstName != "") {
+                    firstName = senderVC.newFirstName
+                }
+                if (senderVC.newLastName != "") {
+                    lastName = senderVC.newLastName
+                }
+                if (senderVC.newUsername != "" && senderVC.newUsername != senderVC.oldUsername) {
+                    username = senderVC.newUsername
+                }
+                
+                // set the text in the labels
+                usernameLabel.text = username
+                nameLabel.text = firstName + " " + lastName
             }
-            if (senderVC.newLastName != "") {
-                lastName = senderVC.newLastName
-            }
-            if (senderVC.newUsername != "" && senderVC.newUsername != senderVC.oldUsername) {
-                username = senderVC.newUsername
-            }
-            
-            // set the text in the labels
-            usernameLabel.text = username
-            nameLabel.text = firstName + " " + lastName
         }
     }
     
