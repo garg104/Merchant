@@ -118,6 +118,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, UINaviga
             self.profilePicture = image
             let imgJPG: NSData = self.profilePicture.jpegData(compressionQuality: 0.5)! as NSData
             debugPrint("Size of Image: \(imgJPG.length) bytes")
+            debugPrint(imgJPG.description)
         }
         else {
             // Error message
