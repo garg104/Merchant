@@ -136,34 +136,34 @@ router.post('/login', (req, res) => {
 
 /* Delete user */
 router.post('/delete', async (req, res) => {
-    const { username } = req.body    
-    try {
-      const user = await User.findOne({ username });
-      if (user == null) {
-        res.status(404).json({ msg: "The user does not exist." })
-      }
-
-      // itterate through the Items and delete the Items if not sold i.e. for sale items.
-      // NEED TO IMPLEMENT
-
-      try {
-          await User.deleteOne(user)
-      } catch (e) {
-          console.log(e)
-          res.status(400).json({ msg: "The account could not be deleted. Please try again."})
-      }
-      const email = user.email
-      try {
-        await sendEmail(generateDeleteAcctMsg(email))
-      } catch (e) {
-        res.status(206).json({ msg: ": The account has been deleted but there was an error sending the confirmation email." })
-      }
-      res.status(200).json({ msg: "The specified user was deleted.", username: username })
-    } catch (e) {
-      res.status(400).json({ msg: "The account could not be deleted. Please try again."})
+  const { username } = req.body
+  try {
+    const user = await User.findOne({ username });
+    if (user == null) {
+      res.status(404).json({ msg: "The user does not exist." })
     }
-    //make the call to the database
-    
+
+    // itterate through the Items and delete the Items if not sold i.e. for sale items.
+    // NEED TO IMPLEMENT
+
+    try {
+      await User.deleteOne(user)
+    } catch (e) {
+      console.log(e)
+      res.status(400).json({ msg: "The account could not be deleted. Please try again." })
+    }
+    const email = user.email
+    try {
+      await sendEmail(generateDeleteAcctMsg(email))
+    } catch (e) {
+      res.status(206).json({ msg: ": The account has been deleted but there was an error sending the confirmation email." })
+    }
+    res.status(200).json({ msg: "The specified user was deleted.", username: username })
+  } catch (e) {
+    res.status(400).json({ msg: "The account could not be deleted. Please try again." })
+  }
+  //make the call to the database
+
 })
 
 
@@ -178,8 +178,8 @@ router.put('/updateProfile', async (req, res) => {
     const user = await User.findOne({ username })
     if (user == null) {
       console.log("the user does not exist")
-      res.status(404).json({msg: "Invalid user"})
-    } 
+      res.status(404).json({ msg: "Invalid user" })
+    }
 
     if (newUsername == username) { // the user did not update username
       if (user.lastName != lastName) { // user updated the last name
@@ -187,14 +187,15 @@ router.put('/updateProfile', async (req, res) => {
       }
       if (user.firstName != firstName) { // user updated the first name
         const ret = await User.findOneAndUpdate({ username: username }, { firstName: firstName })
-      } 
-      res.status(200).json({ updated: {
-                                        username: newUsername, 
-                                        firstName: firstName, 
-                                        lastName: lastName 
-                                      }, 
-                             msg: "The user settings have been updated" 
-                          })
+      }
+      res.status(200).json({
+        updated: {
+          username: newUsername,
+          firstName: firstName,
+          lastName: lastName
+        },
+        msg: "The user settings have been updated"
+      })
     } else { // the user updated username
       // Make sure that the newUsername is not alreay in use.
       const ifExists = await User.findOne({ username: newUsername })
@@ -206,13 +207,14 @@ router.put('/updateProfile', async (req, res) => {
           const ret = await User.findOneAndUpdate({ username: username }, { firstName: firstName })
         }
         const ret = await User.findOneAndUpdate({ username: username }, { username: newUsername })
-        res.status(200).json({ updated: {
-                                          username: newUsername, 
-                                          firstName: firstName, 
-                                          lastName: lastName 
-                                        }, 
-                               msg: "The user settings have been updated" 
-                              })
+        res.status(200).json({
+          updated: {
+            username: newUsername,
+            firstName: firstName,
+            lastName: lastName
+          },
+          msg: "The user settings have been updated"
+        })
       } else {
         res.status(409).json({ msg: "Username already taken. Nothing was updated." })
       }
