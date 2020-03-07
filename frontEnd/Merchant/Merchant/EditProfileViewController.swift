@@ -160,8 +160,9 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, UINaviga
             AF.upload(multipartFormData: {multipartFormData in
                 multipartFormData.append(self.profilePicture!.pngData()!, withName: "data", mimeType: "image/png")
                 }, to: API.URL + "/user/picture").responseJSON { response in
-                debugPrint(response)
-            }
+                    debugPrint("PICTURE UPLOAD!!!")
+                    debugPrint(response)
+                }
         }
 
        
