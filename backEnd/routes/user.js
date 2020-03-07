@@ -241,7 +241,7 @@ router.post('/info', async (req, res) => {
 })
 
 /* upload the user profile */
-router.post('/picture', upload.single("file"), async (req, res) => {
+router.post('/picture', upload.single("data"), async (req, res) => {
   const { username } = req.body
   const { id } = req.file
   try {
