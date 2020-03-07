@@ -157,17 +157,21 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, UINaviga
 
         
         if (self.profilePicture != nil) {
+            //uploading the profile picture
+            
+            //include content type as multipart data to be recognised by multer
             let headers: HTTPHeaders = [
                 "Content-type": "multipart/form-data",
                 "Accept": "application/json"
             ]
+            
+            //upload request to the backend
             AF.upload(multipartFormData: {multipartFormData in
                 multipartFormData.append(self.profilePicture.jpegData(compressionQuality: 0.5)!, withName: "data", fileName: "\(self.oldUsername).jpg", mimeType: "image/jpeg")
             }, to: API.URL + "/user/picture", headers: headers).responseJSON { response in
-                    debugPrint("PICTURE UPLOAD!!!")
                     debugPrint(response)
-                }
-        }
+                } //end response handler
+        } //end if
 
        
         AF.request(API.URL + "/user/updateProfile", method: .put, parameters: details, encoder:    URLEncodedFormParameterEncoder.default).response { response in
