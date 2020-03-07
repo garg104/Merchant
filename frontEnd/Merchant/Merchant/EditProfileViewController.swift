@@ -161,7 +161,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, UINaviga
             //            let url = try! URLRequest(url: "__API___FILE___ENDPOINT__", method: .post, headers: headers)
             AF.upload(multipartFormData: {multipartFormData in
                 multipartFormData.append(self.profilePicture.jpegData(compressionQuality: 0.5)!, withName: "data", mimeType: "image/jpg")
-                }, to: "localhost:5000" + "/user/picture").responseJSON { response in
+            }, to: API.URL + "/user/picture").responseJSON { response in
                     debugPrint("PICTURE UPLOAD!!!")
                     debugPrint(response)
                 }

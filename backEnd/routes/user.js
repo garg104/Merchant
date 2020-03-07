@@ -242,11 +242,13 @@ router.post('/info', async (req, res) => {
 
 /* upload the user profile */
 router.post('/picture', upload.single("data"), async (req, res) => {
-  const { username } = req.body
-  const { id } = req.file
   try {
+    const { username } = req.body
+    const { id } = req.file
     const ret = await User.findOneAndUpdate({ username }, { picture: id })
   } catch (e) {
+    console.log(e)
+    console.log(req)
     res.status(404).json({ msg: "User profile couldn't be updated" })
   }
   res.status(201).json({ file: req.file, msg: "User profile picture has been updated" })
