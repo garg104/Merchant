@@ -18,6 +18,7 @@ export const config = () => {
                         filename: filename,
                         bucketName: 'profile-pictures'
                     };
+                    console.log("resolving")
                     resolve(fileInfo);
                 });
             });

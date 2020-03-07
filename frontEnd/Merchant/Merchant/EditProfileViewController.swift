@@ -116,6 +116,8 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, UINaviga
         if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             profilePictureImageView.image = image
             self.profilePicture = image
+            let imgJPG: NSData = self.profilePicture.jpegData(compressionQuality: 0.5)! as NSData
+            debugPrint("Size of Image: \(imgJPG.length) bytes")
         }
         else {
             // Error message
@@ -158,8 +160,8 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, UINaviga
             //            let headers = ["Content-Type":"multipart/form-data", "Accept":"application/json"]
             //            let url = try! URLRequest(url: "__API___FILE___ENDPOINT__", method: .post, headers: headers)
             AF.upload(multipartFormData: {multipartFormData in
-                multipartFormData.append(self.profilePicture!.pngData()!, withName: "data", mimeType: "image/png")
-                }, to: API.URL + "/user/picture").responseJSON { response in
+                multipartFormData.append(self.profilePicture.jpegData(compressionQuality: 0.5)!, withName: "data", mimeType: "image/jpg")
+                }, to: "localhost:5000" + "/user/picture").responseJSON { response in
                     debugPrint("PICTURE UPLOAD!!!")
                     debugPrint(response)
                 }
