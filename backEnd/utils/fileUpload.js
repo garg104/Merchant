@@ -23,5 +23,5 @@ export const config = () => {
         }
     });
 
-    return multer({ storage });
+    return multer({ storage, limits: { fieldSize: 25 * 1024 * 1024 } });
 }
