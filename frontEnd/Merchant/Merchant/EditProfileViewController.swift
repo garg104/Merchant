@@ -22,6 +22,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, UINaviga
     var newFirstName = ""
     var oldLastName = ""
     var newLastName = ""
+    var profilePicture: UIImage!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -114,6 +115,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, UINaviga
         // check if possible to convert image (prevent crash)
         if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             profilePictureImageView.image = image
+            self.profilePicture = image
         }
         else {
             // Error message
@@ -151,6 +153,16 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, UINaviga
                                 newUsername: newUsername)
 
 //        var success = 0
+        
+        if (self.profilePicture != nil) {
+            //            let headers = ["Content-Type":"multipart/form-data", "Accept":"application/json"]
+            //            let url = try! URLRequest(url: "__API___FILE___ENDPOINT__", method: .post, headers: headers)
+            AF.upload(multipartFormData: {multipartFormData in
+                multipartFormData.append(self.profilePicture!.pngData()!, withName: "data", mimeType: "image/png")
+                }, to: API.URL + "/user/picture").responseJSON { response in
+                debugPrint(response)
+            }
+        }
 
        
         AF.request(API.URL + "/user/updateProfile", method: .put, parameters: details, encoder:    URLEncodedFormParameterEncoder.default).response { response in
@@ -159,11 +171,11 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, UINaviga
             let validationCode = response.response?.statusCode
             
             if (validationCode == 200) { //success
-//                debugPrint("SUCCESS!!!!")
+                debugPrint("SUCCESS!!!!")
                 self.performSegue(withIdentifier: "saveEditUnwind", sender: nil)
-                let alert = UIAlertController(title: "Profile Updated", message: "", preferredStyle: .alert)
-                alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
-                self.present(alert, animated: true)
+//                let alert = UIAlertController(title: "Profile Updated", message: "", preferredStyle: .alert)
+//                alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
+//                self.present(alert, animated: true)
 //                success = 1
             } else if (validationCode == 409) { //username invalid
                 let alert = UIAlertController(title: "Username already taken", message: "Please enter an username which has not been taken already.", preferredStyle: .alert)
@@ -174,8 +186,6 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, UINaviga
                 alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
                 self.present(alert, animated: true)
             }
-            
-            
         }
                 
         //        if (success == 1) {
