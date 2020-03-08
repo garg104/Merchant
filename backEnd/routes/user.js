@@ -416,10 +416,31 @@ router.post('/resetPassword', async (req, res) => {
 
 /* route for getting the list of users based on the search query */
 router.get('/search', async (req, res, next) => {
-  //TODO: expand the username searching to searching based on last name and first name too
   const { query } = req.body
-  let users = await User.find({ "username": { $regex: `^[^ \t\n]*${query}[^ \t\n]*$`, $options: 'i' } })
+  try {
+    //looking up the users by matching the search query on first name, last name, and username fields
+    let usersByUserName = await User.find({ "username": { $regex: `^[^ \t\n]*${query}[^ \t\n]*$`, $options: 'i' } })
+    let usersByFirstName = await User.find({ "firstName": { $regex: `^[^ \t\n]*${query}[^ \t\n]*$`, $options: 'i' } })
+    let usersByLastName = await User.find({ "lastName": { $regex: `^[^ \t\n]*${query}[^ \t\n]*$`, $options: 'i' } })
 
+    //getting rid of duplicate matchings
+    let mySet = new Set()
+
+    //add all the elements of the three arrays to the set
+    usersByFirstName.forEach((u) => mySet.add(u))
+    usersByLastName.forEach((u) => mySet.add(u))
+    usersByUserName.forEach((u) => mySet.add(u))
+
+    //push all the unique elements in the set to the final array
+    let finalUserList = [];
+    mySet.forEach(u => { finalUserList.push(u) })
+
+    //send an appropriate success reponse to the client
+    res.status(200).json({ users: finalUserList, msg: "Users successfully listed" })
+  } catch (e) {
+    console.log(e)
+    res.status(404).json({ users: [], msg: "No user found" })
+  } //end try-catch
 })
 
 
