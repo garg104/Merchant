@@ -1151,6 +1151,33 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5xU-tL-7ov">
+                                <rect key="frame" x="16" y="309" width="104" height="39"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WSg-Jf-Maj">
+                                <rect key="frame" x="16" y="507" width="240" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <viewLayoutGuide key="contentLayoutGuide" id="G5X-9E-Aah"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="evr-Yd-iF6"/>
+                            </scrollView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Photos" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e3A-8W-kJr">
+                                <rect key="frame" x="16" y="455" width="70" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f0x-c6-5Xh">
+                                <rect key="frame" x="26" y="643" width="104" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Choose photos">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
@@ -1171,9 +1198,13 @@
                     </view>
                     <connections>
                         <outlet property="Description" destination="fop-0Z-5Wr" id="iwY-fo-3SC"/>
+                        <outlet property="choosePhotosButton" destination="f0x-c6-5Xh" id="ZEC-Mj-5oT"/>
+                        <outlet property="descriptionLabel" destination="5xU-tL-7ov" id="Ibj-Pe-NoA"/>
                         <outlet property="editDescriptionTextView" destination="fop-0Z-5Wr" id="ZhP-QB-gk1"/>
                         <outlet property="editNameTextField" destination="20S-jH-a25" id="qCV-yU-LGe"/>
                         <outlet property="editPriceTextField" destination="20S-jH-a25" id="BMw-Cl-Qu7"/>
+                        <outlet property="picturesScrollView" destination="WSg-Jf-Maj" id="B2c-ic-uIl"/>
+                        <outlet property="postLabel" destination="1jA-CH-ADK" id="dSB-Hv-DoB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2bJ-6C-4dN" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

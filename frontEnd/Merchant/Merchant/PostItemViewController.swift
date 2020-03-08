@@ -10,9 +10,13 @@ import UIKit
 
 class PostItemViewController: UIViewController {
 
+    @IBOutlet weak var descriptionLabel: UILabel!
+    @IBOutlet weak var postLabel: UILabel!
     @IBOutlet weak var editNameTextField: UITextField!
     @IBOutlet weak var editPriceTextField: UITextField!
     @IBOutlet weak var editDescriptionTextView: UITextView!
+    @IBOutlet weak var photosScrollView: UIScrollView!
+    @IBOutlet weak var choosePhotosButton: UIButton!
     
     
     override func viewDidLoad() {
