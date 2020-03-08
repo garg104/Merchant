@@ -414,20 +414,26 @@ router.post('/resetPassword', async (req, res) => {
   }
 })
 
+//middleware to authenticate the access token in protected routes
 async function authenticate(req, res, next) {
   console.log(`authenticating the request`)
+
+  //call to passport for parsing the bearer token
   passport.authenticate('jwt', { session: false }, (err, user, info) => {
     if (err) {
+      //passport error
       res.status(400).json({ msg: 'There was an autthentication error' });
       return
     }
 
     if (!user) {
+      //token is invalid
       console.log(`invalid token`)
       res.status(404).json({ msg: 'Invalid Token.' })
       return
     }
-    //if authentication successfull
+
+    //if authentication is successfull, append the user data to res
     res.userInfo = user
     next()
   })(req, res, next)
