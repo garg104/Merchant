@@ -2,20 +2,25 @@
 //  PostItemViewController.swift
 //  Merchant
 //
-//  Created by Drew Keirn on 3/5/20.
+//  Created by Drew Keirn on 3/8/20.
 //  Copyright © 2020 CS307 Team 4. All rights reserved.
 //
 
 import UIKit
 
 class PostItemViewController: UIViewController {
-    @IBOutlet var Description: UITextView!
+
+    @IBOutlet weak var editNameTextField: UITextField!
+    @IBOutlet weak var editPriceTextField: UITextField!
+    @IBOutlet weak var editDescriptionTextView: UITextView!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        Description!.layer.borderWidth = 1
-        Description!.layer.borderColor = UIColor.black.cgColor
+
         // Do any additional setup after loading the view.
+        editDescriptionTextView!.layer.borderWidth = 1
+        editDescriptionTextView!.layer.borderColor = UIColor.black.cgColor
     }
     
 
