@@ -414,7 +414,16 @@ router.post('/resetPassword', async (req, res) => {
   }
 })
 
-//middleware to authenticate the access token in protected routes
+/* route for getting the list of users based on the search query */
+router.get('/search', async (req, res, next) => {
+  //TODO: expand the username searching to searching based on last name and first name too
+  const { query } = req.body
+  let users = await User.find({ "username": { $regex: `^[^ \t\n]*${query}[^ \t\n]*$`, $options: 'i' } })
+
+})
+
+
+/* middleware to authenticate the access token in protected routes */
 async function authenticate(req, res, next) {
   console.log(`authenticating the request`)
 
