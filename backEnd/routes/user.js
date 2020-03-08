@@ -166,25 +166,60 @@ router.post('/delete', async (req, res) => {
 
 })
 
+
+
+
 /* update user info */
-router.put('/username', async (req, res) => {
-  const { username, newUsername } = req.body
+router.put('/updateProfile', async (req, res) => {
+  const { username, lastName, firstName, newUsername } = req.body
   try {
     // make sure that the user exists. This will always return true, as the user has to be logged in to call this route.
-    // Thi can be removed, but is there for testing right now.
-    if ((await User.findOne({ username })) == null) {
+    // This can be removed, but is there for testing right now.
+    const user = await User.findOne({ username })
+    if (user == null) {
       console.log("the user does not exist")
       res.status(404).json({ msg: "Invalid user" })
     }
 
-    // Make sure that the newUsername is not alreay in use.
-    const ifExists = await User.findOne({ username: newUsername })
-    if (ifExists == null) { // newUsername does not exist
-      const ret = await User.findOneAndUpdate({ username: req.body.username }, { username: req.body.newUsername })
-      res.status(200).json({ updated: { ...req.body.newUsername }, msg: "The user settings have been updated" })
-    } else {
-      res.status(409).json({ msg: "Username already taken" })
+    if (newUsername == username) { // the user did not update username
+      if (user.lastName != lastName) { // user updated the last name
+        const ret = await User.findOneAndUpdate({ username: username }, { lastName: lastName })
+      }
+      if (user.firstName != firstName) { // user updated the first name
+        const ret = await User.findOneAndUpdate({ username: username }, { firstName: firstName })
+      }
+      res.status(200).json({
+        updated: {
+          username: newUsername,
+          firstName: firstName,
+          lastName: lastName
+        },
+        msg: "The user settings have been updated"
+      })
+    } else { // the user updated username
+      // Make sure that the newUsername is not alreay in use.
+      const ifExists = await User.findOne({ username: newUsername })
+      if (ifExists == null) { // newUsername does not exist
+        if (user.lastName != lastName) { // user updated the last name
+          const ret = await User.findOneAndUpdate({ username: username }, { lastName: lastName })
+        }
+        if (user.firstName != firstName) { // user updated the first name
+          const ret = await User.findOneAndUpdate({ username: username }, { firstName: firstName })
+        }
+        const ret = await User.findOneAndUpdate({ username: username }, { username: newUsername })
+        res.status(200).json({
+          updated: {
+            username: newUsername,
+            firstName: firstName,
+            lastName: lastName
+          },
+          msg: "The user settings have been updated"
+        })
+      } else {
+        res.status(409).json({ msg: "Username already taken. Nothing was updated." })
+      }
     }
+
 
   } catch (e) {
     //sending an error response
@@ -206,12 +241,17 @@ router.post('/info', async (req, res) => {
 })
 
 /* upload the user profile */
-router.post('/picture', upload.single("file"), async (req, res) => {
-  const { username } = req.body
-  const { id } = req.file
+router.post('/picture', upload.single("data"), async (req, res) => {
   try {
+    //getting the fields
+    const { id, originalname } = req.file
+    let username = originalname.substring(0, originalname.lastIndexOf('.'))
+
+    //update the user schema with the image id
     const ret = await User.findOneAndUpdate({ username }, { picture: id })
   } catch (e) {
+    //logging errors
+    console.log(e)
     res.status(404).json({ msg: "User profile couldn't be updated" })
   }
   res.status(201).json({ file: req.file, msg: "User profile picture has been updated" })
@@ -373,5 +413,30 @@ router.post('/resetPassword', async (req, res) => {
     res.status(417).json({ msg: "Please try again!" })
   }
 })
+
+//middleware to authenticate the access token in protected routes
+async function authenticate(req, res, next) {
+  console.log(`authenticating the request`)
+
+  //call to passport for parsing the bearer token
+  passport.authenticate('jwt', { session: false }, (err, user, info) => {
+    if (err) {
+      //passport error
+      res.status(400).json({ msg: 'There was an autthentication error' });
+      return
+    }
+
+    if (!user) {
+      //token is invalid
+      console.log(`invalid token`)
+      res.status(404).json({ msg: 'Invalid Token.' })
+      return
+    }
+
+    //if authentication is successfull, append the user data to res
+    res.userInfo = user
+    next()
+  })(req, res, next)
+}
 
 module.exports = router;

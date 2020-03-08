@@ -10,6 +10,7 @@ export const config = () => {
             return new Promise((resolve, reject) => {
                 crypto.randomBytes(16, (err, buf) => {
                     if (err) {
+                        console.log(err)
                         return reject(err);
                     }
                     const filename = buf.toString('hex') + path.extname(file.originalname);
@@ -23,5 +24,5 @@ export const config = () => {
         }
     });
 
-    return multer({ storage });
+    return multer({ limits: { fieldSize: 1024 * 1024 * 15 }, storage });
 }

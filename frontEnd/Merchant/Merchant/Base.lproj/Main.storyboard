@@ -737,7 +737,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zJN-CZ-zMx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="imn-mi-caM" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="5944.8000000000002" y="2301.7241379310344"/>
+            <point key="canvasLocation" x="5945" y="2302"/>
         </scene>
         <!--Edit Profile View Controller-->
         <scene sceneID="FDc-t5-9Fg">
@@ -760,7 +760,7 @@
                                     <color key="titleColor" red="0.46274509800000002" green="0.70980392160000005" blue="0.30196078430000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 </state>
                                 <connections>
-                                    <segue destination="5OR-G5-nfV" kind="unwind" identifier="saveEditUnwind" unwindAction="unwindToProfileViewControllerWithSegue:" id="zsn-YQ-TjH"/>
+                                    <action selector="updateProfile:" destination="ns2-i9-mbE" eventType="touchUpInside" id="jcg-HT-58M"/>
                                 </connections>
                             </button>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Jha-G8-XZ1">
@@ -851,6 +851,7 @@
                         <outlet property="editLastNameTextField" destination="f29-NE-sed" id="teV-hk-JaX"/>
                         <outlet property="editUsernameTextField" destination="wKs-PJ-hZS" id="u83-hA-ygQ"/>
                         <outlet property="profilePictureImageView" destination="Jha-G8-XZ1" id="sPC-zy-Ju4"/>
+                        <segue destination="5OR-G5-nfV" kind="unwind" identifier="saveEditUnwind" unwindAction="unwindToProfileViewControllerWithSegue:" id="bXf-5y-cbT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EoE-oK-8Bg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
