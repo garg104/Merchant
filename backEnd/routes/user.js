@@ -414,4 +414,23 @@ router.post('/resetPassword', async (req, res) => {
   }
 })
 
+async function authenticate(req, res, next) {
+  console.log(`authenticating the request`)
+  passport.authenticate('jwt', { session: false }, (err, user, info) => {
+    if (err) {
+      res.status(400).json({ msg: 'There was an autthentication error' });
+      return
+    }
+
+    if (!user) {
+      console.log(`invalid token`)
+      res.status(404).json({ msg: 'Invalid Token.' })
+      return
+    }
+    //if authentication successfull
+    res.userInfo = user
+    next()
+  })(req, res, next)
+}
+
 module.exports = router;
