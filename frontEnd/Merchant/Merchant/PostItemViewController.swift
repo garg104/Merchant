@@ -19,9 +19,7 @@ class PostItemViewController: UIViewController {
     @IBOutlet weak var choosePhotosButton: UIButton!
     
     var name = ""
-    var price = ""
-    var description = ""
-    
+    var price = ""    
     
     override func viewDidLoad() {
         super.viewDidLoad()
