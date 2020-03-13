@@ -70,6 +70,32 @@ class ResetPasswordViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
+    override func viewWillLayoutSubviews() {
+           super.viewWillLayoutSubviews()
+          
+           //add underlines to textfields
+           addUnderlines()
+       }
+    
+    func addUnderlines() {
+        //create underline for username and password textfields
+        let underLine = CALayer()
+        underLine.frame = CGRect(x: 0, y: password.frame.height - 2, width: password.frame.width, height: 2)
+        underLine.backgroundColor = UIColor.init(red: 0/255, green: 0/255, blue: 0/255, alpha: 1.0).cgColor
+        let underLine2 = CALayer()
+        underLine2.frame = CGRect(x: 0, y: newPassword.frame.height - 2, width: newPassword.frame.width, height: 2)
+        underLine2.backgroundColor = UIColor.init(red: 0/255, green: 0/255, blue: 0/255, alpha: 1.0).cgColor
+        let underLine3 = CALayer()
+        underLine3.frame = CGRect(x: 0, y: newPasswordConfirm.frame.height - 2, width: newPasswordConfirm.frame.width, height: 2)
+        underLine3.backgroundColor = UIColor.init(red: 0/255, green: 0/255, blue: 0/255, alpha: 1.0).cgColor
+        password.borderStyle = .none
+        password.layer.addSublayer(underLine)
+        newPassword.borderStyle = .none
+        newPassword.layer.addSublayer(underLine2)
+        newPasswordConfirm.borderStyle = .none
+        newPasswordConfirm.layer.addSublayer(underLine3)
+    }
+    
 
     
     // MARK: - Navigation
