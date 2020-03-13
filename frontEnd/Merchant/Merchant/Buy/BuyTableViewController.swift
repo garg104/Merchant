@@ -9,6 +9,9 @@
 import UIKit
 
 class BuyTableViewController: UITableViewController {
+    
+    //data structures
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,6 +21,11 @@ class BuyTableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        
+        let searchController = UISearchController(searchResultsController: nil) // Search Controller
+        navigationItem.hidesSearchBarWhenScrolling = false
+        navigationItem.searchController = searchController
+        
     }
 
     // MARK: - Table view data source
