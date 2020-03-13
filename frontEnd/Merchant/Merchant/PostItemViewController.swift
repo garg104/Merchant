@@ -18,13 +18,20 @@ class PostItemViewController: UIViewController {
     @IBOutlet weak var photosScrollView: UIScrollView!
     @IBOutlet weak var choosePhotosButton: UIButton!
     
+    var name = ""
+    var price = ""
+    var description = ""
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
+        // add border to description textView
         editDescriptionTextView!.layer.borderWidth = 1
         editDescriptionTextView!.layer.borderColor = UIColor.black.cgColor
+        
     }
     
 

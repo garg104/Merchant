@@ -1175,7 +1175,7 @@
                                 <rect key="frame" x="26" y="643" width="104" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Choose photos">
-                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <color key="titleColor" red="0.46274509800000002" green="0.70980392160000005" blue="0.30196078430000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 </state>
                             </button>
                         </subviews>
@@ -1203,6 +1203,7 @@
                         <outlet property="editDescriptionTextView" destination="fop-0Z-5Wr" id="ZhP-QB-gk1"/>
                         <outlet property="editNameTextField" destination="20S-jH-a25" id="qCV-yU-LGe"/>
                         <outlet property="editPriceTextField" destination="20S-jH-a25" id="BMw-Cl-Qu7"/>
+                        <outlet property="photosScrollView" destination="WSg-Jf-Maj" id="qBg-Ro-4LK"/>
                         <outlet property="picturesScrollView" destination="WSg-Jf-Maj" id="B2c-ic-uIl"/>
                         <outlet property="postLabel" destination="1jA-CH-ADK" id="dSB-Hv-DoB"/>
                     </connections>
