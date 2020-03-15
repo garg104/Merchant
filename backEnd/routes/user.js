@@ -285,12 +285,11 @@ router.get('/picture/:username', async (req, res) => {
             //coalesce the chunks into single file data
             let fileData = []
             chunks.forEach((chunk) => {
-              //push the data in base64 encoded format
+              //push the data to the array in base64 encoded string format
               fileData.push(chunk.data.toString('base64'))
             })
           }
         })
-
     } //end if
   } catch (e) {
     //logging errors
