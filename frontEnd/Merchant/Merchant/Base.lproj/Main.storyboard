@@ -904,15 +904,15 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="sellCell" rowHeight="87" id="EyY-3h-Gir" customClass="SellTableViewCell" customModule="Merchant" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="375" height="87"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="sellCell" rowHeight="95" id="EyY-3h-Gir" customClass="SellTableViewCell" customModule="Merchant" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="375" height="95"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="EyY-3h-Gir" id="PRV-KN-63k">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="87"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="95"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GSt-TC-EeA">
-                                            <rect key="frame" x="292" y="41" width="67" height="35"/>
+                                            <rect key="frame" x="292" y="49" width="67" height="35"/>
                                             <fontDescription key="fontDescription" name="Poppins-SemiBold" family="Poppins" pointSize="16"/>
                                             <state key="normal" title="Remove">
                                                 <color key="titleColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -920,8 +920,8 @@
                                         </button>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="GSt-TC-EeA" firstAttribute="trailing" secondItem="PRV-KN-63k" secondAttribute="trailingMargin" id="E6z-Fl-w4h"/>
-                                        <constraint firstItem="GSt-TC-EeA" firstAttribute="bottom" secondItem="PRV-KN-63k" secondAttribute="bottomMargin" id="hDp-13-161"/>
+                                        <constraint firstItem="GSt-TC-EeA" firstAttribute="trailing" secondItem="PRV-KN-63k" secondAttribute="trailingMargin" id="bho-fI-qcx"/>
+                                        <constraint firstItem="GSt-TC-EeA" firstAttribute="bottom" secondItem="PRV-KN-63k" secondAttribute="bottomMargin" id="gjp-zy-6ta"/>
                                     </constraints>
                                 </tableViewCellContentView>
                             </tableViewCell>

@@ -8,6 +8,14 @@
 
 import UIKit
 
+extension BuyTableViewController: UISearchBarDelegate {
+  func searchBar(_ searchBar: UISearchBar,
+      selectedScopeButtonIndexDidChange selectedScope: Int) {
+    let category = "Title"
+    //filterContentForSearchText(searchBar.text!, category: category)
+  }
+}
+
 class BuyTableViewController: UITableViewController {
     
     //data structures
@@ -25,6 +33,7 @@ class BuyTableViewController: UITableViewController {
         let searchController = UISearchController(searchResultsController: nil) // Search Controller
         navigationItem.hidesSearchBarWhenScrolling = false
         navigationItem.searchController = searchController
+        searchController.searchBar.scopeButtonTitles = ["Item", "User"]
         
     }
 
@@ -53,6 +62,8 @@ class BuyTableViewController: UITableViewController {
 
         return cell
     }
+    
+    
     
 
     /*
