@@ -166,9 +166,6 @@ router.post('/delete', async (req, res) => {
 
 })
 
-
-
-
 /* update user info */
 router.put('/updateProfile', async (req, res) => {
   const { username, lastName, firstName, newUsername } = req.body
@@ -487,7 +484,7 @@ async function getFiles(req, res) {
       } else {
         const imageURI = parseFileData(chunks)
         //send the image data to the client
-        res.status(200).json({ msg: "File successfully downloaded", imageURI: imageURI })
+        res.status(200).send(imageURI);
       } //end if
     })
 }
