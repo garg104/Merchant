@@ -288,7 +288,13 @@ router.get('/picture/:username', async (req, res) => {
               //push the data to the array in base64 encoded string format
               fileData.push(chunk.data.toString('base64'))
             })
-          }
+
+            //convert the data to imageURI
+            const imageURI = 'data:' + chunks[0].contentType + ';base64,' + fileData.join('')
+
+            //send the image data to the client
+            res.status(200).json({ msg: "Image successfully downloaded", imageURI: imageURI })
+          } //end if
         })
     } //end if
   } catch (e) {
