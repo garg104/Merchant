@@ -5,7 +5,7 @@ const bcrypt = require('bcryptjs')
 const User = require('../models/User')
 const express = require('express');
 const router = express.Router();
-import { config, getFileSchemas } from '../utils/fileHandling'
+import { config, getProfilePictureSchemas, parseFileData } from '../utils/fileHandling'
 const upload = config()
 const randomstring = require('../node_modules/randomstring')
 
@@ -258,13 +258,14 @@ router.post('/picture', upload.single("data"), async (req, res) => {
 })
 
 /* getting the picture of the user from the database */
-router.get('/picture/:username', async (req, res) => {
+router.get('/picture/:username', async (req, res, next) => {
   //get the name of the user
   const { username } = req.params
 
   try {
     //fetching the fileId from the user schema
     const user = await User.findOne({ username: username })
+    if (!user) { throw new Error("User not found") }
     const fileId = user.picture
     if (!fileId) {
       //if the user doesn't have a profile picture
@@ -272,37 +273,20 @@ router.get('/picture/:username', async (req, res) => {
       res.status(400).json({ msg: "No profile picture found" })
     } else {
       //get the file from the fileChunks and fileMetadata
-      const { fileChunks } = getFileSchemas();
+      const { fileChunks } = getProfilePictureSchemas();
 
-      //retreiving chunks from the database and sorting them
-      fileChunks.find({ files_id: fileId })
-        .sort({ n: 1 }).toArray((err, chunks) => {
-          if (err) {
-            //error handling
-            console.log(err)
-            return res.status(406).json({ msg: "Download error" })
-          } else {
-            //coalesce the chunks into single file data
-            let fileData = []
-            chunks.forEach((chunk) => {
-              //push the data to the array in base64 encoded string format
-              fileData.push(chunk.data.toString('base64'))
-            })
+      //appending variables to req for next middleware call
+      req.fileChunks = fileChunks
+      req.fileId = fileId
 
-            //convert the data to imageURI
-            const imageURI = 'data:image/jpeg' + ';base64, ' + fileData.join('')
-
-            //send the image data to the client
-            res.status(200).json({ msg: "Image successfully downloaded", imageURI: imageURI })
-          } //end if
-        })
+      //calling the next middleware
+      next()
     } //end if
   } catch (e) {
     //logging errors
-    console.log(e)
     res.status(404).json({ msg: "User not found" })
   } //end try-catch
-})
+}, getFiles)
 
 /* check if the user exists and send a recovery email. */
 router.post('/forgotPassword', async (req, res) => {
@@ -490,6 +474,23 @@ router.get('/search', async (req, res, next) => {
   } //end try-catch
 })
 
+/* middleware to get the image from the database */
+async function getFiles(req, res) {
+  const { fileId, fileChunks } = req
+  //retreiving chunks from the database and sorting them
+  fileChunks.find({ files_id: fileId })
+    .sort({ n: 1 }).toArray((err, chunks) => {
+      if (err) {
+        //error handling
+        console.log(err)
+        return res.status(406).json({ msg: "File Download error" })
+      } else {
+        const imageURI = parseFileData(chunks)
+        //send the image data to the client
+        res.status(200).json({ msg: "File successfully downloaded", imageURI: imageURI })
+      } //end if
+    })
+}
 
 /* middleware to authenticate the access token in protected routes */
 async function authenticate(req, res, next) {

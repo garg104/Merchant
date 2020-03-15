@@ -46,9 +46,26 @@ export const downloadConfig = (db) => {
 /**
  * Export the schemas obtained from config function
  */
-export const getFileSchemas = () => {
+export const getProfilePictureSchemas = () => {
     return {
         fileMetadata,
         fileChunks
     }
+}
+
+/**
+ * Function to parse the image data
+ * To base64 format
+ */
+export const parseFileData = (fileChunks) => {
+    //coalesce the chunks into single file data
+    let fileData = []
+    fileChunks.forEach((chunk) => {
+        //push the data to the array in base64 encoded string format
+        fileData.push(chunk.data.toString('base64'))
+    })
+    //convert the data to base64 encoded imageURI
+    const imageURI = 'data:image/jpeg' + ';base64, ' + fileData.join('')
+
+    return imageURI
 }
