@@ -290,7 +290,7 @@ router.get('/picture/:username', async (req, res) => {
             })
 
             //convert the data to imageURI
-            const imageURI = 'data:' + chunks[0].contentType + ';base64,' + fileData.join('')
+            const imageURI = 'data:image/jpeg' + ';base64, ' + fileData.join('')
 
             //send the image data to the client
             res.status(200).json({ msg: "Image successfully downloaded", imageURI: imageURI })
