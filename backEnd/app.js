@@ -1,3 +1,5 @@
+import { downloadConfig } from './utils/fileHandling'
+
 require('dotenv').config()
 
 const express = require('express');
@@ -20,15 +22,17 @@ mongoose.connect(process.env.DB_CONNECTION, { useNewUrlParser: true, useUnifiedT
     console.log("connected to the database")
 })
 
-// //Add the file upload settings
+//Add the file upload settings
 let gfs;
 const db = mongoose.connection
 db.once('open', () => {
+    //grid-fs settings
     gfs = Grid(db.db, mongoose.mongo);
     gfs.collection('profile-pictures')
+
+    //file-download setup
+    downloadConfig(db)
 })
-// const storageSettings = require('./utils/uploadFile')
-// export const upload = multer({ storageSettings });
 
 //setup passport for JWT authentication
 app.use(passport.initialize())

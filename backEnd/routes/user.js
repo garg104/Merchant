@@ -5,7 +5,7 @@ const bcrypt = require('bcryptjs')
 const User = require('../models/User')
 const express = require('express');
 const router = express.Router();
-import { config } from '../utils/fileUpload'
+import { config, getFileSchemas } from '../utils/fileHandling'
 const upload = config()
 const randomstring = require('../node_modules/randomstring')
 
@@ -243,7 +243,7 @@ router.post('/info', async (req, res) => {
 /* upload the user profile */
 router.post('/picture', upload.single("data"), async (req, res) => {
   try {
-    //getting the fields
+    //getting the fields from the file
     const { id, originalname } = req.file
     let username = originalname.substring(0, originalname.lastIndexOf('.'))
 
@@ -253,8 +253,50 @@ router.post('/picture', upload.single("data"), async (req, res) => {
     //logging errors
     console.log(e)
     res.status(404).json({ msg: "User profile couldn't be updated" })
-  }
+  } //end try-catch
   res.status(201).json({ file: req.file, msg: "User profile picture has been updated" })
+})
+
+/* getting the picture of the user from the database */
+router.get('/picture/:username', async (req, res) => {
+  //get the name of the user
+  const { username } = req.params
+
+  try {
+    //fetching the fileId from the user schema
+    const user = await User.findOne({ username: username })
+    const fileId = user.picture
+    if (!fileId) {
+      //if the user doesn't have a profile picture
+      console.log("No profile picture found");
+      res.status(400).json({ msg: "No profile picture found" })
+    } else {
+      //get the file from the fileChunks and fileMetadata
+      const { fileChunks } = getFileSchemas();
+
+      //retreiving chunks from the database and sorting them
+      fileChunks.find({ files_id: fileId })
+        .sort({ n: 1 }).toArray((err, chunks) => {
+          if (err) {
+            //error handling
+            console.log(err)
+            return res.status(406).json({ msg: "Download error" })
+          } else {
+            //coalesce the chunks into single file data
+            let fileData = []
+            chunks.forEach((chunk) => {
+              //push the data in base64 encoded format
+              fileData.push(chunk.data.toString('base64'))
+            })
+          }
+        })
+
+    } //end if
+  } catch (e) {
+    //logging errors
+    console.log(e)
+    res.status(404).json({ msg: "User not found" })
+  } //end try-catch
 })
 
 /* check if the user exists and send a recovery email. */
