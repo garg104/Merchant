@@ -14,6 +14,7 @@ class BuyDetailViewController: UIViewController {
     var itemDescription = "test description"
     var itemPrice = ""
     var itemImage = ""
+    var itemSeller = ""
     
     @IBOutlet weak var itemImageView: UIImageView!
     @IBOutlet weak var itemTitleLabel: UILabel!
@@ -29,9 +30,12 @@ class BuyDetailViewController: UIViewController {
         navigationItem.title = itemTitle
         itemPriceLabel.text = itemPrice
         itemDescriptionTextView.text = itemDescription
-        
     }
     
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        contactSellerButton.titleLabel?.text = "Contact " + itemSeller
+    }
 
     /*
     // MARK: - Navigation

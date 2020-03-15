@@ -121,6 +121,7 @@ class BuyTableViewController: UITableViewController {
             itemDetailViewController.itemTitle = selectedItemCell.itemTitleLabel.text!
             itemDetailViewController.itemDescription = ""
             itemDetailViewController.itemPrice = selectedItemCell.itemPriceLabel.text!
+            itemDetailViewController.itemSeller = selectedItemCell.userNameLabel.text!
         }
         
     }
