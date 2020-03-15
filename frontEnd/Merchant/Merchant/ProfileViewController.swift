@@ -57,6 +57,9 @@ class ProfileViewController: UIViewController {
         usernameLabel.text = username
         nameLabel.text = name
         emailLabel.text = email
+        
+        //display the profile picture
+        profilePictureHandler()
     }
     
     override func viewWillLayoutSubviews() {
@@ -117,6 +120,28 @@ class ProfileViewController: UIViewController {
         // display alert
         self.present(alert, animated: true)
         
+    }
+    
+    func profilePictureHandler() {
+        AF.request(API.URL + "/user/picture/\(self.username)", method: .get).responseJSON { response in
+            if (response.response?.statusCode != 200) {
+                //render default image
+            } else {
+                //request successful
+                let encodedImageString = (response.value as! NSDictionary)["imageURI"]
+                debugPrint(response)
+                //parsing the base64 encoded string into image data
+                let imageData = Data(base64Encoded: encodedImageString as! String)
+                if (imageData != nil) {
+                    //assigning the image to the global variable
+                    self.profilePicture.image = UIImage(data: imageData!)
+                    debugPrint("The profile picture has been downloaded")
+                } else {
+                    //TODO: render default image
+                    debugPrint("The profile picture downloaded but couldn't be parsed")
+                } //end if
+            } //end if
+        } //request
     }
     
     func deleteAccountHandler() {
