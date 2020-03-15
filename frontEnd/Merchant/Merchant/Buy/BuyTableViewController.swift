@@ -8,17 +8,13 @@
 
 import UIKit
 
-extension BuyTableViewController: UISearchBarDelegate {
-  func searchBar(_ searchBar: UISearchBar,
-      selectedScopeButtonIndexDidChange selectedScope: Int) {
-    let category = "Title"
-    //filterContentForSearchText(searchBar.text!, category: category)
-  }
-}
-
 class BuyTableViewController: UITableViewController {
     
     //data structures
+    var images = ["", "", ""]
+    var titles = ["item 1", "item 2", "item 3"]
+    var usernames = ["userA", "userB", "userC"]
+    var prices = ["$10.00", "$7.00", "$16.00"]
     
 
     override func viewDidLoad() {
@@ -46,7 +42,7 @@ class BuyTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 5
+        return titles.count
     }
 
     
@@ -55,11 +51,10 @@ class BuyTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "itemCell", for: indexPath) as! BuyTableViewCell
 
         // Configure the cell...
-        cell.itemTitleLabel.text = "item \(indexPath.row)"
-        cell.itemPriceLabel.text = "$0.00"
-        cell.userNameLabel.text = "Domenic Conversa"
+        cell.itemTitleLabel.text = titles[indexPath.row]
+        cell.itemPriceLabel.text = prices[indexPath.row]
+        cell.userNameLabel.text = usernames[indexPath.row]
         
-
         return cell
     }
     
