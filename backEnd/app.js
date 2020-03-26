@@ -13,6 +13,7 @@ const multer = require('multer')
 
 const indexRouter = require('./routes/index');
 const userRouter = require('./routes/user');
+const itemsRouter = require('./routes/items');
 const mongoose = require('mongoose')
 
 const app = express();
@@ -49,6 +50,7 @@ app.use(cookieParser());
 //router integration
 app.use('/', indexRouter);
 app.use('/user', userRouter);
+app.use('/items', itemsRouter);
 
 //error handling
 app.use((req, res, next) => {
