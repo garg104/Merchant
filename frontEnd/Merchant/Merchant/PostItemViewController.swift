@@ -7,19 +7,20 @@
 //
 
 import UIKit
+import Alamofire
 
 class PostItemViewController: UIViewController {
 
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var postLabel: UILabel!
-    @IBOutlet weak var editNameTextField: UITextField!
-    @IBOutlet weak var editPriceTextField: UITextField!
-    @IBOutlet weak var editDescriptionTextView: UITextView!
+    @IBOutlet weak var nameTextField: UITextField!
+    @IBOutlet weak var priceTextField: UITextField!
+    @IBOutlet weak var descriptionTextView: UITextView!
     @IBOutlet weak var photosScrollView: UIScrollView!
     @IBOutlet weak var choosePhotosButton: UIButton!
+    @IBOutlet weak var doneButton: UIButton!
     
-    var name = ""
-    var price = ""    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,10 +28,53 @@ class PostItemViewController: UIViewController {
         // Do any additional setup after loading the view.
         
         // add border to description textView
-        editDescriptionTextView!.layer.borderWidth = 1
-        editDescriptionTextView!.layer.borderColor = UIColor.black.cgColor
+        descriptionTextView!.layer.borderWidth = 1
+        descriptionTextView!.layer.borderColor = UIColor.black.cgColor
         
     }
+    
+    @IBAction func postItem(_ sender: UIButton, completion: @escaping (_ validCode: Int)->()) {
+        
+        // extract fields
+        struct parameters: Encodable {
+            var userID = 0
+            var name = ""
+            var desc = ""
+            var price = ""
+            var photos = 0
+            var category = ""
+            var isSold = false
+            var university = "Purdue University"
+        }
+        
+        let details = parameters(name: nameTextField.text!,
+                                 desc: descriptionTextView.text!,
+                                 price: priceTextField.text!)
+        
+        // make request
+        AF.request(API.URL + "/postItem",
+                   method: .post,
+                   parameters: details,
+                   encoder: URLEncodedFormParameterEncoder.default).response {response in
+                    
+                    let status = (response.response?.statusCode ?? 0)
+                    
+                    if (status != 0) {
+                        switch status {
+                        case 500: // error
+                            completion(status)
+                            break
+                        case 201: // success
+                            completion(status)
+                            break
+                        default:
+                            completion(status)
+                            break
+                        }
+                    }
+        }.resume()
+    }
+    
     
 
     /*

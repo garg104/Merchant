@@ -1178,6 +1178,16 @@
                                     <color key="titleColor" red="0.46274509800000002" green="0.70980392160000005" blue="0.30196078430000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 </state>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vyp-o6-iPB">
+                                <rect key="frame" x="289" y="54" width="37" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Done">
+                                    <color key="titleColor" red="0.46274509800000002" green="0.70980392160000005" blue="0.30196078430000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
+                                <connections>
+                                    <action selector="postItem:completion:" destination="0Oo-6G-bG6" eventType="touchUpInside" id="TBS-FU-KUx"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
@@ -1200,6 +1210,8 @@
                         <outlet property="Description" destination="fop-0Z-5Wr" id="iwY-fo-3SC"/>
                         <outlet property="choosePhotosButton" destination="f0x-c6-5Xh" id="ZEC-Mj-5oT"/>
                         <outlet property="descriptionLabel" destination="5xU-tL-7ov" id="Ibj-Pe-NoA"/>
+                        <outlet property="descriptionTextView" destination="fop-0Z-5Wr" id="UA9-eu-vcx"/>
+                        <outlet property="doneButton" destination="Vyp-o6-iPB" id="cXl-6g-ecJ"/>
                         <outlet property="editDescriptionTextView" destination="fop-0Z-5Wr" id="ZhP-QB-gk1"/>
                         <outlet property="editNameTextField" destination="20S-jH-a25" id="qCV-yU-LGe"/>
                         <outlet property="editPriceTextField" destination="20S-jH-a25" id="BMw-Cl-Qu7"/>
