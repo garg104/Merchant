@@ -1,23 +1,32 @@
 require('dotenv').config()
+import { config, getProfilePictureSchemas } from '../utils/fileHandling'
 const express = require('express');
 const router = express.Router();
 const Item = require('../models/Items')
 const User = require('../models/User')
+let upload = config('item-pictures')
 
 /**
  * this routes posts the items in the database
  * This is a temp route written to make the item databse so that I(chirayu) can write the get items route. 
  * This route is to be modified and finalized by Drew Keirn  
  */
-router.post('/postItem', async (req, res) => {
-  const { userID, title, description, price, picture, category, isSold, university } = req.body
+router.post('/postItem', upload.array("data"), async (req, res) => {
+  const { userID, title, description, price, category, isSold, university } = req.body
+
+  //get the ids of all the pictures saved
+  let picture = []
+  req.files.forEach(file => picture.push(file.id))
+
   try {
     //create new item in the Database
     const item = new Item({ userID, title, description, price, picture, category, isSold, university })
     //saving the item in the database (save() is same as User.create)
     const savedItem = await item.save()
+    //sending the response
     res.status(201).json({ item: savedItem, msg: 'Successfully Posted' })
   } catch (e) {
+    //logging the errors
     console.log(e)
     res.status(400).json({ msg: 'Cannot be Posted' })
   }
@@ -124,4 +133,3 @@ router.get('/search/:username/:query', async (req, res, next) => {
 })
 
 module.exports = router;
-

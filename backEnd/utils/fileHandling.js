@@ -6,7 +6,7 @@ const path = require('path');
 /**
  * Setting up multer and grid-fs for image upload.
  */
-export const config = () => {
+export const config = (bucketName) => {
     const storage = new GridFsStorage({
         url: process.env.DB_CONNECTION,
         cache: true, //check the functionality
@@ -20,7 +20,7 @@ export const config = () => {
                     const filename = buf.toString('hex') + path.extname(file.originalname);
                     const fileInfo = {
                         filename: filename,
-                        bucketName: 'profile-pictures'
+                        bucketName: bucketName
                     };
                     resolve(fileInfo);
                 });
