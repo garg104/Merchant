@@ -13,33 +13,25 @@ class SellTableViewController: UITableViewController {
     
     var currentUser = ""
     
-//    let details = parameters(firstName: firstName, lastName: lastName, username: usernameTextField.text!, password: passwordTextField.text!, email: email)
-//
-//        AF.request(API.URL + "/user/register", method: .post, parameters: details, encoder: URLEncodedFormParameterEncoder.default).response { response in
-//
-//            //obtain status code returned from request
-//            let status = (response.response?.statusCode ?? 0)
-//
-//            if (status != 0) {
-//                switch status {
-//                case 409: //username exists already
-//                    completion(status)
-//                    break
-//                case 500: //error
-//                    completion(status)
-//                    break
-//                case 201: //success
-//                    completion(status)
-//                    break
-//                default:
-//                    completion(status)
-//                    break
-//                }
-//            }
-//
-//        }.resume()
-//
-//    }
+    
+    
+    func getItems() {
+        // #warning Incomplete implementation, return the number of sections
+        
+        struct parameters: Encodable {
+            var username = ""
+        }
+        
+        let details = parameters(username: currentUser)
+        
+        AF.request(API.URL + "/items/userSellingCurrent", method: .post, parameters: details, encoder: URLEncodedFormParameterEncoder.default).response { response in
+            
+            debugPrint(response.response?.statusCode ?? nil!)
+            debugPrint(response)
+            
+                
+        }.resume()
+    }
     
     
     //data structures for simple testing (replace with JSON array)
@@ -77,6 +69,7 @@ class SellTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "sellCell", for: indexPath) as! SellTableViewCell
 
         // Configure the cell...
+        getItems()
         cell.itemTitleLabel.text = titles[indexPath.row]
         cell.itemPriceLabel.text = prices[indexPath.row]
         cell.itemDescription = descriptions[indexPath.row]

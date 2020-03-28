@@ -27,7 +27,7 @@ router.post('/postItem', async (req, res) => {
  * Get all the items in the DB according the the algorithm
  * The algorithm is yet to be decided.
  */
-router.get('/', async (req, res) => {
+router.get('/allItems', async (req, res) => {
   try {
     // get all items with isSold as false.
     const items = await Item.find({ isSold: false })
@@ -39,6 +39,33 @@ router.get('/', async (req, res) => {
     res.status(404).json({ msg: e.message })
   }
 });
+
+router.get('/userSellingCurrent', async (req, res) => {
+  try {
+    // get all items with isSold as false.
+    const items = await Item.find({ isSold: false, userID: req.body.userID })
+    // items.filter({
+
+    // })
+    res.status(200).json({ items })
+  } catch (e) {
+    res.status(404).json({ msg: e.message })
+  }
+});
+
+router.get('/userSellingHistory', async (req, res) => {
+  try {
+    // get all items with isSold as false.
+    const items = await Item.find({ isSold: true, userID: req.body.userID })
+    // items.filter({
+
+    // })
+    res.status(200).json({ items })
+  } catch (e) {
+    res.status(404).json({ msg: e.message })
+  }
+});
+
 
 /**
  * Search for a list of items based on the query string
