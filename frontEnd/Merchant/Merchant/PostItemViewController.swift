@@ -9,7 +9,37 @@
 import UIKit
 import Alamofire
 
-class PostItemViewController: UIViewController {
+class PostItemViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate {
+    
+    // these next four functions are for the pickerView
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    // returns number of elements in pickerView
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return categories.count
+    }
+    
+    // gets selected element from row number
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return categories[row]
+    }
+    
+    // populates categoryTextField with selected
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        selectedCategory = categories[row]
+        categoryTextField.text = selectedCategory
+    }
+    
+    var selectedCategory : String?
+    var categories = ["Electronics", "School supplies", "Furniture"]
+    
+    func createPickerView() {
+        let pickerView = UIPickerView()
+        pickerView.delegate = self
+        categoryTextField.inputView = pickerView
+    }
 
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var postLabel: UILabel!
@@ -19,6 +49,8 @@ class PostItemViewController: UIViewController {
     @IBOutlet weak var photosScrollView: UIScrollView!
     @IBOutlet weak var choosePhotosButton: UIButton!
     @IBOutlet weak var doneButton: UIButton!
+    @IBOutlet weak var categoryTextField: UITextField!
+    
     
     
     
@@ -30,6 +62,8 @@ class PostItemViewController: UIViewController {
         // add border to description textView
         descriptionTextView!.layer.borderWidth = 1
         descriptionTextView!.layer.borderColor = UIColor.black.cgColor
+        
+        createPickerView()
         
     }
     
