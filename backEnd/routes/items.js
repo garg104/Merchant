@@ -2,6 +2,7 @@ require('dotenv').config()
 const express = require('express');
 const router = express.Router();
 const Item = require('../models/Items')
+const User = require('../models/User')
 
 /**
  * this routes posts the items in the database
@@ -38,6 +39,58 @@ router.get('/', async (req, res) => {
     res.status(404).json({ msg: e.message })
   }
 });
+
+/**
+ * Search for a list of items based on the query string
+ */
+router.get('/search/:username/:query', async (req, res, next) => {
+  const { query, username } = req.params
+
+  let userId;
+  try {
+    user = await User.findOne({ username: username })
+    userId = user._id
+  } catch (e) {
+    res.status(400).json({ msg: "User not found" })
+  } //end try-catch
+
+  try {
+    //looking up the users by matching the search query on first name, last name, and username fields
+    let itemsByTitle = await Item.find({
+      "title": { $regex: `${query}`, $options: 'i' },
+      isSold: false,
+      userID: { $ne: userId }
+    })
+    let itemsByDescription = await Item.find({
+      "description": { $regex: `${query}`, $options: 'i' },
+      isSold: false,
+      userID: { $ne: userId }
+    })
+    let itemsByCategory = await Item.find({
+      "category": { $regex: `${query}`, $options: 'i' },
+      isSold: false,
+      userID: { $ne: userId }
+    })
+
+    //getting rid of duplicate matchings
+    let mySet = new Set()
+
+    //add all the elements of the three arrays to the set
+    itemsByTitle.forEach((u) => mySet.add(JSON.stringify(u)))
+    itemsByDescription.forEach((u) => mySet.add(JSON.stringify(u)))
+    itemsByCategory.forEach((u) => mySet.add(JSON.stringify(u)))
+
+    //push all the unique elements in the set to the final array
+    let finalItemsList = [];
+    mySet.forEach(u => { finalItemsList.push(JSON.parse(u)) })
+
+    //send an appropriate success reponse to the client
+    res.status(200).json({ items: finalItemsList, msg: "Items successfully listed" })
+  } catch (e) {
+    console.log(e)
+    res.status(404).json({ items: [], msg: "No items found" })
+  } //end try-catch
+})
 
 module.exports = router;
 
