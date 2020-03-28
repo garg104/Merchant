@@ -33,6 +33,14 @@ class PostItemViewController: UIViewController {
         
     }
     
+    var name = ""
+    var desc = ""
+    var price = 0.00
+    var photo: UIImage!
+    var category = ""
+    var isSold = false;
+    var university = "Purdue University"
+    
     @IBAction func postItem(_ sender: UIButton, completion: @escaping (_ validCode: Int)->()) {
         
         // extract fields
