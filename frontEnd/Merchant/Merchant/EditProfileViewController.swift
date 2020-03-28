@@ -22,6 +22,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, UINaviga
     var newFirstName = ""
     var oldLastName = ""
     var newLastName = ""
+    var email = ""
     var profilePicture: UIImage!
     
     override func viewDidLoad() {
@@ -41,7 +42,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, UINaviga
         editUsernameTextField.text = oldUsername
         editFirstNameTextField.text = oldFirstName
         editLastNameTextField.text = oldLastName
-        
+        profilePictureImageView.image = profilePicture
     }
     
     override func viewWillLayoutSubviews() {
@@ -167,10 +168,11 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, UINaviga
             
             //upload request to the backend
             AF.upload(multipartFormData: {multipartFormData in
-                multipartFormData.append(self.profilePicture.jpegData(compressionQuality: 0.5)!, withName: "data", fileName: "\(self.oldUsername).jpg", mimeType: "image/jpeg")
+                multipartFormData.append(self.profilePicture.jpegData(compressionQuality: 0.1)!, withName: "data", fileName: "\(self.oldUsername).jpg", mimeType: "image/jpeg")
             }, to: API.URL + "/user/picture", headers: headers).responseJSON { response in
-//                    debugPrint(response)
-                } //end response handler
+                //store the updated profile picture in cache
+                self.storeNewProfilePictureInCache()
+            } //end response handler
         } //end if
 
        
@@ -196,13 +198,32 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, UINaviga
                 self.present(alert, animated: true)
             }
         }
-                
-        //        if (success == 1) {
-        //            segue.destination as! ProfileViewController
-        //        } else {
-        //            segue.destination as! EditProfileViewController
-        //        }
+    }
+    
+    func storeNewProfilePictureInCache() {
+        //storing the new file in cache
         
+        //convert the image to string data
+        var imageBase64 =  self.profilePicture.jpegData(compressionQuality: 0.1)?.base64EncodedString()
+        
+        //get the directory location
+        let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let fileURL = documentsURL.appendingPathComponent("com.merchant.turkeydaddy/pictures/profile_\(self.email).data")
+    
+        //if there is error in getting the data, abort cache updation
+        if (imageBase64 == nil) {
+            return
+        }
+        
+        //append the metadata to the image file
+        imageBase64 = "data:image/jpeg;base64," + (imageBase64 ?? "")
+        
+        //write the file data to the cache
+        do {
+            try imageBase64?.write(to: fileURL, atomically: true, encoding: String.Encoding.utf8)
+        } catch {
+            return
+        }
     }
     
     
