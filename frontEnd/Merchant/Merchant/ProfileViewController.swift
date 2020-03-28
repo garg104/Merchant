@@ -135,7 +135,6 @@ class ProfileViewController: UIViewController {
         let destination: DownloadRequest.Destination = { _, _ in
             let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
             let fileURL = documentsURL.appendingPathComponent("com.merchant.turkeydaddy/pictures/profile_\(self.email).data")
-            debugPrint(fileURL)
             return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
         }
         
