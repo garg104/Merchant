@@ -178,7 +178,7 @@ class ProfileViewController: UIViewController {
           debugPrint("No picture found")
           return UIImage(imageLiteralResourceName: "profile-avatar")
       } else {
-          // !!! Separation part is optional, depends on your Base64String !!!
+          // Separating the metadata from the base64 data
           let temp = base64String?.components(separatedBy: ",")
           let dataDecoded : Data = Data(base64Encoded: temp![1], options: .ignoreUnknownCharacters)!
           let decodedimage = UIImage(data: dataDecoded)
@@ -226,8 +226,5 @@ class ProfileViewController: UIViewController {
             let vc = segue.destination as! ResetPasswordViewController
             vc.username = usernameLabel.text!
         }
-        
     }
-    
-
 }
