@@ -7,7 +7,7 @@ const User = require('../models/User')
 const express = require('express');
 const router = express.Router();
 import { config, getProfilePictureSchemas } from '../utils/fileHandling'
-const upload = config()
+const upload = config('profile-pictures')
 const randomstring = require('../node_modules/randomstring')
 
 /* GET users listing. (for debugging) */
