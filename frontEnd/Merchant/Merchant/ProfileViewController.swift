@@ -59,7 +59,7 @@ class ProfileViewController: UIViewController {
         emailLabel.text = email
         
         //display the profile picture
-        profilePictureHandler()
+        //profilePictureHandler()
     }
     
     override func viewWillLayoutSubviews() {
@@ -123,9 +123,11 @@ class ProfileViewController: UIViewController {
     }
     
     func profilePictureHandler() {
+        debugPrint("Making the profile picture request")
         AF.download(API.URL + "/user/picture/\(self.username)", method: .get).responseData { response in
             if (response.response?.statusCode != 200) {
                 //render default image
+                debugPrint("Profile picture status code")
             } else {
                 //request successful
                 if let encodedImageString = response.value {
@@ -140,9 +142,22 @@ class ProfileViewController: UIViewController {
                         //TODO: render default image
                         debugPrint("The profile picture downloaded but couldn't be parsed")
                     } //end if
-                }
+                } //end if
             } //end if
         } //request
+    }
+    
+    func base64Convert(base64String: String?) -> UIImage{
+      if (base64String?.isEmpty)! {
+          debugPrint("String is empty")
+          return #imageLiteral(resourceName: "no_image_found")
+      }else {
+          // !!! Separation part is optional, depends on your Base64String !!!
+          let temp = base64String?.components(separatedBy: ",")
+          let dataDecoded : Data = Data(base64Encoded: temp![1], options: .ignoreUnknownCharacters)!
+          let decodedimage = UIImage(data: dataDecoded)
+          return decodedimage!
+      }
     }
     
     func deleteAccountHandler() {
