@@ -22,6 +22,8 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, UINaviga
     var newFirstName = ""
     var oldLastName = ""
     var newLastName = ""
+    var email = ""
+    var profilePicture: UIImage!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,7 +42,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, UINaviga
         editUsernameTextField.text = oldUsername
         editFirstNameTextField.text = oldFirstName
         editLastNameTextField.text = oldLastName
-        
+        profilePictureImageView.image = profilePicture
     }
     
     override func viewWillLayoutSubviews() {
@@ -90,16 +92,20 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, UINaviga
         }
     }
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool
-    {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }
     
     @IBAction func changeProfilePicture(_ sender: UIButton) {
+        // MAKE SURE IT WORKS ON DEVICE PROPERLY
         let image = UIImagePickerController()
         image.delegate = self
         image.sourceType = UIImagePickerController.SourceType.photoLibrary
+        if (UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.camera)) {
+            image.sourceType = UIImagePickerController.SourceType.camera
+        }
+            
         image.allowsEditing = false
         self.present(image, animated: true) {
             // after complete
@@ -110,6 +116,10 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, UINaviga
         // check if possible to convert image (prevent crash)
         if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             profilePictureImageView.image = image
+            self.profilePicture = image
+            let imgJPG: NSData = self.profilePicture.jpegData(compressionQuality: 0.5)! as NSData
+            debugPrint("Size of Image: \(imgJPG.length) bytes")
+            debugPrint(imgJPG.description)
         }
         else {
             // Error message
@@ -119,27 +129,122 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, UINaviga
         self.dismiss(animated: true, completion: nil)
     }
     
+    
+    
+    
+    @IBAction func updateProfile(_ sender: Any) {
+        newUsername = editUsernameTextField.text!
+        newLastName = editLastNameTextField.text!
+        newFirstName = editFirstNameTextField.text!
+       
+        if (newUsername == "") {
+            // display an alert
+            let alert = UIAlertController(title: "Empty Field", message: "Please enter a username.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
+            self.present(alert, animated: true)
+        }
+       
+        struct parameter: Encodable {
+            var username: String
+            var lastName: String
+            var firstName: String
+            var newUsername: String
+        }
+       
+        let details = parameter(username: oldUsername,
+                                lastName: newLastName,
+                                firstName: newFirstName,
+                                newUsername: newUsername)
+
+        
+        if (self.profilePicture != nil) {
+            //uploading the profile picture
+            
+            //include content type as multipart data to be recognised by multer
+            let headers: HTTPHeaders = [
+                "Content-type": "multipart/form-data",
+                "Accept": "application/json"
+            ]
+            
+            //upload request to the backend
+            AF.upload(multipartFormData: {multipartFormData in
+                multipartFormData.append(self.profilePicture.jpegData(compressionQuality: 0.1)!, withName: "data", fileName: "\(self.oldUsername).jpg", mimeType: "image/jpeg")
+            }, to: API.URL + "/user/picture", headers: headers).responseJSON { response in
+                //store the updated profile picture in cache
+                self.storeNewProfilePictureInCache()
+            } //end response handler
+        } //end if
+
+       
+        AF.request(API.URL + "/user/updateProfile", method: .put, parameters: details, encoder:    URLEncodedFormParameterEncoder.default).response { response in
+            debugPrint(response)
+            
+            let validationCode = response.response?.statusCode
+            
+            if (validationCode == 200) { //success
+                debugPrint("SUCCESS!!!!")
+                self.performSegue(withIdentifier: "saveEditUnwind", sender: nil)
+//                let alert = UIAlertController(title: "Profile Updated", message: "", preferredStyle: .alert)
+//                alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
+//                self.present(alert, animated: true)
+//                success = 1
+            } else if (validationCode == 409) { //username invalid
+                let alert = UIAlertController(title: "Username already taken", message: "Please enter an username which has not been taken already.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
+                self.present(alert, animated: true)
+            } else { //error in database check
+                let alert = UIAlertController(title: "Error", message: "Profile could not be updated. Please try again.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
+                self.present(alert, animated: true)
+            }
+        }
+    }
+    
+    func storeNewProfilePictureInCache() {
+        //storing the new file in cache
+        
+        //convert the image to string data
+        var imageBase64 =  self.profilePicture.jpegData(compressionQuality: 0.1)?.base64EncodedString()
+        
+        //get the directory location
+        let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let fileURL = documentsURL.appendingPathComponent("com.merchant.turkeydaddy/pictures/profile_\(self.email).data")
+    
+        //if there is error in getting the data, abort cache updation
+        if (imageBase64 == nil) {
+            return
+        }
+        
+        //append the metadata to the image file
+        imageBase64 = "data:image/jpeg;base64," + (imageBase64 ?? "")
+        
+        //write the file data to the cache
+        do {
+            try imageBase64?.write(to: fileURL, atomically: true, encoding: String.Encoding.utf8)
+        } catch {
+            return
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-        
-        //update oldUsername to have newUsername
-        newUsername = editUsernameTextField.text!
-        
-        struct parameter: Encodable {
-            var username: String
-            var newUsername: String
-        }
-        
-        let details = parameter(username: oldUsername, newUsername: newUsername)
-        AF.request(API.URL + "/user/username", method: .post, parameters: details, encoder: URLEncodedFormParameterEncoder.default).response { response in
-            debugPrint(response)
-        }
-        
-    }
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        // Get the new view controller using segue.destination.
+//        // Pass the selected object to the new view controller.
+//
+//        //update oldUsername to have newUsername
+//
+//
+//
+//    }
     
 
 }

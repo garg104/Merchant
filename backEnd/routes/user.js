@@ -1,11 +1,12 @@
 require('dotenv').config()
 import { generateOtpMsg, sendEmail, generateTempPassword, generateResetPassword, generateDeleteAcctMsg } from '../utils/sendEmail'
+import { getFiles } from '../middlewares/middlewares'
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const User = require('../models/User')
 const express = require('express');
 const router = express.Router();
-import { config } from '../utils/fileUpload'
+import { config, getProfilePictureSchemas } from '../utils/fileHandling'
 const upload = config()
 const randomstring = require('../node_modules/randomstring')
 
@@ -167,24 +168,56 @@ router.post('/delete', async (req, res) => {
 })
 
 /* update user info */
-router.put('/username', async (req, res) => {
-  const { username, newUsername } = req.body
+router.put('/updateProfile', async (req, res) => {
+  const { username, lastName, firstName, newUsername } = req.body
   try {
     // make sure that the user exists. This will always return true, as the user has to be logged in to call this route.
-    // Thi can be removed, but is there for testing right now.
-    if ((await User.findOne({ username })) == null) {
+    // This can be removed, but is there for testing right now.
+    const user = await User.findOne({ username })
+    if (user == null) {
       console.log("the user does not exist")
       res.status(404).json({ msg: "Invalid user" })
     }
 
-    // Make sure that the newUsername is not alreay in use.
-    const ifExists = await User.findOne({ username: newUsername })
-    if (ifExists == null) { // newUsername does not exist
-      const ret = await User.findOneAndUpdate({ username: req.body.username }, { username: req.body.newUsername })
-      res.status(200).json({ updated: { ...req.body.newUsername }, msg: "The user settings have been updated" })
-    } else {
-      res.status(409).json({ msg: "Username already taken" })
+    if (newUsername == username) { // the user did not update username
+      if (user.lastName != lastName) { // user updated the last name
+        const ret = await User.findOneAndUpdate({ username: username }, { lastName: lastName })
+      }
+      if (user.firstName != firstName) { // user updated the first name
+        const ret = await User.findOneAndUpdate({ username: username }, { firstName: firstName })
+      }
+      res.status(200).json({
+        updated: {
+          username: newUsername,
+          firstName: firstName,
+          lastName: lastName
+        },
+        msg: "The user settings have been updated"
+      })
+    } else { // the user updated username
+      // Make sure that the newUsername is not alreay in use.
+      const ifExists = await User.findOne({ username: newUsername })
+      if (ifExists == null) { // newUsername does not exist
+        if (user.lastName != lastName) { // user updated the last name
+          const ret = await User.findOneAndUpdate({ username: username }, { lastName: lastName })
+        }
+        if (user.firstName != firstName) { // user updated the first name
+          const ret = await User.findOneAndUpdate({ username: username }, { firstName: firstName })
+        }
+        const ret = await User.findOneAndUpdate({ username: username }, { username: newUsername })
+        res.status(200).json({
+          updated: {
+            username: newUsername,
+            firstName: firstName,
+            lastName: lastName
+          },
+          msg: "The user settings have been updated"
+        })
+      } else {
+        res.status(409).json({ msg: "Username already taken. Nothing was updated." })
+      }
     }
+
 
   } catch (e) {
     //sending an error response
@@ -206,16 +239,52 @@ router.post('/info', async (req, res) => {
 })
 
 /* upload the user profile */
-router.post('/picture', upload.single("file"), async (req, res) => {
-  const { username } = req.body
-  const { id } = req.file
+router.post('/picture', upload.single("data"), async (req, res) => {
   try {
+    //getting the fields from the file
+    const { id, originalname } = req.file
+    let username = originalname.substring(0, originalname.lastIndexOf('.'))
+
+    //update the user schema with the image id
     const ret = await User.findOneAndUpdate({ username }, { picture: id })
   } catch (e) {
+    //logging errors
+    console.log(e)
     res.status(404).json({ msg: "User profile couldn't be updated" })
-  }
+  } //end try-catch
   res.status(201).json({ file: req.file, msg: "User profile picture has been updated" })
 })
+
+/* getting the picture of the user from the database */
+router.get('/picture/:username', async (req, res, next) => {
+  //get the name of the user
+  const { username } = req.params
+
+  try {
+    //fetching the fileId from the user schema
+    const user = await User.findOne({ username: username })
+    if (!user) { throw new Error("User not found") }
+    const fileId = user.picture
+    if (!fileId) {
+      //if the user doesn't have a profile picture
+      console.log("No profile picture found");
+      res.status(400).json({ msg: "No profile picture found" })
+    } else {
+      //get the file from the fileChunks and fileMetadata
+      const { fileChunks } = getProfilePictureSchemas();
+
+      //appending variables to req for next middleware call
+      req.fileChunks = fileChunks
+      req.fileId = fileId
+
+      //calling the next middleware
+      next()
+    } //end if
+  } catch (e) {
+    //logging errors
+    res.status(404).json({ msg: "User not found" })
+  } //end try-catch
+}, getFiles)
 
 /* check if the user exists and send a recovery email. */
 router.post('/forgotPassword', async (req, res) => {
@@ -372,6 +441,35 @@ router.post('/resetPassword', async (req, res) => {
     console.log(e)
     res.status(417).json({ msg: "Please try again!" })
   }
+})
+
+/* route for getting the list of users based on the search query */
+router.get('/search/:query', async (req, res, next) => {
+  const { query } = req.params
+  try {
+    //looking up the users by matching the search query on first name, last name, and username fields
+    let usersByUserName = await User.find({ "username": { $regex: `^[^ \t\n]*${query}[^ \t\n]*$`, $options: 'i' } })
+    let usersByFirstName = await User.find({ "firstName": { $regex: `^[^ \t\n]*${query}[^ \t\n]*$`, $options: 'i' } })
+    let usersByLastName = await User.find({ "lastName": { $regex: `^[^ \t\n]*${query}[^ \t\n]*$`, $options: 'i' } })
+
+    //getting rid of duplicate matchings
+    let mySet = new Set()
+
+    //add all the elements of the three arrays to the set
+    usersByFirstName.forEach((u) => mySet.add(JSON.stringify(u)))
+    usersByLastName.forEach((u) => mySet.add(JSON.stringify(u)))
+    usersByUserName.forEach((u) => mySet.add(JSON.stringify(u)))
+
+    //push all the unique elements in the set to the final array
+    let finalUserList = [];
+    mySet.forEach(u => { finalUserList.push(JSON.parse(u)) })
+
+    //send an appropriate success reponse to the client
+    res.status(200).json({ users: finalUserList, msg: "Users successfully listed" })
+  } catch (e) {
+    console.log(e)
+    res.status(404).json({ users: [], msg: "No user found" })
+  } //end try-catch
 })
 
 module.exports = router;

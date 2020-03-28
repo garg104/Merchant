@@ -1,3 +1,5 @@
+import { downloadConfig } from './utils/fileHandling'
+
 require('dotenv').config()
 
 const express = require('express');
@@ -11,6 +13,7 @@ const multer = require('multer')
 
 const indexRouter = require('./routes/index');
 const userRouter = require('./routes/user');
+const itemsRouter = require('./routes/items');
 const mongoose = require('mongoose')
 
 const app = express();
@@ -20,15 +23,17 @@ mongoose.connect(process.env.DB_CONNECTION, { useNewUrlParser: true, useUnifiedT
     console.log("connected to the database")
 })
 
-// //Add the file upload settings
+//Add the file upload settings
 let gfs;
 const db = mongoose.connection
 db.once('open', () => {
+    //grid-fs settings
     gfs = Grid(db.db, mongoose.mongo);
     gfs.collection('profile-pictures')
+
+    //file-download setup
+    downloadConfig(db)
 })
-// const storageSettings = require('./utils/uploadFile')
-// export const upload = multer({ storageSettings });
 
 //setup passport for JWT authentication
 app.use(passport.initialize())
@@ -45,6 +50,7 @@ app.use(cookieParser());
 //router integration
 app.use('/', indexRouter);
 app.use('/user', userRouter);
+app.use('/items', itemsRouter);
 
 //error handling
 app.use((req, res, next) => {
