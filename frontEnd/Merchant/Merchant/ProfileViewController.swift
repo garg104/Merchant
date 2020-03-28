@@ -42,6 +42,9 @@ class ProfileViewController: UIViewController {
                 if (senderVC.newUsername != "" && senderVC.newUsername != senderVC.oldUsername) {
                     username = senderVC.newUsername
                 }
+                if (senderVC.profilePicture != self.profilePicture.image) {
+                    self.profilePicture.image = senderVC.profilePicture
+                }
                 
                 // set the text in the labels
                 usernameLabel.text = username
@@ -57,6 +60,9 @@ class ProfileViewController: UIViewController {
         usernameLabel.text = username
         nameLabel.text = name
         emailLabel.text = email
+        
+        //display the profile picture
+        profilePictureHandler()
     }
     
     override func viewWillLayoutSubviews() {
@@ -119,6 +125,67 @@ class ProfileViewController: UIViewController {
         
     }
     
+    func profilePictureHandler() {
+        self.profilePicture.image = UIImage(imageLiteralResourceName: "profile-avatar")
+        
+        //check for profile picture in the cache
+        checkCacheForProfilePicture()
+        
+        //setting the destination for caching the file
+        let destination: DownloadRequest.Destination = { _, _ in
+            let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+            let fileURL = documentsURL.appendingPathComponent("com.merchant.turkeydaddy/pictures/profile_\(self.email).data")
+            return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
+        }
+        
+        //making the server request
+        AF.download(API.URL + "/user/picture/\(self.username)", method: .get, to: destination).responseString { response in
+            if (response.response?.statusCode != 200) {
+                //render default image
+                self.profilePicture.image = self.base64ToUIImage(base64String: "")
+            } else {
+                //request successful
+                if let encodedImageString = response.value {
+                    //parsing the base64 encoded string into image data
+                    self.profilePicture.image = self.base64ToUIImage(base64String: encodedImageString)
+                } //end if
+            } //end if
+        } //request
+    }
+    
+    func checkCacheForProfilePicture() {
+        //checking for cached image data
+        let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let fileURL = documentsURL.appendingPathComponent("com.merchant.turkeydaddy/pictures/profile_\(self.email).data")
+        let filePath = fileURL.path
+        let fileManager = FileManager.default
+        
+        //checking if the required file already exists in the cache
+        if fileManager.fileExists(atPath: filePath) {
+            do {
+                //read the data from the cache
+                let base64String = try String(contentsOf: fileURL, encoding: .utf8)
+                self.profilePicture.image = self.base64ToUIImage(base64String: base64String)
+            } catch {
+                //File in cache is corrupted
+                debugPrint("Chache Miss, making the request")
+            } //end do-catch
+        } //end if
+    }
+    
+    func base64ToUIImage(base64String: String?) -> UIImage{
+      if (base64String?.isEmpty)! {
+          debugPrint("No picture found")
+          return UIImage(imageLiteralResourceName: "profile-avatar")
+      } else {
+          // Separating the metadata from the base64 data
+          let temp = base64String?.components(separatedBy: ",")
+          let dataDecoded : Data = Data(base64Encoded: temp![1], options: .ignoreUnknownCharacters)!
+          let decodedimage = UIImage(data: dataDecoded)
+          return decodedimage!
+      } //end if
+    }
+    
     func deleteAccountHandler() {
       struct parameter: Encodable {
           var username: String
@@ -151,14 +218,13 @@ class ProfileViewController: UIViewController {
             vc.oldUsername = usernameLabel.text!
             vc.oldFirstName = firstName
             vc.oldLastName = lastName
+            vc.email = email
+            vc.profilePicture = self.profilePicture.image
         }
         
         if (segue.identifier == "toResetPassword") {
             let vc = segue.destination as! ResetPasswordViewController
             vc.username = usernameLabel.text!
         }
-        
     }
-    
-
 }

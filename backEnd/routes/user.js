@@ -1,11 +1,12 @@
 require('dotenv').config()
 import { generateOtpMsg, sendEmail, generateTempPassword, generateResetPassword, generateDeleteAcctMsg } from '../utils/sendEmail'
+import { getFiles } from '../middlewares/middlewares'
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const User = require('../models/User')
 const express = require('express');
 const router = express.Router();
-import { config } from '../utils/fileUpload'
+import { config, getProfilePictureSchemas } from '../utils/fileHandling'
 const upload = config()
 const randomstring = require('../node_modules/randomstring')
 
@@ -166,9 +167,6 @@ router.post('/delete', async (req, res) => {
 
 })
 
-
-
-
 /* update user info */
 router.put('/updateProfile', async (req, res) => {
   const { username, lastName, firstName, newUsername } = req.body
@@ -243,7 +241,7 @@ router.post('/info', async (req, res) => {
 /* upload the user profile */
 router.post('/picture', upload.single("data"), async (req, res) => {
   try {
-    //getting the fields
+    //getting the fields from the file
     const { id, originalname } = req.file
     let username = originalname.substring(0, originalname.lastIndexOf('.'))
 
@@ -253,9 +251,40 @@ router.post('/picture', upload.single("data"), async (req, res) => {
     //logging errors
     console.log(e)
     res.status(404).json({ msg: "User profile couldn't be updated" })
-  }
+  } //end try-catch
   res.status(201).json({ file: req.file, msg: "User profile picture has been updated" })
 })
+
+/* getting the picture of the user from the database */
+router.get('/picture/:username', async (req, res, next) => {
+  //get the name of the user
+  const { username } = req.params
+
+  try {
+    //fetching the fileId from the user schema
+    const user = await User.findOne({ username: username })
+    if (!user) { throw new Error("User not found") }
+    const fileId = user.picture
+    if (!fileId) {
+      //if the user doesn't have a profile picture
+      console.log("No profile picture found");
+      res.status(400).json({ msg: "No profile picture found" })
+    } else {
+      //get the file from the fileChunks and fileMetadata
+      const { fileChunks } = getProfilePictureSchemas();
+
+      //appending variables to req for next middleware call
+      req.fileChunks = fileChunks
+      req.fileId = fileId
+
+      //calling the next middleware
+      next()
+    } //end if
+  } catch (e) {
+    //logging errors
+    res.status(404).json({ msg: "User not found" })
+  } //end try-catch
+}, getFiles)
 
 /* check if the user exists and send a recovery email. */
 router.post('/forgotPassword', async (req, res) => {
@@ -415,8 +444,8 @@ router.post('/resetPassword', async (req, res) => {
 })
 
 /* route for getting the list of users based on the search query */
-router.get('/search', async (req, res, next) => {
-  const { query } = req.body
+router.get('/search/:query', async (req, res, next) => {
+  const { query } = req.params
   try {
     //looking up the users by matching the search query on first name, last name, and username fields
     let usersByUserName = await User.find({ "username": { $regex: `^[^ \t\n]*${query}[^ \t\n]*$`, $options: 'i' } })
@@ -427,13 +456,13 @@ router.get('/search', async (req, res, next) => {
     let mySet = new Set()
 
     //add all the elements of the three arrays to the set
-    usersByFirstName.forEach((u) => mySet.add(u))
-    usersByLastName.forEach((u) => mySet.add(u))
-    usersByUserName.forEach((u) => mySet.add(u))
+    usersByFirstName.forEach((u) => mySet.add(JSON.stringify(u)))
+    usersByLastName.forEach((u) => mySet.add(JSON.stringify(u)))
+    usersByUserName.forEach((u) => mySet.add(JSON.stringify(u)))
 
     //push all the unique elements in the set to the final array
     let finalUserList = [];
-    mySet.forEach(u => { finalUserList.push(u) })
+    mySet.forEach(u => { finalUserList.push(JSON.parse(u)) })
 
     //send an appropriate success reponse to the client
     res.status(200).json({ users: finalUserList, msg: "Users successfully listed" })
@@ -442,31 +471,5 @@ router.get('/search', async (req, res, next) => {
     res.status(404).json({ users: [], msg: "No user found" })
   } //end try-catch
 })
-
-
-/* middleware to authenticate the access token in protected routes */
-async function authenticate(req, res, next) {
-  console.log(`authenticating the request`)
-
-  //call to passport for parsing the bearer token
-  passport.authenticate('jwt', { session: false }, (err, user, info) => {
-    if (err) {
-      //passport error
-      res.status(400).json({ msg: 'There was an autthentication error' });
-      return
-    }
-
-    if (!user) {
-      //token is invalid
-      console.log(`invalid token`)
-      res.status(404).json({ msg: 'Invalid Token.' })
-      return
-    }
-
-    //if authentication is successfull, append the user data to res
-    res.userInfo = user
-    next()
-  })(req, res, next)
-}
 
 module.exports = router;
