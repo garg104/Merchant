@@ -3,9 +3,11 @@ const express = require('express');
 const router = express.Router();
 const Item = require('../models/Items')
 
-// this routes posts the items in the database
-// This is a temp route written to make the item databse so that I(chirayu) can write the get items route. 
-// This route is to be modified and finalized by Drew Keirn 
+/**
+ * this routes posts the items in the database
+ * This is a temp route written to make the item databse so that I(chirayu) can write the get items route. 
+ * This route is to be modified and finalized by Drew Keirn  
+ */
 router.post('/postItem', async (req, res) => {
   const { userID, title, description, price, picture, category, isSold, university } = req.body
   try {
@@ -20,8 +22,10 @@ router.post('/postItem', async (req, res) => {
   }
 })
 
-// get all the items in the DB according the the algorithm
-// the algorithm is yet to be decided.
+/**
+ * Get all the items in the DB according the the algorithm
+ * The algorithm is yet to be decided.
+ */
 router.get('/', async (req, res) => {
   try {
     // get all items with isSold as false.

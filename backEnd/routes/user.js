@@ -1,11 +1,12 @@
 require('dotenv').config()
 import { generateOtpMsg, sendEmail, generateTempPassword, generateResetPassword, generateDeleteAcctMsg } from '../utils/sendEmail'
+import { getFiles } from '../middlewares/middlewares'
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const User = require('../models/User')
 const express = require('express');
 const router = express.Router();
-import { config, getProfilePictureSchemas, parseFileData } from '../utils/fileHandling'
+import { config, getProfilePictureSchemas } from '../utils/fileHandling'
 const upload = config()
 const randomstring = require('../node_modules/randomstring')
 
@@ -443,8 +444,8 @@ router.post('/resetPassword', async (req, res) => {
 })
 
 /* route for getting the list of users based on the search query */
-router.get('/search', async (req, res, next) => {
-  const { query } = req.body
+router.get('/search/:query', async (req, res, next) => {
+  const { query } = req.params
   try {
     //looking up the users by matching the search query on first name, last name, and username fields
     let usersByUserName = await User.find({ "username": { $regex: `^[^ \t\n]*${query}[^ \t\n]*$`, $options: 'i' } })
@@ -455,13 +456,13 @@ router.get('/search', async (req, res, next) => {
     let mySet = new Set()
 
     //add all the elements of the three arrays to the set
-    usersByFirstName.forEach((u) => mySet.add(u))
-    usersByLastName.forEach((u) => mySet.add(u))
-    usersByUserName.forEach((u) => mySet.add(u))
+    usersByFirstName.forEach((u) => mySet.add(JSON.stringify(u)))
+    usersByLastName.forEach((u) => mySet.add(JSON.stringify(u)))
+    usersByUserName.forEach((u) => mySet.add(JSON.stringify(u)))
 
     //push all the unique elements in the set to the final array
     let finalUserList = [];
-    mySet.forEach(u => { finalUserList.push(u) })
+    mySet.forEach(u => { finalUserList.push(JSON.parse(u)) })
 
     //send an appropriate success reponse to the client
     res.status(200).json({ users: finalUserList, msg: "Users successfully listed" })
@@ -470,48 +471,5 @@ router.get('/search', async (req, res, next) => {
     res.status(404).json({ users: [], msg: "No user found" })
   } //end try-catch
 })
-
-/* middleware to get the image from the database */
-async function getFiles(req, res) {
-  const { fileId, fileChunks } = req
-  //retreiving chunks from the database and sorting them
-  fileChunks.find({ files_id: fileId })
-    .sort({ n: 1 }).toArray((err, chunks) => {
-      if (err) {
-        //error handling
-        console.log(err)
-        return res.status(406).json({ msg: "File Download error" })
-      } else {
-        const imageURI = parseFileData(chunks)
-        //send the image data to the client
-        res.status(200).send(imageURI);
-      } //end if
-    })
-}
-
-/* middleware to authenticate the access token in protected routes */
-async function authenticate(req, res, next) {
-  console.log(`authenticating the request`)
-
-  //call to passport for parsing the bearer token
-  passport.authenticate('jwt', { session: false }, (err, user, info) => {
-    if (err) {
-      //passport error
-      res.status(400).json({ msg: 'There was an autthentication error' });
-      return
-    }
-
-    if (!user) {
-      //token is invalid
-      console.log(`invalid token`)
-      res.status(404).json({ msg: 'Invalid Token.' })
-      return
-    }
-
-    //if authentication is successfull, append the user data to res
-    res.userInfo = user
-    next()
-  })(req, res, next)
-}
 
 module.exports = router;
