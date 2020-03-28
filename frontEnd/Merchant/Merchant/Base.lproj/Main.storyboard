@@ -961,7 +961,9 @@
                             <outlet property="delegate" destination="kdR-JZ-Z6h" id="Zm1-3E-hqW"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Sell" id="fNP-Wb-ygK"/>
+                    <navigationItem key="navigationItem" title="Sell" id="fNP-Wb-ygK">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="BCw-qm-IIT"/>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0eq-cU-XOe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
