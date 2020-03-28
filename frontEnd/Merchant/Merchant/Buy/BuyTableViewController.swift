@@ -10,11 +10,14 @@ import UIKit
 
 class BuyTableViewController: UITableViewController {
     
-    //data structures
+    var currentUser = ""
+    
+    //data structures for simple testing (replace with JSON array)
     var images = ["", "", ""]
     var titles = ["item 1", "item 2", "item 3"]
     var usernames = ["userA", "userB", "userC"]
     var prices = ["$10.00", "$7.00", "$16.00"]
+    var descriptions = ["description1", "description2", "description3"]
     
 
     override func viewDidLoad() {
@@ -54,6 +57,7 @@ class BuyTableViewController: UITableViewController {
         cell.itemTitleLabel.text = titles[indexPath.row]
         cell.itemPriceLabel.text = prices[indexPath.row]
         cell.userNameLabel.text = usernames[indexPath.row]
+        cell.itemDescription = descriptions[indexPath.row]
         
         return cell
     }
@@ -119,7 +123,7 @@ class BuyTableViewController: UITableViewController {
             
             let selectedItemIndex = indexPath.row
             itemDetailViewController.itemTitle = selectedItemCell.itemTitleLabel.text!
-            itemDetailViewController.itemDescription = ""
+            itemDetailViewController.itemDescription = selectedItemCell.itemDescription
             itemDetailViewController.itemPrice = selectedItemCell.itemPriceLabel.text!
             itemDetailViewController.itemSeller = selectedItemCell.userNameLabel.text!
         }

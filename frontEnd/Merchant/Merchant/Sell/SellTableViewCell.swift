@@ -10,11 +10,16 @@ import UIKit
 
 class SellTableViewCell: UITableViewCell {
     
+    @IBOutlet weak var itemTitleLabel: UILabel!
+    @IBOutlet weak var itemPriceLabel: UILabel!
     @IBOutlet weak var removeButton: UIButton!
+    var itemImage = ""
+    var itemDescription = ""
 
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

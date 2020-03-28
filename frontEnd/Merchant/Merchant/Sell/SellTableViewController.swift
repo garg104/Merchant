@@ -10,6 +10,15 @@ import UIKit
 
 class SellTableViewController: UITableViewController {
     
+    var currentUser = ""
+    
+    //data structures for simple testing (replace with JSON array)
+    var images = ["", "", ""]
+    var titles = ["item 1", "item 2", "item 3"]
+    var usernames = ["userA", "userB", "userC"]
+    var prices = ["$10.00", "$7.00", "$16.00"]
+    var descriptions = ["description1", "description2", "description3"]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -30,7 +39,7 @@ class SellTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 5
+        return titles.count
     }
 
     
@@ -38,6 +47,10 @@ class SellTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "sellCell", for: indexPath) as! SellTableViewCell
 
         // Configure the cell...
+        cell.itemTitleLabel.text = titles[indexPath.row]
+        cell.itemPriceLabel.text = prices[indexPath.row]
+        cell.itemDescription = descriptions[indexPath.row]
+
 
         return cell
     }
@@ -78,14 +91,34 @@ class SellTableViewController: UITableViewController {
     }
     */
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
+        
+        if (segue.identifier == "showSellDetail") {
+            guard let itemDetailViewController = segue.destination as? SellDetailViewController else {
+                fatalError("Unexpected destination: \(segue.destination)")
+            }
+            
+            guard let selectedItemCell = sender as? SellTableViewCell else {
+                fatalError("Unexpected sender: \(sender)")
+            }
+            
+            guard let indexPath = tableView.indexPath(for: selectedItemCell) else {
+                fatalError("The selected cell is not being displayed by the table")
+            }
+            
+            let selectedItemIndex = indexPath.row
+            itemDetailViewController.itemTitle = selectedItemCell.itemTitleLabel.text!
+            itemDetailViewController.itemDescription = selectedItemCell.itemDescription
+            itemDetailViewController.itemPrice = selectedItemCell.itemPriceLabel.text!
+        }
+        
     }
-    */
+    
 
 }

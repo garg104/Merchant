@@ -26,8 +26,9 @@ class MainTabBarController: UITabBarController {
         let charNavVC = self.viewControllers?[2] as! UINavigationController
         let profNavVC = self.viewControllers?[3] as! UINavigationController
         
-        //initialize profile view controller
+        
         obtainUserInfo() { (finished) in
+            //initialize profile view controller with current user's data
             let profVC = profNavVC.viewControllers[0] as! ProfileViewController
             profVC.username = self.username
             profVC.email = self.email
@@ -35,6 +36,15 @@ class MainTabBarController: UITabBarController {
             profVC.lastName = self.lastName
             let fullName = self.firstName + " " + self.lastName
             profVC.name = fullName
+            
+            //send current username to BuyTableViewController
+            let buyVC = buyNavVC.viewControllers[0] as! BuyTableViewController
+            buyVC.currentUser = self.username
+            
+            //send current username to SellTableViewController
+            let sellVC = sellNavVC.viewControllers[0] as! SellTableViewController
+            sellVC.currentUser = self.username
+            
         }
     }
     
