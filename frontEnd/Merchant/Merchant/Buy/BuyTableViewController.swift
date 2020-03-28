@@ -14,14 +14,20 @@ class BuyTableViewController: UITableViewController {
     
     //data structures for simple testing (replace with JSON array)
     var images = ["", "", ""]
-    var titles = ["item 1", "item 2", "item 3"]
+    var titles = ["item a 1", "item b 2", "item c 3"]
     var usernames = ["userA", "userB", "userC"]
     var prices = ["$10.00", "$7.00", "$16.00"]
     var descriptions = ["description1", "description2", "description3"]
+    var filtered = [""];
     
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        filtered = titles.filter{ $0.contains("tem")}
+        print("FILTERED\n\n\n\n")
+        print(filtered)
+        print("\n\n\n")
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
