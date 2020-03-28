@@ -68,12 +68,12 @@ class MainTabBarController: UITabBarController {
                 case 200:
                     if let info = response.value {
                         let JSON = info as! NSDictionary
-                        debugPrint("JSON:", JSON)
+//                        debugPrint("JSON:", JSON)
                         self.email = JSON["email"]! as! String
-                        debugPrint("NEW EMAIL:", self.email)
+//                        debugPrint("NEW EMAIL:", self.email)
                         self.firstName = JSON["firstName"]! as! String
                         self.lastName = JSON["lastName"]! as! String
-                        debugPrint("NEW NAME:", self.firstName, self.lastName)
+//                        debugPrint("NEW NAME:", self.firstName, self.lastName)
                     }
                     completion(1)
                     break
@@ -83,7 +83,7 @@ class MainTabBarController: UITabBarController {
                     break
                 }
             }
-            debugPrint(response)
+//            debugPrint(response)
         }.resume()
         
         

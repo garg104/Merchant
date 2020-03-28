@@ -43,7 +43,10 @@ router.get('/allItems', async (req, res) => {
 router.get('/userSellingCurrent', async (req, res) => {
   try {
     // get all items with isSold as false.
-    const items = await Item.find({ isSold: false, userID: req.body.userID })
+    console.log(req.body.username)
+    const user = await User.find({ username: req.body.username })
+    console.log(user)
+    const items = await Item.find({ isSold: false, userID: user._id })
     // items.filter({
 
     // })
@@ -56,7 +59,8 @@ router.get('/userSellingCurrent', async (req, res) => {
 router.get('/userSellingHistory', async (req, res) => {
   try {
     // get all items with isSold as false.
-    const items = await Item.find({ isSold: true, userID: req.body.userID })
+    console.log(req.body.username)
+    const items = await Item.find({ isSold: true, username: req.body.username })
     // items.filter({
 
     // })
