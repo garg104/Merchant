@@ -13,7 +13,7 @@ let upload = config('item-pictures')
  */
 router.post('/postItem', upload.array("data"), async (req, res) => {
   const { username, userID, title, description, price, category, isSold, university } = req.body
-  
+
   //get the ids of all the pictures saved
   let picture = []
   req.files.forEach(file => picture.push(file.id))
@@ -74,28 +74,22 @@ router.get('/userSellingCurrent/:username', async (req, res) => {
   }
 });
 
-router.post('/removeItem/', async (req, res) => {
-  console.log(req.body)
-  console.log(req.body.username)
-  console.log(req.body.username)
-
-  const {username, itemID} = req.body
+router.post('/removeItem', async (req, res) => {
+  const { username, itemID } = req.body
 
   try {
-    const user = await User.find({ username: username })
-    // const item = await Item.findById({ _id: req.body.itemID })
-    const index = user[0].forSale.indexOf(itemID);
-    // console.log(index)
-    console.log(user[0].forSale)
+    const user = await User.findOne({ username: username })
+    const index = user.forSale.indexOf(itemID);
+    console.log(user.forSale)
     if (index > -1) {
-      user[0].forSale.splice(index)
+      user.forSale.splice(index, 1)
     } else {
       res.status(400).json({ msg: "item could not be found in the user's forSale list" })
     }
-    console.log(user[0].forSale)
+    console.log(user.forSale)
     let ret = await Item.findByIdAndDelete({ _id: itemID })
-    let retret = await User.findOneAndUpdate({ username: username }, { forSale: user[0].forSale })
-    res.status(200).json({ msg: "success" })
+    let retVal = await User.findOneAndUpdate({ username: username }, { forSale: user.forSale })
+    res.status(200).json({ msg: "item has been successfully removed" })
   } catch (e) {
     console.log(e)
     res.status(404).json({ msg: e.message })
