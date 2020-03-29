@@ -75,7 +75,35 @@ class PostItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
         removePhoto1Button.setTitleColor(.clear, for: .normal)
         removePhoto2Button.setTitleColor(.clear, for: .normal)
         removePhoto3Button.setTitleColor(.clear, for: .normal)
+        
+        // setup price for currency format
+        priceTextField.delegate = self
+        priceTextField.placeholder = updateAmount()
 
+    }
+    
+    var amt: Int = 0
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if let digit = Int(string) {
+            amt = amt * 10 + digit
+            priceTextField.text = updateAmount()
+        }
+        
+        if string == "" {
+            amt = amt/10
+            priceTextField.text = updateAmount()
+        }
+        
+        return false
+    }
+    
+    // function for currency format
+    func updateAmount() -> String? {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = NumberFormatter.Style.currency
+        let amount = Double(amt/100) + Double(amt%100)/100
+        return formatter.string(from: NSNumber(value: amount))
     }
     
     var name = ""
@@ -100,7 +128,7 @@ class PostItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
         category = categoryTextField.text!
         
         // TODO Aakarshit this is where the request needs to be made
-        //upload request to the backend
+        // upload request to the backend
         
         //include content type as multipart data to be recognised by multer
         let headers: HTTPHeaders = [
@@ -110,6 +138,9 @@ class PostItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
         
         //TODO: DREW Please make sure that we throw an error if name, desc, or price is empty.
         //Make sure we don't go into the AF.upload() if those fields are empty
+        if (name == "" || desc == "" || price == "") {
+            // throw error
+        }
 
         //Request to the sever
         AF.upload(multipartFormData: {multipartFormData in
@@ -160,6 +191,10 @@ class PostItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
         let image = UIImagePickerController()
         image.delegate = self
         image.sourceType = UIImagePickerController.SourceType.photoLibrary
+        // handles if camera exists on device (sim vs. device)
+        if (UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.camera)) {
+            image.sourceType = UIImagePickerController.SourceType.camera
+        }
         image.allowsEditing = false
         self.present(image, animated: true)
     }
