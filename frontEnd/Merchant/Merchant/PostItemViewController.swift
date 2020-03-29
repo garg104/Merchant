@@ -80,15 +80,26 @@ class PostItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
     
     var name = ""
     var desc = ""
-    var price = 0.00
-    var photo: UIImage!
+    var price = ""
+    var photo1: UIImage!
+    var photo2: UIImage!
+    var photo3: UIImage!
     var category = ""
     var isSold = false;
     var university = "Purdue University"
     
+    
     @IBAction func postItem(_ sender: UIButton, completion: @escaping (_ validCode: Int)->()) {
-        
         // make upload request
+        name = nameTextField.text!
+        desc = descriptionTextView.text!
+        price = priceTextField.text!
+        photo1 = photo1Button.backgroundImage(for: .normal)
+        photo2 = photo2Button.backgroundImage(for: .normal)
+        photo3 = photo3Button.backgroundImage(for: .normal)
+        category = categoryTextField.text!
+        
+        // TODO Aakarshit this is where the request needs to be made
     
     }
     
@@ -152,16 +163,20 @@ class PostItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
     @IBAction func removePhoto1(_ sender: Any) {
         photo1Button.setBackgroundImage(nil, for: .normal)
         photo1Button.setTitleColor(ourGreen, for: .normal)
+        removePhoto1Button.setTitleColor(.clear, for: .normal)
     }
     
     @IBAction func removePhoto2(_ sender: UIButton) {
         photo2Button.setBackgroundImage(nil, for: .normal)
         photo2Button.setTitleColor(ourGreen, for: .normal)
+        removePhoto2Button.setTitleColor(.clear, for: .normal)
+
     }
     
     @IBAction func removePhoto3(_ sender: UIButton) {
         photo3Button.setBackgroundImage(nil, for: .normal)
         photo3Button.setTitleColor(ourGreen, for: .normal)
+        removePhoto3Button.setTitleColor(.clear, for: .normal)
     }
     /*
      
