@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Alamofire
 
 class SellTableViewCell: UITableViewCell {
     
@@ -21,7 +22,21 @@ class SellTableViewCell: UITableViewCell {
         // Initialization code
         
     }
-
+    @IBAction func removeButton(_ sender: Any) {
+        debugPrint("remove clicked")
+        AF.request(API.URL + "/items/removeItem/", method: .post).responseJSON { response in
+        
+                if (response.response?.statusCode == 200) {
+                   
+                } else {
+                    debugPrint("ERROR")
+                }
+                
+                
+            }
+    }
+    
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
