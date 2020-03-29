@@ -25,10 +25,15 @@ class SellTableViewController: UITableViewController {
         AF.request(API.URL + "/items/userSellingCurrent/\(currentUser)", method: .get).responseJSON { response in
 //            debugPrint("here")
 //            debugPrint("here")
+            struct id:Decodable {
+                let i2:String
+            }
             if let info = response.value {
                 let JSON = info as! NSDictionary
                 debugPrint("JSON:", JSON)
-//                debugPrint("JSON[items]:", (JSON["items"].unsafelyUnwrapped) as! NSArray)
+                let temp : NSArray =  JSON.value(forKey: "items") as! NSArray
+                debugPrint("JSON[items]:", (JSON["items"]!))
+                debugPrint(temp[0])
 //                if let items = JSON["items"] {
 //                    for item in items {
 //                        debugPrint("item is", item)

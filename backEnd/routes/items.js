@@ -69,7 +69,7 @@ router.get('/userSellingCurrent/:username', async (req, res) => {
       // to call another route to get the Item object from the front end.
       // This is so that front end code will be easier. I will change it, if
       // I get time.
-      /*
+      ///*
       const temp = await Item.findById({ _id: item })
       if (!temp.isSold) {
         items.push(temp)
@@ -77,13 +77,15 @@ router.get('/userSellingCurrent/:username', async (req, res) => {
       if (item == user[0].forSale[user[0].forSale.length - 1]) {
         res.status(200).json({ items })
       }
-      */
+      //*/
 
       // this adds the item ID not the whole item object
+      /*
       items.push(item)
       if (item == user[0].forSale[user[0].forSale.length - 1]) {
         res.status(200).json({ items })
       }
+      */
     })
   } catch (e) {
     res.status(404).json({ msg: e.message })
