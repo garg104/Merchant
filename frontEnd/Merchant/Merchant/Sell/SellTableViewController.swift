@@ -24,7 +24,7 @@ class SellTableViewController: UITableViewController {
         
         let details = parameters(username: currentUser)
         
-        AF.request(API.URL + "/items/userSellingCurrent", method: .get, parameters: details, encoder: URLEncodedFormParameterEncoder.default).response { response in
+        AF.request(API.URL + "/items/userSellingCurrent", method: .get).response { response in
             
 //            debugPrint(response.response?.statusCode ?? nil!)
             debugPrint(response)
