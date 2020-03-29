@@ -76,20 +76,13 @@ router.get('/userSellingCurrent/:username', async (req, res) => {
 
 router.post('/items/removeItem/', async (req, res) => {
   try {
-    // get all items with isSold as false.
-    console.log(req.params.username)
+    console.log(req.body.username)
     const user = await User.find({ username: req.body.username })
-    // console.log(user[0].forSale)
-    let items = []
-    user[0].forSale.forEach(async (item) => {
-      const temp = await Item.findById({ _id: item })
-      if (!temp.isSold) {
-        items.push(temp)
-      }
-      if (item == user[0].forSale[user[0].forSale.length - 1]) {
-        res.status(200).json({ items })
-      }
-    })
+    const item = await Item.findById({ _id: item })
+    // const ret = await Item.findByIdAndDelete({ _id: req.body.itemId })
+    console.log(user[0].forSale.indexOf(item))
+    res.status(200).json({ msg: "success" })
+
   } catch (e) {
     res.status(404).json({ msg: e.message })
   }

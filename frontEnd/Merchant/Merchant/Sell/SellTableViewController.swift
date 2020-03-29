@@ -36,7 +36,7 @@ class SellTableViewController: UITableViewController {
                     let JSON = info as! NSDictionary
                     let items : NSArray =  JSON.value(forKey: "items") as! NSArray
                     for item in items {
-                        debugPrint(item)
+//                        debugPrint(item)
 //                        debugPrint(item)
                         let temp = item as! NSDictionary
                         self.titles.append(temp["title"]! as! String)
