@@ -8,6 +8,23 @@
 
 import UIKit
 
+extension BuyTableViewController: UISearchResultsUpdating {
+  func updateSearchResults(for searchController: UISearchController) {
+    let searchBar = searchController.searchBar
+    filterContentForSearchText(searchBar.text!)
+  }
+}
+
+extension BuyTableViewController: UISearchBarDelegate {
+  func searchBar(_ searchBar: UISearchBar,
+      selectedScopeButtonIndexDidChange selectedScope: Int) {
+    let category = searchCategories[selectedScope]
+    print("CATEGORY:")
+    print(category)
+    filterContentForSearchText(searchBar.text!)
+  }
+}
+
 class BuyTableViewController: UITableViewController {
     
     var currentUser = ""
@@ -18,16 +35,33 @@ class BuyTableViewController: UITableViewController {
     var usernames = ["userA", "userB", "userC"]
     var prices = ["$10.00", "$7.00", "$16.00"]
     var descriptions = ["description1", "description2", "description3"]
+    var searchCategories = ["Item", "User"]
     var filtered = [""];
+    var searchCat = 0
     
+    // Search Controller
+    let searchController = UISearchController(searchResultsController: nil)
+    
+    //check for empty search bar
+    var isSearchBarEmpty: Bool {
+        print("SCOPE INDEX")
+        print(searchController.searchBar.selectedScopeButtonIndex)
+        searchCat = searchController.searchBar.selectedScopeButtonIndex
+        //let searchBarScopeIsFiltering =
+          //searchController.searchBar.selectedScopeButtonIndex != 0
+        //return searchController.isActive &&
+            /*(!self.isSearchBarEmpty || searchBarScopeIsFiltering)*/
+        
+      return searchController.searchBar.text?.isEmpty ?? true
+    }
+    
+    //check for if filtering
+    var isFiltering: Bool {
+      return searchController.isActive && !isSearchBarEmpty
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        filtered = titles.filter{ $0.contains("tem")}
-        print("FILTERED\n\n\n\n")
-        print(filtered)
-        print("\n\n\n")
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -35,11 +69,34 @@ class BuyTableViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
         
-        let searchController = UISearchController(searchResultsController: nil) // Search Controller
+        //search controller initilization
         navigationItem.hidesSearchBarWhenScrolling = false
         navigationItem.searchController = searchController
-        searchController.searchBar.scopeButtonTitles = ["Item", "User"]
+        searchController.searchBar.scopeButtonTitles = searchCategories
+        searchController.searchBar.delegate = self
         
+        //setup search controller components
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "What are you looking for?"
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
+        
+        
+    }
+    
+    //search filtering function
+    func filterContentForSearchText(_ searchText: String) {
+        
+        /* for filtering with dictionaries*/
+        //resultsArray.filter{ ($0["fieldName"] as? String)?.lowercased().contains(searchText.lowercased())}
+        
+        if (searchCat == 0) {
+            filtered = titles.filter{ $0.lowercased().contains(searchText.lowercased())}
+        } else if (searchCat == 1) {
+            filtered = usernames.filter{ $0.lowercased().contains(searchText.lowercased())}
+        }
+        tableView.reloadData()
     }
 
     // MARK: - Table view data source
@@ -50,7 +107,10 @@ class BuyTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
+        
+        if (isFiltering) {
+            return filtered.count
+        }
         return titles.count
     }
 
@@ -60,10 +120,16 @@ class BuyTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "itemCell", for: indexPath) as! BuyTableViewCell
 
         // Configure the cell...
-        cell.itemTitleLabel.text = titles[indexPath.row]
-        cell.itemPriceLabel.text = prices[indexPath.row]
-        cell.userNameLabel.text = usernames[indexPath.row]
-        cell.itemDescription = descriptions[indexPath.row]
+        
+        if (isFiltering) {
+            //will have to update with corresponding JSON/dictionary values
+            cell.itemTitleLabel.text = filtered[indexPath.row]
+        } else {
+            cell.itemTitleLabel.text = titles[indexPath.row]
+            cell.itemPriceLabel.text = prices[indexPath.row]
+            cell.userNameLabel.text = usernames[indexPath.row]
+            cell.itemDescription = descriptions[indexPath.row]
+        }
         
         return cell
     }
