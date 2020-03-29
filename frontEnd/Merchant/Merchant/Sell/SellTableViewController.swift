@@ -13,7 +13,14 @@ class SellTableViewController: UITableViewController {
     
     var currentUser = ""
     
+    //data structures for simple testing (replace with JSON array)
+    var images: [String] = []
+    var titles: [String] = []
+    var usernames: [String] = []
+    var prices: [String] = []
+    var descriptions: [String] = []
     
+    var counter = 0
     
     func getItems(completion: @escaping (_ validCode: Int)->()) {
         // #warning Incomplete implementation, return the number of sections
@@ -30,6 +37,7 @@ class SellTableViewController: UITableViewController {
                 let items : NSArray =  JSON.value(forKey: "items") as! NSArray
 //                debugPrint("JSON[items]:", (JSON["items"]!))
                 for item in items {
+                    self.counter += 1;
                     debugPrint(item)
                     let temp = item as! NSDictionary
                     self.titles.append(temp["title"]! as! String)
@@ -39,6 +47,10 @@ class SellTableViewController: UITableViewController {
 
                     //                debugPrint(temp2["title"]!)
                     
+                    print(self.titles)
+                    print(self.usernames)
+                    print(self.prices)
+                    print(self.descriptions)
 
                 }
                 
@@ -58,24 +70,32 @@ class SellTableViewController: UITableViewController {
         }.resume()
     }
     
-    
-    //data structures for simple testing (replace with JSON array)
-    var images: [String] = []
-    var titles: [String] = []
-    var usernames: [String] = []
-    var prices: [String] = []
-    var descriptions: [String] = []
-    
     override func viewDidLoad() {
-        getItems(completion: 0)
         super.viewDidLoad()
-
+        
+        getItems() { (validCode) in
+            self.tableView.reloadData()
+        }
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
 
+    }
+    
+    func updateData() {
+        images = []
+        titles = []
+        usernames = []
+        prices = []
+        descriptions = []
+        
+        getItems() { (validCode) in
+            self.tableView.reloadData()
+        }
+        
     }
 
     // MARK: - Table view data source
