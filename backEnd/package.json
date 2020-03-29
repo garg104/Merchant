@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "jest": {
+    "testEnvironment": "node",
     "transform": {
       ".js": "jest-esm-transformer"
     }

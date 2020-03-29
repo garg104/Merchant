@@ -27,7 +27,7 @@ describe('\nUtility tests\n', () => {
         done()
     }, 10000)
 
-    it('\nInfo route\n', async done => {
+    it('Info route', async done => {
         //send request to the /validate endpoint
         const res = await request.post('/user/info').send({ username: 'pandey25' })
         expect(res.status).toBe(200)
@@ -138,7 +138,7 @@ describe('\nTests the search routes\n', () => {
 })
 
 //Tests for the items route
-describe('Get routes', () => {
+describe('\nItems: Get routes\n', () => {
     //Get all the items from the DB
     it('Get all the items', async done => {
         const res = await request.get('/items/')
@@ -152,6 +152,21 @@ describe('Get routes', () => {
         const res = await request.get('/items/search/pandey25/lap')
         expect(res.status).toBe(200)
         expect(res.body.items.length !== 0).toBe(true)
+        done()
+    })
+})
+
+//Posting and deleting items
+describe('\nItems: Posting New Items\n', () => {
+    it('Post a new item', async done => {
+        //TODO
+        expect(1).toBe(1)
+        done()
+    })
+
+    it('Delete an item from the DB', async done => {
+        //TODO
+        expect(1).toBe(1)
         done()
     })
 })
