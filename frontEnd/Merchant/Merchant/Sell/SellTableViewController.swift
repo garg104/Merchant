@@ -21,13 +21,35 @@ class SellTableViewController: UITableViewController {
         struct parameters: Encodable {
             var username = ""
         }
-        
-        let details = parameters(username: currentUser)
-        
-        AF.request(API.URL + "/items/userSellingCurrent/\(currentUser)", method: .get).response { response in
+                
+        AF.request(API.URL + "/items/userSellingCurrent/\(currentUser)", method: .get).responseJSON { response in
+//            debugPrint("here")
+//            debugPrint("here")
+            if let info = response.value {
+                let JSON = info as! NSDictionary
+                debugPrint("JSON:", JSON)
+//                debugPrint("JSON[items]:", (JSON["items"].unsafelyUnwrapped) as! NSArray)
+//                if let items = JSON["items"] {
+//                    for item in items {
+//                        debugPrint("item is", item)
+//                    }
+//                }
+
+            }
+
+
+//            debugPrint(response.result)
+//            response.responseDecodable(of: Items.self) { (response) in
+//              guard let films = response.value else { return }
+//              print(films.all[0].title)
+//            }
+//            debugPrint("here")
+//            debugPrint("here")
+//            let info = response.value
+//            debugPrint(info!!)
+//            let JSON = info as? NSDictionary
+//            debugPrint(JSON!)
             
-//            debugPrint(response.response?.statusCode ?? nil!)
-            debugPrint(response)
             
                 
         }.resume()
@@ -145,3 +167,5 @@ class SellTableViewController: UITableViewController {
     
 
 }
+
+
