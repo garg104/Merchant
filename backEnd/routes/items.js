@@ -130,10 +130,14 @@ router.get('/search/:username/:query', async (req, res, next) => {
 
   let userId;
   try {
-    user = await User.findOne({ username: username })
-    userId = user._id
+    const user = await User.findOne({ username: username })
+    if (user)
+      userId = user._id
+    else
+      return res.status(400).json({ msg: "User not found" })
   } catch (e) {
-    res.status(400).json({ msg: "User not found" })
+    console.log(e)
+    return res.status(400).json({ msg: "User not found" })
   } //end try-catch
 
   try {

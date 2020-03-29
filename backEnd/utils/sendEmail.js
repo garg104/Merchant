@@ -30,7 +30,6 @@ export const sendEmail = async (msg) => {
         const apiRes = await sgMail.send(msg)
         return Promise.resolve({ msg: 'Email sent successfully' })
     } catch (e) {
-        console.log('Email could not be sent')
         return Promise.reject({ ...e })
     }
 } //sendEmail
@@ -64,7 +63,7 @@ export const generateDeleteAcctMsg = (email) => {
         from: 'merchant@gmail.com',
         subject: 'Account Deleted',
         text: 'Hi,\n Thank you for using Merchant. Your account has been deleted.' +
-            '\nRegards,\nMerchant Team!', 
+            '\nRegards,\nMerchant Team!',
     };
 }
 
@@ -79,7 +78,7 @@ export const generateTempPassword = (email, firstName, password) => {
         to: `${email}`,
         from: 'merchant@gmail.com',
         subject: 'ATTENTION: Temporary password. ',
-        text: `Hi, ${firstName}\nYour temporary password is\n` + `${password}\n` + 
+        text: `Hi, ${firstName}\nYour temporary password is\n` + `${password}\n` +
             `Please update your password from the User page after logging in using the above password.` +
             '\nRegards,\nMerchant Team!',
     };
@@ -96,7 +95,7 @@ export const generateResetPassword = (email, firstName) => {
         to: `${email}`,
         from: 'merchant@gmail.com',
         subject: 'ATTENTION: Password reset. ',
-        text: `Hi, ${firstName}\nYour password has been reset.\n` + 
+        text: `Hi, ${firstName}\nYour password has been reset.\n` +
             '\nRegards,\nMerchant Team!',
     };
 }
