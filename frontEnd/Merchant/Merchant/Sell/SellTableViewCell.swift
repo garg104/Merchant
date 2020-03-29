@@ -27,13 +27,15 @@ class SellTableViewCell: UITableViewCell {
         
     }
     
-    func removeItemHandler() {
+    func removeItemHandler(itemID: String, username: String) {
         struct parameters: Encodable {
                    var username = ""
                    var itemID = ""
         }
-               
-        let details = parameters(username: self.username, itemID: self.itemID)
+        
+        print(itemID)
+        
+        let details = parameters(username: username, itemID: itemID)
                
         AF.request(API.URL + "/items/removeItem/", method: .post, parameters: details, encoder: URLEncodedFormParameterEncoder.default).responseJSON { response in
                

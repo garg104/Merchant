@@ -77,11 +77,12 @@ router.get('/userSellingCurrent/:username', async (req, res) => {
 router.post('/removeItem/', async (req, res) => {
   console.log(req.body)
   console.log(req.body.username)
+  console.log(req.body.username)
 
   try {
     const user = await User.find({ username: req.body.username })
     // const item = await Item.findById({ _id: req.body.itemID })
-    const ret = await Item.findByIdAndDelete({ _id: req.body.itemId })
+    const ret = await Item.findByIdAndDelete({ _id: req.body.itemID })
     const index = user[0].forSale.indexOf(req.body.itemID);
     // console.log(index)
     // console.log(user[0].forSale)

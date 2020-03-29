@@ -122,7 +122,7 @@ class SellTableViewController: UITableViewController {
         let indexPath = tableView.indexPath(for: cell)
         
         print("ITEM ID")
-        print(itemIDs[indexPath!.row])
+        print()
         
         // create alert
         let alert = UIAlertController(title: "Please Confirm", message: "Are you sure you want to remove the Item from sale?", preferredStyle: .alert)
@@ -138,7 +138,9 @@ class SellTableViewController: UITableViewController {
         let confirm = UIAlertAction(title: "Confirm",
                                     style: .default,
                                     handler: { (action) -> Void in
-            self.cellView.removeItemHandler()
+                                        self.cellView.removeItemHandler(
+                                            itemID: self.itemIDs[indexPath!.row],
+                                            username: self.currentUser )
         })
 
         // add actions to the alert
