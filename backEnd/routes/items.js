@@ -53,7 +53,7 @@ router.get('/allItems', async (req, res) => {
   }
 });
 
-router.post('/userSellingCurrent/:username', async (req, res) => {
+router.get('/userSellingCurrent/:username', async (req, res) => {
   try {
     // get all items with isSold as false.
     console.log(req.params.username)
