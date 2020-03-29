@@ -70,10 +70,10 @@ router.get('/userSellingCurrent/:username', async (req, res) => {
       // This is so that front end code will be easier. I will change it, if
       // I get time.
       ///*
-      // const temp = await Item.findById({ _id: item })
-      // if (!temp.isSold) {
+      const temp = await Item.findById({ _id: item })
+      if (!temp.isSold) {
         items.push(temp)
-      // }
+      }
       if (item == user[0].forSale[user[0].forSale.length - 1]) {
         res.status(200).json({ items })
       }
