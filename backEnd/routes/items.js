@@ -84,7 +84,6 @@ router.post('/removeItem/', async (req, res) => {
   try {
     const user = await User.find({ username: username })
     // const item = await Item.findById({ _id: req.body.itemID })
-    let ret = await Item.findByIdAndDelete({ _id: itemID })
     const index = user[0].forSale.indexOf(itemID);
     // console.log(index)
     console.log(user[0].forSale)
@@ -93,9 +92,10 @@ router.post('/removeItem/', async (req, res) => {
     } else {
       res.status(400).json({ msg: "item could not be found in the user's forSale list" })
     }
-    ret = await User.findOneAndUpdate({ username: username }, { forSale: user[0].forSale })
-    res.status(200).json({ msg: "success" })
     console.log(user[0].forSale)
+    let ret = await Item.findByIdAndDelete({ _id: itemID })
+    let retret = await User.findOneAndUpdate({ username: username }, { forSale: user[0].forSale })
+    res.status(200).json({ msg: "success" })
   } catch (e) {
     console.log(e)
     res.status(404).json({ msg: e.message })
