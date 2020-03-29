@@ -20,7 +20,7 @@ class SellTableViewController: UITableViewController {
     var prices: [String] = []
     var descriptions: [String] = []
     
-    var counter = 0
+//    var counter = 0
     
     func getItems(completion: @escaping (_ validCode: Int)->()) {
         // #warning Incomplete implementation, return the number of sections
@@ -31,40 +31,22 @@ class SellTableViewController: UITableViewController {
                 
         AF.request(API.URL + "/items/userSellingCurrent/\(currentUser)", method: .get).responseJSON { response in
     
-            if let info = response.value {
-                let JSON = info as! NSDictionary
-//                debugPrint("JSON:", JSON)
-                let items : NSArray =  JSON.value(forKey: "items") as! NSArray
-//                debugPrint("JSON[items]:", (JSON["items"]!))
-                for item in items {
-                    self.counter += 1;
-                    debugPrint(item)
-                    let temp = item as! NSDictionary
-                    self.titles.append(temp["title"]! as! String)
-                    self.prices.append(temp["price"]! as! String)
-                    self.descriptions.append(temp["description"]! as! String)
-
-
-                    //                debugPrint(temp2["title"]!)
-                    
-                    print(self.titles)
-                    print(self.usernames)
-                    print(self.prices)
-                    print(self.descriptions)
-
+            if (response.response?.statusCode == 200) {
+                if let info = response.value {
+                    let JSON = info as! NSDictionary
+                    let items : NSArray =  JSON.value(forKey: "items") as! NSArray
+                    for item in items {
+                                    debugPrint(item)
+                        let temp = item as! NSDictionary
+                        self.titles.append(temp["title"]! as! String)
+                        self.prices.append(temp["price"]! as! String)
+                        self.descriptions.append(temp["description"]! as! String)
+                    }
                 }
-                
-//                let temp2 = temp[0] as! NSDictionary
-//                debugPrint(temp2["title"]!)
-
-
-//                if let items = JSON["items"] {
-//                    for item in items {
-//                        debugPrint("item is", item)
-//                    }
-//                }
-
+            } else {
+                debugPrint("ERROR")
             }
+            
             completion(0)
             
         }.resume()
@@ -191,5 +173,6 @@ class SellTableViewController: UITableViewController {
     
 
 }
+
 
 
