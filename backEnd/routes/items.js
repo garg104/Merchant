@@ -1,5 +1,6 @@
 require('dotenv').config()
 import { config, getItemPictureSchemas } from '../utils/fileHandling'
+import { getFiles } from '../middlewares/middlewares';
 const express = require('express');
 const router = express.Router();
 const Item = require('../models/Items')
@@ -106,17 +107,26 @@ router.get('/search/:username/:query', async (req, res, next) => {
 })
 
 /**
- * Route to delete pictures
+ * Route to get item pictures from DB
  */
-router.delete('/items/picture/:id', async (req, res) => {
+router.get('/picture/:id', async (req, res, next) => {
   //get the id of the picture
   const { id } = req.params
+
   //get the shemas for items
-  const itemSchemas = getItemPictureSchemas()
+  const { itemChunks } = getItemPictureSchemas()
+
+  //in case there is no id, respond with an error
   if (!id) {
     return res.status(404).json({ msg: "The fileId was not found" })
-  }
+  } //end if
 
-})
+  //setting up the request object for next middleware
+  req.fileChunks = itemChunks
+  req.fileId = id
+
+  //calling the next middleware
+  next()
+}, getFiles)
 
 module.exports = router;
