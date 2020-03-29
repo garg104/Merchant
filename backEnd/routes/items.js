@@ -75,8 +75,10 @@ router.get('/userSellingCurrent/:username', async (req, res) => {
 });
 
 router.post('/removeItem/', async (req, res) => {
+  console.log(req.body)
+  console.log(req.body.username)
+
   try {
-    console.log(req.body.username)
     const user = await User.find({ username: req.body.username })
     // const item = await Item.findById({ _id: req.body.itemID })
     const ret = await Item.findByIdAndDelete({ _id: req.body.itemId })
@@ -92,6 +94,7 @@ router.post('/removeItem/', async (req, res) => {
     ret = await User.findOneAndUpdate({ username: req.body.username }, { forSale: user[0].forSale })
     res.status(200).json({ msg: "success" })
   } catch (e) {
+    console.log(e)
     res.status(404).json({ msg: e.message })
   }
 });
