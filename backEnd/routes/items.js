@@ -113,7 +113,7 @@ router.get('/picture/:id', async (req, res, next) => {
   //get the id of the picture
   const { id } = req.params
 
-  //get the shemas for items
+  //get the schemas for items
   const { itemChunks } = getItemPictureSchemas()
 
   //in case there is no id, respond with an error
@@ -128,5 +128,31 @@ router.get('/picture/:id', async (req, res, next) => {
   //calling the next middleware
   next()
 }, getFiles)
+
+/**
+ * Route to delete a picture from the database
+ */
+router.delete('/picture/:id', async (req, res, next) => {
+  //get the id of the picture
+  const { id } = req.params
+
+  //get the schemase for the items
+  const { itemChunks, itemMetadata } = getItemPictureSchemas()
+
+  //checking whether id is not null
+  if (!id) {
+    return res.status(404).json({ msg: 'requested id not found!' })
+  } //end if
+
+  try {
+    //search for the picture and delete it from both the schemas
+    await itemChunks.delete({ _id: id })
+    await itemMetadata.delete({ _id: id })
+  } catch (e) {
+    //error handling
+    console.error(e)
+    res.status(400).json({ msg: 'Could not delete the picture' })
+  }
+})
 
 module.exports = router;
