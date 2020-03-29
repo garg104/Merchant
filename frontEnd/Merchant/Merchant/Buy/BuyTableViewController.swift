@@ -35,13 +35,17 @@ class BuyTableViewController: UITableViewController {
                     let JSON = info as! NSDictionary
                     let items : NSArray =  JSON.value(forKey: "items") as! NSArray
                     for item in items {
-                        print(item)
+                        // make sure that the user does not see the objects they are selling
                         let temp = item as! NSDictionary
-                        self.titles.append(temp["title"]! as! String)
-                        self.prices.append(temp["price"]! as! String)
-                        self.usernames.append(temp["username"] as! String)
-                        self.descriptions.append(temp["description"]! as! String)
-                        self.itemIDs.append(temp["_id"]! as! String)
+                        if (self.currentUser != temp["username"] as! String) {
+                            print(item)
+                            self.titles.append(temp["title"]! as! String)
+                            self.prices.append(temp["price"]! as! String)
+                            self.usernames.append(temp["username"] as! String)
+                            self.descriptions.append(temp["description"]! as! String)
+                            self.itemIDs.append(temp["_id"]! as! String)
+                        }
+                        
                     }
                 }
             } else {
@@ -108,7 +112,7 @@ class BuyTableViewController: UITableViewController {
         // Configure the cell...
         cell.itemTitleLabel.text = titles[indexPath.row]
         cell.itemPriceLabel.text = prices[indexPath.row]
-//        cell.userNameLabel.text = usernames[indexPath.row]
+        cell.userNameLabel.text = usernames[indexPath.row]
         cell.itemDescription = descriptions[indexPath.row]
         cell.itemID = itemIDs[indexPath.row]
 
