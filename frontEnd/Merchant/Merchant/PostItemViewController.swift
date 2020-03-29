@@ -101,14 +101,18 @@ class PostItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
         
         // TODO Aakarshit this is where the request needs to be made
         //upload request to the backend
+        
         //include content type as multipart data to be recognised by multer
         let headers: HTTPHeaders = [
             "Content-type": "multipart/form-data",
             "Accept": "application/json"
         ]
         
+        //TODO: DREW Please make sure that we throw an error if name, desc, or price is empty.
+        //Make sure we don't go into the AF.upload() if those fields are empty
+
+        //Request to the sever
         AF.upload(multipartFormData: {multipartFormData in
-            
             if (self.photo1 != nil) {
                 multipartFormData.append(self.photo1.jpegData(compressionQuality: 0.1)!, withName: "data", mimeType: "image/jpeg")
             } //end if
@@ -118,9 +122,18 @@ class PostItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
             if (self.photo3 != nil) {
                 multipartFormData.append(self.photo3.jpegData(compressionQuality: 0.1)!, withName: "data", mimeType: "image/jpeg")
             } //end if
-        }, to: API.URL + "/user/picture", headers: headers).responseJSON { response in
+            multipartFormData.append(Data(self.name.utf8), withName: "title")
+            multipartFormData.append(Data(self.desc.utf8), withName: "description")
+            multipartFormData.append(Data(self.category.utf8), withName: "category")
+            multipartFormData.append(Data(self.university.utf8), withName: "university")
+            multipartFormData.append(Data("\(self.price)".utf8), withName: "price")
+        }, to: API.URL + "/items/postItem", headers: headers).responseJSON { response in
             //store the updated profile picture in cache
-//            self.storeNewProfilePictureInCache()
+            if (response.response?.statusCode != 200) {
+                //TODO: DREW make sure that we display a message saying item couldn't be posted
+            } else {
+                //TODO: DREW make sure that we display a success message saying item has been posted
+            }
         } //end response handler
     
     }
