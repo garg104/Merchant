@@ -141,6 +141,7 @@ class SellTableViewController: UITableViewController {
                                         self.cellView.removeItemHandler(
                                             itemID: self.itemIDs[indexPath!.row],
                                             username: self.currentUser )
+                                        self.updateData()
         })
 
         // add actions to the alert

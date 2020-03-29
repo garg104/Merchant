@@ -87,15 +87,15 @@ router.post('/removeItem/', async (req, res) => {
     let ret = await Item.findByIdAndDelete({ _id: itemID })
     const index = user[0].forSale.indexOf(itemID);
     // console.log(index)
-    // console.log(user[0].forSale)
+    console.log(user[0].forSale)
     if (index > -1) {
       user[0].forSale.splice(index)
     } else {
       res.status(400).json({ msg: "item could not be found in the user's forSale list" })
     }
-    // console.log(user[0].forSale)
     ret = await User.findOneAndUpdate({ username: username }, { forSale: user[0].forSale })
     res.status(200).json({ msg: "success" })
+    console.log(user[0].forSale)
   } catch (e) {
     console.log(e)
     res.status(404).json({ msg: e.message })
