@@ -416,7 +416,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="108"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" red="0.46274509800000002" green="0.70980392160000005" blue="0.30196078430000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                        <color key="barTintColor" red="0.46274509800000002" green="0.70980392160000005" blue="0.30196078430000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="barTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <textAttributes key="titleTextAttributes">
                             <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="17"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -961,9 +962,7 @@
                             <outlet property="delegate" destination="kdR-JZ-Z6h" id="Zm1-3E-hqW"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Sell" id="fNP-Wb-ygK">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="BCw-qm-IIT"/>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Sell" id="fNP-Wb-ygK"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0eq-cU-XOe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
