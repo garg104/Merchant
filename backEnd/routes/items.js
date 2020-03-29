@@ -1,5 +1,6 @@
 require('dotenv').config()
-import { config, getProfilePictureSchemas } from '../utils/fileHandling'
+import { config, getItemPictureSchemas } from '../utils/fileHandling'
+import { getFiles } from '../middlewares/middlewares';
 const express = require('express');
 const router = express.Router();
 const Item = require('../models/Items')
@@ -13,7 +14,7 @@ let upload = config('item-pictures')
  */
 router.post('/postItem', upload.array("data"), async (req, res) => {
   const { username, userID, title, description, price, category, isSold, university } = req.body
-  
+
   //get the ids of all the pictures saved
   let picture = []
   req.files.forEach(file => picture.push(file.id))
@@ -58,7 +59,6 @@ router.get('/userSellingCurrent/:username', async (req, res) => {
     // get all items with isSold as false.
     console.log(req.params.username)
     const user = await User.find({ username: req.params.username })
-    // console.log(user[0].forSale)
     let items = []
     user[0].forSale.forEach(async (item) => {
       const temp = await Item.findById({ _id: item })
@@ -74,29 +74,27 @@ router.get('/userSellingCurrent/:username', async (req, res) => {
   }
 });
 
-router.post('/removeItem/', async (req, res) => {
-  console.log(req.body)
-  console.log(req.body.username)
-  console.log(req.body.username)
-
-  const {username, itemID} = req.body
+router.post('/removeItem', async (req, res) => {
+  const { username, itemID } = req.body
 
   try {
-    const user = await User.find({ username: username })
-    // const item = await Item.findById({ _id: req.body.itemID })
-    const index = user[0].forSale.indexOf(itemID);
-    // console.log(index)
-    console.log(user[0].forSale)
+    //get the corresponding user
+    const user = await User.findOne({ username: username })
+    //get the corresponding itemIndex in the items array
+    const index = user.forSale.indexOf(itemID);
     if (index > -1) {
-      user[0].forSale.splice(index)
+      //remove the item
+      user.forSale.splice(index, 1)
     } else {
+      //item couldn't be found
       res.status(400).json({ msg: "item could not be found in the user's forSale list" })
     }
-    console.log(user[0].forSale)
+    //delete the item and also update the corresponding user object
     let ret = await Item.findByIdAndDelete({ _id: itemID })
-    let retret = await User.findOneAndUpdate({ username: username }, { forSale: user[0].forSale })
-    res.status(200).json({ msg: "success" })
+    let retVal = await User.findOneAndUpdate({ username: username }, { forSale: user.forSale })
+    res.status(200).json({ msg: "item has been successfully removed" })
   } catch (e) {
+    //logging errors
     console.log(e)
     res.status(404).json({ msg: e.message })
   }
@@ -176,6 +174,55 @@ router.get('/search/:username/:query', async (req, res, next) => {
     console.log(e)
     res.status(404).json({ items: [], msg: "No items found" })
   } //end try-catch
+})
+
+/**
+ * Route to get item pictures from DB
+ */
+router.get('/picture/:id', async (req, res, next) => {
+  //get the id of the picture
+  const { id } = req.params
+
+  //get the schemas for items
+  const { itemChunks } = getItemPictureSchemas()
+
+  //in case there is no id, respond with an error
+  if (!id) {
+    return res.status(404).json({ msg: "The fileId was not found" })
+  } //end if
+
+  //setting up the request object for next middleware
+  req.fileChunks = itemChunks
+  req.fileId = id
+
+  //calling the next middleware
+  next()
+}, getFiles)
+
+/**
+ * Route to delete a picture from the database
+ */
+router.delete('/picture/:id', async (req, res, next) => {
+  //get the id of the picture
+  const { id } = req.params
+
+  //get the schemase for the items
+  const { itemChunks, itemMetadata } = getItemPictureSchemas()
+
+  //checking whether id is not null
+  if (!id) {
+    return res.status(404).json({ msg: 'requested id not found!' })
+  } //end if
+
+  try {
+    //search for the picture and delete it from both the schemas
+    await itemChunks.delete({ _id: id })
+    await itemMetadata.delete({ _id: id })
+  } catch (e) {
+    //error handling
+    console.error(e)
+    res.status(400).json({ msg: 'Could not delete the picture' })
+  }
 })
 
 module.exports = router;
