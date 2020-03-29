@@ -20,7 +20,7 @@ router.post('/postItem', upload.array("data"), async (req, res) => {
 
   try {
     //create new item in the Database
-    const item = new Item({ userID, title, description, price, picture, category, isSold, university })
+    const item = new Item({ userID, username, title, description, price, picture, category, isSold, university })
 
     // saving the item in the database (save() is same as User.create)
     // add the item to the selling list of the user
@@ -43,7 +43,7 @@ router.post('/postItem', upload.array("data"), async (req, res) => {
  * Get all the items in the DB according the the algorithm
  * The algorithm is yet to be decided.
  */
-router.get('/allItems', async (req, res) => {
+router.get('/allItems/', async (req, res) => {
   try {
     // get all items with isSold as false.
     const items = await Item.find({ isSold: false })
