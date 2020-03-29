@@ -9,7 +9,7 @@
 import UIKit
 import Alamofire
 
-class PostItemViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate {
+class PostItemViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     
     // these next four functions are for the pickerView
@@ -85,8 +85,24 @@ class PostItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
     
     @IBAction func choosePhotos(_ sender: UIButton) {
         // choose photos from camera roll
+        let image = UIImagePickerController()
+        image.delegate = self
+        image.sourceType = UIImagePickerController.SourceType.photoLibrary
+        image.allowsEditing = false
+        self.present(image, animated: true)
     }
     
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            // add it
+        }
+        else {
+            // Error message
+        }
+        
+        // hide controller when finished
+        self.dismiss(animated: true, completion: nil)
+    }
 
     /*
     // MARK: - Navigation
