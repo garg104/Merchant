@@ -19,6 +19,7 @@ class SellTableViewController: UITableViewController {
     var usernames: [String] = []
     var prices: [String] = []
     var descriptions: [String] = []
+    var itemIDs: [String] = []
     
 //    var counter = 0
     
@@ -42,6 +43,8 @@ class SellTableViewController: UITableViewController {
                         self.titles.append(temp["title"]! as! String)
                         self.prices.append(temp["price"]! as! String)
                         self.descriptions.append(temp["description"]! as! String)
+                        //append item ID from request, edit following line
+                        self.itemIDs.append("1")
                     }
                 }
             } else {
@@ -74,6 +77,7 @@ class SellTableViewController: UITableViewController {
         usernames = []
         prices = []
         descriptions = []
+        itemIDs = []
         
         getItems() { (validCode) in
             self.tableView.reloadData()
@@ -102,7 +106,8 @@ class SellTableViewController: UITableViewController {
         cell.itemTitleLabel.text = titles[indexPath.row]
         cell.itemPriceLabel.text = prices[indexPath.row]
         cell.itemDescription = descriptions[indexPath.row]
-
+        cell.itemID = itemIDs[indexPath.row]
+        cell.username = currentUser
 
         return cell
     }

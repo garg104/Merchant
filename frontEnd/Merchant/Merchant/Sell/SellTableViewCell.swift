@@ -16,6 +16,8 @@ class SellTableViewCell: UITableViewCell {
     @IBOutlet weak var removeButton: UIButton!
     var itemImage = ""
     var itemDescription = ""
+    var username = ""
+    var itemID = ""
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -34,6 +36,10 @@ class SellTableViewCell: UITableViewCell {
                 
                 
             }
+    }
+    
+    @IBAction func soldButton(_ sender: Any) {
+        debugPrint("sold clicked")
     }
     
     
