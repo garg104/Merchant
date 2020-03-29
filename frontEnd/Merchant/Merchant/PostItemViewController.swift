@@ -100,6 +100,28 @@ class PostItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
         category = categoryTextField.text!
         
         // TODO Aakarshit this is where the request needs to be made
+        //upload request to the backend
+        //include content type as multipart data to be recognised by multer
+        let headers: HTTPHeaders = [
+            "Content-type": "multipart/form-data",
+            "Accept": "application/json"
+        ]
+        
+        AF.upload(multipartFormData: {multipartFormData in
+            
+            if (self.photo1 != nil) {
+                multipartFormData.append(self.photo1.jpegData(compressionQuality: 0.1)!, withName: "data", mimeType: "image/jpeg")
+            } //end if
+            if (self.photo2 != nil) {
+                multipartFormData.append(self.photo2.jpegData(compressionQuality: 0.1)!, withName: "data", mimeType: "image/jpeg")
+            } //end if
+            if (self.photo3 != nil) {
+                multipartFormData.append(self.photo3.jpegData(compressionQuality: 0.1)!, withName: "data", mimeType: "image/jpeg")
+            } //end if
+        }, to: API.URL + "/user/picture", headers: headers).responseJSON { response in
+            //store the updated profile picture in cache
+//            self.storeNewProfilePictureInCache()
+        } //end response handler
     
     }
     
