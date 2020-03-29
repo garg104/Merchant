@@ -56,7 +56,7 @@ router.get('/allItems', async (req, res) => {
 router.get('/userSellingCurrent', async (req, res) => {
   try {
     // get all items with isSold as false.
-    // console.log(req.body.username)
+    console.log(req.body.username)
     const user = await User.find({ username: req.body.username })
     // console.log(user[0].forSale)
     let items = []
