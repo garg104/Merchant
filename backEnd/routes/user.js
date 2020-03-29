@@ -290,18 +290,15 @@ router.get('/picture/:username', async (req, res, next) => {
 /* check if the user exists and send a recovery email. */
 router.post('/forgotPassword', async (req, res) => {
   const { username } = req.body
-  console.log(username)
   try {
     const user = await User.findOne({ username })
     // the user does not exist
-    console.log(user)
     if (user == null) {
       res.status(404).json({ msg: "User does not exist!" })
     }
 
     // find the email of the user from the database 
     const email = user.email
-    console.log(email)
 
     // make sure that the user email is in the database.
     if (email.length == 0) {
@@ -342,12 +339,10 @@ router.post('/forgotPassword', async (req, res) => {
           }
           // updating the password in the database
           try {
-            console.log(hash)
             await User.findOneAndUpdate({ username }, { password: hash })
             //console.log(User.findOne({username}))
           } catch (e) {
             //logging errors
-            console.log(e)
             res.status(500).json({ msg: 'Password could not be updated on the DB!' })
           }
         })
