@@ -86,7 +86,7 @@ router.post('/removeItem/', async (req, res) => {
     if (index > -1) {
       user[0].forSale.splice(index)
     } else {
-      res.status(40).json({ msg: "item could not be found in the user's forSale list" })
+      res.status(400).json({ msg: "item could not be found in the user's forSale list" })
     }
     // console.log(user[0].forSale)
     ret = await User.findOneAndUpdate({ username: req.body.username }, { forSale: user[0].forSale })

@@ -13,7 +13,9 @@ class SellTableViewCell: UITableViewCell {
     
     @IBOutlet weak var itemTitleLabel: UILabel!
     @IBOutlet weak var itemPriceLabel: UILabel!
-    @IBOutlet weak var removeButton: UIButton!
+    
+    let table = SellTableViewController()
+
     var itemImage = ""
     var itemDescription = ""
     var username = ""
@@ -24,26 +26,24 @@ class SellTableViewCell: UITableViewCell {
         // Initialization code
         
     }
-    @IBAction func removeButton(_ sender: Any) {
-        debugPrint("remove clicked")
-        
+    
+    func removeItemHandler() {
         struct parameters: Encodable {
-            var username = ""
-            var itemID = ""
+                   var username = ""
+                   var itemID = ""
         }
-        
+               
         let details = parameters(username: self.username, itemID: self.itemID)
-        
+               
         AF.request(API.URL + "/items/removeItem/", method: .post, parameters: details, encoder: URLEncodedFormParameterEncoder.default).responseJSON { response in
-        
-                if (response.response?.statusCode == 200) {
-                   
-                } else {
-                    debugPrint("ERROR")
-                }
-                
-                
+               
+            if (response.response?.statusCode == 200) {
+                self.table.updateData()
+            } else {
+                debugPrint("ERROR")
             }
+                       
+        }
     }
     
     @IBAction func soldButton(_ sender: Any) {

@@ -12,6 +12,9 @@ import Alamofire
 class SellTableViewController: UITableViewController {
     
     var currentUser = ""
+    let cellView = SellTableViewCell()
+    
+    
     
     //data structures for simple testing (replace with JSON array)
     var images: [String] = []
@@ -109,6 +112,37 @@ class SellTableViewController: UITableViewController {
 
         return cell
     }
+    
+    
+    @IBAction func removeButton(_ sender: Any) {
+        debugPrint("remove clicked")
+        
+        // create alert
+        let alert = UIAlertController(title: "Please Confirm", message: "Are you sure you want to remove the Item from sale?", preferredStyle: .alert)
+        
+        // Create Cancel button with action handlder
+        let cancel = UIAlertAction(title: "Cancel",
+                                   style: .cancel,
+                                   handler: { (action) -> Void in
+            // add action if needed
+        })
+        
+        // Create Confirm button with action handler
+        let confirm = UIAlertAction(title: "Confirm",
+                                    style: .default,
+                                    handler: { (action) -> Void in
+            self.cellView.removeItemHandler()
+        })
+
+        // add actions to the alert
+        alert.addAction(confirm)
+        alert.addAction(cancel)
+
+        // display alert
+        self.present(alert, animated: true)
+    }
+    
+    
     
 
     /*
