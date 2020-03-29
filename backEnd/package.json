@@ -2,9 +2,16 @@
   "name": "backend",
   "version": "0.0.0",
   "private": true,
+  "jest": {
+    "transform": {
+      ".js": "jest-esm-transformer"
+    }
+  },
   "scripts": {
     "start": "NODE_ENV=production node -r esm ./bin/www",
-    "dev": "NODE_ENV=dev nodemon -r esm ./bin/www"
+    "dev": "NODE_ENV=dev nodemon -r esm ./bin/www",
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "dependencies": {
     "@sendgrid/mail": "^6.5.3",
@@ -27,5 +34,9 @@
     "passport-jwt": "^4.0.0",
     "randomstring": "^1.1.5"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "jest": "^25.2.3",
+    "jest-esm-transformer": "^1.0.0",
+    "supertest": "^4.0.2"
+  }
 }

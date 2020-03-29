@@ -67,6 +67,7 @@ router.post('/register', async (req, res) => {
   } catch (e) {
     //creating the new user
     console.log(e)
+    res.status(400).json({ msg: 'User cannot be created' })
   }
 })
 
