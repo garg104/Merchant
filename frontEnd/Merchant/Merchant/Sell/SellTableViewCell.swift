@@ -14,7 +14,7 @@ class SellTableViewCell: UITableViewCell {
     @IBOutlet weak var itemTitleLabel: UILabel!
     @IBOutlet weak var itemPriceLabel: UILabel!
     
-//    let table = SellTableViewController()
+    //let table = SellTableViewController()
 
     var itemImage = ""
     var itemDescription = ""
@@ -38,8 +38,7 @@ class SellTableViewCell: UITableViewCell {
         AF.request(API.URL + "/items/removeItem/", method: .post, parameters: details, encoder: URLEncodedFormParameterEncoder.default).responseJSON { response in
                
             if (response.response?.statusCode == 200) {
-//                self.table.updateData()
-                print("removed")
+                //self.table.updateData()
             } else {
                 debugPrint("ERROR")
             }

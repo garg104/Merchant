@@ -14,8 +14,6 @@ class SellTableViewController: UITableViewController {
     var currentUser = ""
     let cellView = SellTableViewCell()
     
-    
-    
     //data structures for simple testing (replace with JSON array)
     var images: [String] = []
     var titles: [String] = []
@@ -117,6 +115,15 @@ class SellTableViewController: UITableViewController {
     @IBAction func removeButton(_ sender: Any) {
         debugPrint("remove clicked")
         
+        guard let cell = (sender as AnyObject).superview?.superview as? SellTableViewCell else {
+            return // or fatalError() or whatever
+        }
+
+        let indexPath = tableView.indexPath(for: cell)
+        
+        print("ITEM ID")
+        print(itemIDs[indexPath!.row])
+        
         // create alert
         let alert = UIAlertController(title: "Please Confirm", message: "Are you sure you want to remove the Item from sale?", preferredStyle: .alert)
         
@@ -159,9 +166,8 @@ class SellTableViewController: UITableViewController {
         if editingStyle == .delete {
             // Delete the row from the data source
             tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+            print(itemIDs[indexPath.row])
+        }   
     }
     */
 
