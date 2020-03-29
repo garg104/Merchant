@@ -140,8 +140,10 @@ class SellTableViewController: UITableViewController {
                                     handler: { (action) -> Void in
                                         self.cellView.removeItemHandler(
                                             itemID: self.itemIDs[indexPath!.row],
-                                            username: self.currentUser )
-                                        self.updateData()
+                                            username: self.currentUser ) { (validCode) in
+                                                self.updateData()
+                                        }
+                                        
         })
 
         // add actions to the alert
