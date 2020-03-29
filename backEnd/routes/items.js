@@ -1,5 +1,5 @@
 require('dotenv').config()
-import { config, getProfilePictureSchemas } from '../utils/fileHandling'
+import { config, getItemPictureSchemas } from '../utils/fileHandling'
 const express = require('express');
 const router = express.Router();
 const Item = require('../models/Items')
@@ -103,6 +103,20 @@ router.get('/search/:username/:query', async (req, res, next) => {
     console.log(e)
     res.status(404).json({ items: [], msg: "No items found" })
   } //end try-catch
+})
+
+/**
+ * Route to delete pictures
+ */
+router.delete('/items/picture/:id', async (req, res) => {
+  //get the id of the picture
+  const { id } = req.params
+  //get the shemas for items
+  const itemSchemas = getItemPictureSchemas()
+  if (!id) {
+    return res.status(404).json({ msg: "The fileId was not found" })
+  }
+
 })
 
 module.exports = router;

@@ -37,10 +37,14 @@ export const config = (bucketName) => {
  */
 let fileMetadata;
 let fileChunks;
+let itemMetadata;
+let itemChunks;
 export const downloadConfig = (db) => {
-    //getting the fileMetadata and chunks schemas
+    //getting the profileMetadata and chunks schemas
     fileMetadata = db.collection('profile-pictures.file')
     fileChunks = db.collection('profile-pictures.chunks')
+    itemMetadata = db.collection('item-pictures.files')
+    itemChunks = db.collection('item-pictures.chunks')
 }
 
 /**
@@ -50,6 +54,16 @@ export const getProfilePictureSchemas = () => {
     return {
         fileMetadata,
         fileChunks
+    }
+}
+
+/**
+ * Export the schemas obtained from the config function
+ */
+export const getItemPictureSchemas = () => {
+    return {
+        itemMetadata,
+        itemChunks
     }
 }
 
