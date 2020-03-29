@@ -49,13 +49,15 @@ class PostItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var descriptionTextView: UITextView!
     @IBOutlet weak var photosLabel: UILabel!
-    @IBOutlet weak var photosScrollView: UIScrollView!
-    @IBOutlet weak var choosePhotosButton: UIButton!
-    @IBOutlet weak var doneButton: UIButton!
+    @IBOutlet weak var photo1Button: UIButton!
+    @IBOutlet weak var photo2Button: UIButton!
+    @IBOutlet weak var photo3Button: UIButton!
+    @IBOutlet weak var removePhoto1Button: UIButton!
+    @IBOutlet weak var removePhoto2Button: UIButton!
+    @IBOutlet weak var removePhoto3Button: UIButton!
     
     
-    
-    
+    var ourGreen = UIColor .green
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -67,6 +69,13 @@ class PostItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
         
         createPickerView()
         
+        ourGreen = photo1Button.currentTitleColor
+        
+        // hide remove buttons
+        removePhoto1Button.setTitleColor(.clear, for: .normal)
+        removePhoto2Button.setTitleColor(.clear, for: .normal)
+        removePhoto3Button.setTitleColor(.clear, for: .normal)
+
     }
     
     var name = ""
@@ -83,8 +92,25 @@ class PostItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
     
     }
     
-    @IBAction func choosePhotos(_ sender: UIButton) {
+    var flag = 0
+    
+    @IBAction func photo1Select(_ sender: Any) {
         // choose photos from camera roll
+        flag = 1
+        photoSelect()
+    }
+    
+    @IBAction func photo2Select(_ sender: Any) {
+        flag = 2
+        photoSelect()
+    }
+    
+    @IBAction func photo3Select(_ sender: Any) {
+        flag = 3
+        photoSelect()
+    }
+    
+    func photoSelect () {
         let image = UIImagePickerController()
         image.delegate = self
         image.sourceType = UIImagePickerController.SourceType.photoLibrary
@@ -92,9 +118,27 @@ class PostItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
         self.present(image, animated: true)
     }
     
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             // add it
+            if flag == 1 {
+                photo1Button.setBackgroundImage(image, for: .normal)
+                photo1Button.setTitleColor(.clear, for: .normal)
+                removePhoto1Button.setTitleColor(.red, for: .normal)
+                
+            }
+            else if flag == 2 {
+                photo2Button.setBackgroundImage(image, for: .normal)
+                photo2Button.setTitleColor(.clear, for: .normal)
+                removePhoto2Button.setTitleColor(.red, for: .normal)
+
+            }
+            else if flag == 3 {
+                photo3Button.setBackgroundImage(image, for: .normal)
+                photo3Button.setTitleColor(.clear, for: .normal)
+                removePhoto3Button.setTitleColor(.red, for: .normal)
+            }
         }
         else {
             // Error message
@@ -103,8 +147,24 @@ class PostItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
         // hide controller when finished
         self.dismiss(animated: true, completion: nil)
     }
+    
 
+    @IBAction func removePhoto1(_ sender: Any) {
+        photo1Button.setBackgroundImage(nil, for: .normal)
+        photo1Button.setTitleColor(ourGreen, for: .normal)
+    }
+    
+    @IBAction func removePhoto2(_ sender: UIButton) {
+        photo2Button.setBackgroundImage(nil, for: .normal)
+        photo2Button.setTitleColor(ourGreen, for: .normal)
+    }
+    
+    @IBAction func removePhoto3(_ sender: UIButton) {
+        photo3Button.setBackgroundImage(nil, for: .normal)
+        photo3Button.setTitleColor(ourGreen, for: .normal)
+    }
     /*
+     
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation

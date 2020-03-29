@@ -1127,135 +1127,144 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="758"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Post" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="28" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1jA-CH-ADK">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Post" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="28" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1jA-CH-ADK">
                                 <rect key="frame" x="16" y="19.999999999999996" width="69.333333333333329" height="39.666666666666657"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="Poppins-SemiBold" family="Poppins" pointSize="34"/>
                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FVL-d1-pfu">
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FVL-d1-pfu">
                                 <rect key="frame" x="16" y="99" width="343" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="tintColor" red="0.46274509800000002" green="0.70980392160000005" blue="0.30196078430000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="B2m-Et-f2q"/>
-                                </constraints>
                                 <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="16"/>
                                 <textInputTraits key="textInputTraits" returnKeyType="done"/>
                             </textField>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Price" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="20S-jH-a25">
-                                <rect key="frame" x="16" y="140" width="343" height="40"/>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Price" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="20S-jH-a25">
+                                <rect key="frame" x="16" y="138" width="343" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="tintColor" red="0.46274509800000002" green="0.70980392160000005" blue="0.30196078430000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="dg0-Rd-OWP"/>
-                                </constraints>
                                 <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="16"/>
                                 <textInputTraits key="textInputTraits" returnKeyType="done"/>
                             </textField>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Category" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="GqI-01-UQJ">
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Category" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="GqI-01-UQJ">
                                 <rect key="frame" x="16" y="174" width="343" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="tintColor" red="0.46274509800000002" green="0.70980392160000005" blue="0.30196078430000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="C6O-rv-gXh"/>
-                                </constraints>
                                 <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="16"/>
                                 <textInputTraits key="textInputTraits" returnKeyType="done"/>
                             </textField>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="fop-0Z-5Wr" userLabel="Description">
-                                <rect key="frame" x="16" y="243" width="240" height="128"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="fop-0Z-5Wr" userLabel="Description">
+                                <rect key="frame" x="16" y="242" width="343" height="205"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="128" id="zE0-X1-WnO"/>
-                                </constraints>
                                 <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5xU-tL-7ov">
-                                <rect key="frame" x="16" y="210" width="104" height="39"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="39" id="0wU-rv-0Kf"/>
-                                </constraints>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5xU-tL-7ov">
+                                <rect key="frame" x="16" y="211" width="122" height="39"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WSg-Jf-Maj">
-                                <rect key="frame" x="16" y="507" width="240" height="128"/>
-                                <viewLayoutGuide key="contentLayoutGuide" id="G5X-9E-Aah"/>
-                                <viewLayoutGuide key="frameLayoutGuide" id="evr-Yd-iF6"/>
-                            </scrollView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f0x-c6-5Xh">
-                                <rect key="frame" x="26" y="643" width="104" height="30"/>
-                                <state key="normal" title="Choose photos">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f0x-c6-5Xh">
+                                <rect key="frame" x="0.0" y="491" width="118" height="96"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Photo 1">
                                     <color key="titleColor" red="0.46274509800000002" green="0.70980392160000005" blue="0.30196078430000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 </state>
                                 <connections>
-                                    <action selector="choosePhotos:" destination="0Oo-6G-bG6" eventType="touchUpInside" id="YSa-Y5-QKd"/>
+                                    <action selector="photo1Select:" destination="0Oo-6G-bG6" eventType="touchUpInside" id="66y-Sv-QCk"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vyp-o6-iPB">
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EyD-VT-M7L">
+                                <rect key="frame" x="-1" y="595" width="120" height="28"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Remove">
+                                    <color key="titleColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="removePhoto1:" destination="0Oo-6G-bG6" eventType="touchUpInside" id="qAj-Vf-jAC"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nxQ-qu-ywg">
+                                <rect key="frame" x="127" y="594" width="120" height="28"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Remove">
+                                    <color key="titleColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="removePhoto2:" destination="0Oo-6G-bG6" eventType="touchUpInside" id="f4U-7g-jfA"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sKk-UB-lSs">
+                                <rect key="frame" x="127" y="491" width="120" height="96"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Photo 2">
+                                    <color key="titleColor" red="0.46274509800000002" green="0.70980392160000005" blue="0.30196078430000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
+                                <connections>
+                                    <action selector="photo2Select:" destination="0Oo-6G-bG6" eventType="touchUpInside" id="OJA-YU-b6q"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ss0-wo-Yt4">
+                                <rect key="frame" x="255" y="491" width="120" height="96"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Photo 3">
+                                    <color key="titleColor" red="0.46274509800000002" green="0.70980392160000005" blue="0.30196078430000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
+                                <connections>
+                                    <action selector="photo3Select:" destination="0Oo-6G-bG6" eventType="touchUpInside" id="swI-5m-hXu"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vyp-o6-iPB">
                                 <rect key="frame" x="322" y="20" width="37" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Done">
                                     <color key="titleColor" red="0.46274509800000002" green="0.70980392160000005" blue="0.30196078430000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 </state>
                                 <connections>
-                                    <action selector="postItem:completion:" destination="0Oo-6G-bG6" eventType="touchUpInside" id="Iap-0N-aG5"/>
+                                    <action selector="postItem:completion:" destination="0Oo-6G-bG6" eventType="touchUpInside" id="mXg-LD-Kh9"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Photos" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e3A-8W-kJr">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Photos" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e3A-8W-kJr">
                                 <rect key="frame" x="24" y="455" width="70" height="44"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="44" id="gjl-fM-vEe"/>
-                                </constraints>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oDq-IN-rCW">
+                                <rect key="frame" x="255" y="595" width="120" height="28"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Remove">
+                                    <color key="titleColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="removePhoto3:" destination="0Oo-6G-bG6" eventType="touchUpInside" id="BaO-Wz-hMz"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <constraints>
-                            <constraint firstItem="WSg-Jf-Maj" firstAttribute="top" secondItem="fop-0Z-5Wr" secondAttribute="bottom" constant="136" id="0PJ-mS-GkT"/>
-                            <constraint firstItem="5xU-tL-7ov" firstAttribute="top" secondItem="FVL-d1-pfu" secondAttribute="bottom" constant="71" id="39G-4Z-eBp"/>
-                            <constraint firstItem="38v-MH-RDA" firstAttribute="trailing" secondItem="5xU-tL-7ov" secondAttribute="trailing" constant="255" id="3WR-Wy-EBV"/>
-                            <constraint firstItem="1jA-CH-ADK" firstAttribute="leading" secondItem="LNp-GX-lZM" secondAttribute="leadingMargin" id="4g1-fb-rvm"/>
-                            <constraint firstItem="20S-jH-a25" firstAttribute="top" secondItem="FVL-d1-pfu" secondAttribute="bottom" constant="1" id="6VB-BW-cTI"/>
-                            <constraint firstItem="FVL-d1-pfu" firstAttribute="trailing" secondItem="20S-jH-a25" secondAttribute="trailing" id="BDa-vB-R0n"/>
-                            <constraint firstItem="1jA-CH-ADK" firstAttribute="leading" secondItem="FVL-d1-pfu" secondAttribute="leading" id="BaQ-8R-iwe"/>
-                            <constraint firstItem="f0x-c6-5Xh" firstAttribute="leading" secondItem="38v-MH-RDA" secondAttribute="leading" constant="26" id="Bit-Vp-rOO"/>
-                            <constraint firstItem="GqI-01-UQJ" firstAttribute="trailing" secondItem="20S-jH-a25" secondAttribute="trailing" id="FIZ-b7-yNc"/>
-                            <constraint firstItem="5xU-tL-7ov" firstAttribute="leading" secondItem="fop-0Z-5Wr" secondAttribute="leading" id="HlZ-c7-Qna"/>
-                            <constraint firstItem="38v-MH-RDA" firstAttribute="trailing" secondItem="e3A-8W-kJr" secondAttribute="trailing" constant="289" id="KEY-7h-D4u"/>
-                            <constraint firstItem="Vyp-o6-iPB" firstAttribute="trailing" secondItem="FVL-d1-pfu" secondAttribute="trailing" id="R9I-1z-2Co"/>
-                            <constraint firstItem="fop-0Z-5Wr" firstAttribute="trailing" secondItem="WSg-Jf-Maj" secondAttribute="trailing" id="TNT-Xq-q7q"/>
-                            <constraint firstItem="fop-0Z-5Wr" firstAttribute="leading" secondItem="e3A-8W-kJr" secondAttribute="leading" id="U7f-er-AwE"/>
-                            <constraint firstItem="FVL-d1-pfu" firstAttribute="leading" secondItem="20S-jH-a25" secondAttribute="leading" id="Umi-Hb-WIO"/>
-                            <constraint firstItem="FVL-d1-pfu" firstAttribute="top" secondItem="LNp-GX-lZM" secondAttribute="top" constant="99" id="W4F-Rl-1dT"/>
-                            <constraint firstItem="38v-MH-RDA" firstAttribute="trailing" secondItem="fop-0Z-5Wr" secondAttribute="trailing" constant="119" id="WVk-5A-nDu"/>
-                            <constraint firstItem="Vyp-o6-iPB" firstAttribute="top" secondItem="38v-MH-RDA" secondAttribute="top" constant="20" id="Zbc-iK-Vfe"/>
-                            <constraint firstItem="20S-jH-a25" firstAttribute="leading" secondItem="5xU-tL-7ov" secondAttribute="leading" id="chg-Di-W1R"/>
-                            <constraint firstItem="38v-MH-RDA" firstAttribute="bottom" secondItem="f0x-c6-5Xh" secondAttribute="bottom" constant="51" id="gaf-JE-sbd"/>
-                            <constraint firstItem="f0x-c6-5Xh" firstAttribute="top" secondItem="WSg-Jf-Maj" secondAttribute="bottom" constant="8" id="kfc-1T-NKP"/>
-                            <constraint firstItem="Vyp-o6-iPB" firstAttribute="trailing" secondItem="LNp-GX-lZM" secondAttribute="trailingMargin" id="ktZ-GX-HcU"/>
-                            <constraint firstItem="WSg-Jf-Maj" firstAttribute="top" secondItem="e3A-8W-kJr" secondAttribute="bottom" constant="-27" id="mb2-S6-p30"/>
-                            <constraint firstItem="fop-0Z-5Wr" firstAttribute="top" secondItem="GqI-01-UQJ" secondAttribute="bottom" constant="29" id="oCE-HW-ZVY"/>
-                            <constraint firstItem="GqI-01-UQJ" firstAttribute="leading" secondItem="20S-jH-a25" secondAttribute="leading" id="pfB-VY-mYb"/>
-                            <constraint firstItem="e3A-8W-kJr" firstAttribute="leading" secondItem="WSg-Jf-Maj" secondAttribute="leading" id="rmS-Fh-HGM"/>
-                            <constraint firstItem="fop-0Z-5Wr" firstAttribute="top" secondItem="20S-jH-a25" secondAttribute="bottom" constant="63" id="xhX-o6-6c0"/>
-                            <constraint firstItem="1jA-CH-ADK" firstAttribute="top" secondItem="38v-MH-RDA" secondAttribute="top" constant="19.999999999999996" id="xkW-81-OFh"/>
-                        </constraints>
                         <viewLayoutGuide key="safeArea" id="38v-MH-RDA"/>
                     </view>
                     <connections>
                         <outlet property="categoryTextField" destination="GqI-01-UQJ" id="z02-6l-CU5"/>
-                        <outlet property="choosePhotosButton" destination="f0x-c6-5Xh" id="y5Z-HF-Dw1"/>
                         <outlet property="descriptionLabel" destination="5xU-tL-7ov" id="WDx-VE-fKx"/>
                         <outlet property="descriptionTextView" destination="fop-0Z-5Wr" id="E58-xe-FC7"/>
-                        <outlet property="doneButton" destination="Vyp-o6-iPB" id="mQk-ib-6M4"/>
                         <outlet property="nameTextField" destination="FVL-d1-pfu" id="mFl-QH-g2j"/>
+                        <outlet property="photo1Button" destination="f0x-c6-5Xh" id="8mA-Oe-97R"/>
+                        <outlet property="photo2Button" destination="sKk-UB-lSs" id="bow-3Z-smv"/>
+                        <outlet property="photo3Button" destination="ss0-wo-Yt4" id="JoL-rq-KOr"/>
                         <outlet property="photosLabel" destination="e3A-8W-kJr" id="Crn-9B-N54"/>
-                        <outlet property="photosScrollView" destination="WSg-Jf-Maj" id="uSD-u7-iHn"/>
                         <outlet property="postLabel" destination="1jA-CH-ADK" id="kpN-9W-aZd"/>
                         <outlet property="priceTextField" destination="20S-jH-a25" id="JZQ-gk-hHE"/>
+                        <outlet property="removePhoto1Button" destination="EyD-VT-M7L" id="q2U-In-ymZ"/>
+                        <outlet property="removePhoto2Button" destination="nxQ-qu-ywg" id="che-rz-Kei"/>
+                        <outlet property="removePhoto3Button" destination="oDq-IN-rCW" id="KO3-kA-k6h"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2bJ-6C-4dN" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
