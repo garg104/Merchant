@@ -15,7 +15,7 @@ class SellTableViewController: UITableViewController {
     
     
     
-    func getItems() {
+    func getItems(completion: @escaping (_ validCode: Int)->()) {
         // #warning Incomplete implementation, return the number of sections
         
         struct parameters: Encodable {
@@ -23,17 +23,29 @@ class SellTableViewController: UITableViewController {
         }
                 
         AF.request(API.URL + "/items/userSellingCurrent/\(currentUser)", method: .get).responseJSON { response in
-//            debugPrint("here")
-//            debugPrint("here")
-            struct id:Decodable {
-                let i2:String
-            }
+    
             if let info = response.value {
                 let JSON = info as! NSDictionary
-                debugPrint("JSON:", JSON)
-                let temp : NSArray =  JSON.value(forKey: "items") as! NSArray
-                debugPrint("JSON[items]:", (JSON["items"]!))
-                debugPrint(temp[0])
+//                debugPrint("JSON:", JSON)
+                let items : NSArray =  JSON.value(forKey: "items") as! NSArray
+//                debugPrint("JSON[items]:", (JSON["items"]!))
+                for item in items {
+                    debugPrint(item)
+                    let temp = item as! NSDictionary
+                    self.titles.append(temp["title"]! as! String)
+                    self.prices.append(temp["price"]! as! String)
+                    self.descriptions.append(temp["description"]! as! String)
+
+
+                    //                debugPrint(temp2["title"]!)
+                    
+
+                }
+                
+//                let temp2 = temp[0] as! NSDictionary
+//                debugPrint(temp2["title"]!)
+
+
 //                if let items = JSON["items"] {
 //                    for item in items {
 //                        debugPrint("item is", item)
@@ -41,34 +53,21 @@ class SellTableViewController: UITableViewController {
 //                }
 
             }
-
-
-//            debugPrint(response.result)
-//            response.responseDecodable(of: Items.self) { (response) in
-//              guard let films = response.value else { return }
-//              print(films.all[0].title)
-//            }
-//            debugPrint("here")
-//            debugPrint("here")
-//            let info = response.value
-//            debugPrint(info!!)
-//            let JSON = info as? NSDictionary
-//            debugPrint(JSON!)
+            completion(0)
             
-            
-                
         }.resume()
     }
     
     
     //data structures for simple testing (replace with JSON array)
-    var images = ["", "", ""]
-    var titles = ["item 1", "item 2", "item 3"]
-    var usernames = ["userA", "userB", "userC"]
-    var prices = ["$10.00", "$7.00", "$16.00"]
-    var descriptions = ["description1", "description2", "description3"]
+    var images: [String] = []
+    var titles: [String] = []
+    var usernames: [String] = []
+    var prices: [String] = []
+    var descriptions: [String] = []
     
     override func viewDidLoad() {
+        getItems(completion: 0)
         super.viewDidLoad()
 
         // Uncomment the following line to preserve selection between presentations
@@ -96,7 +95,7 @@ class SellTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "sellCell", for: indexPath) as! SellTableViewCell
 
         // Configure the cell...
-        getItems()
+        
         cell.itemTitleLabel.text = titles[indexPath.row]
         cell.itemPriceLabel.text = prices[indexPath.row]
         cell.itemDescription = descriptions[indexPath.row]
