@@ -74,15 +74,23 @@ router.get('/userSellingCurrent/:username', async (req, res) => {
   }
 });
 
-router.post('/items/removeItem/', async (req, res) => {
+router.post('/removeItem/', async (req, res) => {
   try {
     console.log(req.body.username)
     const user = await User.find({ username: req.body.username })
-    const item = await Item.findById({ _id: item })
-    // const ret = await Item.findByIdAndDelete({ _id: req.body.itemId })
-    console.log(user[0].forSale.indexOf(item))
+    // const item = await Item.findById({ _id: req.body.itemID })
+    const ret = await Item.findByIdAndDelete({ _id: req.body.itemId })
+    const index = user[0].forSale.indexOf(req.body.itemID);
+    // console.log(index)
+    // console.log(user[0].forSale)
+    if (index > -1) {
+      user[0].forSale.splice(index)
+    } else {
+      res.status(40).json({ msg: "item could not be found in the user's forSale list" })
+    }
+    // console.log(user[0].forSale)
+    ret = await User.findOneAndUpdate({ username: req.body.username }, { forSale: user[0].forSale })
     res.status(200).json({ msg: "success" })
-
   } catch (e) {
     res.status(404).json({ msg: e.message })
   }
