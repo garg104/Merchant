@@ -136,3 +136,22 @@ describe('\nTests the search routes\n', () => {
         done()
     })
 })
+
+//Tests for the items route
+describe('Get routes', () => {
+    //Get all the items from the DB
+    it('Get all the items', async done => {
+        const res = await request.get('/items/')
+        expect(res.status).toBe(200)
+        expect(res.body.items.length !== 0).toBe(true)
+        done()
+    })
+
+    //Get the list of items matching a query string
+    it('Get all the items matching query string', async done => {
+        const res = await request.get('/items/search/pandey25/lap')
+        expect(res.status).toBe(200)
+        expect(res.body.items.length !== 0).toBe(true)
+        done()
+    })
+})
