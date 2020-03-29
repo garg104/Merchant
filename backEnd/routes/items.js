@@ -79,11 +79,13 @@ router.post('/removeItem/', async (req, res) => {
   console.log(req.body.username)
   console.log(req.body.username)
 
+  const {username, itemID} = req.body
+
   try {
-    const user = await User.find({ username: req.body.username })
+    const user = await User.find({ username: username })
     // const item = await Item.findById({ _id: req.body.itemID })
-    const ret = await Item.findByIdAndDelete({ _id: req.body.itemID })
-    const index = user[0].forSale.indexOf(req.body.itemID);
+    let ret = await Item.findByIdAndDelete({ _id: itemID })
+    const index = user[0].forSale.indexOf(itemID);
     // console.log(index)
     // console.log(user[0].forSale)
     if (index > -1) {
@@ -92,7 +94,7 @@ router.post('/removeItem/', async (req, res) => {
       res.status(400).json({ msg: "item could not be found in the user's forSale list" })
     }
     // console.log(user[0].forSale)
-    ret = await User.findOneAndUpdate({ username: req.body.username }, { forSale: user[0].forSale })
+    ret = await User.findOneAndUpdate({ username: username }, { forSale: user[0].forSale })
     res.status(200).json({ msg: "success" })
   } catch (e) {
     console.log(e)
