@@ -117,6 +117,7 @@ class BuyDetailViewController: UIViewController {
         if (decodedimage != nil) {
           return decodedimage!
         } else {
+            debugPrint("decoded image null")
             return self.itemImageView.image!
         }
       } //end if
