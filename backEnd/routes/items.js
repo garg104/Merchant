@@ -13,7 +13,7 @@ let upload = config('item-pictures')
  * This route is to be modified and finalized by Drew Keirn  
  */
 router.post('/postItem', upload.array("data"), async (req, res) => {
-  const { username, userID, title, description, price, category, isSold, university } = req.body
+  const { username, userID, title, description, price, isSold, category, university } = req.body
 
   //get the ids of all the pictures saved
   let picture = []
@@ -238,6 +238,45 @@ router.delete('/picture/:id', async (req, res, next) => {
     console.error(e)
     res.status(400).json({ msg: 'Could not delete the picture' })
   }
+})
+
+/**
+ * Route to update the details of the item
+ */
+router.put('/', async (req, res) => {
+  try {
+    const ret = await Item.findOneAndUpdate({ _id: req.body.id }, { ...req.body })
+    res.status(200).json({ msg: "The item settings have been updated" })
+  } catch (e) {
+    //sending an error response
+    console.log(e)
+    res.status(400).json({ msg: "The item settings couldn't be updated" })
+  }
+})
+
+/**
+ * Route to update the item pictures
+ */
+router.put('/pictures/:id', upload.array("data"), async (req, res) => {
+  const { id } = req.params
+  try {
+    //getting the fields from the file
+    let picture = []
+    req.files.forEach(file => picture.push(file.id))
+
+    //get the item and delete old files
+    const item = await Item.findById(id)
+    //deletion will work in background since it is not necessary for updation
+    removeFiles(item.picture, 'items')
+
+    //update the user schema with the image id
+    const ret = await Item.findOneAndUpdate({ id }, { picture: picture })
+  } catch (e) {
+    //logging errors
+    console.log(e)
+    res.status(404).json({ msg: "User profile couldn't be updated" })
+  } //end try-catch
+  res.status(201).json({ file: req.file, msg: "User profile picture has been updated" })
 })
 
 module.exports = router;
