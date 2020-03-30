@@ -1468,6 +1468,7 @@
                                 </state>
                                 <connections>
                                     <action selector="postItem:completion:" destination="qB3-k2-TNd" eventType="touchUpInside" id="7M8-7N-vhf"/>
+                                    <segue destination="MIE-Vz-FhP" kind="unwind" unwindAction="unwindToSellTableViewControllerWithSegue:" id="lzx-1A-Ttd"/>
                                 </connections>
                             </button>
                             <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bR6-ob-yaI">
@@ -1491,6 +1492,9 @@
                                 <state key="normal" title="Cancel">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <segue destination="MIE-Vz-FhP" kind="unwind" unwindAction="unwindToSellTableViewControllerWithSegue:" id="QPh-wt-RFL"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rp0-uT-MAV">
                                 <rect key="frame" x="0.0" y="521" width="125" height="82"/>
@@ -1607,6 +1611,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DyZ-Nv-6Vl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="MIE-Vz-FhP" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="7528.8000000000002" y="538.66995073891633"/>
         </scene>
@@ -1634,6 +1639,7 @@
                                 </state>
                                 <connections>
                                     <action selector="postItem:completion:" destination="wTv-Hw-2MQ" eventType="touchUpInside" id="MuA-jC-cbV"/>
+                                    <segue destination="kKW-y0-C0v" kind="unwind" unwindAction="unwindToSellDetailViewControllerWithSegue:" id="Z6K-Wd-g33"/>
                                 </connections>
                             </button>
                             <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="SEZ-LF-zGS">
@@ -1657,6 +1663,9 @@
                                 <state key="normal" title="Cancel">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <segue destination="kKW-y0-C0v" kind="unwind" unwindAction="unwindToSellDetailViewControllerWithSegue:" id="DR6-8P-Jg5"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HyJ-tC-CZ2">
                                 <rect key="frame" x="0.0" y="521" width="125" height="82"/>
@@ -1773,6 +1782,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rym-rJ-J3N" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="kKW-y0-C0v" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="7529" y="1193"/>
         </scene>
