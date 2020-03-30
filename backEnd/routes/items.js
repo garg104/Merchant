@@ -89,9 +89,13 @@ router.post('/removeItem', async (req, res) => {
       //item couldn't be found
       res.status(400).json({ msg: "item could not be found in the user's forSale list" })
     }
+    //find the corresponding item to get the array of pictures
+    let item = await Item.findById(itemID)
+    //delet the pictures in the array
+    let ret = await removeFiles([...item.picture], 'items')
     //delete the item and also update the corresponding user object
-    let ret = await Item.findByIdAndDelete({ _id: itemID })
-    let retVal = await User.findOneAndUpdate({ username: username }, { forSale: user.forSale })
+    ret = await Item.findByIdAndDelete({ _id: itemID })
+    ret = await User.findOneAndUpdate({ username: username }, { forSale: user.forSale })
     res.status(200).json({ msg: "item has been successfully removed" })
   } catch (e) {
     //logging errors
