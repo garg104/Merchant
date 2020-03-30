@@ -113,7 +113,7 @@ class BuyTableViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
         
-        let searchController = UISearchController(searchResultsController: nil) // Search Controller
+        //search controller initilization
         navigationItem.hidesSearchBarWhenScrolling = false
         navigationItem.searchController = searchController
         searchController.searchBar.scopeButtonTitles = searchCategories
@@ -165,6 +165,9 @@ class BuyTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
+        if (isFiltering) {
+            return filtered.count
+        }
         return titles.count
     }
 
@@ -174,12 +177,20 @@ class BuyTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "itemCell", for: indexPath) as! BuyTableViewCell
         
         // Configure the cell...
-        cell.itemTitleLabel.text = titles[indexPath.row]
-        cell.itemPriceLabel.text = prices[indexPath.row]
-        cell.userNameLabel.text = usernames[indexPath.row]
-        cell.itemDescription = descriptions[indexPath.row]
-        cell.itemID = itemIDs[indexPath.row]
-        itemPicturesHandler(itemImageView: cell.itemImageView, itemID: cell.itemID)
+        if (isFiltering) {
+            //will have to update with corresponding JSON/dictionary values
+            print("FILTERED")
+            print(filtered)
+            cell.itemTitleLabel.text = filtered[indexPath.row]
+            
+        } else {
+            cell.itemTitleLabel.text = titles[indexPath.row]
+            cell.itemPriceLabel.text = prices[indexPath.row]
+            cell.userNameLabel.text = usernames[indexPath.row]
+            cell.itemDescription = descriptions[indexPath.row]
+            cell.itemID = itemIDs[indexPath.row]
+            itemPicturesHandler(itemImageView: cell.itemImageView, itemID: cell.itemID)
+        }
         return cell
     }
 
