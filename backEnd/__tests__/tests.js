@@ -156,17 +156,56 @@ describe('\nItems: Get routes\n', () => {
     })
 })
 
+//getting the user selling history
+describe('\nGetting the user selling history\n', () => {
+    it('Gets the selling history of the user', () => {
+        //make the request
+        const ret = await request.get('/items/userSellingHistory').send({ username: 'dconver1' })
+        expect(ret.status).toBe(200)
+    })
+})
+
 //Posting and deleting items
 describe('\nItems: Posting New Items\n', () => {
     it('Post a new item', async done => {
-        //TODO
-        expect(1).toBe(1)
+        //make a request
+        const opts = {
+            userID: '5e7f9ee4635340002a21ba0c',
+            title: 'Test Object',
+            description: 'Test description',
+            price: '$700',
+            isSold: false,
+            university: 'Purdue University',
+            category: '1',
+            username: 'drewk'
+        }
+        const ret = await request.post('/items/postItem').send({ ...opts })
+        expect(ret.status).toBe(201)
         done()
     })
 
     it('Delete an item from the DB', async done => {
-        //TODO
-        expect(1).toBe(1)
+        //make a request
+        const ret = await request.post('/items/removeItem').send({
+            username: 'drewk',
+            itemID: '5e7f9ee4635340002a21ba0c'
+        })
+        expect(ret.status).toBe(200)
+        expect(ret.body.msg).toBe("item has been successfully removed")
         done()
+    })
+})
+
+//Item picture routes
+describe('\nItem picture routes\n', () => {
+    it('Getting all the pictures of an item', () => {
+        const ret = await request.get('/items/picture/5e818f5366b9f1bf143d505b')
+        expect(ret.status).toBe(200)
+        expect(ret.body.files !== null).toBe(true)
+        expect(ret.body.files.length > 1).toBe(true)
+        done()
+    })
+    it('Updation and deletion of pictures of an item', () => {
+        expect(1).toBe(1)
     })
 })

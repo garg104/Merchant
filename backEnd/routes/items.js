@@ -260,7 +260,7 @@ router.put('/', async (req, res) => {
 /**
  * Route to update the item pictures
  */
-router.put('/pictures/:id', upload.array("data"), async (req, res) => {
+router.post('/pictures/:id', upload.array("data"), async (req, res) => {
   const { id } = req.params
   try {
     //getting the fields from the file
@@ -277,9 +277,9 @@ router.put('/pictures/:id', upload.array("data"), async (req, res) => {
   } catch (e) {
     //logging errors
     console.log(e)
-    res.status(404).json({ msg: "User profile couldn't be updated" })
+    res.status(404).json({ msg: "item pictures couldn't be updated" })
   } //end try-catch
-  res.status(201).json({ file: req.file, msg: "User profile picture has been updated" })
+  res.status(201).json({ file: req.file, msg: "item pictures picture has been updated" })
 })
 
 module.exports = router;
