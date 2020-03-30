@@ -1126,6 +1126,9 @@
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="yhb-X8-blr">
                                 <rect key="frame" x="0.0" y="140" width="375" height="223.33333333333337"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="223.33000000000001" id="4X6-FA-MsN"/>
+                                </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$0.00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B2q-Kk-3zD">
                                 <rect key="frame" x="16" y="371.33333333333331" width="343" height="47.666666666666686"/>
@@ -1386,6 +1389,9 @@
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qnQ-np-RKV">
                                 <rect key="frame" x="0.0" y="140" width="375" height="223.33333333333337"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="223.33000000000001" id="RpY-gy-93Y"/>
+                                </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$0.00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Rs-Qe-Ptd">
                                 <rect key="frame" x="16" y="371.33333333333331" width="343" height="47.666666666666686"/>
