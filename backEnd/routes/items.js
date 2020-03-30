@@ -13,7 +13,7 @@ let upload = config('item-pictures')
  * This route is to be modified and finalized by Drew Keirn  
  */
 router.post('/postItem', upload.array("data"), async (req, res) => {
-  const { username, userID, title, description, price, category, isSold, university } = req.body
+  const { username, userID, title, description, price, isSold, category, university } = req.body
 
   //get the ids of all the pictures saved
   let picture = []
@@ -237,6 +237,20 @@ router.delete('/picture/:id', async (req, res, next) => {
     //error handling
     console.error(e)
     res.status(400).json({ msg: 'Could not delete the picture' })
+  }
+})
+
+/**
+ * Route to update the details of the item
+ */
+router.put('/', async (req, res) => {
+  try {
+    const ret = await Item.findOneAndUpdate({ _id: req.body.id }, { ...req.body })
+    res.status(200).json({ msg: "The item settings have been updated" })
+  } catch (e) {
+    //sending an error response
+    console.log(e)
+    res.status(400).json({ msg: "The item settings couldn't be updated" })
   }
 })
 
