@@ -193,21 +193,26 @@ router.get('/search/:username/:query', async (req, res, next) => {
 /**
  * Route to get item pictures from DB
  */
-router.get('/picture/:id', async (req, res, next) => {
+router.get('/picture/:itemId', async (req, res, next) => {
   //get the id of the picture
-  const { id } = req.params
+  const { itemId } = req.params
 
-  //get the schemas for items
   const { itemChunks } = getItemPictureSchemas()
 
+  //get the schemas for items
+  const item = await Item.findById(itemId)
+  const ids = [...item.picture]
+
   //in case there is no id, respond with an error
-  if (!id) {
+  if (ids.length === 0) {
     return res.status(404).json({ msg: "The fileId was not found" })
   } //end if
 
+  console.log(ids)
+
   //setting up the request object for next middleware
   req.fileChunks = itemChunks
-  req.fileId = id
+  req.fileIds = ids
 
   //calling the next middleware
   next()
@@ -219,9 +224,6 @@ router.get('/picture/:id', async (req, res, next) => {
 router.delete('/picture/:id', async (req, res, next) => {
   //get the id of the picture
   const { id } = req.params
-
-  //get the schemase for the items
-  const { itemChunks, itemMetadata } = getItemPictureSchemas()
 
   //checking whether id is not null
   if (!id) {

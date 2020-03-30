@@ -61,6 +61,9 @@ export const getProfilePictureSchemas = () => {
  * Export the schemas obtained from the config function
  */
 export const getItemPictureSchemas = () => {
+    if (!itemChunks) {
+        console.log('itemChunks is null')
+    }
     return {
         itemMetadata,
         itemChunks
@@ -91,7 +94,7 @@ export const parseFileData = (fileChunks) => {
  * @param type: specify the type of file
  */
 export const removeFiles = async (ids, type) => {
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         let chunks = null
         let metadata = null
 
