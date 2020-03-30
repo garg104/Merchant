@@ -126,7 +126,17 @@ class EditItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
            category = categoryTextField.text!
            
            // TODO Aakarshit this is where the request needs to be made
-           // upload request to the backend
+           struct parameter: Encodable {
+                var title: String
+                var description: String
+                var price: String
+                var category: String
+            }
+           
+        let details = parameter(title: name,
+                                    description: desc,
+                                    price: price,
+                                    category: category)
            
            //include content type as multipart data to be recognised by multer
            let headers: HTTPHeaders = [
@@ -151,12 +161,7 @@ class EditItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
                if (self.photo3 != nil) {
                    multipartFormData.append(self.photo3.jpegData(compressionQuality: 0.1)!, withName: "data", mimeType: "image/jpeg")
                } //end if
-               multipartFormData.append(Data(self.name.utf8), withName: "title")
-               multipartFormData.append(Data(self.desc.utf8), withName: "description")
-               multipartFormData.append(Data(self.category.utf8), withName: "category")
-               multipartFormData.append(Data(self.university.utf8), withName: "university")
-               multipartFormData.append(Data("\(self.price)".utf8), withName: "price")
-           }, to: API.URL + "/items/postItem", headers: headers).responseJSON { response in
+           }, to: API.URL + "/items/updatePicture", headers: headers).responseJSON { response in
                //store the updated profile picture in cache
                if (response.response?.statusCode != 200) {
                    //TODO: DREW make sure that we display a message saying item couldn't be posted
@@ -164,7 +169,22 @@ class EditItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
                    //TODO: DREW make sure that we display a success message saying item has been posted
                }
            } //end response handler
-       
+            
+            AF.request(API.URL + "/items/", method: .put, parameters: details, encoder:    URLEncodedFormParameterEncoder.default).response { response in
+                        debugPrint(response)
+                        
+                        let validationCode = response.response?.statusCode
+                        
+                        if (validationCode == 200) { //success
+                            debugPrint("SUCCESS!!!!")
+                            self.performSegue(withIdentifier: "saveEditUnwind", sender: nil)
+                        }  else { //error in database check
+                            let alert = UIAlertController(title: "Error", message: "Item could not be updated. Please try again.", preferredStyle: .alert)
+                            alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
+                            self.present(alert, animated: true)
+                        }
+                    }
+        
        }
        
        var flag = 0
