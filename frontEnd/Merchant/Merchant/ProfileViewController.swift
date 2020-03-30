@@ -182,7 +182,11 @@ class ProfileViewController: UIViewController {
           let temp = base64String?.components(separatedBy: ",")
           let dataDecoded : Data = Data(base64Encoded: temp![1], options: .ignoreUnknownCharacters)!
           let decodedimage = UIImage(data: dataDecoded)
+        if (decodedimage != nil) {
           return decodedimage!
+        } else {
+            return self.profilePicture.image!
+        }
       } //end if
     }
     
