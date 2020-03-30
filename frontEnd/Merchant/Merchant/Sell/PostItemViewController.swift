@@ -163,6 +163,7 @@ class PostItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
             multipartFormData.append(Data(self.category.utf8), withName: "category")
             multipartFormData.append(Data(self.university.utf8), withName: "university")
             multipartFormData.append(Data("\(self.price)".utf8), withName: "price")
+            multipartFormData.append(Data("\(self.currentUser)".utf8), withName: "username")
         }, to: API.URL + "/items/postItem", headers: headers).responseJSON { response in
             //store the updated profile picture in cache
             if (response.response?.statusCode != 200) {
