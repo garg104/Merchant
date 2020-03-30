@@ -25,6 +25,8 @@ class SellDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.itemImageView.contentMode = .scaleToFill
 
         // Do any additional setup after loading the view.
         navigationItem.title = itemTitle
@@ -36,7 +38,7 @@ class SellDetailViewController: UIViewController {
     
     func itemPicturesHandler() {
         //first, setting up the default image
-        self.itemImageView.image = UIImage(imageLiteralResourceName: "profile-avatar")
+        self.itemImageView.image = UIImage(imageLiteralResourceName: "no-image")
         
         //setting the destination for storing the downloaded file
         let destination: DownloadRequest.Destination = { _, _ in
@@ -100,7 +102,7 @@ class SellDetailViewController: UIViewController {
     func base64ToUIImage(base64String: String?) -> UIImage{
       if (base64String?.isEmpty)! {
           debugPrint("No picture found")
-          return UIImage(imageLiteralResourceName: "profile-avatar")
+          return UIImage(imageLiteralResourceName: "no-image")
       } else {
           // Separating the metadata from the base64 data
           let temp = base64String?.components(separatedBy: ",")
