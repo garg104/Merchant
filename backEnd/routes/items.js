@@ -1,6 +1,6 @@
 require('dotenv').config()
-import { config, getItemPictureSchemas } from '../utils/fileHandling'
-import { getFiles } from '../middlewares/middlewares';
+import { config, getItemPictureSchemas, removeFiles } from '../utils/fileHandling'
+import { getManyFiles } from '../middlewares/middlewares';
 const express = require('express');
 const router = express.Router();
 const Item = require('../models/Items')
@@ -54,6 +54,10 @@ router.get('/allItems/', async (req, res) => {
   }
 });
 
+/**
+ * Get all the items that 
+ * the user is selling currently
+ */
 router.get('/userSellingCurrent/:username', async (req, res) => {
   try {
     // get all items with isSold as false.
@@ -74,6 +78,9 @@ router.get('/userSellingCurrent/:username', async (req, res) => {
   }
 });
 
+/**
+ * Remove the item from the database
+ */
 router.post('/removeItem', async (req, res) => {
   const { username, itemID } = req.body
 
@@ -89,9 +96,13 @@ router.post('/removeItem', async (req, res) => {
       //item couldn't be found
       res.status(400).json({ msg: "item could not be found in the user's forSale list" })
     }
+    //find the corresponding item to get the array of pictures
+    let item = await Item.findById(itemID)
+    //delet the pictures in the array
+    let ret = await removeFiles([...item.picture], 'items')
     //delete the item and also update the corresponding user object
-    let ret = await Item.findByIdAndDelete({ _id: itemID })
-    let retVal = await User.findOneAndUpdate({ username: username }, { forSale: user.forSale })
+    ret = await Item.findByIdAndDelete({ _id: itemID })
+    ret = await User.findOneAndUpdate({ username: username }, { forSale: user.forSale })
     res.status(200).json({ msg: "item has been successfully removed" })
   } catch (e) {
     //logging errors
@@ -100,6 +111,9 @@ router.post('/removeItem', async (req, res) => {
   }
 });
 
+/**
+ * Selling history 
+ */
 router.get('/userSellingHistory', async (req, res) => {
   try {
     // get all items with isSold as true.
@@ -179,25 +193,30 @@ router.get('/search/:username/:query', async (req, res, next) => {
 /**
  * Route to get item pictures from DB
  */
-router.get('/picture/:id', async (req, res, next) => {
+router.get('/picture/:itemId', async (req, res, next) => {
   //get the id of the picture
-  const { id } = req.params
+  const { itemId } = req.params
 
-  //get the schemas for items
   const { itemChunks } = getItemPictureSchemas()
 
+  //get the schemas for items
+  const item = await Item.findById(itemId)
+  const ids = [...item.picture]
+
   //in case there is no id, respond with an error
-  if (!id) {
+  if (ids.length === 0) {
     return res.status(404).json({ msg: "The fileId was not found" })
   } //end if
 
+  console.log(ids)
+
   //setting up the request object for next middleware
   req.fileChunks = itemChunks
-  req.fileId = id
+  req.fileIds = ids
 
   //calling the next middleware
   next()
-}, getFiles)
+}, getManyFiles)
 
 /**
  * Route to delete a picture from the database
@@ -206,9 +225,6 @@ router.delete('/picture/:id', async (req, res, next) => {
   //get the id of the picture
   const { id } = req.params
 
-  //get the schemase for the items
-  const { itemChunks, itemMetadata } = getItemPictureSchemas()
-
   //checking whether id is not null
   if (!id) {
     return res.status(404).json({ msg: 'requested id not found!' })
@@ -216,8 +232,7 @@ router.delete('/picture/:id', async (req, res, next) => {
 
   try {
     //search for the picture and delete it from both the schemas
-    await itemChunks.delete({ _id: id })
-    await itemMetadata.delete({ _id: id })
+    const ret = await removeFiles([id], 'items')
   } catch (e) {
     //error handling
     console.error(e)
