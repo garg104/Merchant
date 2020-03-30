@@ -30,14 +30,23 @@ class SellDetailViewController: UIViewController {
     }
     
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
+        
+        if (segue.identifier == "detailToEdit") {
+            let vc = segue.destination as! EditItemViewController
+            //Here you can pass values from this detail view controller to the edit one
+            //examples
+            vc.name = itemTitle
+            vc.nameTextField.text! = itemTitle
+        }
+        
     }
-    */
+    
 
 }
