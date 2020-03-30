@@ -161,7 +161,7 @@ class EditItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
                if (self.photo3 != nil) {
                    multipartFormData.append(self.photo3.jpegData(compressionQuality: 0.1)!, withName: "data", mimeType: "image/jpeg")
                } //end if
-           }, to: API.URL + "/items/updatePicture", headers: headers).responseJSON { response in
+           }, to: API.URL + "/items/picture", headers: headers).responseJSON { response in
                //store the updated profile picture in cache
                if (response.response?.statusCode != 200) {
                    //TODO: DREW make sure that we display a message saying item couldn't be posted
