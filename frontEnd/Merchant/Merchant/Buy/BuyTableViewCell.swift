@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Alamofire
 
 class BuyTableViewCell: UITableViewCell {
     
@@ -27,5 +28,4 @@ class BuyTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-
 }
