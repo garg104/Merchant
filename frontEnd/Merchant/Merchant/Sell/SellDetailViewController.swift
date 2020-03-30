@@ -20,6 +20,9 @@ class SellDetailViewController: UIViewController {
     @IBOutlet weak var itemPriceLabel: UILabel!
     @IBOutlet weak var itemDescriptionTextView: UITextView!
 
+    @IBAction func unwindToSellDetailViewController(segue: UIStoryboardSegue) {
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
