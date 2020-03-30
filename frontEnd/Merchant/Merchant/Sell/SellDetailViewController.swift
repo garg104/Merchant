@@ -37,17 +37,19 @@ class SellDetailViewController: UIViewController {
     }
     
     func itemPicturesHandler() {
-        //setting the destination for caching the file
+        //first, setting up the default image
+        self.itemImageView.image = UIImage(imageLiteralResourceName: "profile-avatar")
+        
+        //setting the destination for storing the downloaded file
         let destination: DownloadRequest.Destination = { _, _ in
             let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
             let fileURL = documentsURL.appendingPathComponent("com.merchant.turkeydaddy/pictures/items/item_\(self.itemId).data")
             return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
         }
-        
-        //get the directory location
-        let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        let fileURL = documentsURL.appendingPathComponent("com.merchant.turkeydaddy/pictures/items/item_\(self.itemId).data")
 
+        //checking cache
+        checkCacheForItemPicture()
+        
         //making the server request
         AF.download(API.URL + "/items/picture/\(self.itemId)", method: .get, to: destination).responseJSON { response in
             if (response.response?.statusCode != 200) {
@@ -66,6 +68,33 @@ class SellDetailViewController: UIViewController {
                 }
             } //end if
         } //request
+    }
+    
+    func checkCacheForItemPicture() {
+        //checking for cached image data
+        let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let fileURL = documentsURL.appendingPathComponent("com.merchant.turkeydaddy/pictures/items/item_\(self.itemId).data")
+        let filePath = fileURL.path
+        let fileManager = FileManager.default
+        
+        //checking if the required file already exists in the cache
+        if fileManager.fileExists(atPath: filePath) {
+            do {
+                //read the data from the cache               
+                if let json = try JSONSerialization.jsonObject(with: Data(contentsOf: fileURL), options: []) as? [String: Any] {
+                    // try to read out a string array
+                    if let files = json["files"] as? [String] {
+                        for file in files {
+                            self.itemImageView.image = self.base64ToUIImage(base64String: file)
+                        }
+                        debugPrint("Cache hit: successfully rendered image")
+                    }
+                }
+            } catch {
+                //File in cache is corrupted
+                debugPrint("Chache Miss, making the request")
+            } //end do-catch
+        } //end if
     }
     
     
