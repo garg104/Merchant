@@ -39,7 +39,7 @@ class BuyTableViewController: UITableViewController {
     var itemIDs: [String] = []
     
     var searchCategories = ["Item", "User"]
-    var filtered = [""];
+    var filtered: [Int] = []
     var searchCat = 0
     
     // Search Controller
@@ -135,13 +135,31 @@ class BuyTableViewController: UITableViewController {
     //search filtering function
     func filterContentForSearchText(_ searchText: String) {
         
-        /* for filtering with dictionaries*/
-        //resultsArray.filter{ ($0["fieldName"] as? String)?.lowercased().contains(searchText.lowercased())}
+        filtered = []
         
         if (searchCat == 0) {
-            filtered = titles.filter{ $0.lowercased().contains(searchText.lowercased())}
+            //filtered = titles.filter{ $0.lowercased().contains(searchText.lowercased())}
+            
+            var index = 0;
+            for item in titles { //finding indexes with matching titles
+                if (item.lowercased().contains(searchText.lowercased())) {
+                    filtered.append(index)
+                }
+                index = index + 1;
+            }
+            
+            
         } else if (searchCat == 1) {
-            filtered = usernames.filter{ $0.lowercased().contains(searchText.lowercased())}
+            //filtered = usernames.filter{ $0.lowercased().contains(searchText.lowercased())}
+            
+            var index = 0;
+            for item in usernames { //find indexes with matching usernames
+                if (item.lowercased().contains(searchText.lowercased())) {
+                    filtered.append(index)
+                }
+                index = index + 1;
+            }
+            
         }
         tableView.reloadData()
     }
@@ -182,11 +200,13 @@ class BuyTableViewController: UITableViewController {
         
         // Configure the cell...
         if (isFiltering) {
-            //will have to update with corresponding JSON/dictionary values
-            print("FILTERED")
-            print(filtered)
-            cell.itemTitleLabel.text = filtered[indexPath.row]
-            
+            //display search results
+            cell.itemTitleLabel.text = titles[filtered[indexPath.row]]
+            cell.itemPriceLabel.text = prices[filtered[indexPath.row]]
+            cell.userNameLabel.text = usernames[filtered[indexPath.row]]
+            cell.itemDescription = descriptions[filtered[indexPath.row]]
+            cell.itemID = itemIDs[filtered[indexPath.row]]
+            itemPicturesHandler(itemImageView: cell.itemImageView, itemID: cell.itemID)
         } else {
             cell.itemTitleLabel.text = titles[indexPath.row]
             cell.itemPriceLabel.text = prices[indexPath.row]
