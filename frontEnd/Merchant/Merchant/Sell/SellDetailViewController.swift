@@ -13,7 +13,7 @@ class SellDetailViewController: UIViewController {
     var itemTitle = ""
     var itemDescription = ""
     var itemPrice = ""
-    var itemImage = ""
+    var itemImage: UIImage!
     var itemSeller = ""
     
     @IBOutlet weak var itemImageView: UIImageView!
@@ -23,7 +23,7 @@ class SellDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        // Do any additional stup after loading the view.
         navigationItem.title = itemTitle
         itemPriceLabel.text = itemPrice
         itemDescriptionTextView.text = itemDescription
@@ -44,9 +44,16 @@ class SellDetailViewController: UIViewController {
             //examples
             vc.name = itemTitle
             vc.nameTextField.text! = itemTitle
+            vc.desc = itemDescription
+            vc.descriptionTextView.text! = itemDescription
+            vc.price = itemPrice
+            vc.priceTextField.text! = itemPrice
+            vc.photo1 = itemImage
+            vc.photo1Button.setBackgroundImage(itemImage, for: .normal)
+            vc.photo1Button.setTitleColor(.clear, for: .normal)
+            vc.removePhoto1Button.setTitleColor(.red, for: .normal)
+
         }
         
     }
-    
-
 }
