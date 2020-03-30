@@ -11,6 +11,8 @@ import Alamofire
 
 class PostItemViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
+    var currentUser = ""
+    
     
     // these next four functions are for the pickerView
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -60,6 +62,9 @@ class PostItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
     var ourGreen = UIColor .green
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        print("CURRENT USER")
+        print(currentUser)
 
         // Do any additional setup after loading the view.
         

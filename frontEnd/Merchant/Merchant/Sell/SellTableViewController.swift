@@ -199,6 +199,11 @@ class SellTableViewController: UITableViewController {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
         
+        if (segue.identifier == "toPostItem") {
+            let vc = segue.destination as! PostItemViewController
+            vc.currentUser = self.currentUser
+        }
+        
         if (segue.identifier == "showSellDetail") {
             guard let itemDetailViewController = segue.destination as? SellDetailViewController else {
                 fatalError("Unexpected destination: \(segue.destination)")
