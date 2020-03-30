@@ -1429,7 +1429,7 @@
                     <navigationItem key="navigationItem" title="Detail" id="n4v-p9-pGZ">
                         <barButtonItem key="rightBarButtonItem" title="Edit" id="4Yu-I5-AtH">
                             <connections>
-                                <segue destination="wTv-Hw-2MQ" kind="presentation" id="Bta-Rs-OVk"/>
+                                <segue destination="wTv-Hw-2MQ" kind="presentation" identifier="detailToEdit" id="Bta-Rs-OVk"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

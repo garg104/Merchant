@@ -217,6 +217,8 @@
 		6CFBE07E241DDD1F00063775 /* Sell */ = {
 			isa = PBXGroup;
 			children = (
+				153BC790242D9049000540EF /* PostItemViewController.swift */,
+				157852E22431741500B8BED2 /* EditItemViewController.swift */,
 				6CFBE081241DDDD700063775 /* SellTableViewCell.swift */,
 				6CFBE07F241DDD7A00063775 /* SellTableViewController.swift */,
 				6C8DB358242FE3780026EDF2 /* SellDetailViewController.swift */,
@@ -263,8 +265,6 @@
 				1554FFAD23FAE2C50066A4F3 /* ProfileViewController.swift */,
 				6C8B564E2408C035009BAE99 /* EditProfileViewController.swift */,
 				6C8B56502408F180009BAE99 /* ResetPasswordViewController.swift */,
-				153BC790242D9049000540EF /* PostItemViewController.swift */,
-				157852E22431741500B8BED2 /* EditItemViewController.swift */,
 				7571D7E423F351EF00C46379 /* Main.storyboard */,
 				7571D7E223F351EF00C46379 /* WelcomeViewController.swift */,
 				6C37EE12240787D100D8687F /* MainTabBarController.swift */,
