@@ -10,7 +10,6 @@
 		024527EF0EA5BF477C39AB78 /* Pods_MerchantTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81826771851C55C82DB8E48E /* Pods_MerchantTests.framework */; };
 		153BC791242D9049000540EF /* PostItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153BC790242D9049000540EF /* PostItemViewController.swift */; };
 		1554FFAE23FAE2C50066A4F3 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1554FFAD23FAE2C50066A4F3 /* ProfileViewController.swift */; };
-		157852E32431741500B8BED2 /* EditItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157852E22431741500B8BED2 /* EditItemViewController.swift */; };
 		6C2EB81C23F4ACC000320528 /* Poppins-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6C2EB80923F4ACBF00320528 /* Poppins-Light.otf */; };
 		6C2EB81D23F4ACC000320528 /* Poppins-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6C2EB80A23F4ACBF00320528 /* Poppins-SemiBold.otf */; };
 		6C2EB81E23F4ACC000320528 /* Poppins-ExtraBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6C2EB80B23F4ACBF00320528 /* Poppins-ExtraBold.otf */; };
@@ -90,7 +89,6 @@
 /* Begin PBXFileReference section */
 		153BC790242D9049000540EF /* PostItemViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostItemViewController.swift; sourceTree = "<group>"; };
 		1554FFAD23FAE2C50066A4F3 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
-		157852E22431741500B8BED2 /* EditItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditItemViewController.swift; sourceTree = "<group>"; };
 		22068D62C0BE1BEC8BD7C016 /* Pods_Merchant_MerchantUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Merchant_MerchantUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		23D67E866DD9AFE8D27946D9 /* Pods-Merchant.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Merchant.debug.xcconfig"; path = "Target Support Files/Pods-Merchant/Pods-Merchant.debug.xcconfig"; sourceTree = "<group>"; };
 		3B89CD3FF5AA0331FB47E34A /* Pods-MerchantTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MerchantTests.debug.xcconfig"; path = "Target Support Files/Pods-MerchantTests/Pods-MerchantTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -217,8 +215,6 @@
 		6CFBE07E241DDD1F00063775 /* Sell */ = {
 			isa = PBXGroup;
 			children = (
-				153BC790242D9049000540EF /* PostItemViewController.swift */,
-				157852E22431741500B8BED2 /* EditItemViewController.swift */,
 				6CFBE081241DDDD700063775 /* SellTableViewCell.swift */,
 				6CFBE07F241DDD7A00063775 /* SellTableViewController.swift */,
 				6C8DB358242FE3780026EDF2 /* SellDetailViewController.swift */,
@@ -265,6 +261,7 @@
 				1554FFAD23FAE2C50066A4F3 /* ProfileViewController.swift */,
 				6C8B564E2408C035009BAE99 /* EditProfileViewController.swift */,
 				6C8B56502408F180009BAE99 /* ResetPasswordViewController.swift */,
+				153BC790242D9049000540EF /* PostItemViewController.swift */,
 				7571D7E423F351EF00C46379 /* Main.storyboard */,
 				7571D7E223F351EF00C46379 /* WelcomeViewController.swift */,
 				6C37EE12240787D100D8687F /* MainTabBarController.swift */,
@@ -591,7 +588,6 @@
 				153BC791242D9049000540EF /* PostItemViewController.swift in Sources */,
 				7571D7E123F351EF00C46379 /* SceneDelegate.swift in Sources */,
 				6CF50D1423F4ECCF008A306D /* LogInViewController.swift in Sources */,
-				157852E32431741500B8BED2 /* EditItemViewController.swift in Sources */,
 				1554FFAE23FAE2C50066A4F3 /* ProfileViewController.swift in Sources */,
 				6C866C672412A55A003B8941 /* BuyTableViewController.swift in Sources */,
 				6C866C702414B50F003B8941 /* BuyDetailViewController.swift in Sources */,

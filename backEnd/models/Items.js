@@ -5,10 +5,6 @@ const userSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectID,
         ref: "User",
     },
-    username: {
-        type: String,
-        require: true,
-    },
     title: {
         type: String,
         require: true,

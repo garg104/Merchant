@@ -27,7 +27,7 @@ class SellTableViewCell: UITableViewCell {
         
     }
     
-    func removeItemHandler(itemID: String, username: String, completion: @escaping (_ validCode: Int)->()) {
+    func removeItemHandler(itemID: String, username: String) {
         struct parameters: Encodable {
                    var username = ""
                    var itemID = ""
@@ -44,10 +44,8 @@ class SellTableViewCell: UITableViewCell {
             } else {
                 debugPrint("ERROR")
             }
-            
-            completion(0)
-            
-        }.resume()
+                       
+        }
     }
     
     @IBAction func soldButton(_ sender: Any) {

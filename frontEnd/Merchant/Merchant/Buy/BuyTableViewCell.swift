@@ -15,7 +15,6 @@ class BuyTableViewCell: UITableViewCell {
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var itemPriceLabel: UILabel!
     var itemDescription = ""
-    var itemID = ""
 
     override func awakeFromNib() {
         super.awakeFromNib()
