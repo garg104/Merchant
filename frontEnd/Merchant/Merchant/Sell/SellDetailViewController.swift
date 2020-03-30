@@ -30,28 +30,40 @@ class SellDetailViewController: UIViewController {
         itemPriceLabel.text = itemPrice
         itemDescriptionTextView.text = itemDescription
         
+        itemImageView.layer.cornerRadius = 10.0
+        itemImageView.layer.masksToBounds = true
+        
         itemPicturesHandler()
     }
     
     func itemPicturesHandler() {
         //setting the destination for caching the file
-//        let destination: DownloadRequest.Destination = { _, _ in
-//            let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-//            let fileURL = documentsURL.appendingPathComponent("com.merchant.turkeydaddy/pictures/profile_\(self.email).data")
-//            return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
-//        }
-//
+        let destination: DownloadRequest.Destination = { _, _ in
+            let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+            let fileURL = documentsURL.appendingPathComponent("com.merchant.turkeydaddy/pictures/items/item_\(self.itemId).data")
+            return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
+        }
+        
+        //get the directory location
+        let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let fileURL = documentsURL.appendingPathComponent("com.merchant.turkeydaddy/pictures/items/item_\(self.itemId).data")
+
         //making the server request
-        AF.download(API.URL + "/items/picture/\(self.itemId)", method: .get).responseString { response in
+        AF.download(API.URL + "/items/picture/\(self.itemId)", method: .get, to: destination).responseJSON { response in
             if (response.response?.statusCode != 200) {
                 //render default image
                 self.itemImageView.image = self.base64ToUIImage(base64String: "")
             } else {
                 //request successful
-                if let encodedImageString = response.value {
-                    //parsing the base64 encoded string into image data
-                    self.itemImageView.image = self.base64ToUIImage(base64String: encodedImageString)
-                } //end if
+                if let res = response.value {
+                    let resJson = res as! NSDictionary
+                    let pictures : NSArray =  resJson.value(forKey: "files") as! NSArray
+                    for picture in pictures {
+                        let encodedImageString = picture as! String
+                        self.itemImageView.image = self.base64ToUIImage(base64String: encodedImageString)
+                    }
+                    
+                }
             } //end if
         } //request
     }
