@@ -177,7 +177,7 @@ class EditItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
                         
                         if (validationCode == 200) { //success
                             debugPrint("SUCCESS!!!!")
-                            self.performSegue(withIdentifier: "saveEditUnwind", sender: nil)
+//                            self.performSegue(withIdentifier: "saveEditUnwind", sender: nil)
                         }  else { //error in database check
                             let alert = UIAlertController(title: "Error", message: "Item could not be updated. Please try again.", preferredStyle: .alert)
                             alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
