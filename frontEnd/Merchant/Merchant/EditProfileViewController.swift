@@ -102,6 +102,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, UINaviga
         let image = UIImagePickerController()
         image.delegate = self
         image.sourceType = UIImagePickerController.SourceType.photoLibrary
+        // handles if camera exists on device (sim vs. device)
         if (UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.camera)) {
             image.sourceType = UIImagePickerController.SourceType.camera
         }

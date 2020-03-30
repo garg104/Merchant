@@ -7,21 +7,63 @@
 //
 
 import UIKit
+import Alamofire
 
 class BuyTableViewController: UITableViewController {
     
     var currentUser = ""
     
-    //data structures for simple testing (replace with JSON array)
-    var images = ["", "", ""]
-    var titles = ["item 1", "item 2", "item 3"]
-    var usernames = ["userA", "userB", "userC"]
-    var prices = ["$10.00", "$7.00", "$16.00"]
-    var descriptions = ["description1", "description2", "description3"]
+    //data structures for simple testing (replace with JSON array)    
+    var images: [String] = []
+    var titles: [String] = []
+    var usernames: [String] = []
+    var prices: [String] = []
+    var descriptions: [String] = []
+    var itemIDs: [String] = []
     
-
+    func getItems(completion: @escaping (_ validCode: Int)->()) {
+        // #warning Incomplete implementation, return the number of sections
+        
+        struct parameters: Encodable {
+            var username = ""
+        }
+                
+        AF.request(API.URL + "/items/allItems/", method: .get).responseJSON { response in
+    
+            if (response.response?.statusCode == 200) {
+                if let info = response.value {
+                    let JSON = info as! NSDictionary
+                    let items : NSArray =  JSON.value(forKey: "items") as! NSArray
+                    for item in items {
+                        // make sure that the user does not see the objects they are selling
+                        let temp = item as! NSDictionary
+                        if (self.currentUser != temp["username"] as! String) {
+                            print(item)
+                            self.titles.append(temp["title"]! as! String)
+                            self.prices.append(temp["price"]! as! String)
+                            self.usernames.append(temp["username"] as! String)
+                            self.descriptions.append(temp["description"]! as! String)
+                            self.itemIDs.append(temp["_id"]! as! String)
+                        }
+                        
+                    }
+                }
+            } else {
+                debugPrint("ERROR")
+            }
+            
+            completion(0)
+            
+        }.resume()
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        getItems() { (validCode) in
+            self.tableView.reloadData()
+        }
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -35,6 +77,20 @@ class BuyTableViewController: UITableViewController {
         searchController.searchBar.scopeButtonTitles = ["Item", "User"]
         
     }
+    
+    func updateData() {
+           images = []
+           titles = []
+           usernames = []
+           prices = []
+           descriptions = []
+           itemIDs = []
+           
+           getItems() { (validCode) in
+               self.tableView.reloadData()
+           }
+           
+       }
 
     // MARK: - Table view data source
 
@@ -58,6 +114,8 @@ class BuyTableViewController: UITableViewController {
         cell.itemPriceLabel.text = prices[indexPath.row]
         cell.userNameLabel.text = usernames[indexPath.row]
         cell.itemDescription = descriptions[indexPath.row]
+        cell.itemID = itemIDs[indexPath.row]
+
         
         return cell
     }
