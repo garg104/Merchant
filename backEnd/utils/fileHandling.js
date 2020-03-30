@@ -61,6 +61,9 @@ export const getProfilePictureSchemas = () => {
  * Export the schemas obtained from the config function
  */
 export const getItemPictureSchemas = () => {
+    if (!itemChunks) {
+        console.log('itemChunks is null')
+    }
     return {
         itemMetadata,
         itemChunks
@@ -82,4 +85,46 @@ export const parseFileData = (fileChunks) => {
     const imageURI = 'data:image/jpeg' + ';base64, ' + fileData.join('')
 
     return imageURI
+}
+
+/**
+ * Function to remove images from backend
+ * 
+ * @param ids: array of file ids
+ * @param type: specify the type of file
+ */
+export const removeFiles = async (ids, type) => {
+    return new Promise(async (resolve, reject) => {
+        let chunks = null
+        let metadata = null
+
+        if (`${type}`.localeCompare('items') == 0) {
+            chunks = itemChunks
+            metadata = itemMetadata
+        } else if (`${type}`.localeCompare('profile-pictures') == 0) {
+            chunks = fileChunks;
+            metadata = fileMetadata
+        } else {
+            reject({ msg: 'incorrect method call' })
+        } //end if
+
+        //deleting all the chunks from the database
+        try {
+            const ret = await chunks.deleteMany({ files_id: { $in: [...ids] } })
+        } catch (e) {
+            console.error(e)
+            reject({ msg: 'chunk deletion failed' })
+        } //end try-catch
+
+        //deleting all the metadata from the database
+        try {
+            const ret = await metadata.deleteMany({ _id: { $in: [...ids] } })
+        } catch (e) {
+            console.error(e)
+            reject({ msg: 'metadata deletion failed' })
+        } //end try-catch
+
+        //removal successful: return success message
+        resolve({ msg: 'file deletion successful' })
+    })
 }
