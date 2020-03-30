@@ -1,6 +1,6 @@
 require('dotenv').config()
 import { config, getItemPictureSchemas, removeFiles } from '../utils/fileHandling'
-import { getFiles } from '../middlewares/middlewares';
+import { getManyFiles } from '../middlewares/middlewares';
 const express = require('express');
 const router = express.Router();
 const Item = require('../models/Items')
@@ -54,6 +54,10 @@ router.get('/allItems', async (req, res) => {
   }
 });
 
+/**
+ * Get all the items that 
+ * the user is selling currently
+ */
 router.get('/userSellingCurrent/:username', async (req, res) => {
   try {
     // get all items with isSold as false.
@@ -74,6 +78,9 @@ router.get('/userSellingCurrent/:username', async (req, res) => {
   }
 });
 
+/**
+ * Remove the item from the database
+ */
 router.post('/removeItem', async (req, res) => {
   const { username, itemID } = req.body
 
@@ -104,6 +111,9 @@ router.post('/removeItem', async (req, res) => {
   }
 });
 
+/**
+ * Selling history 
+ */
 router.get('/userSellingHistory', async (req, res) => {
   try {
     // get all items with isSold as true.
@@ -201,7 +211,7 @@ router.get('/picture/:id', async (req, res, next) => {
 
   //calling the next middleware
   next()
-}, getFiles)
+}, getManyFiles)
 
 /**
  * Route to delete a picture from the database

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Alamofire
 
 class SellDetailViewController: UIViewController {
     
@@ -15,6 +16,7 @@ class SellDetailViewController: UIViewController {
     var itemPrice = ""
     var itemImage = ""
     var itemSeller = ""
+    var itemId = ""
     
     @IBOutlet weak var itemImageView: UIImageView!
     @IBOutlet weak var itemPriceLabel: UILabel!
@@ -27,8 +29,50 @@ class SellDetailViewController: UIViewController {
         navigationItem.title = itemTitle
         itemPriceLabel.text = itemPrice
         itemDescriptionTextView.text = itemDescription
+        
+        itemPicturesHandler()
     }
     
+    func itemPicturesHandler() {
+        //setting the destination for caching the file
+//        let destination: DownloadRequest.Destination = { _, _ in
+//            let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+//            let fileURL = documentsURL.appendingPathComponent("com.merchant.turkeydaddy/pictures/profile_\(self.email).data")
+//            return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
+//        }
+//
+        //making the server request
+        AF.download(API.URL + "/items/picture/\(self.itemId)", method: .get).responseString { response in
+            if (response.response?.statusCode != 200) {
+                //render default image
+                self.itemImageView.image = self.base64ToUIImage(base64String: "")
+            } else {
+                //request successful
+                if let encodedImageString = response.value {
+                    //parsing the base64 encoded string into image data
+                    self.itemImageView.image = self.base64ToUIImage(base64String: encodedImageString)
+                } //end if
+            } //end if
+        } //request
+    }
+    
+    
+    func base64ToUIImage(base64String: String?) -> UIImage{
+      if (base64String?.isEmpty)! {
+          debugPrint("No picture found")
+          return UIImage(imageLiteralResourceName: "profile-avatar")
+      } else {
+          // Separating the metadata from the base64 data
+          let temp = base64String?.components(separatedBy: ",")
+          let dataDecoded : Data = Data(base64Encoded: temp![1], options: .ignoreUnknownCharacters)!
+          let decodedimage = UIImage(data: dataDecoded)
+        if (decodedimage != nil) {
+          return decodedimage!
+        } else {
+            return self.itemImageView.image!
+        }
+      } //end if
+    }
 
     /*
     // MARK: - Navigation
