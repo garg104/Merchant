@@ -22,11 +22,14 @@ router.post('/postItem', upload.array("data"), async (req, res) => {
   try {
     //create new item in the Database
     const item = new Item({ userID, username, title, description, price, picture, category, isSold, university })
-
+    if (username == "") {
+      res.status(404).json({ msg: 'Please specify username' })
+    }
     // saving the item in the database (save() is same as User.create)
     // add the item to the selling list of the user
     const savedItem = await item.save()
     const user = await User.find({ username })
+
     user[0].forSale.push(savedItem._id)
     const ret = await User.findOneAndUpdate({ username: username }, { forSale: user[0].forSale })
 
