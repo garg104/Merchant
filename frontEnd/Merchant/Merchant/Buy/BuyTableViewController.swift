@@ -165,6 +165,9 @@ class BuyTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
+        if (isFiltering) {
+            return filtered.count
+        }
         return titles.count
     }
 
