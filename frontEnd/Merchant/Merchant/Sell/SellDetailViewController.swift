@@ -50,6 +50,7 @@ class SellDetailViewController: UIViewController {
         //checking cache
         checkCacheForItemPicture()
         
+        
         //making the server request
         AF.download(API.URL + "/items/picture/\(self.itemId)", method: .get, to: destination).responseJSON { response in
             if (response.response?.statusCode != 200) {

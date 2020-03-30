@@ -116,7 +116,6 @@ class BuyTableViewController: UITableViewController {
         cell.itemDescription = descriptions[indexPath.row]
         cell.itemID = itemIDs[indexPath.row]
 
-        
         return cell
     }
     
@@ -184,6 +183,7 @@ class BuyTableViewController: UITableViewController {
             itemDetailViewController.itemDescription = selectedItemCell.itemDescription
             itemDetailViewController.itemPrice = selectedItemCell.itemPriceLabel.text!
             itemDetailViewController.itemSeller = selectedItemCell.userNameLabel.text!
+            itemDetailViewController.itemId = selectedItemCell.itemID
         }
         
     }
