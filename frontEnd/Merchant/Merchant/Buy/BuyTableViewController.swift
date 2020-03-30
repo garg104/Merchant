@@ -113,7 +113,7 @@ class BuyTableViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
         
-        //search controller initilization
+        let searchController = UISearchController(searchResultsController: nil) // Search Controller
         navigationItem.hidesSearchBarWhenScrolling = false
         navigationItem.searchController = searchController
         searchController.searchBar.scopeButtonTitles = searchCategories
@@ -165,9 +165,6 @@ class BuyTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        if (isFiltering) {
-            return filtered.count
-        }
         return titles.count
     }
 
@@ -175,30 +172,16 @@ class BuyTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "itemCell", for: indexPath) as! BuyTableViewCell
-
+        
         // Configure the cell...
-        if (isFiltering) {
-            //will have to update with corresponding JSON/dictionary values
-            print("IndexPath.row")
-            print(indexPath.row)
-            print("Filtered")
-            print(filtered)
-            cell.itemTitleLabel.text = filtered[indexPath.row]
-        } else {
-            print("Regular IndexPath.row")
-            print(indexPath.row)
-            cell.itemTitleLabel.text = titles[indexPath.row]
-            cell.itemPriceLabel.text = prices[indexPath.row]
-            cell.userNameLabel.text = usernames[indexPath.row]
-            cell.itemDescription = descriptions[indexPath.row]
-            cell.itemID = itemIDs[indexPath.row]
-        }
-
+        cell.itemTitleLabel.text = titles[indexPath.row]
+        cell.itemPriceLabel.text = prices[indexPath.row]
+        cell.userNameLabel.text = usernames[indexPath.row]
+        cell.itemDescription = descriptions[indexPath.row]
+        cell.itemID = itemIDs[indexPath.row]
+        itemPicturesHandler(itemImageView: cell.itemImageView, itemID: cell.itemID)
         return cell
     }
-    
-    
-    
 
     /*
     // Override to support conditional editing of the table view.
@@ -261,9 +244,86 @@ class BuyTableViewController: UITableViewController {
             itemDetailViewController.itemDescription = selectedItemCell.itemDescription
             itemDetailViewController.itemPrice = selectedItemCell.itemPriceLabel.text!
             itemDetailViewController.itemSeller = selectedItemCell.userNameLabel.text!
+            itemDetailViewController.itemId = selectedItemCell.itemID
         }
         
     }
     
+    //Image rendering funtions
+    func itemPicturesHandler(itemImageView: UIImageView, itemID: String) {
+        //first, setting up the default image
+        itemImageView.image = UIImage(imageLiteralResourceName: "no-image")
+        
+        //setting the destination for storing the downloaded file
+        let destination: DownloadRequest.Destination = { _, _ in
+            let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+            let fileURL = documentsURL.appendingPathComponent("com.merchant.turkeydaddy/pictures/items/item_\(itemID).data")
+            return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
+        }
 
+        //checking cache
+        checkCacheForItemPicture(itemImageView: itemImageView, itemID: itemID)
+        
+        //making the server request
+        AF.download(API.URL + "/items/picture/\(itemID)", method: .get, to: destination).responseJSON { response in
+            if (response.response?.statusCode != 200) {
+                //render default image
+                itemImageView.image = self.base64ToUIImage(base64String: "", itemImageView: itemImageView)
+            } else {
+                //request successful
+                if let res = response.value {
+                    let resJson = res as! NSDictionary
+                    let pictures : NSArray =  resJson.value(forKey: "files") as! NSArray
+                    for picture in pictures {
+                        let encodedImageString = picture as! String
+                        itemImageView.image = self.base64ToUIImage(base64String: encodedImageString, itemImageView: itemImageView)
+                    }
+                }
+            } //end if
+        } //request
+    }
+    
+    func checkCacheForItemPicture(itemImageView: UIImageView, itemID: String) {
+        //checking for cached image data
+        let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let fileURL = documentsURL.appendingPathComponent("com.merchant.turkeydaddy/pictures/items/item_\(itemID).data")
+        let filePath = fileURL.path
+        let fileManager = FileManager.default
+        
+        //checking if the required file already exists in the cache
+        if fileManager.fileExists(atPath: filePath) {
+            do {
+                //read the data from the cache
+                if let json = try JSONSerialization.jsonObject(with: Data(contentsOf: fileURL), options: []) as? [String: Any] {
+                    // try to read out a string array
+                    if let files = json["files"] as? [String] {
+                        for file in files {
+                            itemImageView.image = self.base64ToUIImage(base64String: file, itemImageView: itemImageView)
+                        }
+                        debugPrint("Cache hit: successfully rendered image")
+                    }
+                }
+            } catch {
+                //File in cache is corrupted
+                debugPrint("Chache Miss, making the request")
+            } //end do-catch
+        } //end if
+    }
+    
+    func base64ToUIImage(base64String: String?, itemImageView: UIImageView) -> UIImage{
+      if (base64String?.isEmpty)! {
+          debugPrint("No picture found")
+          return UIImage(imageLiteralResourceName: "no-image")
+      } else {
+          // Separating the metadata from the base64 data
+          let temp = base64String?.components(separatedBy: ",")
+          let dataDecoded : Data = Data(base64Encoded: temp![1], options: .ignoreUnknownCharacters)!
+          let decodedimage = UIImage(data: dataDecoded)
+        if (decodedimage != nil) {
+          return decodedimage!
+        } else {
+            return itemImageView.image!
+        }
+      } //end if
+    }
 }
