@@ -1,5 +1,5 @@
 require('dotenv').config()
-import { config, getItemPictureSchemas } from '../utils/fileHandling'
+import { config, getItemPictureSchemas, removeFiles } from '../utils/fileHandling'
 import { getFiles } from '../middlewares/middlewares';
 const express = require('express');
 const router = express.Router();
@@ -216,8 +216,7 @@ router.delete('/picture/:id', async (req, res, next) => {
 
   try {
     //search for the picture and delete it from both the schemas
-    await itemChunks.delete({ _id: id })
-    await itemMetadata.delete({ _id: id })
+    const ret = await removeFiles([id], 'items')
   } catch (e) {
     //error handling
     console.error(e)
