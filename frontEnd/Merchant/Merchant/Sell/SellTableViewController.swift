@@ -22,7 +22,10 @@ class SellTableViewController: UITableViewController {
     var descriptions: [String] = []
     var itemIDs: [String] = []
     
-//    var counter = 0
+    
+    @IBAction func refreshButton(_ sender: Any) {
+        updateData()
+    }
     
     func getItems(completion: @escaping (_ validCode: Int)->()) {
         // #warning Incomplete implementation, return the number of sections
@@ -217,11 +220,12 @@ class SellTableViewController: UITableViewController {
                 fatalError("The selected cell is not being displayed by the table")
             }
             
-//            let selectedItemIndex = indexPath.row
-            _ = indexPath.row
+            let selectedItemIndex = indexPath.row
+            //_ = indexPath.row
+            
             itemDetailViewController.itemTitle = selectedItemCell.itemTitleLabel.text!
             itemDetailViewController.itemDescription = selectedItemCell.itemDescription
-            itemDetailViewController.itemPrice = selectedItemCell.itemPriceLabel.text!
+            itemDetailViewController.itemPrice = prices[selectedItemIndex]
             itemDetailViewController.itemId = selectedItemCell.itemID
         }
         

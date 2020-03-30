@@ -30,7 +30,7 @@ class SellDetailViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         navigationItem.title = itemTitle
-        itemPriceLabel.text = "$1,200.00"
+        itemPriceLabel.text = itemPrice
         itemDescriptionTextView.text = itemDescription
         
         itemPicturesHandler()

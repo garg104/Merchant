@@ -977,6 +977,11 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Sell" id="fNP-Wb-ygK">
+                        <barButtonItem key="leftBarButtonItem" systemItem="refresh" id="OGh-jm-vdE">
+                            <connections>
+                                <action selector="refreshButton:" destination="kdR-JZ-Z6h" id="qdr-jJ-Lxf"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="BCw-qm-IIT">
                             <connections>
                                 <segue destination="qB3-k2-TNd" kind="presentation" identifier="toPostItem" id="end-Xd-Pev"/>
@@ -1110,7 +1115,13 @@
                             <outlet property="delegate" destination="KcF-Su-Eqg" id="5WU-dm-U80"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Buy" id="fI0-X5-CUj"/>
+                    <navigationItem key="navigationItem" title="Buy" id="fI0-X5-CUj">
+                        <barButtonItem key="leftBarButtonItem" systemItem="refresh" id="OIf-8B-F99">
+                            <connections>
+                                <action selector="refreshButton:" destination="KcF-Su-Eqg" id="482-tn-H8F"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KSg-i0-B5Z" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

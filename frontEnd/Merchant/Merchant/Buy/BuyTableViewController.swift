@@ -63,6 +63,10 @@ class BuyTableViewController: UITableViewController {
       return searchController.isActive && !isSearchBarEmpty
     }
     
+    @IBAction func refreshButton(_ sender: Any) {
+        updateData()
+    }
+    
     func getItems(completion: @escaping (_ validCode: Int)->()) {
         // #warning Incomplete implementation, return the number of sections
         
