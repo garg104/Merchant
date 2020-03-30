@@ -17,6 +17,7 @@ class SellDetailViewController: UIViewController {
     var itemImage = ""
     var itemSeller = ""
     var itemId = ""
+    var pictures: NSArray = []
     
     @IBOutlet weak var itemImageView: UIImageView!
     @IBOutlet weak var itemPriceLabel: UILabel!
@@ -27,11 +28,8 @@ class SellDetailViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         navigationItem.title = itemTitle
-        itemPriceLabel.text = itemPrice
+        itemPriceLabel.text = "$1,200.00"
         itemDescriptionTextView.text = itemDescription
-        
-        itemImageView.layer.cornerRadius = 10.0
-        itemImageView.layer.masksToBounds = true
         
         itemPicturesHandler()
     }
@@ -60,11 +58,11 @@ class SellDetailViewController: UIViewController {
                 if let res = response.value {
                     let resJson = res as! NSDictionary
                     let pictures : NSArray =  resJson.value(forKey: "files") as! NSArray
+                    self.pictures = pictures
                     for picture in pictures {
                         let encodedImageString = picture as! String
                         self.itemImageView.image = self.base64ToUIImage(base64String: encodedImageString)
                     }
-                    
                 }
             } //end if
         } //request
@@ -84,6 +82,7 @@ class SellDetailViewController: UIViewController {
                 if let json = try JSONSerialization.jsonObject(with: Data(contentsOf: fileURL), options: []) as? [String: Any] {
                     // try to read out a string array
                     if let files = json["files"] as? [String] {
+                        self.pictures = files as NSArray
                         for file in files {
                             self.itemImageView.image = self.base64ToUIImage(base64String: file)
                         }
