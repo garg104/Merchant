@@ -54,6 +54,8 @@ class EditItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
        @IBOutlet weak var removePhoto1Button: UIButton!
        @IBOutlet weak var removePhoto2Button: UIButton!
        @IBOutlet weak var removePhoto3Button: UIButton!
+    
+       var itemId = ""
        
        
        var ourGreen = UIColor .green
@@ -61,11 +63,18 @@ class EditItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
            super.viewDidLoad()
 
            // Do any additional setup after loading the view.
-           
+            nameTextField.text! = self.name
+            descriptionTextView.text! = self.desc
+            priceTextField.text! = self.price
+        
+            photo1Button.setBackgroundImage(photo1, for: .normal)
+            photo1Button.setTitleColor(.clear, for: .normal)
+            removePhoto1Button.setTitleColor(.red, for: .normal)
+        
            // add border to description textView
            descriptionTextView!.layer.borderWidth = 1
            descriptionTextView!.layer.borderColor = UIColor.black.cgColor
-        descriptionTextView!.isEditable = true
+           descriptionTextView!.isEditable = true
            
            createPickerView()
            
@@ -140,12 +149,13 @@ class EditItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
                 var description: String
                 var price: String
                 var category: String
+                var id: String
             }
            
         let details = parameter(title: name,
                                     description: desc,
                                     price: price,
-                                    category: category)
+                                    category: category, id: self.itemId)
            
            //include content type as multipart data to be recognised by multer
            let headers: HTTPHeaders = [
@@ -179,7 +189,7 @@ class EditItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
                }
            } //end response handler
             
-            AF.request(API.URL + "/items/", method: .put, parameters: details, encoder:    URLEncodedFormParameterEncoder.default).response { response in
+        AF.request(API.URL + "/items/\(self.itemId)", method: .put, parameters: details, encoder:    URLEncodedFormParameterEncoder.default).response { response in
                         debugPrint(response)
                         
                         let validationCode = response.response?.statusCode

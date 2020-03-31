@@ -127,22 +127,18 @@ class SellDetailViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
-        
         if (segue.identifier == "detailToEdit") {
             let vc = segue.destination as! EditItemViewController
             //Here you can pass values from this detail view controller to the edit one
             //examples
             vc.name = itemTitle
-            vc.nameTextField.text! = itemTitle
+//            vc.nameTextField.text = itemTitle
             vc.desc = itemDescription
-            vc.descriptionTextView.text! = itemDescription
+//            vc.descriptionTextView.text! = itemDescription
             vc.price = itemPrice
-            vc.priceTextField.text! = itemPrice
-            vc.photo1 = itemImage
-            vc.photo1Button.setBackgroundImage(itemImage, for: .normal)
-            vc.photo1Button.setTitleColor(.clear, for: .normal)
-            vc.removePhoto1Button.setTitleColor(.red, for: .normal)
-
+//            vc.priceTextField.text! = itemPrice
+//            vc.photo1 = itemImage
+            vc.itemId = self.itemId
         }
         
     }
