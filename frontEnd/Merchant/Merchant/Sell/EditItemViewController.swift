@@ -61,6 +61,13 @@ class EditItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
+        photo1Button.setBackgroundImage(photo1, for: .normal)
+        photo1Button.setTitleColor(.clear, for: .normal)
+        removePhoto1Button.setTitleColor(.red, for: .normal)
+        
+        nameTextField.text! = name
+        descriptionTextView.text! = desc
+        priceTextField.text! = price
         
         // add border to description textView
         descriptionTextView!.layer.borderWidth = 1
@@ -162,14 +169,14 @@ class EditItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
             var description: String
             var price: String
             var category: String
-            var itemId: String
+            var id: String
         }
         
-        let details = parameter(title: name,
-                                description: desc,
-                                price: price,
-                                category: category,
-                                itemId: itemId)
+        let details = parameter(title: nameTextField.text ?? name,
+                                description: descriptionTextView.text ?? description,
+                                price: priceTextField.text ?? price,
+                                category: categoryTextField.text ?? category,
+                                id: itemId)
         
         //include content type as multipart data to be recognised by multer
         let headers: HTTPHeaders = [
@@ -181,6 +188,7 @@ class EditItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
         //Request to the sever
         AF.upload(multipartFormData: {multipartFormData in
             if (self.photo1 != nil) {
+                debugPrint("Adding one image")
                 multipartFormData.append(self.photo1.jpegData(compressionQuality: 0.1)!, withName: "data", mimeType: "image/jpeg")
             } //end if
             if (self.photo2 != nil) {
@@ -189,15 +197,15 @@ class EditItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
             if (self.photo3 != nil) {
                 multipartFormData.append(self.photo3.jpegData(compressionQuality: 0.1)!, withName: "data", mimeType: "image/jpeg")
             } //end if
-        }, to: API.URL + "/items/picture/\(self.itemId)", headers: headers).responseJSON { response in
+        }, to: API.URL + "/items/pictures/\(self.itemId)", headers: headers).responseJSON { response in
             //store the updated profile picture in cache
-            if (response.response?.statusCode != 200) {
+            if (response.response?.statusCode != 201) {
                 let alert = UIAlertController(title: "Unsuccessful post", message: "Your post was unsuccessful. Please enter all fields and try again.", preferredStyle: .alert)
                 alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
                 self.present(alert, animated: true)
             } else {
                 //TODO: DREW make sure that we display a success message saying item has been posted
-                debugPrint("SUCCESS")
+                debugPrint("IMAGE SUCCESS")
             }
         } //end response handler
         
@@ -253,18 +261,21 @@ class EditItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
         if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             // add it
             if flag == 1 {
+                photo1 = image
                 photo1Button.setBackgroundImage(image, for: .normal)
                 photo1Button.setTitleColor(.clear, for: .normal)
                 removePhoto1Button.setTitleColor(.red, for: .normal)
                 
             }
             else if flag == 2 {
+                photo2 = image
                 photo2Button.setBackgroundImage(image, for: .normal)
                 photo2Button.setTitleColor(.clear, for: .normal)
                 removePhoto2Button.setTitleColor(.red, for: .normal)
                 
             }
             else if flag == 3 {
+                photo3 = image
                 photo3Button.setBackgroundImage(image, for: .normal)
                 photo3Button.setTitleColor(.clear, for: .normal)
                 removePhoto3Button.setTitleColor(.red, for: .normal)

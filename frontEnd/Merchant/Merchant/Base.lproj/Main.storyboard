@@ -1431,7 +1431,7 @@
                         <rightBarButtonItems>
                             <barButtonItem title="Edit" id="4Yu-I5-AtH">
                                 <connections>
-                                    <segue destination="2iQ-dt-LMe" kind="presentation" id="zOK-VV-Ood"/>
+                                    <segue destination="2iQ-dt-LMe" kind="presentation" identifier="detailToEdit" id="zOK-VV-Ood"/>
                                 </connections>
                             </barButtonItem>
                             <barButtonItem style="plain" id="PeE-zW-aXI">
