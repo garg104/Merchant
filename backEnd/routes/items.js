@@ -13,8 +13,18 @@ let upload = config('item-pictures')
  * This route is to be modified and finalized by Drew Keirn  
  */
 router.post('/postItem', upload.array("data"), async (req, res) => {
-  const { username, userID, title, description, price, isSold, university } = req.body
-  // console.log(req.body.category)
+  let { username, userID, title, description, price, isSold, university } = req.body
+
+  //ensure that the isSold is false if nothing is passed
+  if (!isSold) {
+    isSold = false
+  }
+
+  //ensure that the correct userID is assigned if nothing is passed
+  if (!userID) {
+    const ret = await User.findOne({ username: username })
+    userID = ret._id
+  }
 
   // convert the category to integers to store in the database.
   let category = 0
@@ -27,12 +37,13 @@ router.post('/postItem', upload.array("data"), async (req, res) => {
   } else {
     console.log("category is not working properly")
     res.status(403).json({ msg: 'Look what category is' })
-  }
+  } //end if
 
   //get the ids of all the pictures saved
   let picture = []
-  if (req.files)
+  if (req.files) {
     req.files.forEach(file => picture.push(file.id))
+  }
 
   try {
     //create new item in the Database
