@@ -68,24 +68,36 @@ class EditItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
     var itemImages = [UIImage]()
     
     
-    var ourGreen = UIColor .green
+    var ourGreen = UIColor(red: 118/255.0, green: 181/255.0, blue: 77/255.0, alpha: 1.0)
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
 //        photo1Button.setBackgroundImage(photo1, for: .normal)
-        photo1Button.setTitleColor(.clear, for: .normal)
-        removePhoto1Button.setTitleColor(.red, for: .normal)
         
         nameTextField.text! = name
         descriptionTextView.text! = desc
         priceTextField.text! = price
         categoryTextField.text! = category
+
         
         // hide remove buttons
         removePhoto1Button.setTitleColor(.clear, for: .normal)
         removePhoto2Button.setTitleColor(.clear, for: .normal)
         removePhoto3Button.setTitleColor(.clear, for: .normal)
+        
+        // reset if itemImages is empty
+        if (itemImages.count == 0) {
+            photo1Button.setTitleColor(ourGreen, for: .normal)
+            photo1Button.setBackgroundImage(nil, for: .normal)
+            removePhoto1Button.setTitleColor(.clear, for: .normal)
+            photo2Button.setTitleColor(ourGreen, for: .normal)
+            photo2Button.setBackgroundImage(nil, for: .normal)
+            removePhoto2Button.setTitleColor(.clear, for: .normal)
+            photo3Button.setTitleColor(ourGreen, for: .normal)
+            photo3Button.setBackgroundImage(nil, for: .normal)
+            removePhoto3Button.setTitleColor(.clear, for: .normal)
+        }
         
         // add images if needed
         if (itemImages.count >= 1) {
@@ -114,8 +126,7 @@ class EditItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
         
         createPickerView()
         
-        ourGreen = photo1Button.currentTitleColor
-        
+        //ourGreen = photo1Button.currentTitleColor
         
         // setup price for currency format
         priceTextField.delegate = self
