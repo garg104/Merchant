@@ -291,11 +291,16 @@ router.put('/', async (req, res) => {
 router.post('/pictures/:id', upload.array("data"), async (req, res) => {
   const { id } = req.params
   try {
+
+    console.log(req.files)
+
     //getting the fields from the file
     let picture = []
     if (req.files) {
       req.files.forEach(file => picture.push(file.id))
     }
+
+    console.log(picture)
 
     //get the item and delete old files
     const item = await Item.findById(id)
