@@ -268,21 +268,25 @@ router.post('/pictures/:id', upload.array("data"), async (req, res) => {
   try {
     //getting the fields from the file
     let picture = []
-    req.files.forEach(file => picture.push(file.id))
+    if (req.files) {
+      req.files.forEach(file => picture.push(file.id))
+    }
 
     //get the item and delete old files
     const item = await Item.findById(id)
-    //deletion will work in background since it is not necessary for updation
-    removeFiles(item.picture, 'items')
+
+    //delete old files if they exist
+    if (item.picture && item.picture.length !== 0)
+      await removeFiles(item.picture, 'items')
 
     //update the user schema with the image id
-    const ret = await Item.findOneAndUpdate({ id }, { picture: picture })
+    const ret = await Item.findByIdAndUpdate(id, { picture: [...picture] })
   } catch (e) {
     //logging errors
     console.log(e)
     res.status(404).json({ msg: "item pictures couldn't be updated" })
   } //end try-catch
-  res.status(201).json({ file: req.file, msg: "item pictures picture has been updated" })
+  res.status(201).json({ file: req.file, msg: "item pictures have been updated" })
 })
 
 module.exports = router;
