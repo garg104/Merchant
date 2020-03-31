@@ -9,17 +9,67 @@
 import UIKit
 import Alamofire
 
+extension BuyTableViewController: UISearchResultsUpdating {
+  func updateSearchResults(for searchController: UISearchController) {
+    let searchBar = searchController.searchBar
+    filterContentForSearchText(searchBar.text!)
+  }
+}
+
+extension BuyTableViewController: UISearchBarDelegate {
+  func searchBar(_ searchBar: UISearchBar,
+      selectedScopeButtonIndexDidChange selectedScope: Int) {
+    let category = searchCategories[selectedScope]
+    print("CATEGORY:")
+    print(category)
+    filterContentForSearchText(searchBar.text!)
+  }
+}
+
 class BuyTableViewController: UITableViewController {
     
     var currentUser = ""
     
-    //data structures for simple testing (replace with JSON array)    
+    //data structures
     var images: [String] = []
     var titles: [String] = []
     var usernames: [String] = []
     var prices: [String] = []
     var descriptions: [String] = []
+    var itemCategories: [Int] = []
     var itemIDs: [String] = []
+    
+    var filterCategories = ["None", "Electronics", "School supplies", "Furniture"]
+    var catFilterIndex = 0
+    var priceFilterIndex = 0
+    var searchCategories = ["Item", "User"]
+    var searched: [Int] = []
+    var searchCat = 0
+    
+    // Search Controller
+    let searchController = UISearchController(searchResultsController: nil)
+    
+    //check for empty search bar
+    var isSearchBarEmpty: Bool {
+        print("SCOPE INDEX")
+        print(searchController.searchBar.selectedScopeButtonIndex)
+        searchCat = searchController.searchBar.selectedScopeButtonIndex
+        //let searchBarScopeIsFiltering =
+          //searchController.searchBar.selectedScopeButtonIndex != 0
+        //return searchController.isActive &&
+            /*(!self.isSearchBarEmpty || searchBarScopeIsFiltering)*/
+        
+      return searchController.searchBar.text?.isEmpty ?? true
+    }
+    
+    //check for if filtering
+    var isSearching: Bool {
+      return searchController.isActive && !isSearchBarEmpty
+    }
+    
+    @IBAction func refreshButton(_ sender: Any) {
+        updateData()
+    }
     
     func getItems(completion: @escaping (_ validCode: Int)->()) {
         // #warning Incomplete implementation, return the number of sections
@@ -37,13 +87,53 @@ class BuyTableViewController: UITableViewController {
                     for item in items {
                         // make sure that the user does not see the objects they are selling
                         let temp = item as! NSDictionary
-                        if (self.currentUser != temp["username"] as! String) {
-                            print(item)
-                            self.titles.append(temp["title"]! as! String)
-                            self.prices.append(temp["price"]! as! String)
-                            self.usernames.append(temp["username"] as! String)
-                            self.descriptions.append(temp["description"]! as! String)
-                            self.itemIDs.append(temp["_id"]! as! String)
+                        
+                        if (self.catFilterIndex == 0) {
+                            if (self.currentUser != temp["username"] as! String) {
+                                print(item)
+                                self.titles.append(temp["title"]! as! String)
+                                self.prices.append(temp["price"]! as! String)
+                                self.usernames.append(temp["username"] as! String)
+                                self.descriptions.append(temp["description"]! as! String)
+                                self.itemIDs.append(temp["_id"]! as! String)
+                                self.itemCategories.append(Int(temp["category"] as! String)!)
+                            }
+                        } else if (self.catFilterIndex == 1) {
+                            print(self.filterCategories[self.catFilterIndex])
+                            if (self.currentUser != temp["username"] as! String) {
+                                if (Int(temp["category"] as! String)! == self.catFilterIndex) {
+                                    self.titles.append(temp["title"]! as! String)
+                                    self.prices.append(temp["price"]! as! String)
+                                    self.usernames.append(temp["username"] as! String)
+                                    self.descriptions.append(temp["description"]! as! String)
+                                    self.itemIDs.append(temp["_id"]! as! String)
+                                    self.itemCategories.append(Int(temp["category"] as! String)!)
+                                }
+                            }
+                        } else if (self.catFilterIndex == 2) {
+                            print(self.filterCategories[self.catFilterIndex])
+                            if (self.currentUser != temp["username"] as! String) {
+                                if (Int(temp["category"] as! String)! == self.catFilterIndex) {
+                                    self.titles.append(temp["title"]! as! String)
+                                    self.prices.append(temp["price"]! as! String)
+                                    self.usernames.append(temp["username"] as! String)
+                                    self.descriptions.append(temp["description"]! as! String)
+                                    self.itemIDs.append(temp["_id"]! as! String)
+                                    self.itemCategories.append(Int(temp["category"] as! String)!)
+                                }
+                            }
+                        } else if (self.catFilterIndex == 3) {
+                            print(self.filterCategories[self.catFilterIndex])
+                            if (self.currentUser != temp["username"] as! String) {
+                                if (Int(temp["category"] as! String)! == self.catFilterIndex) {
+                                    self.titles.append(temp["title"]! as! String)
+                                    self.prices.append(temp["price"]! as! String)
+                                    self.usernames.append(temp["username"] as! String)
+                                    self.descriptions.append(temp["description"]! as! String)
+                                    self.itemIDs.append(temp["_id"]! as! String)
+                                    self.itemCategories.append(Int(temp["category"] as! String)!)
+                                }
+                            }
                         }
                         
                     }
@@ -55,6 +145,12 @@ class BuyTableViewController: UITableViewController {
             completion(0)
             
         }.resume()
+    }
+    
+    @IBAction func unwindToBuyTableViewController(segue: UIStoryboardSegue) {
+        if (segue.identifier == "applyFilters") {
+            updateData()
+        }
     }
     
     
@@ -71,26 +167,189 @@ class BuyTableViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
         
-        let searchController = UISearchController(searchResultsController: nil) // Search Controller
+        //search controller initilization
         navigationItem.hidesSearchBarWhenScrolling = false
         navigationItem.searchController = searchController
-        searchController.searchBar.scopeButtonTitles = ["Item", "User"]
+        searchController.searchBar.scopeButtonTitles = searchCategories
+        searchController.searchBar.delegate = self
+        
+        //setup search controller components
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "What are you looking for?"
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
         
     }
     
+    //search filtering function
+    func filterContentForSearchText(_ searchText: String) {
+        
+        searched = []
+        
+        if (searchCat == 0) {
+            //filtered = titles.filter{ $0.lowercased().contains(searchText.lowercased())}
+            
+            var index = 0;
+            for item in titles { //finding indexes with matching titles
+                if (item.lowercased().contains(searchText.lowercased())) {
+                    searched.append(index)
+                }
+                index = index + 1;
+            }
+            
+            
+        } else if (searchCat == 1) {
+            //filtered = usernames.filter{ $0.lowercased().contains(searchText.lowercased())}
+            
+            var index = 0;
+            for item in usernames { //find indexes with matching usernames
+                if (item.lowercased().contains(searchText.lowercased())) {
+                    searched.append(index)
+                }
+                index = index + 1;
+            }
+            
+        }
+        tableView.reloadData()
+    }
+    
     func updateData() {
-           images = []
-           titles = []
-           usernames = []
-           prices = []
-           descriptions = []
-           itemIDs = []
+        
+        titles = []
+        usernames = []
+        prices = []
+        descriptions = []
+        itemCategories = []
+        itemIDs = []
+        
+        var titlesTemp: [String] = []
+        var usernamesTemp: [String] = []
+        var pricesTemp: [String] = []
+        var descriptionsTemp: [String] = []
+        var itemCategoriesTemp: [Int] = []
+        var itemIDsTemp: [String] = []
            
-           getItems() { (validCode) in
-               self.tableView.reloadData()
-           }
+        getItems() { (validCode) in
+            var sortedIndices: [Int] = []
+            if (self.priceFilterIndex == 1) {
+                sortedIndices = self.sortLowToHigh()
+            } else if (self.priceFilterIndex == 2) {
+                sortedIndices = self.sortHighToLow()
+            }
+            
+            print(self.images)
+            
+            if (self.priceFilterIndex != 0) {
+                for i in 0...(self.titles.count - 1) {
+                    titlesTemp.append(self.titles[sortedIndices[i]])
+                    usernamesTemp.append(self.usernames[sortedIndices[i]])
+                    pricesTemp.append(self.prices[sortedIndices[i]])
+                    descriptionsTemp.append(self.descriptions[sortedIndices[i]])
+                    itemCategoriesTemp.append(self.itemCategories[sortedIndices[i]])
+                    itemIDsTemp.append(self.itemIDs[sortedIndices[i]])
+                }
+                self.titles = titlesTemp
+                self.usernames = usernamesTemp
+                self.prices = pricesTemp
+                self.descriptions = descriptionsTemp
+                self.itemCategories = itemCategoriesTemp
+                self.itemIDs = itemIDsTemp
+            }
+            
+            self.tableView.reloadData()
+        }
            
-       }
+    }
+    
+    func sortLowToHigh() -> [Int] {
+        
+        var priceSorted: [Double] = []
+        var sortIndices: [Int] = []
+        
+        var unsortedIndex = 0
+        for item in prices {
+            let start = item.index(item.startIndex, offsetBy: 1)
+            let end = item.endIndex
+            let range = start..<end
+            print("CURRENT PRICE")
+            print(item[range])
+            let noCommas = item[range].replacingOccurrences(of: ",", with: "", options: NSString.CompareOptions.literal, range: nil)
+            let currPrice = Double(noCommas)!
+            
+            if (priceSorted.count == 0) {
+                priceSorted.append(currPrice)
+                sortIndices.append(unsortedIndex)
+            } else {
+                var sortedIndex = 0
+                for sortItem in priceSorted {
+                    if (currPrice > sortItem) {
+                        sortedIndex = sortedIndex + 1
+                        if (sortedIndex == priceSorted.count) { //at end or array
+                            priceSorted.append(currPrice)
+                            sortIndices.append(unsortedIndex)
+                            break
+                        }
+                        continue
+                    } else {
+                        priceSorted.insert(currPrice, at: sortedIndex)
+                        sortIndices.insert(unsortedIndex, at: sortedIndex)
+                        break
+                    }
+                    
+                }
+            }
+            unsortedIndex = unsortedIndex + 1;
+        }
+        print("LowHighSORTED")
+        print(priceSorted)
+        print(sortIndices)
+        return sortIndices
+    }
+    
+    func sortHighToLow() -> [Int] {
+        var priceSorted: [Double] = []
+        var sortIndices: [Int] = []
+        
+        var unsortedIndex = 0
+        for item in prices {
+            let start = item.index(item.startIndex, offsetBy: 1)
+            let end = item.endIndex
+            let range = start..<end
+            print("CURRENT PRICE")
+            print(item[range])
+            let noCommas = item[range].replacingOccurrences(of: ",", with: "", options: NSString.CompareOptions.literal, range: nil)
+            let currPrice = Double(noCommas)!
+            
+            if (priceSorted.count == 0) {
+                priceSorted.append(currPrice)
+                sortIndices.append(unsortedIndex)
+            } else {
+                var sortedIndex = 0
+                for sortItem in priceSorted {
+                    if (currPrice < sortItem) {
+                        sortedIndex = sortedIndex + 1
+                        if (sortedIndex == priceSorted.count) { //at end or array
+                            priceSorted.append(currPrice)
+                            sortIndices.append(unsortedIndex)
+                            break
+                        }
+                        continue
+                    } else {
+                        priceSorted.insert(currPrice, at: sortedIndex)
+                        sortIndices.insert(unsortedIndex, at: sortedIndex)
+                        break
+                    }
+                    
+                }
+            }
+            unsortedIndex = unsortedIndex + 1;
+        }
+        print("HighLowSORTED")
+        print(priceSorted)
+        print(sortIndices)
+        return sortIndices
+    }
 
     // MARK: - Table view data source
 
@@ -101,6 +360,9 @@ class BuyTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
+        if (isSearching) {
+            return searched.count
+        }
         return titles.count
     }
 
@@ -110,12 +372,24 @@ class BuyTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "itemCell", for: indexPath) as! BuyTableViewCell
         
         // Configure the cell...
-        cell.itemTitleLabel.text = titles[indexPath.row]
-        cell.itemPriceLabel.text = prices[indexPath.row]
-        cell.userNameLabel.text = usernames[indexPath.row]
-        cell.itemDescription = descriptions[indexPath.row]
-        cell.itemID = itemIDs[indexPath.row]
-        itemPicturesHandler(itemImageView: cell.itemImageView, itemID: cell.itemID)
+        if (isSearching) {
+            //display search results
+            cell.itemTitleLabel.text = titles[searched[indexPath.row]]
+            cell.itemPriceLabel.text = prices[searched[indexPath.row]]
+            cell.userNameLabel.text = usernames[searched[indexPath.row]]
+            cell.itemDescription = descriptions[searched[indexPath.row]]
+            cell.itemCategory = itemCategories[searched[indexPath.row]]
+            cell.itemID = itemIDs[searched[indexPath.row]]
+            itemPicturesHandler(itemImageView: cell.itemImageView, itemID: cell.itemID)
+        } else {
+            cell.itemTitleLabel.text = titles[indexPath.row]
+            cell.itemPriceLabel.text = prices[indexPath.row]
+            cell.userNameLabel.text = usernames[indexPath.row]
+            cell.itemDescription = descriptions[indexPath.row]
+            cell.itemCategory = itemCategories[indexPath.row]
+            cell.itemID = itemIDs[indexPath.row]
+            itemPicturesHandler(itemImageView: cell.itemImageView, itemID: cell.itemID)
+        }
         return cell
     }
 
@@ -181,6 +455,12 @@ class BuyTableViewController: UITableViewController {
             itemDetailViewController.itemPrice = selectedItemCell.itemPriceLabel.text!
             itemDetailViewController.itemSeller = selectedItemCell.userNameLabel.text!
             itemDetailViewController.itemId = selectedItemCell.itemID
+        }
+        
+        if (segue.identifier == "showFilters") {
+            let vc = segue.destination as! FilterViewController
+            vc.catFilterIndex = catFilterIndex
+            vc.priceFilterIndex = priceFilterIndex
         }
         
     }
