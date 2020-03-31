@@ -69,6 +69,7 @@ class SellTableViewController: UITableViewController {
         super.viewDidLoad()
         
         getItems() { (validCode) in
+            print("LOADING DATA")
             self.tableView.reloadData()
         }
         
