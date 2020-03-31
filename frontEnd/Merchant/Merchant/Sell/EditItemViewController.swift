@@ -82,6 +82,26 @@ class EditItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
         priceTextField.text! = price
         categoryTextField.text! = category
         
+        // add images if needed
+        if (itemImages.count >= 1) {
+            photo1 = itemImages[0]
+            photo1Button.setTitleColor(.clear, for: .normal)
+            photo1Button.setBackgroundImage(photo1, for: .normal)
+            removePhoto1Button.setTitleColor(.red, for: .normal)
+        }
+        if (itemImages.count >= 2) {
+            photo2 = itemImages[1]
+            photo2Button.setTitleColor(.clear, for: .normal)
+            photo2Button.setBackgroundImage(photo2, for: .normal)
+            removePhoto2Button.setTitleColor(.red, for: .normal)
+        }
+        if (itemImages.count == 3) {
+            photo3 = itemImages[2]
+            photo3Button.setTitleColor(.clear, for: .normal)
+            photo3Button.setBackgroundImage(photo3, for: .normal)
+            removePhoto3Button.setTitleColor(.red, for: .normal)
+        }
+        
         // add border to description textView
         descriptionTextView!.layer.borderWidth = 1
         descriptionTextView!.layer.borderColor = UIColor.black.cgColor
