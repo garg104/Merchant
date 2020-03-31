@@ -15,6 +15,20 @@ let upload = config('item-pictures')
 router.post('/postItem', upload.array("data"), async (req, res) => {
   const { username, userID, title, description, price, isSold, category, university } = req.body
 
+
+  // convert the category to integers to store in the database.
+  let categoryInt = 0
+  if (category == "Electronics") {
+    categoryInt = 1
+  } else if (category == "School supplies") {
+    categoryInt = 2
+  } else if (category == "Furniture") {
+    categoryInt = 3
+  } else {
+    console.log("category is not working properly")
+    res.status(403).json({ msg: 'Look what category is' })
+  }
+
   //get the ids of all the pictures saved
   let picture = []
   if (req.files)
@@ -22,7 +36,7 @@ router.post('/postItem', upload.array("data"), async (req, res) => {
 
   try {
     //create new item in the Database
-    const item = new Item({ userID, username, title, description, price, picture, category, isSold, university })
+    const item = new Item({ userID, username, title, description, price, picture, categoryInt, isSold, university })
     if (username == "") {
       res.status(404).json({ msg: 'Please specify username' })
     }
