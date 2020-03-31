@@ -63,6 +63,9 @@ class SellTableViewController: UITableViewController {
     }
     
     @IBAction func unwindToSellTableViewController(segue: UIStoryboardSegue) {
+        if (segue.identifier == "postItemUnwind") {
+            updateData()
+        }
     }
     
     override func viewDidLoad() {
