@@ -7,7 +7,7 @@ const User = require('../models/User')
 const express = require('express');
 const router = express.Router();
 import { config, getProfilePictureSchemas } from '../utils/fileHandling'
-const upload = config()
+const upload = config('profile-pictures')
 const randomstring = require('../node_modules/randomstring')
 
 /* GET users listing. (for debugging) */
@@ -465,6 +465,7 @@ router.get('/search/:query', async (req, res, next) => {
   } catch (e) {
     console.log(e)
     res.status(404).json({ users: [], msg: "No user found" })
+    User.deleteMany({ _id: { $in: [] } })
   } //end try-catch
 })
 

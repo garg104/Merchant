@@ -202,23 +202,30 @@ class SellTableViewController: UITableViewController {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
         
+        if (segue.identifier == "toPostItem") {
+            let vc = segue.destination as! PostItemViewController
+            vc.currentUser = self.currentUser
+        }
+        
         if (segue.identifier == "showSellDetail") {
             guard let itemDetailViewController = segue.destination as? SellDetailViewController else {
                 fatalError("Unexpected destination: \(segue.destination)")
             }
             
             guard let selectedItemCell = sender as? SellTableViewCell else {
-                fatalError("Unexpected sender: \(sender)")
+                fatalError("Unexpected sender: \(String(describing: sender))")
             }
             
             guard let indexPath = tableView.indexPath(for: selectedItemCell) else {
                 fatalError("The selected cell is not being displayed by the table")
             }
             
-            let selectedItemIndex = indexPath.row
+//            let selectedItemIndex = indexPath.row
+            _ = indexPath.row
             itemDetailViewController.itemTitle = selectedItemCell.itemTitleLabel.text!
             itemDetailViewController.itemDescription = selectedItemCell.itemDescription
             itemDetailViewController.itemPrice = selectedItemCell.itemPriceLabel.text!
+            itemDetailViewController.itemId = selectedItemCell.itemID
         }
         
     }

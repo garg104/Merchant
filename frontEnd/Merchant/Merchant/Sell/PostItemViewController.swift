@@ -11,6 +11,8 @@ import Alamofire
 
 class PostItemViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
+    var currentUser = ""
+    
     
     // these next four functions are for the pickerView
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -61,6 +63,9 @@ class PostItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
     var ourGreen = UIColor .green
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        print("CURRENT USER")
+        print(currentUser)
 
         // Do any additional setup after loading the view.
         
@@ -187,6 +192,7 @@ class PostItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
             multipartFormData.append(Data(self.category.utf8), withName: "category")
             multipartFormData.append(Data(self.university.utf8), withName: "university")
             multipartFormData.append(Data("\(self.price)".utf8), withName: "price")
+            multipartFormData.append(Data("\(self.currentUser)".utf8), withName: "username")
         }, to: API.URL + "/items/postItem", headers: headers).responseJSON { response in
             //store the updated profile picture in cache
             if (response.response?.statusCode != 200) {

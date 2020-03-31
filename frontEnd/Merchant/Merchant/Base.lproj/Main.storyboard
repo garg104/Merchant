@@ -416,6 +416,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="108"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" red="0.46274509800000002" green="0.70980392160000005" blue="0.30196078430000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="barTintColor" red="0.46274509800000002" green="0.70980392160000005" blue="0.30196078430000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <textAttributes key="titleTextAttributes">
                             <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="17"/>
@@ -978,7 +979,7 @@
                     <navigationItem key="navigationItem" title="Sell" id="fNP-Wb-ygK">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="BCw-qm-IIT">
                             <connections>
-                                <segue destination="qB3-k2-TNd" kind="presentation" id="end-Xd-Pev"/>
+                                <segue destination="qB3-k2-TNd" kind="presentation" identifier="toPostItem" id="end-Xd-Pev"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
