@@ -13,11 +13,37 @@ let upload = config('item-pictures')
  * This route is to be modified and finalized by Drew Keirn  
  */
 router.post('/postItem', upload.array("data"), async (req, res) => {
-  const { username, userID, title, description, price, isSold, category, university } = req.body
+  let { username, userID, title, description, price, isSold, university } = req.body
+
+  //ensure that the isSold is false if nothing is passed
+  if (!isSold) {
+    isSold = false
+  }
+
+  //ensure that the correct userID is assigned if nothing is passed
+  if (!userID) {
+    const ret = await User.findOne({ username: username })
+    userID = ret._id
+  }
+
+  // convert the category to integers to store in the database.
+  let category = 0
+  if (req.body.category == "Electronics") {
+    category = 1
+  } else if (req.body.category == "School supplies") {
+    category = 2
+  } else if (req.body.category == "Furniture") {
+    category = 3
+  } else {
+    console.log("category is not working properly")
+    res.status(403).json({ msg: 'Look what category is' })
+  } //end if
 
   //get the ids of all the pictures saved
   let picture = []
-  req.files.forEach(file => picture.push(file.id))
+  if (req.files) {
+    req.files.forEach(file => picture.push(file.id))
+  }
 
   try {
     //create new item in the Database
@@ -101,7 +127,7 @@ router.post('/removeItem', async (req, res) => {
     }
     //find the corresponding item to get the array of pictures
     let item = await Item.findById(itemID)
-    //delet the pictures in the array
+    //delete the pictures in the array
     let ret = await removeFiles([...item.picture], 'items')
     //delete the item and also update the corresponding user object
     ret = await Item.findByIdAndDelete({ _id: itemID })
@@ -117,25 +143,27 @@ router.post('/removeItem', async (req, res) => {
 /**
  * Selling history 
  */
-router.get('/userSellingHistory', async (req, res) => {
+router.get('/userSellingHistory/', async (req, res) => {
   try {
     // get all items with isSold as true.
     const user = await User.find({ username: req.body.username })
     let items = []
+    if (user[0].sellingHistory.length === 0) {
+      res.status(200).json({ items })
+    } //end if
     user[0].sellingHistory.forEach(async (item) => {
       const temp = await Item.findById({ _id: item })
       if (temp.isSold) {
         items.push(temp)
-      }
-      if (item == user[0].sellingHistory[user[0].sellingHistory.length - 1]) {
+      } //end if
+      if (item === user[0].sellingHistory[user[0].sellingHistory.length - 1]) {
         res.status(200).json({ items })
-      }
+      } //end if
     })
   } catch (e) {
     res.status(404).json({ msg: e.message })
   }
 });
-
 
 /**
  * Search for a list of items based on the query string
@@ -260,26 +288,30 @@ router.put('/', async (req, res) => {
 /**
  * Route to update the item pictures
  */
-router.put('/pictures/:id', upload.array("data"), async (req, res) => {
+router.post('/pictures/:id', upload.array("data"), async (req, res) => {
   const { id } = req.params
   try {
     //getting the fields from the file
     let picture = []
-    req.files.forEach(file => picture.push(file.id))
+    if (req.files) {
+      req.files.forEach(file => picture.push(file.id))
+    }
 
     //get the item and delete old files
     const item = await Item.findById(id)
-    //deletion will work in background since it is not necessary for updation
-    removeFiles(item.picture, 'items')
+
+    //delete old files if they exist
+    if (item.picture && item.picture.length !== 0)
+      await removeFiles(item.picture, 'items')
 
     //update the user schema with the image id
-    const ret = await Item.findOneAndUpdate({ id }, { picture: picture })
+    const ret = await Item.findByIdAndUpdate(id, { picture: [...picture] })
   } catch (e) {
     //logging errors
     console.log(e)
-    res.status(404).json({ msg: "User profile couldn't be updated" })
+    res.status(404).json({ msg: "item pictures couldn't be updated" })
   } //end try-catch
-  res.status(201).json({ file: req.file, msg: "User profile picture has been updated" })
+  res.status(201).json({ file: req.file, msg: "item pictures have been updated" })
 })
 
 module.exports = router;

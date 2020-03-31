@@ -14,7 +14,7 @@ class SellDetailViewController: UIViewController {
     var itemTitle = ""
     var itemDescription = ""
     var itemPrice = ""
-    var itemImage = ""
+    var itemImage: UIImage!
     var itemSeller = ""
     var itemId = ""
     var pictures: NSArray = []
@@ -23,12 +23,15 @@ class SellDetailViewController: UIViewController {
     @IBOutlet weak var itemPriceLabel: UILabel!
     @IBOutlet weak var itemDescriptionTextView: UITextView!
 
+    @IBAction func unwindToSellDetailViewController(segue: UIStoryboardSegue) {
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.itemImageView.contentMode = .scaleToFill
 
-        // Do any additional setup after loading the view.
+        // Do any additional stup after loading the view.
         navigationItem.title = itemTitle
         itemPriceLabel.text = itemPrice
         itemDescriptionTextView.text = itemDescription
@@ -131,9 +134,16 @@ class SellDetailViewController: UIViewController {
             //examples
             vc.name = itemTitle
             vc.nameTextField.text! = itemTitle
+            vc.desc = itemDescription
+            vc.descriptionTextView.text! = itemDescription
+            vc.price = itemPrice
+            vc.priceTextField.text! = itemPrice
+            vc.photo1 = itemImage
+            vc.photo1Button.setBackgroundImage(itemImage, for: .normal)
+            vc.photo1Button.setTitleColor(.clear, for: .normal)
+            vc.removePhoto1Button.setTitleColor(.red, for: .normal)
+
         }
         
     }
-    
-
 }
