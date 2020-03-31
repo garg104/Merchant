@@ -82,6 +82,11 @@ class EditItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
         priceTextField.text! = price
         categoryTextField.text! = category
         
+        // hide remove buttons
+        removePhoto1Button.setTitleColor(.clear, for: .normal)
+        removePhoto2Button.setTitleColor(.clear, for: .normal)
+        removePhoto3Button.setTitleColor(.clear, for: .normal)
+        
         // add images if needed
         if (itemImages.count >= 1) {
             photo1 = itemImages[0]
@@ -111,10 +116,6 @@ class EditItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
         
         ourGreen = photo1Button.currentTitleColor
         
-        // hide remove buttons
-        removePhoto1Button.setTitleColor(.clear, for: .normal)
-        removePhoto2Button.setTitleColor(.clear, for: .normal)
-        removePhoto3Button.setTitleColor(.clear, for: .normal)
         
         // setup price for currency format
         priceTextField.delegate = self
