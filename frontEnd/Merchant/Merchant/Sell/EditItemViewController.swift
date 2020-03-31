@@ -55,12 +55,33 @@ class EditItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
     @IBOutlet weak var removePhoto2Button: UIButton!
     @IBOutlet weak var removePhoto3Button: UIButton!
     
+    var name = ""
+    var desc = ""
+    var price = ""
+    var photo1: UIImage!
+    var photo2: UIImage!
+    var photo3: UIImage!
+    var category = ""
+    var isSold = false;
+    var university = "Purdue University"
+    var itemId = ""
+    
     
     var ourGreen = UIColor .green
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
+        // fill in segue fields
+        nameTextField.text = name
+        descriptionTextView.text = description
+        priceTextField.text = price
+        
+        if (photo1 != nil) {
+            photo1Button.setBackgroundImage(photo1, for: .normal)
+            photo1Button.setTitleColor(.clear, for: .normal)
+            removePhoto1Button.setTitleColor(.red, for: .normal)
+        }
         
         // add border to description textView
         descriptionTextView!.layer.borderWidth = 1
@@ -113,16 +134,7 @@ class EditItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
         return formatter.string(from: NSNumber(value: amount))
     }
     
-    var name = ""
-    var desc = ""
-    var price = ""
-    var photo1: UIImage!
-    var photo2: UIImage!
-    var photo3: UIImage!
-    var category = ""
-    var isSold = false;
-    var university = "Purdue University"
-    var itemId = ""
+
     
     
     @IBAction func postItem(_ sender: UIButton) {
