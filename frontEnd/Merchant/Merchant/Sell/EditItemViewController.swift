@@ -260,7 +260,7 @@ class EditItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
             
             if (validationCode == 200) { //success
                 debugPrint("SUCCESS!!!!")
-                //                            self.performSegue(withIdentifier: "saveEditUnwind", sender: nil)
+                self.performSegue(withIdentifier: "saveEditUnwind", sender: nil)
             }  else { //error in database check
                 let alert = UIAlertController(title: "Error", message: "Item could not be updated. Please try again.", preferredStyle: .alert)
                 alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
@@ -352,14 +352,26 @@ class EditItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
         photo3Button.setTitleColor(ourGreen, for: .normal)
         removePhoto3Button.setTitleColor(.clear, for: .normal)
     }
-    /*
+    
      // MARK: - Navigation
      
      // In a storyboard-based application, you will often want to do a little preparation before navigation
      override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
      // Get the new view controller using segue.destination.
      // Pass the selected object to the new view controller.
+        
+        if (segue.identifier == "saveEditUnwind") {
+            let vc = segue.destination as! SellDetailViewController
+            vc.itemTitle = self.nameTextField.text!
+            vc.itemDescription = self.descriptionTextView.text!
+            vc.itemPrice = self.priceTextField.text!
+            vc.itemImage = itemImages[0]
+            vc.itemId = itemId
+            vc.category = self.categoryTextField.text!
+            vc.imagesForView = itemImages
+        }
+        
      }
-     */
+     
     
 }

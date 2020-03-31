@@ -26,6 +26,13 @@ class SellDetailViewController: UIViewController {
     @IBOutlet weak var itemDescriptionTextView: UITextView!
 
     @IBAction func unwindToSellDetailViewController(segue: UIStoryboardSegue) {
+        if (segue.identifier == "saveEditUnwind") {
+            navigationItem.title = itemTitle
+            itemPriceLabel.text = itemPrice
+            itemDescriptionTextView.text = itemDescription
+            
+            itemPicturesHandler()
+        }
     }
     
     override func viewDidLoad() {
