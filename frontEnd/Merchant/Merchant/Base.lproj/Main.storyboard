@@ -1622,14 +1622,6 @@
             </objects>
             <point key="canvasLocation" x="7528.8000000000002" y="538.66995073891633"/>
         </scene>
-        <!--View Controller-->
-        <scene sceneID="dFz-hn-qR9">
-            <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="rym-rJ-J3N" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <viewController id="wTv-Hw-2MQ" sceneMemberID="viewController"/>
-            </objects>
-            <point key="canvasLocation" x="8585" y="1193"/>
-        </scene>
         <!--Edit Item View Controller-->
         <scene sceneID="zzZ-JH-4rR">
             <objects>
@@ -1689,7 +1681,6 @@
                                     <color key="titleColor" red="0.46274509800000002" green="0.70980392160000005" blue="0.30196078430000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 </state>
                                 <connections>
-                                    <action selector="photo1Select:" destination="wTv-Hw-2MQ" eventType="touchUpInside" id="b9V-Gu-eG7"/>
                                     <action selector="photo1Select:" destination="2iQ-dt-LMe" eventType="touchUpInside" id="op4-29-tlN"/>
                                 </connections>
                             </button>
@@ -1702,7 +1693,6 @@
                                 </state>
                                 <connections>
                                     <action selector="removePhoto1:" destination="2iQ-dt-LMe" eventType="touchUpInside" id="n3e-L1-mqI"/>
-                                    <action selector="removePhoto1:" destination="wTv-Hw-2MQ" eventType="touchUpInside" id="wlX-lL-mbd"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A7p-7w-c7P">
@@ -1713,7 +1703,6 @@
                                     <color key="titleColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="removePhoto2:" destination="wTv-Hw-2MQ" eventType="touchUpInside" id="Evw-AQ-ktX"/>
                                     <action selector="removePhoto2:" destination="2iQ-dt-LMe" eventType="touchUpInside" id="yLk-kh-Moz"/>
                                 </connections>
                             </button>
@@ -1725,7 +1714,6 @@
                                     <color key="titleColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="removePhoto3:" destination="wTv-Hw-2MQ" eventType="touchUpInside" id="AXE-E8-3z4"/>
                                     <action selector="removePhoto3:" destination="2iQ-dt-LMe" eventType="touchUpInside" id="sJs-9w-VaJ"/>
                                 </connections>
                             </button>
@@ -1738,7 +1726,6 @@
                                 </state>
                                 <connections>
                                     <action selector="photo2Select:" destination="2iQ-dt-LMe" eventType="touchUpInside" id="0MM-Ng-cO2"/>
-                                    <action selector="photo2Select:" destination="wTv-Hw-2MQ" eventType="touchUpInside" id="roo-Me-8Nn"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wku-SG-sKl">
@@ -1749,7 +1736,6 @@
                                     <color key="titleColor" red="0.46274509800000002" green="0.70980392160000005" blue="0.30196078430000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 </state>
                                 <connections>
-                                    <action selector="photo3Select:" destination="wTv-Hw-2MQ" eventType="touchUpInside" id="HGB-b0-yhP"/>
                                     <action selector="photo3Select:" destination="2iQ-dt-LMe" eventType="touchUpInside" id="mRB-kz-FR0"/>
                                 </connections>
                             </button>
