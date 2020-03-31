@@ -36,7 +36,7 @@ class BuyTableViewController: UITableViewController {
     var usernames: [String] = []
     var prices: [String] = []
     var descriptions: [String] = []
-    var itemCategories: [String] = []
+    var itemCategories: [Int] = []
     var itemIDs: [String] = []
     
     var filterCategories = ["None", "Electronics", "School supplies", "Furniture"]
@@ -96,37 +96,43 @@ class BuyTableViewController: UITableViewController {
                                 self.usernames.append(temp["username"] as! String)
                                 self.descriptions.append(temp["description"]! as! String)
                                 self.itemIDs.append(temp["_id"]! as! String)
-                                self.itemCategories.append(temp["category"] as! String)
+                                self.itemCategories.append(Int(temp["category"] as! String)!)
                             }
                         } else if (self.catFilterIndex == 1) {
                             print(self.filterCategories[self.catFilterIndex])
-                            if (temp["category"] as! String == self.filterCategories[self.catFilterIndex]) {
-                                self.titles.append(temp["title"]! as! String)
-                                self.prices.append(temp["price"]! as! String)
-                                self.usernames.append(temp["username"] as! String)
-                                self.descriptions.append(temp["description"]! as! String)
-                                self.itemIDs.append(temp["_id"]! as! String)
-                                self.itemCategories.append(temp["category"] as! String)
+                            if (self.currentUser != temp["username"] as! String) {
+                                if (Int(temp["category"] as! String)! == self.catFilterIndex) {
+                                    self.titles.append(temp["title"]! as! String)
+                                    self.prices.append(temp["price"]! as! String)
+                                    self.usernames.append(temp["username"] as! String)
+                                    self.descriptions.append(temp["description"]! as! String)
+                                    self.itemIDs.append(temp["_id"]! as! String)
+                                    self.itemCategories.append(Int(temp["category"] as! String)!)
+                                }
                             }
                         } else if (self.catFilterIndex == 2) {
                             print(self.filterCategories[self.catFilterIndex])
-                            if (temp["category"] as! String == self.filterCategories[self.catFilterIndex]) {
-                                self.titles.append(temp["title"]! as! String)
-                                self.prices.append(temp["price"]! as! String)
-                                self.usernames.append(temp["username"] as! String)
-                                self.descriptions.append(temp["description"]! as! String)
-                                self.itemIDs.append(temp["_id"]! as! String)
-                                self.itemCategories.append(temp["category"] as! String)
+                            if (self.currentUser != temp["username"] as! String) {
+                                if (Int(temp["category"] as! String)! == self.catFilterIndex) {
+                                    self.titles.append(temp["title"]! as! String)
+                                    self.prices.append(temp["price"]! as! String)
+                                    self.usernames.append(temp["username"] as! String)
+                                    self.descriptions.append(temp["description"]! as! String)
+                                    self.itemIDs.append(temp["_id"]! as! String)
+                                    self.itemCategories.append(Int(temp["category"] as! String)!)
+                                }
                             }
                         } else if (self.catFilterIndex == 3) {
                             print(self.filterCategories[self.catFilterIndex])
-                            if (temp["category"] as! String == self.filterCategories[self.catFilterIndex]) {
-                                self.titles.append(temp["title"]! as! String)
-                                self.prices.append(temp["price"]! as! String)
-                                self.usernames.append(temp["username"] as! String)
-                                self.descriptions.append(temp["description"]! as! String)
-                                self.itemIDs.append(temp["_id"]! as! String)
-                                self.itemCategories.append(temp["category"] as! String)
+                            if (self.currentUser != temp["username"] as! String) {
+                                if (Int(temp["category"] as! String)! == self.catFilterIndex) {
+                                    self.titles.append(temp["title"]! as! String)
+                                    self.prices.append(temp["price"]! as! String)
+                                    self.usernames.append(temp["username"] as! String)
+                                    self.descriptions.append(temp["description"]! as! String)
+                                    self.itemIDs.append(temp["_id"]! as! String)
+                                    self.itemCategories.append(Int(temp["category"] as! String)!)
+                                }
                             }
                         }
                         
@@ -221,7 +227,7 @@ class BuyTableViewController: UITableViewController {
         var usernamesTemp: [String] = []
         var pricesTemp: [String] = []
         var descriptionsTemp: [String] = []
-        var itemCategoriesTemp: [String] = []
+        var itemCategoriesTemp: [Int] = []
         var itemIDsTemp: [String] = []
            
         getItems() { (validCode) in

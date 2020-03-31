@@ -17,7 +17,7 @@ class BuyTableViewCell: UITableViewCell {
     @IBOutlet weak var itemPriceLabel: UILabel!
     var itemDescription = ""
     var itemID = ""
-    var itemCategory = ""
+    var itemCategory = 0
 
     override func awakeFromNib() {
         super.awakeFromNib()
