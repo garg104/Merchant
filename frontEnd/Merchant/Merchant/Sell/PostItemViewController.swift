@@ -199,10 +199,11 @@ class PostItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
             } else {
                 //TODO: DREW make sure that we display a success message saying item has been posted
                 debugPrint("SUCCESS")
+                self.performSegue(withIdentifier: "postItemUnwind", sender: nil)
             }
         } //end response handler
         
-        //self.performSegue(withIdentifier: "postItemUnwind", sender: nil)
+        
     
     }
     

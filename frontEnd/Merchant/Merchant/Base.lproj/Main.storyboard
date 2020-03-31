@@ -1534,8 +1534,7 @@
                                     <color key="titleColor" red="0.46274509800000002" green="0.70980392160000005" blue="0.30196078430000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 </state>
                                 <connections>
-                                    <action selector="postItem:" destination="cbB-Nf-ENF" eventType="touchUpInside" id="3Ih-km-g3B"/>
-                                    <segue destination="j6T-D7-aNO" kind="unwind" unwindAction="unwindToSellTableViewControllerWithSegue:" id="Udd-GJ-kO7"/>
+                                    <action selector="postItem:" destination="cbB-Nf-ENF" eventType="touchUpInside" id="0ud-mK-r0X"/>
                                 </connections>
                             </button>
                             <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="z14-DH-SIv">
@@ -1704,7 +1703,7 @@
                                     <color key="titleColor" red="0.46274509800000002" green="0.70980392160000005" blue="0.30196078430000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 </state>
                                 <connections>
-                                    <action selector="postItem:" destination="ZNL-7Y-XFE" eventType="touchUpInside" id="7OI-5U-z26"/>
+                                    <action selector="postItem:" destination="ZNL-7Y-XFE" eventType="touchUpInside" id="oLw-P2-eZo"/>
                                     <segue destination="10M-ck-Ja1" kind="unwind" unwindAction="unwindToSellDetailViewControllerWithSegue:" id="7a9-mA-K1e"/>
                                 </connections>
                             </button>
