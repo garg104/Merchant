@@ -79,6 +79,7 @@ class EditItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
         nameTextField.text! = name
         descriptionTextView.text! = desc
         priceTextField.text! = price
+        categoryTextField.text! = category
         
         // add border to description textView
         descriptionTextView!.layer.borderWidth = 1

@@ -202,7 +202,7 @@ class PostItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
             }
         } //end response handler
         
-        self.performSegue(withIdentifier: "postItemUnwind", sender: nil)
+        //self.performSegue(withIdentifier: "postItemUnwind", sender: nil)
     
     }
     

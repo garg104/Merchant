@@ -20,7 +20,10 @@ class SellTableViewController: UITableViewController {
     var usernames: [String] = []
     var prices: [String] = []
     var descriptions: [String] = []
+    var categories: [Int] = []
     var itemIDs: [String] = []
+    
+    var filterCategories = ["None", "Electronics", "School supplies", "Furniture"]
     
     
     @IBAction func refreshButton(_ sender: Any) {
@@ -47,6 +50,7 @@ class SellTableViewController: UITableViewController {
                         self.prices.append(temp["price"]! as! String)
                         self.descriptions.append(temp["description"]! as! String)
                         self.itemIDs.append(temp["_id"]! as! String)
+                        self.categories.append(Int(temp["category"] as! String)!)
                     }
                 }
             } else {
@@ -83,6 +87,7 @@ class SellTableViewController: UITableViewController {
         prices = []
         descriptions = []
         itemIDs = []
+        categories = []
         
         getItems() { (validCode) in
             self.tableView.reloadData()
@@ -230,6 +235,7 @@ class SellTableViewController: UITableViewController {
             itemDetailViewController.itemDescription = selectedItemCell.itemDescription
             itemDetailViewController.itemPrice = prices[selectedItemIndex]
             itemDetailViewController.itemId = selectedItemCell.itemID
+            itemDetailViewController.category = filterCategories[categories[selectedItemIndex]]
         }
         
     }

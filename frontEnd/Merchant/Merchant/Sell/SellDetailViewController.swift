@@ -18,6 +18,7 @@ class SellDetailViewController: UIViewController {
     var itemSeller = ""
     var itemId = ""
     var pictures: NSArray = []
+    var category = ""
     
     @IBOutlet weak var itemImageView: UIImageView!
     @IBOutlet weak var itemPriceLabel: UILabel!
@@ -136,6 +137,7 @@ class SellDetailViewController: UIViewController {
             vc.price = itemPrice
             vc.photo1 = itemImage
             vc.itemId = itemId
+            vc.category = category
         }
     }
 }
