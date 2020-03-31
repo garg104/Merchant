@@ -36,8 +36,9 @@ class PostItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
     var selectedCategory : String?
     var categories = ["Electronics", "School supplies", "Furniture"]
     
+    let pickerView = UIPickerView()
+    
     func createPickerView() {
-        let pickerView = UIPickerView()
         pickerView.delegate = self
         categoryTextField.inputView = pickerView
     }
@@ -66,6 +67,7 @@ class PostItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
         // add border to description textView
         descriptionTextView!.layer.borderWidth = 1
         descriptionTextView!.layer.borderColor = UIColor.black.cgColor
+        descriptionTextView!.isEditable = true;
         
         createPickerView()
         
@@ -79,7 +81,14 @@ class PostItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
         // setup price for currency format
         priceTextField.delegate = self
         priceTextField.placeholder = updateAmount()
-
+        
+        // create tapper for picker
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.dismissPicker(_:)))
+        self.view.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc func dismissPicker (_ sender: UITapGestureRecognizer) {
+        pickerView.resignFirstResponder()
     }
     
     var amt: Int = 0

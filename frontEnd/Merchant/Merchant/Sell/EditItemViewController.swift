@@ -34,8 +34,9 @@ class EditItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
        var selectedCategory : String?
        var categories = ["Electronics", "School supplies", "Furniture"]
        
+        let pickerView = UIPickerView()
+
        func createPickerView() {
-           let pickerView = UIPickerView()
            pickerView.delegate = self
            categoryTextField.inputView = pickerView
        }
@@ -77,9 +78,16 @@ class EditItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
            // setup price for currency format
            priceTextField.delegate = self
            priceTextField.placeholder = updateAmount()
-
+        
+            // create tapper for picker
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.dismissPicker(_:)))
+            self.view.addGestureRecognizer(tapGesture)
        }
        
+        @objc func dismissPicker (_ sender: UITapGestureRecognizer) {
+            pickerView.resignFirstResponder()
+        }
+    
        var amt: Int = 0
        
        func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
