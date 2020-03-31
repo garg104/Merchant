@@ -516,19 +516,19 @@ class BuyTableViewController: UITableViewController {
                         for file in files {
                             itemImageView.image = self.base64ToUIImage(base64String: file, itemImageView: itemImageView)
                         }
-                        debugPrint("Cache hit: successfully rendered image")
+                        //debugPrint("Cache hit: successfully rendered image")
                     }
                 }
             } catch {
                 //File in cache is corrupted
-                debugPrint("Chache Miss, making the request")
+                //debugPrint("Chache Miss, making the request")
             } //end do-catch
         } //end if
     }
     
     func base64ToUIImage(base64String: String?, itemImageView: UIImageView) -> UIImage{
       if (base64String?.isEmpty)! {
-          debugPrint("No picture found")
+          //debugPrint("No picture found")
           return UIImage(imageLiteralResourceName: "no-image")
       } else {
           // Separating the metadata from the base64 data
