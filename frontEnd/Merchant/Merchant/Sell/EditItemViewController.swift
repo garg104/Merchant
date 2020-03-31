@@ -65,6 +65,7 @@ class EditItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
            // add border to description textView
            descriptionTextView!.layer.borderWidth = 1
            descriptionTextView!.layer.borderColor = UIColor.black.cgColor
+        descriptionTextView!.isEditable = true
            
            createPickerView()
            
