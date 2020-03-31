@@ -191,7 +191,7 @@ class PostItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
             multipartFormData.append(Data("\(self.currentUser)".utf8), withName: "username")
         }, to: API.URL + "/items/postItem", headers: headers).responseJSON { response in
             //store the updated profile picture in cache
-            if (response.response?.statusCode != 200) {
+            if (response.response?.statusCode != 201) {
                 //TODO: DREW make sure that we display a message saying item couldn't be posted
                 let alert = UIAlertController(title: "Unsuccessful post", message: "Your post was unsuccessful. Please enter all fields and try again.", preferredStyle: .alert)
                 alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
