@@ -124,7 +124,28 @@ class EditItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
        var university = "Purdue University"
        
        
-       @IBAction func postItem(_ sender: UIButton, completion: @escaping (_ validCode: Int)->()) {
+       @IBAction func postItem(_ sender: UIButton) {
+            if (nameTextField.text! == "") {
+                let alert = UIAlertController(title: "Empty Field", message: "Please enter a title", preferredStyle: .alert)
+                alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
+                self.present(alert, animated: true)
+            }
+            
+            if (descriptionTextView.text == "") {
+                let alert = UIAlertController(title: "Empty Field", message: "Please enter a description", preferredStyle: .alert)
+                alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
+                self.present(alert, animated: true)
+            }
+            if (priceTextField.text == "") {
+                let alert = UIAlertController(title: "Empty Field", message: "Please enter a price", preferredStyle: .alert)
+                alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
+                self.present(alert, animated: true)
+            }
+            if (categoryTextField.text == "") {
+                let alert = UIAlertController(title: "Empty Field", message: "Please enter a price", preferredStyle: .alert)
+                alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
+                self.present(alert, animated: true)
+            }
            // make upload request
            name = nameTextField.text!
            desc = descriptionTextView.text!
@@ -153,11 +174,6 @@ class EditItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
                "Accept": "application/json"
            ]
            
-           //TODO: DREW Please make sure that we throw an error if name, desc, or price is empty.
-           //Make sure we don't go into the AF.upload() if those fields are empty
-           if (name == "" || desc == "" || price == "") {
-               // throw error
-           }
 
            //Request to the sever
            AF.upload(multipartFormData: {multipartFormData in
@@ -173,9 +189,12 @@ class EditItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
            }, to: API.URL + "/items/picture", headers: headers).responseJSON { response in
                //store the updated profile picture in cache
                if (response.response?.statusCode != 200) {
-                   //TODO: DREW make sure that we display a message saying item couldn't be posted
+                   let alert = UIAlertController(title: "Unsuccessful post", message: "Your post was unsuccessful. Please enter all fields and try again.", preferredStyle: .alert)
+                   alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
+                   self.present(alert, animated: true)
                } else {
                    //TODO: DREW make sure that we display a success message saying item has been posted
+                    debugPrint("SUCCESS")
                }
            } //end response handler
             

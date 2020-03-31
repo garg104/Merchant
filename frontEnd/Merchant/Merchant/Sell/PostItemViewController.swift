@@ -171,10 +171,6 @@ class PostItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
             "Accept": "application/json"
         ]
         
-        //Make sure we don't go into the AF.upload() if those fields are empty
-        if (name == "" || desc == "" || price == "") {
-            // throw error
-        }
 
         //Request to the sever
         AF.upload(multipartFormData: {multipartFormData in
