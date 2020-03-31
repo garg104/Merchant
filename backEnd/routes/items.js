@@ -95,7 +95,7 @@ router.get('/userSellingCurrent/:username', async (req, res) => {
     let items = []
     user[0].forSale.forEach(async (item) => {
       const temp = await Item.findById({ _id: item })
-      if (!temp.isSold) {
+      if (temp && !temp.isSold) {
         items.push(temp)
       }
       if (item == user[0].forSale[user[0].forSale.length - 1]) {
