@@ -55,6 +55,17 @@ class EditItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
     @IBOutlet weak var removePhoto2Button: UIButton!
     @IBOutlet weak var removePhoto3Button: UIButton!
     
+    var name = ""
+    var desc = ""
+    var price = ""
+    var photo1: UIImage!
+    var photo2: UIImage!
+    var photo3: UIImage!
+    var category = ""
+    var isSold = false;
+    var university = "Purdue University"
+    var itemId = ""
+    
     
     var ourGreen = UIColor .green
     override func viewDidLoad() {
@@ -120,16 +131,7 @@ class EditItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
         return formatter.string(from: NSNumber(value: amount))
     }
     
-    var name = ""
-    var desc = ""
-    var price = ""
-    var photo1: UIImage!
-    var photo2: UIImage!
-    var photo3: UIImage!
-    var category = ""
-    var isSold = false;
-    var university = "Purdue University"
-    var itemId = ""
+
     
     
     @IBAction func postItem(_ sender: UIButton) {

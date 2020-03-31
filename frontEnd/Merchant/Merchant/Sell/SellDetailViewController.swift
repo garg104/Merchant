@@ -131,7 +131,6 @@ class SellDetailViewController: UIViewController {
         if (segue.identifier == "detailToEdit") {
             let vc = segue.destination as! EditItemViewController
             //Here you can pass values from this detail view controller to the edit one
-            //examples
             vc.name = itemTitle
             vc.desc = itemDescription
             vc.price = itemPrice
