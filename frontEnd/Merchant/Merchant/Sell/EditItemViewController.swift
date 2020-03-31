@@ -65,6 +65,7 @@ class EditItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
     var isSold = false;
     var university = "Purdue University"
     var itemId = ""
+    var itemImages = [UIImage]()
     
     
     var ourGreen = UIColor .green
@@ -166,6 +167,16 @@ class EditItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
         photo3 = photo3Button.backgroundImage(for: .normal)
         category = categoryTextField.text!
         
+        if (category == "Electronics") {
+            category = "1"
+        } else if (category == "School supplies") {
+            category = "2"
+        } else if (category == "Furniture") {
+            category = "3"
+        } else {
+            category = "0"
+        }
+        
         // TODO Aakarshit this is where the request needs to be made
         struct parameter: Encodable {
             var title: String
@@ -178,7 +189,7 @@ class EditItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
         let details = parameter(title: nameTextField.text ?? name,
                                 description: descriptionTextView.text ?? description,
                                 price: priceTextField.text ?? price,
-                                category: categoryTextField.text ?? category,
+                                category: category,
                                 id: itemId)
         
         //include content type as multipart data to be recognised by multer

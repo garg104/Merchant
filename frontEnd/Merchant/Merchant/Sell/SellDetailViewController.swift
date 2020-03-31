@@ -19,6 +19,7 @@ class SellDetailViewController: UIViewController {
     var itemId = ""
     var pictures: NSArray = []
     var category = ""
+    var imagesForView = [UIImage]()
     
     @IBOutlet weak var itemImageView: UIImageView!
     @IBOutlet weak var itemPriceLabel: UILabel!
@@ -43,6 +44,7 @@ class SellDetailViewController: UIViewController {
     func itemPicturesHandler() {
         //first, setting up the default image
         self.itemImageView.image = UIImage(imageLiteralResourceName: "no-image")
+        imagesForView.append(UIImage(imageLiteralResourceName: "no-image"))
         
         //setting the destination for storing the downloaded file
         let destination: DownloadRequest.Destination = { _, _ in
@@ -59,20 +61,41 @@ class SellDetailViewController: UIViewController {
         AF.download(API.URL + "/items/picture/\(self.itemId)", method: .get, to: destination).responseJSON { response in
             if (response.response?.statusCode != 200) {
                 //render default image
-                self.itemImageView.image = self.base64ToUIImage(base64String: "")
+                self.itemImageView.image = self.base64ToUIImage(base64String: "", index: -1)
+                self.imagesForView.append(self.base64ToUIImage(base64String: "", index: 0))
             } else {
                 //request successful
                 if let res = response.value {
                     let resJson = res as! NSDictionary
                     let pictures : NSArray =  resJson.value(forKey: "files") as! NSArray
                     self.pictures = pictures
+                    self.imagesForView = []
+                    var index = 0
                     for picture in pictures {
                         let encodedImageString = picture as! String
-                        self.itemImageView.image = self.base64ToUIImage(base64String: encodedImageString)
+                        self.itemImageView.image = self.base64ToUIImage(base64String: encodedImageString, index: -1)
+                        self.imagesForView.append(self.base64ToUIImage(base64String: encodedImageString, index: index))
+                        print("INDEX")
+                        print(index)
+                        index = index + 1
                     }
                 }
             } //end if
         } //request
+        
+        /*self.imageScrollView.subviews.forEach({ $0.removeFromSuperview() })
+        for i in 0..<self.imagesForView.count {
+            print("IMAGE SCROLL")
+            let imageView = UIImageView()
+            imageView.image = imagesForView[i]
+            imageView.contentMode = .scaleAspectFit
+            let xPosition = self.view.frame.width * CGFloat(i)
+            imageView.frame = CGRect(x: xPosition, y: 0, width: 400, height: 300)
+            
+            self.imageScrollView.contentSize.width = 405 * CGFloat(i + 1) //self.imageScrollView.frame.width * CGFloat(i + 1)
+            self.imageScrollView.addSubview(imageView)
+            
+        }*/
     }
     
     func checkCacheForItemPicture() {
@@ -85,13 +108,19 @@ class SellDetailViewController: UIViewController {
         //checking if the required file already exists in the cache
         if fileManager.fileExists(atPath: filePath) {
             do {
-                //read the data from the cache               
+                //read the data from the cache
                 if let json = try JSONSerialization.jsonObject(with: Data(contentsOf: fileURL), options: []) as? [String: Any] {
                     // try to read out a string array
                     if let files = json["files"] as? [String] {
                         self.pictures = files as NSArray
+                        self.imagesForView = []
+                        var index = 0
                         for file in files {
-                            self.itemImageView.image = self.base64ToUIImage(base64String: file)
+                            self.itemImageView.image = self.base64ToUIImage(base64String: file, index: -1)
+                            self.imagesForView.append(self.base64ToUIImage(base64String: file, index: index))
+                            print("CACHE INDEX")
+                            print(index)
+                            index = index + 1
                         }
                         debugPrint("Cache hit: successfully rendered image")
                     }
@@ -101,10 +130,26 @@ class SellDetailViewController: UIViewController {
                 debugPrint("Chache Miss, making the request")
             } //end do-catch
         } //end if
+        
+        /*self.imageScrollView.subviews.forEach({ $0.removeFromSuperview() })
+        for i in 0..<self.imagesForView.count {
+            print("IMAGE SCROLL CACHE")
+            let imageView = UIImageView()
+            imageView.image = imagesForView[i]
+            //imageView.contentMode = .scaleAspectFill
+            let xPosition = self.view.frame.width * CGFloat(i)
+            //imageView.frame = CGRect(x: xPosition, y: 0, width: self.imageScrollView.frame.width, height: self.imageScrollView.frame.height)
+            imageView.frame = CGRect(x: xPosition, y: 0, width: 400, height: 300)
+            
+            self.imageScrollView.contentSize.width = 405 * CGFloat(i + 1) //self.imageScrollView.frame.width * CGFloat(i + 1)
+            self.imageScrollView.addSubview(imageView)
+            
+        }*/
+        
     }
     
     
-    func base64ToUIImage(base64String: String?) -> UIImage{
+    func base64ToUIImage(base64String: String?, index: Int) -> UIImage{
       if (base64String?.isEmpty)! {
           debugPrint("No picture found")
           return UIImage(imageLiteralResourceName: "no-image")
@@ -116,7 +161,12 @@ class SellDetailViewController: UIViewController {
         if (decodedimage != nil) {
           return decodedimage!
         } else {
-            return self.itemImageView.image!
+            debugPrint("decoded image null")
+            if (index == -1) {
+                return self.itemImageView.image!
+            } else {
+                return self.imagesForView[index]
+            }
         }
       } //end if
     }
@@ -138,6 +188,7 @@ class SellDetailViewController: UIViewController {
             vc.photo1 = itemImage
             vc.itemId = itemId
             vc.category = category
+            vc.itemImages = imagesForView
         }
     }
 }
