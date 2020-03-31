@@ -178,7 +178,7 @@ describe('\nItems: Posting New Items\n', () => {
             price: '$700',
             isSold: false,
             university: 'Purdue University',
-            category: '1',
+            category: 'Furniture',
             username: 'anshu'
         }
         const ret = await request.post('/items/postItem').send({ ...opts })
