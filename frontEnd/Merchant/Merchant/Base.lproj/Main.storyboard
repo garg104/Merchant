@@ -1186,6 +1186,9 @@
                                         <integer key="value" value="20"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <segue destination="ysN-xs-rgF" kind="presentation" id="ggq-TS-n5q"/>
+                                </connections>
                             </button>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="98z-wJ-4CF">
                                 <rect key="frame" x="0.0" y="140" width="375" height="223"/>
@@ -1222,6 +1225,49 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RI1-EP-axY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="6752.8000000000002" y="68.7192118226601"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="q69-oT-KPd">
+            <objects>
+                <viewController id="ysN-xs-rgF" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="fr4-bt-8Wf">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="758"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Seller Chat to be implemented in Sprint #3" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ER9-yE-7Zu">
+                                <rect key="frame" x="64" y="85" width="247" height="66"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="66" id="5y4-du-Gx6"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="21"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6z7-vI-407">
+                                <rect key="frame" x="169" y="47" width="37" height="30"/>
+                                <state key="normal" title="Done"/>
+                                <connections>
+                                    <segue destination="xzu-rO-eSb" kind="unwind" unwindAction="unwindToBuyDetailViewControllerWithSegue:" id="Xle-Rb-Qo1"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="6z7-vI-407" firstAttribute="top" secondItem="Cx2-np-dF1" secondAttribute="top" constant="47" id="0FO-Yg-5er"/>
+                            <constraint firstItem="Cx2-np-dF1" firstAttribute="bottom" secondItem="ER9-yE-7Zu" secondAttribute="bottom" constant="573" id="8PO-Rr-j95"/>
+                            <constraint firstItem="ER9-yE-7Zu" firstAttribute="leading" secondItem="Cx2-np-dF1" secondAttribute="leading" constant="64" id="GqV-ab-H9n"/>
+                            <constraint firstItem="6z7-vI-407" firstAttribute="centerX" secondItem="ER9-yE-7Zu" secondAttribute="centerX" id="NFw-U3-h0o"/>
+                            <constraint firstItem="ER9-yE-7Zu" firstAttribute="centerX" secondItem="fr4-bt-8Wf" secondAttribute="centerX" id="ODf-jN-Izo"/>
+                            <constraint firstItem="ER9-yE-7Zu" firstAttribute="top" secondItem="Cx2-np-dF1" secondAttribute="top" constant="85" id="PSI-He-E5E"/>
+                            <constraint firstItem="Cx2-np-dF1" firstAttribute="trailing" secondItem="ER9-yE-7Zu" secondAttribute="trailing" constant="64" id="zd3-eQ-uQj"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Cx2-np-dF1"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iiz-5o-N41" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="xzu-rO-eSb" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="7528.8000000000002" y="-134.48275862068965"/>
         </scene>
         <!--Main Tab Bar Controller-->
         <scene sceneID="eeM-2h-Lep">

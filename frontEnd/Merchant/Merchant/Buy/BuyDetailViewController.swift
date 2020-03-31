@@ -29,6 +29,9 @@ class BuyDetailViewController: UIViewController {
     @IBOutlet weak var contactSellerButton: UIButton!
     @IBOutlet weak var imageScrollView: UIScrollView!
     
+    @IBAction func unwindToBuyDetailViewController(segue: UIStoryboardSegue) {
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
