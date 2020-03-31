@@ -13,17 +13,17 @@ let upload = config('item-pictures')
  * This route is to be modified and finalized by Drew Keirn  
  */
 router.post('/postItem', upload.array("data"), async (req, res) => {
-  const { username, userID, title, description, price, isSold, category, university } = req.body
-
+  const { username, userID, title, description, price, isSold, university } = req.body
+  // console.log(req.body.category)
 
   // convert the category to integers to store in the database.
-  let categoryInt = 0
-  if (category == "Electronics") {
-    categoryInt = 1
-  } else if (category == "School supplies") {
-    categoryInt = 2
-  } else if (category == "Furniture") {
-    categoryInt = 3
+  let category = 0
+  if (req.body.category == "Electronics") {
+    category = 1
+  } else if (req.body.category == "School supplies") {
+    category = 2
+  } else if (req.body.category == "Furniture") {
+    category = 3
   } else {
     console.log("category is not working properly")
     res.status(403).json({ msg: 'Look what category is' })
@@ -36,7 +36,7 @@ router.post('/postItem', upload.array("data"), async (req, res) => {
 
   try {
     //create new item in the Database
-    const item = new Item({ userID, username, title, description, price, picture, categoryInt, isSold, university })
+    const item = new Item({ userID, username, title, description, price, picture, category, isSold, university })
     if (username == "") {
       res.status(404).json({ msg: 'Please specify username' })
     }
