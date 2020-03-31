@@ -175,6 +175,8 @@ class PostItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
                 //TODO: DREW make sure that we display a success message saying item has been posted
             }
         } //end response handler
+        
+        self.performSegue(withIdentifier: "postItemUnwind", sender: nil)
     
     }
     
