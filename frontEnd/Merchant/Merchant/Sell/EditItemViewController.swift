@@ -61,7 +61,7 @@ class EditItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-        photo1Button.setBackgroundImage(photo1, for: .normal)
+//        photo1Button.setBackgroundImage(photo1, for: .normal)
         photo1Button.setTitleColor(.clear, for: .normal)
         removePhoto1Button.setTitleColor(.red, for: .normal)
         
@@ -158,7 +158,7 @@ class EditItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
         name = nameTextField.text!
         desc = descriptionTextView.text!
         price = priceTextField.text!
-        photo1 = photo1Button.backgroundImage(for: .normal)
+//        photo1 = photo1Button.backgroundImage(for: .normal)
         photo2 = photo2Button.backgroundImage(for: .normal)
         photo3 = photo3Button.backgroundImage(for: .normal)
         category = categoryTextField.text!
@@ -184,18 +184,16 @@ class EditItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
             "Accept": "application/json"
         ]
         
-        
         //Request to the sever
         AF.upload(multipartFormData: {multipartFormData in
             if (self.photo1 != nil) {
-                debugPrint("Adding one image")
-                multipartFormData.append(self.photo1.jpegData(compressionQuality: 0.1)!, withName: "data", mimeType: "image/jpeg")
+                multipartFormData.append(self.photo1.jpegData(compressionQuality: 0.1)!, withName: "data", fileName: "\(self.itemId).jpg", mimeType: "image/jpeg")
             } //end if
             if (self.photo2 != nil) {
-                multipartFormData.append(self.photo2.jpegData(compressionQuality: 0.1)!, withName: "data", mimeType: "image/jpeg")
+                multipartFormData.append(self.photo2.jpegData(compressionQuality: 0.1)!, withName: "data", fileName: "\(self.itemId).jpg", mimeType: "image/jpeg")
             } //end if
             if (self.photo3 != nil) {
-                multipartFormData.append(self.photo3.jpegData(compressionQuality: 0.1)!, withName: "data", mimeType: "image/jpeg")
+                multipartFormData.append(self.photo3.jpegData(compressionQuality: 0.1)!, withName: "data", fileName: "\(self.itemId).jpg", mimeType: "image/jpeg")
             } //end if
         }, to: API.URL + "/items/pictures/\(self.itemId)", headers: headers).responseJSON { response in
             //store the updated profile picture in cache

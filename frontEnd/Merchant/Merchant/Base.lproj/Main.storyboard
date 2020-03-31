@@ -1385,10 +1385,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qnQ-np-RKV">
-                                <rect key="frame" x="0.0" y="140" width="375" height="231.33333333333337"/>
+                                <rect key="frame" x="0.0" y="140" width="375" height="231"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$0.00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Rs-Qe-Ptd">
-                                <rect key="frame" x="16" y="379.33333333333331" width="343" height="39.666666666666686"/>
+                                <rect key="frame" x="16" y="379" width="343" height="40"/>
                                 <fontDescription key="fontDescription" name="Poppins-SemiBold" family="Poppins" pointSize="34"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -1428,20 +1428,11 @@
                         <viewLayoutGuide key="safeArea" id="QXL-7i-N61"/>
                     </view>
                     <navigationItem key="navigationItem" title="Detail" id="n4v-p9-pGZ">
-                        <rightBarButtonItems>
-                            <barButtonItem title="Edit" id="4Yu-I5-AtH">
-                                <connections>
-                                    <segue destination="2iQ-dt-LMe" kind="presentation" identifier="detailToEdit" id="zOK-VV-Ood"/>
-                                </connections>
-                            </barButtonItem>
-                            <barButtonItem style="plain" id="PeE-zW-aXI">
-                                <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Ih4-eX-84n">
-                                    <rect key="frame" x="238.33333333333337" y="7" width="83" height="30"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <state key="normal" title="Button"/>
-                                </button>
-                            </barButtonItem>
-                        </rightBarButtonItems>
+                        <barButtonItem key="rightBarButtonItem" title="Edit" id="4Yu-I5-AtH">
+                            <connections>
+                                <segue destination="2iQ-dt-LMe" kind="presentation" identifier="detailToEdit" id="zOK-VV-Ood"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="itemDescriptionTextView" destination="SOm-vf-cEH" id="UGu-dB-5FA"/>
@@ -1451,7 +1442,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tdN-OC-iiI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6780" y="1194"/>
+            <point key="canvasLocation" x="6780" y="1193.3497536945813"/>
         </scene>
         <!--Post Item View Controller-->
         <scene sceneID="RdO-uB-0no">

@@ -175,13 +175,13 @@ class PostItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
         //Request to the sever
         AF.upload(multipartFormData: {multipartFormData in
             if (self.photo1 != nil) {
-                multipartFormData.append(self.photo1.jpegData(compressionQuality: 0.1)!, withName: "data", mimeType: "image/jpeg")
+                multipartFormData.append(self.photo1.jpegData(compressionQuality: 0.1)!, withName: "data", fileName: "\(self.currentUser)1.jpg", mimeType: "image/jpeg")
             } //end if
             if (self.photo2 != nil) {
-                multipartFormData.append(self.photo2.jpegData(compressionQuality: 0.1)!, withName: "data", mimeType: "image/jpeg")
+                multipartFormData.append(self.photo2.jpegData(compressionQuality: 0.1)!, withName: "data", fileName: "\(self.currentUser)2.jpg", mimeType: "image/jpeg")
             } //end if
             if (self.photo3 != nil) {
-                multipartFormData.append(self.photo3.jpegData(compressionQuality: 0.1)!, withName: "data", mimeType: "image/jpeg")
+                multipartFormData.append(self.photo3.jpegData(compressionQuality: 0.1)!, withName: "data", fileName: "\(self.currentUser)3.jpg", mimeType: "image/jpeg")
             } //end if
             multipartFormData.append(Data(self.name.utf8), withName: "title")
             multipartFormData.append(Data(self.desc.utf8), withName: "description")
