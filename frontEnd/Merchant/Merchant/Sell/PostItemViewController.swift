@@ -38,8 +38,9 @@ class PostItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
     var selectedCategory : String?
     var categories = ["Electronics", "School supplies", "Furniture"]
     
+    let pickerView = UIPickerView()
+    
     func createPickerView() {
-        let pickerView = UIPickerView()
         pickerView.delegate = self
         categoryTextField.inputView = pickerView
     }
@@ -71,6 +72,7 @@ class PostItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
         // add border to description textView
         descriptionTextView!.layer.borderWidth = 1
         descriptionTextView!.layer.borderColor = UIColor.black.cgColor
+        descriptionTextView!.isEditable = true;
         
         createPickerView()
         
@@ -84,7 +86,14 @@ class PostItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
         // setup price for currency format
         priceTextField.delegate = self
         priceTextField.placeholder = updateAmount()
-
+        
+        // create tapper for picker
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.dismissPicker(_:)))
+        self.view.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc func dismissPicker (_ sender: UITapGestureRecognizer) {
+        pickerView.resignFirstResponder()
     }
     
     var amt: Int = 0
@@ -122,7 +131,29 @@ class PostItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
     var university = "Purdue University"
     
     
-    @IBAction func postItem(_ sender: UIButton, completion: @escaping (_ validCode: Int)->()) {
+    @IBAction func postItem(_ sender: UIButton) {
+        
+        if (nameTextField.text! == "") {
+            let alert = UIAlertController(title: "Empty Field", message: "Please enter a title", preferredStyle: .alert)
+            alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
+            self.present(alert, animated: true)
+        }
+        
+        if (descriptionTextView.text == "") {
+            let alert = UIAlertController(title: "Empty Field", message: "Please enter a description", preferredStyle: .alert)
+            alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
+            self.present(alert, animated: true)
+        }
+        if (priceTextField.text == "") {
+            let alert = UIAlertController(title: "Empty Field", message: "Please enter a price", preferredStyle: .alert)
+            alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
+            self.present(alert, animated: true)
+        }
+        if (categoryTextField.text == "") {
+            let alert = UIAlertController(title: "Empty Field", message: "Please enter a price", preferredStyle: .alert)
+            alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
+            self.present(alert, animated: true)
+        }
         // make upload request
         name = nameTextField.text!
         desc = descriptionTextView.text!
@@ -132,7 +163,6 @@ class PostItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
         photo3 = photo3Button.backgroundImage(for: .normal)
         category = categoryTextField.text!
         
-        // TODO Aakarshit this is where the request needs to be made
         // upload request to the backend
         
         //include content type as multipart data to be recognised by multer
@@ -141,22 +171,17 @@ class PostItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
             "Accept": "application/json"
         ]
         
-        //TODO: DREW Please make sure that we throw an error if name, desc, or price is empty.
-        //Make sure we don't go into the AF.upload() if those fields are empty
-        if (name == "" || desc == "" || price == "") {
-            // throw error
-        }
 
         //Request to the sever
         AF.upload(multipartFormData: {multipartFormData in
             if (self.photo1 != nil) {
-                multipartFormData.append(self.photo1.jpegData(compressionQuality: 0.1)!, withName: "data", mimeType: "image/jpeg")
+                multipartFormData.append(self.photo1.jpegData(compressionQuality: 0.1)!, withName: "data", fileName: "\(self.currentUser)1.jpg", mimeType: "image/jpeg")
             } //end if
             if (self.photo2 != nil) {
-                multipartFormData.append(self.photo2.jpegData(compressionQuality: 0.1)!, withName: "data", mimeType: "image/jpeg")
+                multipartFormData.append(self.photo2.jpegData(compressionQuality: 0.1)!, withName: "data", fileName: "\(self.currentUser)2.jpg", mimeType: "image/jpeg")
             } //end if
             if (self.photo3 != nil) {
-                multipartFormData.append(self.photo3.jpegData(compressionQuality: 0.1)!, withName: "data", mimeType: "image/jpeg")
+                multipartFormData.append(self.photo3.jpegData(compressionQuality: 0.1)!, withName: "data", fileName: "\(self.currentUser)3.jpg", mimeType: "image/jpeg")
             } //end if
             multipartFormData.append(Data(self.name.utf8), withName: "title")
             multipartFormData.append(Data(self.desc.utf8), withName: "description")
@@ -168,10 +193,16 @@ class PostItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
             //store the updated profile picture in cache
             if (response.response?.statusCode != 200) {
                 //TODO: DREW make sure that we display a message saying item couldn't be posted
+                let alert = UIAlertController(title: "Unsuccessful post", message: "Your post was unsuccessful. Please enter all fields and try again.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
+                self.present(alert, animated: true)
             } else {
                 //TODO: DREW make sure that we display a success message saying item has been posted
+                debugPrint("SUCCESS")
             }
         } //end response handler
+        
+        self.performSegue(withIdentifier: "postItemUnwind", sender: nil)
     
     }
     
