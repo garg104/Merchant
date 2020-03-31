@@ -36,10 +36,14 @@ class BuyTableViewController: UITableViewController {
     var usernames: [String] = []
     var prices: [String] = []
     var descriptions: [String] = []
+    var itemCategories: [String] = []
     var itemIDs: [String] = []
     
+    var filterCategories = ["None", "Electronics", "School supplies", "Furniture"]
+    var catFilterIndex = 0
+    var priceFilterIndex = 0
     var searchCategories = ["Item", "User"]
-    var filtered: [Int] = []
+    var searched: [Int] = []
     var searchCat = 0
     
     // Search Controller
@@ -59,7 +63,7 @@ class BuyTableViewController: UITableViewController {
     }
     
     //check for if filtering
-    var isFiltering: Bool {
+    var isSearching: Bool {
       return searchController.isActive && !isSearchBarEmpty
     }
     
@@ -83,13 +87,47 @@ class BuyTableViewController: UITableViewController {
                     for item in items {
                         // make sure that the user does not see the objects they are selling
                         let temp = item as! NSDictionary
-                        if (self.currentUser != temp["username"] as! String) {
-                            print(item)
-                            self.titles.append(temp["title"]! as! String)
-                            self.prices.append(temp["price"]! as! String)
-                            self.usernames.append(temp["username"] as! String)
-                            self.descriptions.append(temp["description"]! as! String)
-                            self.itemIDs.append(temp["_id"]! as! String)
+                        
+                        if (self.catFilterIndex == 0) {
+                            if (self.currentUser != temp["username"] as! String) {
+                                print(item)
+                                self.titles.append(temp["title"]! as! String)
+                                self.prices.append(temp["price"]! as! String)
+                                self.usernames.append(temp["username"] as! String)
+                                self.descriptions.append(temp["description"]! as! String)
+                                self.itemIDs.append(temp["_id"]! as! String)
+                                self.itemCategories.append(temp["category"] as! String)
+                            }
+                        } else if (self.catFilterIndex == 1) {
+                            print(self.filterCategories[self.catFilterIndex])
+                            if (temp["category"] as! String == self.filterCategories[self.catFilterIndex]) {
+                                self.titles.append(temp["title"]! as! String)
+                                self.prices.append(temp["price"]! as! String)
+                                self.usernames.append(temp["username"] as! String)
+                                self.descriptions.append(temp["description"]! as! String)
+                                self.itemIDs.append(temp["_id"]! as! String)
+                                self.itemCategories.append(temp["category"] as! String)
+                            }
+                        } else if (self.catFilterIndex == 2) {
+                            print(self.filterCategories[self.catFilterIndex])
+                            if (temp["category"] as! String == self.filterCategories[self.catFilterIndex]) {
+                                self.titles.append(temp["title"]! as! String)
+                                self.prices.append(temp["price"]! as! String)
+                                self.usernames.append(temp["username"] as! String)
+                                self.descriptions.append(temp["description"]! as! String)
+                                self.itemIDs.append(temp["_id"]! as! String)
+                                self.itemCategories.append(temp["category"] as! String)
+                            }
+                        } else if (self.catFilterIndex == 3) {
+                            print(self.filterCategories[self.catFilterIndex])
+                            if (temp["category"] as! String == self.filterCategories[self.catFilterIndex]) {
+                                self.titles.append(temp["title"]! as! String)
+                                self.prices.append(temp["price"]! as! String)
+                                self.usernames.append(temp["username"] as! String)
+                                self.descriptions.append(temp["description"]! as! String)
+                                self.itemIDs.append(temp["_id"]! as! String)
+                                self.itemCategories.append(temp["category"] as! String)
+                            }
                         }
                         
                     }
@@ -101,6 +139,12 @@ class BuyTableViewController: UITableViewController {
             completion(0)
             
         }.resume()
+    }
+    
+    @IBAction func unwindToBuyTableViewController(segue: UIStoryboardSegue) {
+        if (segue.identifier == "applyFilters") {
+            updateData()
+        }
     }
     
     
@@ -135,7 +179,7 @@ class BuyTableViewController: UITableViewController {
     //search filtering function
     func filterContentForSearchText(_ searchText: String) {
         
-        filtered = []
+        searched = []
         
         if (searchCat == 0) {
             //filtered = titles.filter{ $0.lowercased().contains(searchText.lowercased())}
@@ -143,7 +187,7 @@ class BuyTableViewController: UITableViewController {
             var index = 0;
             for item in titles { //finding indexes with matching titles
                 if (item.lowercased().contains(searchText.lowercased())) {
-                    filtered.append(index)
+                    searched.append(index)
                 }
                 index = index + 1;
             }
@@ -155,7 +199,7 @@ class BuyTableViewController: UITableViewController {
             var index = 0;
             for item in usernames { //find indexes with matching usernames
                 if (item.lowercased().contains(searchText.lowercased())) {
-                    filtered.append(index)
+                    searched.append(index)
                 }
                 index = index + 1;
             }
@@ -165,18 +209,141 @@ class BuyTableViewController: UITableViewController {
     }
     
     func updateData() {
-           images = []
-           titles = []
-           usernames = []
-           prices = []
-           descriptions = []
-           itemIDs = []
+        
+        titles = []
+        usernames = []
+        prices = []
+        descriptions = []
+        itemCategories = []
+        itemIDs = []
+        
+        var titlesTemp: [String] = []
+        var usernamesTemp: [String] = []
+        var pricesTemp: [String] = []
+        var descriptionsTemp: [String] = []
+        var itemCategoriesTemp: [String] = []
+        var itemIDsTemp: [String] = []
            
-           getItems() { (validCode) in
-               self.tableView.reloadData()
-           }
+        getItems() { (validCode) in
+            var sortedIndices: [Int] = []
+            if (self.priceFilterIndex == 1) {
+                sortedIndices = self.sortLowToHigh()
+            } else if (self.priceFilterIndex == 2) {
+                sortedIndices = self.sortHighToLow()
+            }
+            
+            print(self.images)
+            
+            if (self.priceFilterIndex != 0) {
+                for i in 0...(self.titles.count - 1) {
+                    titlesTemp.append(self.titles[sortedIndices[i]])
+                    usernamesTemp.append(self.usernames[sortedIndices[i]])
+                    pricesTemp.append(self.prices[sortedIndices[i]])
+                    descriptionsTemp.append(self.descriptions[sortedIndices[i]])
+                    itemCategoriesTemp.append(self.itemCategories[sortedIndices[i]])
+                    itemIDsTemp.append(self.itemIDs[sortedIndices[i]])
+                }
+                self.titles = titlesTemp
+                self.usernames = usernamesTemp
+                self.prices = pricesTemp
+                self.descriptions = descriptionsTemp
+                self.itemCategories = itemCategoriesTemp
+                self.itemIDs = itemIDsTemp
+            }
+            
+            self.tableView.reloadData()
+        }
            
-       }
+    }
+    
+    func sortLowToHigh() -> [Int] {
+        
+        var priceSorted: [Double] = []
+        var sortIndices: [Int] = []
+        
+        var unsortedIndex = 0
+        for item in prices {
+            let start = item.index(item.startIndex, offsetBy: 1)
+            let end = item.endIndex
+            let range = start..<end
+            print("CURRENT PRICE")
+            print(item[range])
+            let noCommas = item[range].replacingOccurrences(of: ",", with: "", options: NSString.CompareOptions.literal, range: nil)
+            let currPrice = Double(noCommas)!
+            
+            if (priceSorted.count == 0) {
+                priceSorted.append(currPrice)
+                sortIndices.append(unsortedIndex)
+            } else {
+                var sortedIndex = 0
+                for sortItem in priceSorted {
+                    if (currPrice > sortItem) {
+                        sortedIndex = sortedIndex + 1
+                        if (sortedIndex == priceSorted.count) { //at end or array
+                            priceSorted.append(currPrice)
+                            sortIndices.append(unsortedIndex)
+                            break
+                        }
+                        continue
+                    } else {
+                        priceSorted.insert(currPrice, at: sortedIndex)
+                        sortIndices.insert(unsortedIndex, at: sortedIndex)
+                        break
+                    }
+                    
+                }
+            }
+            unsortedIndex = unsortedIndex + 1;
+        }
+        print("LowHighSORTED")
+        print(priceSorted)
+        print(sortIndices)
+        return sortIndices
+    }
+    
+    func sortHighToLow() -> [Int] {
+        var priceSorted: [Double] = []
+        var sortIndices: [Int] = []
+        
+        var unsortedIndex = 0
+        for item in prices {
+            let start = item.index(item.startIndex, offsetBy: 1)
+            let end = item.endIndex
+            let range = start..<end
+            print("CURRENT PRICE")
+            print(item[range])
+            let noCommas = item[range].replacingOccurrences(of: ",", with: "", options: NSString.CompareOptions.literal, range: nil)
+            let currPrice = Double(noCommas)!
+            
+            if (priceSorted.count == 0) {
+                priceSorted.append(currPrice)
+                sortIndices.append(unsortedIndex)
+            } else {
+                var sortedIndex = 0
+                for sortItem in priceSorted {
+                    if (currPrice < sortItem) {
+                        sortedIndex = sortedIndex + 1
+                        if (sortedIndex == priceSorted.count) { //at end or array
+                            priceSorted.append(currPrice)
+                            sortIndices.append(unsortedIndex)
+                            break
+                        }
+                        continue
+                    } else {
+                        priceSorted.insert(currPrice, at: sortedIndex)
+                        sortIndices.insert(unsortedIndex, at: sortedIndex)
+                        break
+                    }
+                    
+                }
+            }
+            unsortedIndex = unsortedIndex + 1;
+        }
+        print("HighLowSORTED")
+        print(priceSorted)
+        print(sortIndices)
+        return sortIndices
+    }
 
     // MARK: - Table view data source
 
@@ -187,8 +354,8 @@ class BuyTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        if (isFiltering) {
-            return filtered.count
+        if (isSearching) {
+            return searched.count
         }
         return titles.count
     }
@@ -199,19 +366,21 @@ class BuyTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "itemCell", for: indexPath) as! BuyTableViewCell
         
         // Configure the cell...
-        if (isFiltering) {
+        if (isSearching) {
             //display search results
-            cell.itemTitleLabel.text = titles[filtered[indexPath.row]]
-            cell.itemPriceLabel.text = prices[filtered[indexPath.row]]
-            cell.userNameLabel.text = usernames[filtered[indexPath.row]]
-            cell.itemDescription = descriptions[filtered[indexPath.row]]
-            cell.itemID = itemIDs[filtered[indexPath.row]]
+            cell.itemTitleLabel.text = titles[searched[indexPath.row]]
+            cell.itemPriceLabel.text = prices[searched[indexPath.row]]
+            cell.userNameLabel.text = usernames[searched[indexPath.row]]
+            cell.itemDescription = descriptions[searched[indexPath.row]]
+            cell.itemCategory = itemCategories[searched[indexPath.row]]
+            cell.itemID = itemIDs[searched[indexPath.row]]
             itemPicturesHandler(itemImageView: cell.itemImageView, itemID: cell.itemID)
         } else {
             cell.itemTitleLabel.text = titles[indexPath.row]
             cell.itemPriceLabel.text = prices[indexPath.row]
             cell.userNameLabel.text = usernames[indexPath.row]
             cell.itemDescription = descriptions[indexPath.row]
+            cell.itemCategory = itemCategories[indexPath.row]
             cell.itemID = itemIDs[indexPath.row]
             itemPicturesHandler(itemImageView: cell.itemImageView, itemID: cell.itemID)
         }
@@ -280,6 +449,12 @@ class BuyTableViewController: UITableViewController {
             itemDetailViewController.itemPrice = selectedItemCell.itemPriceLabel.text!
             itemDetailViewController.itemSeller = selectedItemCell.userNameLabel.text!
             itemDetailViewController.itemId = selectedItemCell.itemID
+        }
+        
+        if (segue.identifier == "showFilters") {
+            let vc = segue.destination as! FilterViewController
+            vc.catFilterIndex = catFilterIndex
+            vc.priceFilterIndex = priceFilterIndex
         }
         
     }

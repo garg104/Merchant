@@ -1121,6 +1121,11 @@
                                 <action selector="refreshButton:" destination="KcF-Su-Eqg" id="482-tn-H8F"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Filter" id="zK0-el-oWW">
+                            <connections>
+                                <segue destination="5Nx-TS-7RA" kind="presentation" identifier="showFilters" id="Iz9-al-luy"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KSg-i0-B5Z" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1792,6 +1797,122 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rym-rJ-J3N" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="7529" y="1193"/>
+        </scene>
+        <!--Filter View Controller-->
+        <scene sceneID="nyh-th-Il2">
+            <objects>
+                <viewController id="5Nx-TS-7RA" customClass="FilterViewController" customModule="Merchant" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="g6B-g2-6VD">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="758"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Filter" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="28" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bQC-DQ-4i8">
+                                <rect key="frame" x="16" y="59" width="343" height="47.666666666666657"/>
+                                <fontDescription key="fontDescription" name="Poppins-SemiBold" family="Poppins" pointSize="34"/>
+                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mky-mC-4Kn">
+                                <rect key="frame" x="312" y="20" width="47" height="31"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="47" id="gQK-DW-4rK"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="16"/>
+                                <state key="normal" title="Apply">
+                                    <color key="titleColor" red="0.46274509800000002" green="0.70980392160000005" blue="0.30196078430000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
+                                <connections>
+                                    <segue destination="Ho4-Fd-uIQ" kind="unwind" identifier="applyFilters" unwindAction="unwindToBuyTableViewControllerWithSegue:" id="IlE-pe-wCy"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h61-Kk-LbT">
+                                <rect key="frame" x="16" y="20" width="60" height="31"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="31" id="2eQ-0L-7YX"/>
+                                    <constraint firstAttribute="width" constant="60" id="P7Y-Dd-RaQ"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="16"/>
+                                <state key="normal" title="Cancel">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <segue destination="Ho4-Fd-uIQ" kind="unwind" unwindAction="unwindToBuyTableViewControllerWithSegue:" id="oJ8-oH-mnQ"/>
+                                </connections>
+                            </button>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" springLoaded="YES" translatesAutoresizingMaskIntoConstraints="NO" id="N53-bU-W5M">
+                                <rect key="frame" x="16" y="247" width="343" height="32"/>
+                                <color key="backgroundColor" red="0.46274509800000002" green="0.70980392160000005" blue="0.30196078430000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <segments>
+                                    <segment title="None"/>
+                                    <segment title="Electronics"/>
+                                    <segment title="School"/>
+                                    <segment title="Furniture"/>
+                                </segments>
+                                <color key="tintColor" red="0.46274509800000002" green="0.70980392160000005" blue="0.30196078430000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="selectedSegmentTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <action selector="categoryFilter:" destination="5Nx-TS-7RA" eventType="valueChanged" id="Rp1-3k-uRQ"/>
+                                </connections>
+                            </segmentedControl>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="xKp-54-uZx">
+                                <rect key="frame" x="16" y="159" width="343" height="32"/>
+                                <color key="backgroundColor" red="0.46274509800000002" green="0.70980392160000005" blue="0.30196078430000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <segments>
+                                    <segment title="None"/>
+                                    <segment title="Low to High"/>
+                                    <segment title="High to Low"/>
+                                </segments>
+                                <connections>
+                                    <action selector="priceFilter:" destination="5Nx-TS-7RA" eventType="valueChanged" id="dIR-ub-hZh"/>
+                                </connections>
+                            </segmentedControl>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Price" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ujc-H5-dm3">
+                                <rect key="frame" x="16" y="127" width="42" height="24"/>
+                                <fontDescription key="fontDescription" name="Poppins-Medium" family="Poppins" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Category" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="30F-QZ-2Sy">
+                                <rect key="frame" x="16" y="215" width="87" height="24"/>
+                                <fontDescription key="fontDescription" name="Poppins-Medium" family="Poppins" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="30F-QZ-2Sy" firstAttribute="top" secondItem="xKp-54-uZx" secondAttribute="bottom" constant="25" id="3oj-J3-Q3x"/>
+                            <constraint firstItem="xKp-54-uZx" firstAttribute="leading" secondItem="30F-QZ-2Sy" secondAttribute="leading" id="Aba-DZ-p3A"/>
+                            <constraint firstItem="ujc-H5-dm3" firstAttribute="top" secondItem="bQC-DQ-4i8" secondAttribute="bottom" constant="20.333333333333371" id="Cbk-Vq-mXg"/>
+                            <constraint firstItem="bQC-DQ-4i8" firstAttribute="top" secondItem="h61-Kk-LbT" secondAttribute="bottom" constant="8" id="GhF-o3-2iJ"/>
+                            <constraint firstItem="bQC-DQ-4i8" firstAttribute="leading" secondItem="ujc-H5-dm3" secondAttribute="leading" id="I6c-bH-rCq"/>
+                            <constraint firstItem="h61-Kk-LbT" firstAttribute="top" secondItem="mky-mC-4Kn" secondAttribute="top" id="IAv-ji-PwD"/>
+                            <constraint firstItem="ujc-H5-dm3" firstAttribute="leading" secondItem="xKp-54-uZx" secondAttribute="leading" id="MLj-7F-J0c"/>
+                            <constraint firstItem="h61-Kk-LbT" firstAttribute="leading" secondItem="g6B-g2-6VD" secondAttribute="leadingMargin" id="SfR-gL-jfd"/>
+                            <constraint firstItem="mky-mC-4Kn" firstAttribute="trailing" secondItem="g6B-g2-6VD" secondAttribute="trailingMargin" id="T2U-EN-xUw"/>
+                            <constraint firstItem="mky-mC-4Kn" firstAttribute="trailing" secondItem="bQC-DQ-4i8" secondAttribute="trailing" id="UEM-pB-PJh"/>
+                            <constraint firstItem="bQC-DQ-4i8" firstAttribute="trailing" secondItem="xKp-54-uZx" secondAttribute="trailing" id="VSk-Zr-mwM"/>
+                            <constraint firstItem="h61-Kk-LbT" firstAttribute="baseline" secondItem="mky-mC-4Kn" secondAttribute="baseline" id="Vkl-7A-Pr1"/>
+                            <constraint firstItem="h61-Kk-LbT" firstAttribute="leading" secondItem="bQC-DQ-4i8" secondAttribute="leading" id="Y8p-ig-bEO"/>
+                            <constraint firstItem="N53-bU-W5M" firstAttribute="top" secondItem="30F-QZ-2Sy" secondAttribute="bottom" constant="8" id="gSf-hg-O3Y"/>
+                            <constraint firstItem="30F-QZ-2Sy" firstAttribute="leading" secondItem="N53-bU-W5M" secondAttribute="leading" id="gmd-Ex-ASE"/>
+                            <constraint firstItem="Ehy-9v-jTg" firstAttribute="trailing" secondItem="30F-QZ-2Sy" secondAttribute="trailing" constant="272" id="m3R-vZ-icd"/>
+                            <constraint firstItem="h61-Kk-LbT" firstAttribute="top" secondItem="Ehy-9v-jTg" secondAttribute="top" constant="20" id="o59-3x-uEc"/>
+                            <constraint firstItem="xKp-54-uZx" firstAttribute="trailing" secondItem="N53-bU-W5M" secondAttribute="trailing" id="o7A-S7-6Bc"/>
+                            <constraint firstItem="xKp-54-uZx" firstAttribute="top" secondItem="ujc-H5-dm3" secondAttribute="bottom" constant="8" id="rsI-GB-DBP"/>
+                            <constraint firstItem="h61-Kk-LbT" firstAttribute="firstBaseline" secondItem="mky-mC-4Kn" secondAttribute="firstBaseline" id="tEq-9H-Kl4"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Ehy-9v-jTg"/>
+                    </view>
+                    <connections>
+                        <outlet property="categoryFilterSegControl" destination="N53-bU-W5M" id="sRF-AI-s8x"/>
+                        <outlet property="priceFilterSegControl" destination="xKp-54-uZx" id="gPC-Yr-CNx"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hSO-2c-MzG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="Ho4-Fd-uIQ" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="6752.8000000000002" y="-641.37931034482756"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
