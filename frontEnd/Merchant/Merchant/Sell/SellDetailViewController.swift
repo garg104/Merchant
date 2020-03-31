@@ -142,8 +142,7 @@ class SellDetailViewController: UIViewController {
             vc.photo1Button.setBackgroundImage(itemImage, for: .normal)
             vc.photo1Button.setTitleColor(.clear, for: .normal)
             vc.removePhoto1Button.setTitleColor(.red, for: .normal)
-
+            vc.itemId = itemId
         }
-        
     }
 }
