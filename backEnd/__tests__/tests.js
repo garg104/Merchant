@@ -102,7 +102,7 @@ describe('\nTests for picture\n', () => {
         const res = await request.get('/user/picture/pandey25')
         expect(res.status).toBe(200)
         done()
-    }, 30000)
+    }, 50000)
 
     //Testing the get picture route
     it('Tests the picture route for no data', async done => {
@@ -110,7 +110,7 @@ describe('\nTests for picture\n', () => {
         const res = await request.get('/user/picture/test')
         expect(res.status).toBe(404)
         done()
-    }, 30000)
+    }, 50000)
 })
 
 //Testing for search algorithms
@@ -141,7 +141,7 @@ describe('\nTests the search routes\n', () => {
 describe('\nItems: Get routes\n', () => {
     //Get all the items from the DB
     it('Get all the items', async done => {
-        const res = await request.get('/items/')
+        const res = await request.get('/items/allItems')
         expect(res.status).toBe(200)
         expect(res.body.items.length !== 0).toBe(true)
         done()
@@ -149,7 +149,7 @@ describe('\nItems: Get routes\n', () => {
 
     //Get the list of items matching a query string
     it('Get all the items matching query string', async done => {
-        const res = await request.get('/items/search/pandey25/lap')
+        const res = await request.get('/items/search/anshu/ph')
         expect(res.status).toBe(200)
         expect(res.body.items.length !== 0).toBe(true)
         done()
@@ -158,28 +158,31 @@ describe('\nItems: Get routes\n', () => {
 
 //getting the user selling history
 describe('\nGetting the user selling history\n', () => {
-    it('Gets the selling history of the user', () => {
+    it('Gets the selling history of the user', async done => {
         //make the request
-        const ret = await request.get('/items/userSellingHistory').send({ username: 'dconver1' })
+        const ret = await request.get('/items/userSellingHistory/').send({ username: 'dconver1' })
         expect(ret.status).toBe(200)
+        done()
     })
 })
 
 //Posting and deleting items
 describe('\nItems: Posting New Items\n', () => {
+    let _id = null;
     it('Post a new item', async done => {
         //make a request
         const opts = {
-            userID: '5e7f9ee4635340002a21ba0c',
+            userID: '5e6baba3fdda1a002a977d16',
             title: 'Test Object',
             description: 'Test description',
             price: '$700',
             isSold: false,
             university: 'Purdue University',
             category: '1',
-            username: 'drewk'
+            username: 'anshu'
         }
         const ret = await request.post('/items/postItem').send({ ...opts })
+        _id = ret.body.item._id
         expect(ret.status).toBe(201)
         done()
     })
@@ -187,8 +190,8 @@ describe('\nItems: Posting New Items\n', () => {
     it('Delete an item from the DB', async done => {
         //make a request
         const ret = await request.post('/items/removeItem').send({
-            username: 'drewk',
-            itemID: '5e7f9ee4635340002a21ba0c'
+            username: 'anshu',
+            itemID: `${_id}`
         })
         expect(ret.status).toBe(200)
         expect(ret.body.msg).toBe("item has been successfully removed")
@@ -198,14 +201,15 @@ describe('\nItems: Posting New Items\n', () => {
 
 //Item picture routes
 describe('\nItem picture routes\n', () => {
-    it('Getting all the pictures of an item', () => {
+    it('Getting all the pictures of an item', async done => {
         const ret = await request.get('/items/picture/5e818f5366b9f1bf143d505b')
         expect(ret.status).toBe(200)
         expect(ret.body.files !== null).toBe(true)
         expect(ret.body.files.length > 1).toBe(true)
         done()
     })
-    it('Updation and deletion of pictures of an item', () => {
+    it('Updation and deletion of pictures of an item', async done => {
         expect(1).toBe(1)
+        done()
     })
 })
