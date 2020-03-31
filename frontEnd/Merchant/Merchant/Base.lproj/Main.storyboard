@@ -1431,7 +1431,7 @@
                         <rightBarButtonItems>
                             <barButtonItem title="Edit" id="4Yu-I5-AtH">
                                 <connections>
-                                    <segue destination="2iQ-dt-LMe" kind="presentation" identifier="detailToEdit" id="zOK-VV-Ood"/>
+                                    <segue destination="2iQ-dt-LMe" kind="presentation" id="zOK-VV-Ood"/>
                                 </connections>
                             </barButtonItem>
                             <barButtonItem style="plain" id="PeE-zW-aXI">
@@ -1878,7 +1878,7 @@
                                     <color key="titleColor" red="0.46274509800000002" green="0.70980392160000005" blue="0.30196078430000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 </state>
                                 <connections>
-                                    <action selector="postItem:completion:" destination="2iQ-dt-LMe" eventType="touchUpInside" id="BF5-Bf-Y3P"/>
+                                    <action selector="postItem:" destination="2iQ-dt-LMe" eventType="touchUpInside" id="73m-ZW-ZjL"/>
                                 </connections>
                             </button>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fK6-4q-PDc">
