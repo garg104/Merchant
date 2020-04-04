@@ -180,10 +180,14 @@ class ProfileViewController: UIViewController {
       } else {
           // Separating the metadata from the base64 data
           let temp = base64String?.components(separatedBy: ",")
+        if (temp!.count > 1) {
           let dataDecoded : Data = Data(base64Encoded: temp![1], options: .ignoreUnknownCharacters)!
           let decodedimage = UIImage(data: dataDecoded)
-        if (decodedimage != nil) {
-          return decodedimage!
+            if (decodedimage != nil) {
+              return decodedimage!
+            } else {
+                return self.profilePicture.image!
+            }
         } else {
             return self.profilePicture.image!
         }
