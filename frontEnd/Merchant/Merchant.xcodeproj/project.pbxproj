@@ -56,6 +56,7 @@
 		75F076AC2430386C00301D34 /* item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75F076AB2430386C00301D34 /* item.swift */; };
 		75F076AE24303A5C00301D34 /* items.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75F076AD24303A5C00301D34 /* items.swift */; };
 		88CD861BD9537BF10202E4C5 /* Pods_Merchant_MerchantUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22068D62C0BE1BEC8BD7C016 /* Pods_Merchant_MerchantUITests.framework */; };
+		D683D0242438ECB5009E4665 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D683D0232438ECB5009E4665 /* Utils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -151,6 +152,7 @@
 		75F076AB2430386C00301D34 /* item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = item.swift; sourceTree = "<group>"; };
 		75F076AD24303A5C00301D34 /* items.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = items.swift; sourceTree = "<group>"; };
 		81826771851C55C82DB8E48E /* Pods_MerchantTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MerchantTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D683D0232438ECB5009E4665 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -274,6 +276,7 @@
 				7571D7E723F351F000C46379 /* Assets.xcassets */,
 				7571D7E923F351F000C46379 /* LaunchScreen.storyboard */,
 				7571D7EC23F351F000C46379 /* Info.plist */,
+				D683D0232438ECB5009E4665 /* Utils.swift */,
 				6C2EB80823F4ACA700320528 /* Poppins */,
 			);
 			path = Merchant;
@@ -602,6 +605,7 @@
 				757F2D97240086AF00B7054F /* API.swift in Sources */,
 				6C447D2523F4A30000C8B023 /* RegisterViewController.swift in Sources */,
 				6CFBE080241DDD7A00063775 /* SellTableViewController.swift in Sources */,
+				D683D0242438ECB5009E4665 /* Utils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

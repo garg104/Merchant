@@ -220,6 +220,9 @@ class ProfileViewController: UIViewController {
    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         //do anything that needs to be done before logging out here
+        if (segue.identifier == "profileToWelcome") {
+            Authentication.logout()
+        }
         
         if (segue.identifier == "toEditProfile") {
             let vc = segue.destination as! EditProfileViewController

@@ -16,6 +16,8 @@ class LogInViewController: UIViewController {
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var forgotPasswordButton: UIButton!
     
+    var authToken = ""
+    
     @IBAction func forgetPassword(_ sender: Any) {
         if (usernameTextField.text == "") {
             let alert = UIAlertController(title: "Empty Field", message: "Please enter the username to get a temporary password", preferredStyle: .alert)
@@ -65,6 +67,8 @@ class LogInViewController: UIViewController {
             
             if (validationCode == 0) { //success
                 debugPrint("SUCCESS!!!!")
+                Authentication.login(authToken: self.authToken)
+                Authentication.setCurrentUser(username: self.usernameTextField.text!)
                 self.performSegue(withIdentifier: "toTabBar", sender: nil)
             } else if (validationCode == 1) { //username invalid
                 let alert = UIAlertController(title: "Invalid Username", message: "Please enter a valid username", preferredStyle: .alert)
@@ -79,9 +83,7 @@ class LogInViewController: UIViewController {
                 alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
                 self.present(alert, animated: true)
             }
-            
         }
-
     }
     
     override func viewDidLoad() {
@@ -134,6 +136,9 @@ class LogInViewController: UIViewController {
                 case 200:
                     debugPrint("Login Successful")
                     validationCode = 0 //success
+                    if let info = response.value {
+                        self.authToken = self.getJWTToken(response: info as! NSDictionary)
+                    }
                     completion(validationCode)
                     break
                 default:
@@ -161,6 +166,11 @@ class LogInViewController: UIViewController {
         passwordTextField.borderStyle = .none
         passwordTextField.layer.addSublayer(underLine2)
     }
+    
+    func getJWTToken(response: NSDictionary) -> String {
+        let token : String = response.value(forKey: "token") as! String
+        return token
+    } //getJWTToken
     
 
     
