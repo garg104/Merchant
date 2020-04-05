@@ -98,6 +98,7 @@
                     <navigationItem key="navigationItem" id="eKc-b9-2mb"/>
                     <connections>
                         <outlet property="registerButton" destination="KhH-1q-OwG" id="FYn-AT-EbD"/>
+                        <segue destination="ynS-1h-DN9" kind="presentation" identifier="welcomeToFeed" modalPresentationStyle="fullScreen" id="g3x-ne-LLx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -654,7 +655,7 @@
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
-                                    <segue destination="imn-mi-caM" kind="unwind" unwindAction="unwindToWelcomeViewControllerWithSegue:" id="E9o-L8-QmI"/>
+                                    <segue destination="imn-mi-caM" kind="unwind" identifier="profileToWelcome" unwindAction="unwindToWelcomeViewControllerWithSegue:" id="E9o-L8-QmI"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qZT-d6-QBI">
