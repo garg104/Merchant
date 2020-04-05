@@ -41,7 +41,8 @@ extension UserDefaults {
     }
     
     func getAuthToken() -> String {
-        return string(forKey: UserDefaultKeys.authToken.rawValue) ?? ""
+        let token =  string(forKey: UserDefaultKeys.authToken.rawValue) ?? ""
+        return "Bearer \(token)"
     }
     
     func isLoggedIn() -> Bool {
@@ -76,6 +77,11 @@ class Authentication {
     static func setCurrentUser(username: String) {
         //deleteAuthToken()
         UserDefaults.standard.setCurrentUser(username: username)
+    }
+    
+    static func getAuthToken() -> String {
+        //getting the JWT token
+        return UserDefaults.standard.getAuthToken()
     }
     
     static func getCurrentUser() -> String {
