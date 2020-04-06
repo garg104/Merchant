@@ -11,11 +11,19 @@ import MapKit
 
 class MapViewController: UIViewController {
 
+    @IBOutlet weak var cancelButton: UIButton!
+    @IBOutlet weak var mapView: MKMapView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        // initialize location to WL IN
+        let initialLocation = CLLocation(latitude: 40.4237, longitude: -86.9212)
+        mapView.centerToLocation(initialLocation)
     }
+    
+    
     
 
     /*
@@ -27,5 +35,17 @@ class MapViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+}
 
+private extension MKMapView {
+    func centerToLocation(
+        _ location: CLLocation,
+        regionRadius: CLLocationDistance = 1000
+    ) {
+        let coordinateRegion = MKCoordinateRegion(
+            center: location.coordinate,
+            latitudinalMeters: regionRadius,
+            longitudinalMeters: regionRadius)
+        setRegion(coordinateRegion, animated: true)
+    }
 }

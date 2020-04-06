@@ -2060,10 +2060,10 @@
             </objects>
             <point key="canvasLocation" x="8601" y="69"/>
         </scene>
-        <!--View Controller-->
+        <!--Map View Controller-->
         <scene sceneID="NNo-ph-ENF">
             <objects>
-                <viewController id="ARO-pI-igT" sceneMemberID="viewController">
+                <viewController id="ARO-pI-igT" customClass="MapViewController" customModule="Merchant" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="JmW-s5-gi4">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2083,6 +2083,10 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="omL-1g-7Xe"/>
                     </view>
+                    <connections>
+                        <outlet property="cancelButton" destination="9nD-Ot-gfe" id="SPu-LK-cTO"/>
+                        <outlet property="mapView" destination="7AG-rl-qWf" id="kbX-mY-98X"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pWH-bC-muA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

@@ -272,6 +272,7 @@
 				1554FFAD23FAE2C50066A4F3 /* ProfileViewController.swift */,
 				6C8B564E2408C035009BAE99 /* EditProfileViewController.swift */,
 				6C8B56502408F180009BAE99 /* ResetPasswordViewController.swift */,
+				155D49D0243BEC9900090293 /* MapViewController.swift */,
 				7571D7E423F351EF00C46379 /* Main.storyboard */,
 				7571D7E223F351EF00C46379 /* WelcomeViewController.swift */,
 				6C37EE12240787D100D8687F /* MainTabBarController.swift */,
@@ -280,7 +281,6 @@
 				7571D7EC23F351F000C46379 /* Info.plist */,
 				D683D0232438ECB5009E4665 /* Utils.swift */,
 				6C2EB80823F4ACA700320528 /* Poppins */,
-				155D49D0243BEC9900090293 /* MapViewController.swift */,
 			);
 			path = Merchant;
 			sourceTree = "<group>";
