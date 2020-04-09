@@ -63,7 +63,7 @@ class OTPViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         print(otp)
-        resendOTP.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0) //add forgotPasswordButton border
+        resendOTP.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0) //add resendOTP border
         
         OTPTextField.delegate = self;
     }
