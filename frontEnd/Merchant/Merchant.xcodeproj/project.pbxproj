@@ -95,7 +95,7 @@
 		153BC790242D9049000540EF /* PostItemViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostItemViewController.swift; sourceTree = "<group>"; };
 		1554FFAD23FAE2C50066A4F3 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		155D49D0243BEC9900090293 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
-		156690DF243FFF7600092632 /* ChatTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTableViewController.swift; sourceTree = "<group>"; };
+		156690DF243FFF7600092632 /* ChatTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ChatTableViewController.swift; path = ../ChatTableViewController.swift; sourceTree = "<group>"; };
 		157852E22431741500B8BED2 /* EditItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditItemViewController.swift; sourceTree = "<group>"; };
 		22068D62C0BE1BEC8BD7C016 /* Pods_Merchant_MerchantUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Merchant_MerchantUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		23D67E866DD9AFE8D27946D9 /* Pods-Merchant.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Merchant.debug.xcconfig"; path = "Target Support Files/Pods-Merchant/Pods-Merchant.debug.xcconfig"; sourceTree = "<group>"; };
@@ -240,7 +240,6 @@
 		7571D7D223F351EF00C46379 = {
 			isa = PBXGroup;
 			children = (
-				156690DF243FFF7600092632 /* ChatTableViewController.swift */,
 				7571D7DD23F351EF00C46379 /* Merchant */,
 				7571D7F423F351F000C46379 /* MerchantTests */,
 				7571D7FF23F351F000C46379 /* MerchantUITests */,
@@ -269,6 +268,7 @@
 				7571D7DE23F351EF00C46379 /* AppDelegate.swift */,
 				7571D7E023F351EF00C46379 /* SceneDelegate.swift */,
 				6CFBD1E723F76695009F492F /* CreateAccountViewController.swift */,
+				156690DF243FFF7600092632 /* ChatTableViewController.swift */,
 				6CFBD1E523F7664E009F492F /* OTPViewController.swift */,
 				6C447D2423F4A30000C8B023 /* RegisterViewController.swift */,
 				6CF50D1323F4ECCF008A306D /* LogInViewController.swift */,
