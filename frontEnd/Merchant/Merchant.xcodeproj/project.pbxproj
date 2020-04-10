@@ -10,8 +10,8 @@
 		024527EF0EA5BF477C39AB78 /* Pods_MerchantTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81826771851C55C82DB8E48E /* Pods_MerchantTests.framework */; };
 		153BC791242D9049000540EF /* PostItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 153BC790242D9049000540EF /* PostItemViewController.swift */; };
 		1554FFAE23FAE2C50066A4F3 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1554FFAD23FAE2C50066A4F3 /* ProfileViewController.swift */; };
-		155B7465243FFDA5009B6256 /* ChatTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155B7464243FFDA5009B6256 /* ChatTableViewController.swift */; };
 		155D49D1243BEC9900090293 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155D49D0243BEC9900090293 /* MapViewController.swift */; };
+		156690E0243FFF7600092632 /* ChatTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156690DF243FFF7600092632 /* ChatTableViewController.swift */; };
 		157852E32431741500B8BED2 /* EditItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157852E22431741500B8BED2 /* EditItemViewController.swift */; };
 		6C2EB81C23F4ACC000320528 /* Poppins-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6C2EB80923F4ACBF00320528 /* Poppins-Light.otf */; };
 		6C2EB81D23F4ACC000320528 /* Poppins-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6C2EB80A23F4ACBF00320528 /* Poppins-SemiBold.otf */; };
@@ -94,8 +94,8 @@
 /* Begin PBXFileReference section */
 		153BC790242D9049000540EF /* PostItemViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostItemViewController.swift; sourceTree = "<group>"; };
 		1554FFAD23FAE2C50066A4F3 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
-		155B7464243FFDA5009B6256 /* ChatTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTableViewController.swift; sourceTree = "<group>"; };
 		155D49D0243BEC9900090293 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		156690DF243FFF7600092632 /* ChatTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTableViewController.swift; sourceTree = "<group>"; };
 		157852E22431741500B8BED2 /* EditItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditItemViewController.swift; sourceTree = "<group>"; };
 		22068D62C0BE1BEC8BD7C016 /* Pods_Merchant_MerchantUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Merchant_MerchantUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		23D67E866DD9AFE8D27946D9 /* Pods-Merchant.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Merchant.debug.xcconfig"; path = "Target Support Files/Pods-Merchant/Pods-Merchant.debug.xcconfig"; sourceTree = "<group>"; };
@@ -240,6 +240,7 @@
 		7571D7D223F351EF00C46379 = {
 			isa = PBXGroup;
 			children = (
+				156690DF243FFF7600092632 /* ChatTableViewController.swift */,
 				7571D7DD23F351EF00C46379 /* Merchant */,
 				7571D7F423F351F000C46379 /* MerchantTests */,
 				7571D7FF23F351F000C46379 /* MerchantUITests */,
@@ -265,7 +266,6 @@
 				6CFBE07E241DDD1F00063775 /* Sell */,
 				6C866C6E2414B4F2003B8941 /* Buy */,
 				757F2D96240086AF00B7054F /* API.swift */,
-				155B7464243FFDA5009B6256 /* ChatTableViewController.swift */,
 				7571D7DE23F351EF00C46379 /* AppDelegate.swift */,
 				7571D7E023F351EF00C46379 /* SceneDelegate.swift */,
 				6CFBD1E723F76695009F492F /* CreateAccountViewController.swift */,
@@ -599,7 +599,7 @@
 				155D49D1243BEC9900090293 /* MapViewController.swift in Sources */,
 				7571D7E323F351EF00C46379 /* WelcomeViewController.swift in Sources */,
 				6C866C692412EAA9003B8941 /* BuyTableViewCell.swift in Sources */,
-				155B7465243FFDA5009B6256 /* ChatTableViewController.swift in Sources */,
+				156690E0243FFF7600092632 /* ChatTableViewController.swift in Sources */,
 				6CFBE082241DDDD700063775 /* SellTableViewCell.swift in Sources */,
 				7571D7DF23F351EF00C46379 /* AppDelegate.swift in Sources */,
 				6C8DB359242FE3780026EDF2 /* SellDetailViewController.swift in Sources */,

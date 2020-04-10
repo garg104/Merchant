@@ -567,7 +567,7 @@
         <!--Chats-->
         <scene sceneID="hgn-TT-Ejd">
             <objects>
-                <tableViewController id="oC3-GQ-o48" sceneMemberID="viewController">
+                <tableViewController id="oC3-GQ-o48" customClass="ChatTableViewController" customModule="Merchant" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="tpT-tr-Rdo">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
