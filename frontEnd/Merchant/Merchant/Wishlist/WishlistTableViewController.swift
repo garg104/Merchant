@@ -78,13 +78,16 @@ class WishlistTableViewController: UITableViewController {
             var username = ""
         }
           
-        //CHANGE TO WISHLIST ROUTE
-        AF.request(API.URL + "/items/allItems/", method: .get).responseJSON { response in
+        let headers: HTTPHeaders = [
+            "Authorization": Authentication.getAuthToken(),
+            "Accept": "application/json"
+        ]
+        AF.request(API.URL + "/user/wishlist/", method: .get, headers: headers).responseJSON { response in
     
             if (response.response?.statusCode == 200) {
                 if let info = response.value {
                     let JSON = info as! NSDictionary
-                    let items : NSArray =  JSON.value(forKey: "items") as! NSArray
+                    let items : NSArray =  JSON.value(forKey: "wishlist") as! NSArray
                     for item in items {
                         // make sure that the user does not see the objects they are selling
                         let temp = item as! NSDictionary
@@ -272,7 +275,6 @@ class WishlistTableViewController: UITableViewController {
             let start = item.index(item.startIndex, offsetBy: 1)
             let end = item.endIndex
             let range = start..<end
-            print("CURRENT PRICE")
             print(item[range])
             let noCommas = item[range].replacingOccurrences(of: ",", with: "", options: NSString.CompareOptions.literal, range: nil)
             let currPrice = Double(noCommas)!
