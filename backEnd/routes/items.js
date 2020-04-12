@@ -140,6 +140,37 @@ router.post('/removeItem', async (req, res) => {
   }
 });
 
+
+/**
+ * Marks the item as sold and moves the item to the users selling history
+ */
+router.post('/itemSold', async (req, res) => {
+  const { username, itemID } = req.body
+
+  try {
+    //get the corresponding user
+    const user = await User.findOne({ username: username })
+    //get the corresponding itemIndex in the items array
+    const index = user.forSale.indexOf(itemID);
+    if (index > -1) {
+      //remove the item from forSale and add it to sellingHistory
+      user.sellingHistory.push(itemID)
+      user.forSale.splice(index, 1)
+    } else {
+      //item couldn't be found
+      res.status(400).json({ msg: "item could not be found in the user's forSale list" })
+    }
+    // update forSale and sellingHistory Array
+    var ret = await User.findOneAndUpdate({ username: username }, { forSale: user.forSale })
+    ret = await User.findOneAndUpdate({ username: username }, { sellingHistory: user.sellingHistory })
+    res.status(200).json({ msg: "item has been successfully been marked as sold" })
+  } catch (e) {
+    //logging errors
+    console.log(e)
+    res.status(404).json({ msg: e.message })
+  }
+});
+
 /**
  * Selling history 
  */
