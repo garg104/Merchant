@@ -518,4 +518,64 @@ router.get('/wishlist', authenticate, async (req, res) => {
   } //end if
 })
 
+/*
+* handles the rating of the user.
+*/
+/*
+*  THIS ROUTE IS A PART OF THE FINAL ROUTE. THIS WILL BE COMPLETED BY ME(CHIRAYU) ONCE 
+*  DOMENIC IMPLEMENTS THE UI FOR RATINGS AND REVIEWS. PLEASE IGNORE THIS ROUTE FOR NOW.
+*/
+
+router.post('/rating', async (req, res) => {
+  
+  try {
+    // user 1 is the user who is rating the user. 
+    // user 2 is the user who is being rated.
+
+    const user1 = await User.findOne({ username: req.body.user1 })
+    const user2 = await User.findOne({ username: req.body.user2 })
+    var rated = false
+    const currentRatings = user2.rating.users;
+    let prevRating = {}
+    let index = 0
+    currentRatings.forEach(rating => {
+      if (`${rating.userID}`.localeCompare(`${user1._id}`) === 0) {
+        console.log("inside the if condition")
+        prevRating = rating
+        rated = true
+        return
+      }
+      index = index + 1
+    });
+
+    if (rated) {
+    // if user1 has already rated user2 before
+    user2.rating.currentRating = ((user2.rating.currentRating * user2.rating.totalRatings) - (prevRating.rating * 1) + (req.body.newRating * 1)) / (user2.rating.totalRatings * 1)
+    user2.rating.users[index].rating = req.body.newRating
+    let ret = await User.findOneAndUpdate({ username: user2.username} , {rating: user2.rating} )
+    } 
+    else {
+    // if user1 has not rated user2 before
+    user2.rating.currentRating = ((user2.rating.currentRating * user2.rating.totalRatings) + (req.body.newRating * 1)) / ((user2.rating.totalRatings * 1) + 1)
+    user2.rating.totalRatings = (user2.rating.totalRatings * 1) + 1
+    const temp = {
+      userID: user1._id, 
+      rating: req.body.newRating
+    }
+    user2.rating.users.push(temp)
+    let ret = await User.findOneAndUpdate({ username: user2.username} , {rating: user2.rating} )
+  }
+  res.status(200).json({ msg: "success", rating: user2.rating.currentRating })
+
+  } catch (e) {
+    console.log(e)
+    res.status(400).json({ msg: e })
+  }
+  
+})
+
+
+
+
+
 module.exports = router;

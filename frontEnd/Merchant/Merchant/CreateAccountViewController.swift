@@ -22,11 +22,15 @@ class CreateAccountViewController: UIViewController {
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var confirmPasswordTextField: UITextField!
+    @IBOutlet weak var userAgreementsButton: UIButton!
+    @IBOutlet weak var createAccountButton: UIButton!
     
     // data from the preovous viewController
     var firstName = ""
     var lastName = ""
     var email = ""
+    
+    var createAccountAllowed = false
     
     // executes when the button is clicked
     @IBAction func createAccount(_ sender: Any) {
@@ -86,9 +90,25 @@ class CreateAccountViewController: UIViewController {
         }
     }
     
+    @IBAction func unwindToCreateAccountViewController(segue: UIStoryboardSegue) {
+        
+        if (segue.identifier == "declineUnwind") {
+            createAccountAllowed = false
+            createAccountButton.isEnabled = createAccountAllowed
+        }
+        
+        if (segue.identifier == "acceptUnwind") {
+            createAccountAllowed = true
+            createAccountButton.isEnabled = createAccountAllowed
+        }
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        userAgreementsButton.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0) //add agreements border
+        createAccountButton.isEnabled = createAccountAllowed
     }
     
     override func viewWillLayoutSubviews() {

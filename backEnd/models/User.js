@@ -45,7 +45,39 @@ const userSchema = mongoose.Schema({
         type: [mongoose.Schema.Types.ObjectID],
         ref: "Items",
         default: [],
-    }
+    },
+    reviews: {
+        type: [{
+            username: {
+                type: String,
+                require: true,
+            },
+            review: {
+                type: String,
+                require: true
+            },
+            DatePosted: {
+                type: Date,
+                default: Date.now,  
+            },
+        }],
+        default: []
+    },
+    rating: {
+        type: {
+            totalRatings: String,
+            currentRating: String,
+            users: [{
+                userID: mongoose.Schema.Types.ObjectID,
+                rating: String
+            }]
+        },
+        default: {
+            totalRatings: 0,
+            currentRating: 0,
+            users: []
+        }
+    } 
 })
 
 module.exports = mongoose.model("User", userSchema);
