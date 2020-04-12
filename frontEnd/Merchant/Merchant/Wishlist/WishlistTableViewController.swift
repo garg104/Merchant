@@ -153,6 +153,11 @@ class WishlistTableViewController: UITableViewController {
     
     @IBAction func unwindToWishlistTableViewController(segue: UIStoryboardSegue) {
         if (segue.identifier == "applyWishFilters") {
+            print("unwindAfterApply")
+            print("catFilterIndex")
+            print(catFilterIndex)
+            print("priceFilterIndex")
+            print(priceFilterIndex)
             updateData()
         }
     }
@@ -243,7 +248,7 @@ class WishlistTableViewController: UITableViewController {
             
             print(self.images)
             
-            if (self.priceFilterIndex != 0) {
+            if (self.priceFilterIndex != 0 && (self.titles.count - 1 > 0)) {
                 for i in 0...(self.titles.count - 1) {
                     titlesTemp.append(self.titles[sortedIndices[i]])
                     usernamesTemp.append(self.usernames[sortedIndices[i]])
@@ -436,26 +441,39 @@ class WishlistTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
-//        if (segue.identifier == "showBuyDetail") {
-//            guard let itemDetailViewController = segue.destination as? BuyDetailViewController else {
-//                fatalError("Unexpected destination")
-//            }
-//
-//            guard let selectedItemCell = sender as? BuyTableViewCell else {
-//                fatalError("Unexpected sender")
-//            }
-//
-//            guard let indexPath = tableView.indexPath(for: selectedItemCell) else {
-//                fatalError("The selected cell is not being displayed by the table")
-//            }
-//
-//            _ = indexPath.row
-//            itemDetailViewController.itemTitle = selectedItemCell.itemTitleLabel.text!
-//            itemDetailViewController.itemDescription = selectedItemCell.itemDescription
-//            itemDetailViewController.itemPrice = selectedItemCell.itemPriceLabel.text!
-//            itemDetailViewController.itemSeller = selectedItemCell.userNameLabel.text!
-//            itemDetailViewController.itemId = selectedItemCell.itemID
-//        } 
+        
+        if (segue.identifier == "showWishDetail") {
+            guard let itemDetailViewController = segue.destination as? BuyDetailViewController else {
+                fatalError("Unexpected destination: \(segue.destination)")
+            }
+            
+            guard let selectedItemCell = sender as? WishlistTableViewCell else {
+                fatalError("Unexpected sender: \(sender)")
+            }
+            
+            guard let indexPath = tableView.indexPath(for: selectedItemCell) else {
+                fatalError("The selected cell is not being displayed by the table")
+            }
+            
+            let selectedItemIndex = indexPath.row
+            itemDetailViewController.itemTitle = selectedItemCell.itemTitleLabel.text!
+            itemDetailViewController.itemDescription = selectedItemCell.itemDescription
+            itemDetailViewController.itemPrice = selectedItemCell.itemPriceLabel.text!
+            itemDetailViewController.itemSeller = selectedItemCell.userNameLabel.text!
+            itemDetailViewController.itemId = selectedItemCell.itemID
+        }
+        
+        if (segue.identifier == "showWishFilters") {
+            let vc = segue.destination as! WishFilterViewController
+            print("showWishFilters")
+            print("catFilterIndex")
+            print(catFilterIndex)
+            print("priceFilterIndex")
+            print(priceFilterIndex)
+            vc.catFilterIndex = catFilterIndex
+            vc.priceFilterIndex = priceFilterIndex
+        }
+        
     }
     
     //Image rendering funtions

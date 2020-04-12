@@ -240,7 +240,7 @@ class BuyTableViewController: UITableViewController {
             
             print(self.images)
             
-            if (self.priceFilterIndex != 0) {
+            if (self.priceFilterIndex != 0  && (self.titles.count - 1 > 0)) {
                 for i in 0...(self.titles.count - 1) {
                     titlesTemp.append(self.titles[sortedIndices[i]])
                     usernamesTemp.append(self.usernames[sortedIndices[i]])

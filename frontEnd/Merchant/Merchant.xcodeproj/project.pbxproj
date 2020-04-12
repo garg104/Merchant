@@ -46,6 +46,7 @@
 		6CFBD1E823F76695009F492F /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CFBD1E723F76695009F492F /* CreateAccountViewController.swift */; };
 		6CFBE080241DDD7A00063775 /* SellTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CFBE07F241DDD7A00063775 /* SellTableViewController.swift */; };
 		6CFBE082241DDDD700063775 /* SellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CFBE081241DDDD700063775 /* SellTableViewCell.swift */; };
+		6CFEA8ED2443A59B006231F7 /* WishFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CFEA8EC2443A59B006231F7 /* WishFilterViewController.swift */; };
 		6CFFF4C62432B5B400F81558 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CFFF4C52432B5B400F81558 /* FilterViewController.swift */; };
 		7571D7DF23F351EF00C46379 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7571D7DE23F351EF00C46379 /* AppDelegate.swift */; };
 		7571D7E123F351EF00C46379 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7571D7E023F351EF00C46379 /* SceneDelegate.swift */; };
@@ -139,6 +140,7 @@
 		6CFBD1E723F76695009F492F /* CreateAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccountViewController.swift; sourceTree = "<group>"; };
 		6CFBE07F241DDD7A00063775 /* SellTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SellTableViewController.swift; sourceTree = "<group>"; };
 		6CFBE081241DDDD700063775 /* SellTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SellTableViewCell.swift; sourceTree = "<group>"; };
+		6CFEA8EC2443A59B006231F7 /* WishFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WishFilterViewController.swift; sourceTree = "<group>"; };
 		6CFFF4C52432B5B400F81558 /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
 		7571D7DB23F351EF00C46379 /* Merchant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Merchant.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7571D7DE23F351EF00C46379 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -230,6 +232,7 @@
 			children = (
 				6CE602FD2442CD410032CAA4 /* WishlistTableViewCell.swift */,
 				6CE602FF2442CDF00032CAA4 /* WishlistTableViewController.swift */,
+				6CFEA8EC2443A59B006231F7 /* WishFilterViewController.swift */,
 			);
 			path = Wishlist;
 			sourceTree = "<group>";
@@ -612,6 +615,7 @@
 				6CE602FE2442CD410032CAA4 /* WishlistTableViewCell.swift in Sources */,
 				6C866C692412EAA9003B8941 /* BuyTableViewCell.swift in Sources */,
 				6CFBE082241DDDD700063775 /* SellTableViewCell.swift in Sources */,
+				6CFEA8ED2443A59B006231F7 /* WishFilterViewController.swift in Sources */,
 				7571D7DF23F351EF00C46379 /* AppDelegate.swift in Sources */,
 				6C8DB359242FE3780026EDF2 /* SellDetailViewController.swift in Sources */,
 				153BC791242D9049000540EF /* PostItemViewController.swift in Sources */,
