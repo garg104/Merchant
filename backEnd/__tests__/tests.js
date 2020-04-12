@@ -1,6 +1,7 @@
 const app = require('../app')
 const supertest = require('supertest')
 const request = supertest(app)
+const jwt = `Bearer ${process.env.TEST_AUTH_TOKEN}`
 
 //Testing the get '/user' endpoint
 describe('\nUtility tests\n', () => {
@@ -201,7 +202,7 @@ describe('\nItems: Posting New Items\n', () => {
 //Item picture routes
 describe('\nItem picture routes\n', () => {
     it('Getting all the pictures of an item', async done => {
-        const ret = await request.get('/items/picture/5e83a5c45e173a002af916bc')
+        const ret = await request.get('/items/picture/5e83b2cd312728002a61b3a2')
         expect(ret.status).toBe(200)
         expect(ret.body.files !== null).toBe(true)
         expect(ret.body.files.length > 0).toBe(true)
@@ -211,4 +212,20 @@ describe('\nItem picture routes\n', () => {
         expect(1).toBe(1)
         done()
     })
+})
+
+//Wishlist routes
+describe('\nWishlist routes\n', () => {
+    it('Adding an item to a wishlist', async (done) => {
+        const ret = await request.post('/user/wishlist').set('Authorization', jwt).send({
+            id: '5e838e4bf4ec24002afe8c7c'
+        })
+        expect(ret.status).toBe(200)
+        done()
+    }, 50000)
+    it('Getting the wishlist of a user', async (done) => {
+        const ret = await request.get('/user/wishlist').set('Authorization', jwt)
+        expect(ret.status).toBe(200)
+        done()
+    }, 50000)
 })

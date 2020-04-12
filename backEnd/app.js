@@ -19,7 +19,7 @@ const mongoose = require('mongoose')
 const app = express();
 
 //connection to MongoDB Atlas
-mongoose.connect(process.env.DB_CONNECTION, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: true }, (err) => {
+mongoose.connect(process.env.DB_CONNECTION, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false }, (err) => {
     console.log(err ? err.message : "connected to the database")
 })
 

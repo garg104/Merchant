@@ -470,7 +470,7 @@ router.get('/search/:query', async (req, res, next) => {
 })
 
 router.post('/wishlist', authenticate, async (req, res) => {
-  const { idItem } = req.body
+  const idItem = req.body.id
   //check if the item id has been passed in the body or not
   if (!idItem) {
     res.status(400).json({ msg: 'User id not found in the request' })
@@ -478,10 +478,11 @@ router.post('/wishlist', authenticate, async (req, res) => {
   } //end if
   try {
     //add the item id to the wishlist array
-    req.userInfo.wishlist.push(idItem)
+    if (req.userInfo.wishlist.indexOf(idItem) === -1)
+      req.userInfo.wishlist.push(idItem)
     //update the DB schema
-    await User.update({ _id: req.userInfo._id }, { wishList: req.userInfo.wishlist })
-    res.status(200).json({ msg: 'The item has been added to the wishlist' })
+    await User.update({ _id: req.userInfo._id }, { wishlist: req.userInfo.wishlist })
+    res.status(200).json({ wishlist: req.userInfo.wishlist, msg: 'The item has been added to the wishlist' })
   } catch (e) {
     res.status(401).json({ msg: e.message })
   } //end try-catch
