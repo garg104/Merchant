@@ -19,8 +19,8 @@ const mongoose = require('mongoose')
 const app = express();
 
 //connection to MongoDB Atlas
-mongoose.connect(process.env.DB_CONNECTION, { useNewUrlParser: true, useUnifiedTopology: true }, () => {
-    console.log("connected to the database")
+mongoose.connect(process.env.DB_CONNECTION, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: true }, (err) => {
+    console.log(err ? err.message : "connected to the database")
 })
 
 //Add the file upload settings
