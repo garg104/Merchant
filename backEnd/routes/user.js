@@ -500,7 +500,8 @@ router.get('/wishlist', authenticate, async (req, res) => {
           //looking up the item and adding to the database
           try {
             const item = await Item.findById(itemId)
-            wishlist.push(item)
+            if (item)
+              wishlist.push(item)
             resolve()
           } catch (e) {
             console.log(e)
