@@ -31,7 +31,7 @@ router.post('/meetingLocation/', authenticate, async (req, res) => {
   } //end if
 })
 
-routet.get('/safeLocations', authenticate, async (req, res) => {
+router.get('/safeLocations', authenticate, async (req, res) => {
   try {
     const safeLocations = await Location.find({ isSafe: true })
     res.status(200).json({ locations: safeLocations, msg: "Safe locations fetched successfully" })
