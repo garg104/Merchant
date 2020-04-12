@@ -13,7 +13,10 @@ const userSchema = mongoose.Schema({
         type: [mongoose.Schema.Types.ObjectID],
         ref: "Message"
     },
-    // add something for maps and meet up location. 
+    meeting: {
+        type: mongoose.Schema.Types.ObjectID,
+        ref: "Location"
+    }
 })
 
 module.exports = mongoose.model("Conversations", userSchema);
