@@ -21,7 +21,6 @@ const userSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    // add photo here - https://stackoverflow.com/questions/4796914/store-images-in-a-mongodb-database
     picture: {
         type: mongoose.Schema.Types.ObjectID,
         ref: "profile-picture"
@@ -42,6 +41,10 @@ const userSchema = mongoose.Schema({
         type: [mongoose.Schema.Types.ObjectID],
         ref: "Conversations",
     },
+    wishList: {
+        type: [mongoose.Schema.Types.ObjectID],
+        ref: "Items",
+    }
 })
 
 module.exports = mongoose.model("User", userSchema);
