@@ -1255,10 +1255,10 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" usesAttributedText="YES" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lqQ-qu-6ia">
-                                <rect key="frame" x="16" y="427" width="343" height="158"/>
+                                <rect key="frame" x="16" y="427" width="343" height="139"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="158" id="eB5-ok-fVd"/>
+                                    <constraint firstAttribute="height" constant="139" id="eB5-ok-fVd"/>
                                 </constraints>
                                 <attributedString key="attributedText">
                                     <fragment>
@@ -1304,7 +1304,10 @@
                                 <viewLayoutGuide key="frameLayoutGuide" id="4z5-3I-f1T"/>
                             </scrollView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XBm-xw-byP">
-                                <rect key="frame" x="16" y="604" width="343" height="30"/>
+                                <rect key="frame" x="16" y="591" width="343" height="43"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="43" id="leM-Nw-z96"/>
+                                </constraints>
                                 <state key="normal" title="Add to Wishlist"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
@@ -1314,26 +1317,29 @@
                                         <integer key="value" value="2"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="addToWishlist:" destination="nrs-E5-yiA" eventType="touchUpInside" id="wb8-gH-7mH"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="0.92000000000000004" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="XBm-xw-byP" firstAttribute="trailing" secondItem="bnt-BR-RsH" secondAttribute="trailing" id="4FS-af-rmZ"/>
                             <constraint firstItem="lqQ-qu-6ia" firstAttribute="top" secondItem="B2q-Kk-3zD" secondAttribute="bottom" constant="8.0000000000000568" id="6aV-iu-KPx"/>
-                            <constraint firstItem="XBm-xw-byP" firstAttribute="trailing" secondItem="bnt-BR-RsH" secondAttribute="trailing" id="8yw-RL-rfy"/>
+                            <constraint firstItem="bnt-BR-RsH" firstAttribute="top" secondItem="XBm-xw-byP" secondAttribute="bottom" constant="14" id="Bcz-2g-n7c"/>
+                            <constraint firstItem="XBm-xw-byP" firstAttribute="leading" secondItem="bnt-BR-RsH" secondAttribute="leading" id="CGq-fF-PDs"/>
+                            <constraint firstItem="XBm-xw-byP" firstAttribute="trailing" secondItem="lqQ-qu-6ia" secondAttribute="trailing" id="Fxr-V4-1fn"/>
                             <constraint firstItem="B2q-Kk-3zD" firstAttribute="leading" secondItem="NCc-M6-RjQ" secondAttribute="leadingMargin" id="IL3-6L-QXV"/>
                             <constraint firstItem="98z-wJ-4CF" firstAttribute="top" secondItem="aLU-HL-d6m" secondAttribute="top" id="IxU-qd-DIv"/>
-                            <constraint firstItem="XBm-xw-byP" firstAttribute="top" secondItem="lqQ-qu-6ia" secondAttribute="bottom" constant="19" id="JD1-y0-xL5"/>
                             <constraint firstItem="lqQ-qu-6ia" firstAttribute="trailing" secondItem="B2q-Kk-3zD" secondAttribute="trailing" id="PIn-x1-Wx7"/>
                             <constraint firstItem="B2q-Kk-3zD" firstAttribute="top" secondItem="98z-wJ-4CF" secondAttribute="bottom" constant="8.3333333333332575" id="aoA-Gg-cvN"/>
                             <constraint firstItem="lqQ-qu-6ia" firstAttribute="leading" secondItem="B2q-Kk-3zD" secondAttribute="leading" id="bLu-oH-y2N"/>
+                            <constraint firstItem="XBm-xw-byP" firstAttribute="top" secondItem="lqQ-qu-6ia" secondAttribute="bottom" constant="25" id="cza-yZ-882"/>
                             <constraint firstItem="B2q-Kk-3zD" firstAttribute="trailing" secondItem="NCc-M6-RjQ" secondAttribute="trailingMargin" id="fpV-Mg-oSe"/>
                             <constraint firstItem="aLU-HL-d6m" firstAttribute="bottom" secondItem="bnt-BR-RsH" secondAttribute="bottom" constant="17" id="gnD-70-0jB"/>
-                            <constraint firstItem="lqQ-qu-6ia" firstAttribute="trailing" secondItem="XBm-xw-byP" secondAttribute="trailing" id="gwI-Xg-B1q"/>
+                            <constraint firstItem="XBm-xw-byP" firstAttribute="leading" secondItem="lqQ-qu-6ia" secondAttribute="leading" id="hf3-Po-DV4"/>
                             <constraint firstItem="98z-wJ-4CF" firstAttribute="leading" secondItem="aLU-HL-d6m" secondAttribute="leading" id="kW7-gi-lQZ"/>
-                            <constraint firstItem="XBm-xw-byP" firstAttribute="leading" secondItem="bnt-BR-RsH" secondAttribute="leading" id="lH3-Rw-CHg"/>
                             <constraint firstItem="98z-wJ-4CF" firstAttribute="centerX" secondItem="B2q-Kk-3zD" secondAttribute="centerX" id="tll-Nz-s6j"/>
-                            <constraint firstItem="lqQ-qu-6ia" firstAttribute="leading" secondItem="XBm-xw-byP" secondAttribute="leading" id="vln-GI-u3b"/>
-                            <constraint firstItem="bnt-BR-RsH" firstAttribute="top" secondItem="XBm-xw-byP" secondAttribute="bottom" constant="14" id="xav-iB-HrU"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="aLU-HL-d6m"/>
                     </view>
@@ -1343,6 +1349,7 @@
                         <outlet property="imageScrollView" destination="98z-wJ-4CF" id="m32-yf-8cU"/>
                         <outlet property="itemDescriptionTextView" destination="lqQ-qu-6ia" id="wPA-57-DjV"/>
                         <outlet property="itemPriceLabel" destination="B2q-Kk-3zD" id="DPm-C1-GNY"/>
+                        <outlet property="wishlistButton" destination="XBm-xw-byP" id="3Uk-zj-s3j"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RI1-EP-axY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
