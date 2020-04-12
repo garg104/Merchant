@@ -1,6 +1,6 @@
 require('dotenv').config()
 
-const User = require('../models/User').default
+const User = require('../models/User')
 let extractJWT = require('passport-jwt').ExtractJwt
 let JWTStrategy = require('passport-jwt').Strategy
 
@@ -10,7 +10,7 @@ let opts = {}
 opts.jwtFromRequest = extractJWT.fromAuthHeaderAsBearerToken();
 
 //get the secret key from the environment variable
-opts.secretOrKey = process.env.SECRET || 'secret';
+opts.secretOrKey = process.env.JWT_KEY || 'secret';
 
 //setting up the JWT authentication strategy
 module.exports = (passport) => {
@@ -26,4 +26,4 @@ module.exports = (passport) => {
                 .catch(err => console.log(err))
         })
     )
-}
+} 

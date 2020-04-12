@@ -1,4 +1,5 @@
 import { parseFileData } from '../utils/fileHandling'
+const passport = require('passport')
 
 /**
  * Extra middleware functions to
@@ -63,8 +64,6 @@ export async function getManyFiles(req, res) {
 
 /* middleware to authenticate the access token in protected routes */
 export async function authenticate(req, res, next) {
-    console.log(`authenticating the request`)
-
     //call to passport for parsing the bearer token
     passport.authenticate('jwt', { session: false }, (err, user, info) => {
         if (err) {
@@ -81,7 +80,7 @@ export async function authenticate(req, res, next) {
         }
 
         //if authentication is successfull, append the user data to res
-        res.userInfo = user
+        req.userInfo = user
         next()
     })(req, res, next)
 }

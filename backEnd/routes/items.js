@@ -232,14 +232,15 @@ router.get('/picture/:itemId', async (req, res, next) => {
 
   //get the schemas for items
   const item = await Item.findById(itemId)
-  const ids = [...item.picture]
+
+  let ids = []
+  if (item)
+    ids = [...item.picture]
 
   //in case there is no id, respond with an error
   if (ids.length === 0) {
     return res.status(404).json({ msg: "The fileId was not found" })
   } //end if
-
-  console.log(ids)
 
   //setting up the request object for next middleware
   req.fileChunks = itemChunks

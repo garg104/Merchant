@@ -1,6 +1,6 @@
 require('dotenv').config()
 import { generateOtpMsg, sendEmail, generateTempPassword, generateResetPassword, generateDeleteAcctMsg } from '../utils/sendEmail'
-import { getFiles } from '../middlewares/middlewares'
+import { getFiles, authenticate } from '../middlewares/middlewares'
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const User = require('../models/User')
@@ -467,6 +467,37 @@ router.get('/search/:query', async (req, res, next) => {
     res.status(404).json({ users: [], msg: "No user found" })
     User.deleteMany({ _id: { $in: [] } })
   } //end try-catch
+})
+
+router.post('/wishlist', authenticate, async (req, res) => {
+  const idItem = req.body.id
+  //check if the item id has been passed in the body or not
+  if (!idItem) {
+    res.status(400).json({ msg: 'User id not found in the request' })
+    return
+  } //end if
+  try {
+    //add the item id to the wishlist array
+    if (req.userInfo.wishlist.indexOf(idItem) === -1)
+      req.userInfo.wishlist.push(idItem)
+    //update the DB schema
+    await User.update({ _id: req.userInfo._id }, { wishlist: req.userInfo.wishlist })
+    res.status(200).json({ wishlist: req.userInfo.wishlist, msg: 'The item has been added to the wishlist' })
+  } catch (e) {
+    res.status(401).json({ msg: e.message })
+  } //end try-catch
+})
+
+router.get('/wishlist', authenticate, async (req, res) => {
+  if (req.userInfo) {
+    if (req.userInfo.wishlist) {
+      res.status(200).json({ wishlist: req.userInfo.wishlist, msg: 'The wishlist has been found' })
+    } else {
+      res.status(400).json({ msg: 'The wishlist could not be found' })
+    } //end if
+  } else {
+    res.status(404).json({ msg: 'The user could not be found' })
+  } //end if
 })
 
 module.exports = router;
