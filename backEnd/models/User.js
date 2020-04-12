@@ -66,9 +66,17 @@ const userSchema = mongoose.Schema({
     rating: {
         type: {
             totalRatings: String,
-            currentRating: String
+            currentRating: String,
+            users: [{
+                userID: mongoose.Schema.Types.ObjectID,
+                rating: String
+            }]
         },
-        default: {}
+        default: {
+            totalRatings: 0,
+            currentRating: 0,
+            users: []
+        }
     } 
 })
 
