@@ -430,15 +430,33 @@ class WishlistTableViewController: UITableViewController {
     }
     */
 
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
+//        if (segue.identifier == "showBuyDetail") {
+//            guard let itemDetailViewController = segue.destination as? BuyDetailViewController else {
+//                fatalError("Unexpected destination")
+//            }
+//
+//            guard let selectedItemCell = sender as? BuyTableViewCell else {
+//                fatalError("Unexpected sender")
+//            }
+//
+//            guard let indexPath = tableView.indexPath(for: selectedItemCell) else {
+//                fatalError("The selected cell is not being displayed by the table")
+//            }
+//
+//            _ = indexPath.row
+//            itemDetailViewController.itemTitle = selectedItemCell.itemTitleLabel.text!
+//            itemDetailViewController.itemDescription = selectedItemCell.itemDescription
+//            itemDetailViewController.itemPrice = selectedItemCell.itemPriceLabel.text!
+//            itemDetailViewController.itemSeller = selectedItemCell.userNameLabel.text!
+//            itemDetailViewController.itemId = selectedItemCell.itemID
+//        } 
     }
-    */
     
     //Image rendering funtions
     func itemPicturesHandler(itemImageView: UIImageView, itemID: String) {
