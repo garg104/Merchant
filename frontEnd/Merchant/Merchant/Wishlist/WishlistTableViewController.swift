@@ -1,22 +1,22 @@
 //
-//  BuyTableViewController.swift
+//  WishlistTableViewController.swift
 //  Merchant
 //
-//  Created by Domenic Conversa on 3/6/20.
+//  Created by Domenic Conversa on 4/11/20.
 //  Copyright © 2020 CS307 Team 4. All rights reserved.
 //
 
 import UIKit
 import Alamofire
 
-extension BuyTableViewController: UISearchResultsUpdating {
+extension WishlistTableViewController: UISearchResultsUpdating {
   func updateSearchResults(for searchController: UISearchController) {
     let searchBar = searchController.searchBar
     filterContentForSearchText(searchBar.text!)
   }
 }
 
-extension BuyTableViewController: UISearchBarDelegate {
+extension WishlistTableViewController: UISearchBarDelegate {
   func searchBar(_ searchBar: UISearchBar,
       selectedScopeButtonIndexDidChange selectedScope: Int) {
     let category = searchCategories[selectedScope]
@@ -26,7 +26,7 @@ extension BuyTableViewController: UISearchBarDelegate {
   }
 }
 
-class BuyTableViewController: UITableViewController {
+class WishlistTableViewController: UITableViewController {
     
     var currentUser = ""
     
@@ -77,13 +77,17 @@ class BuyTableViewController: UITableViewController {
         struct parameters: Encodable {
             var username = ""
         }
-                
-        AF.request(API.URL + "/items/allItems/", method: .get).responseJSON { response in
+          
+        let headers: HTTPHeaders = [
+            "Authorization": Authentication.getAuthToken(),
+            "Accept": "application/json"
+        ]
+        AF.request(API.URL + "/user/wishlist/", method: .get, headers: headers).responseJSON { response in
     
             if (response.response?.statusCode == 200) {
                 if let info = response.value {
                     let JSON = info as! NSDictionary
-                    let items : NSArray =  JSON.value(forKey: "items") as! NSArray
+                    let items : NSArray =  JSON.value(forKey: "wishlist") as! NSArray
                     for item in items {
                         // make sure that the user does not see the objects they are selling
                         let temp = item as! NSDictionary
@@ -147,13 +151,17 @@ class BuyTableViewController: UITableViewController {
         }.resume()
     }
     
-    @IBAction func unwindToBuyTableViewController(segue: UIStoryboardSegue) {
-        if (segue.identifier == "applyFilters") {
+    @IBAction func unwindToWishlistTableViewController(segue: UIStoryboardSegue) {
+        if (segue.identifier == "applyWishFilters") {
+            print("unwindAfterApply")
+            print("catFilterIndex")
+            print(catFilterIndex)
+            print("priceFilterIndex")
+            print(priceFilterIndex)
             updateData()
         }
     }
-    
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -240,7 +248,7 @@ class BuyTableViewController: UITableViewController {
             
             print(self.images)
             
-            if (self.priceFilterIndex != 0  && (self.titles.count - 1 > 0)) {
+            if (self.priceFilterIndex != 0 && (self.titles.count - 1 > 0)) {
                 for i in 0...(self.titles.count - 1) {
                     titlesTemp.append(self.titles[sortedIndices[i]])
                     usernamesTemp.append(self.usernames[sortedIndices[i]])
@@ -272,7 +280,6 @@ class BuyTableViewController: UITableViewController {
             let start = item.index(item.startIndex, offsetBy: 1)
             let end = item.endIndex
             let range = start..<end
-            print("CURRENT PRICE")
             print(item[range])
             let noCommas = item[range].replacingOccurrences(of: ",", with: "", options: NSString.CompareOptions.literal, range: nil)
             let currPrice = Double(noCommas)!
@@ -351,6 +358,7 @@ class BuyTableViewController: UITableViewController {
         return sortIndices
     }
 
+
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -366,10 +374,9 @@ class BuyTableViewController: UITableViewController {
         return titles.count
     }
 
-    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "itemCell", for: indexPath) as! BuyTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "wishItemCell", for: indexPath) as! WishlistTableViewCell
         
         // Configure the cell...
         if (isSearching) {
@@ -428,7 +435,6 @@ class BuyTableViewController: UITableViewController {
     }
     */
 
-    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -436,12 +442,12 @@ class BuyTableViewController: UITableViewController {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
         
-        if (segue.identifier == "showBuyDetail") {
+        if (segue.identifier == "showWishDetail") {
             guard let itemDetailViewController = segue.destination as? BuyDetailViewController else {
                 fatalError("Unexpected destination: \(segue.destination)")
             }
             
-            guard let selectedItemCell = sender as? BuyTableViewCell else {
+            guard let selectedItemCell = sender as? WishlistTableViewCell else {
                 fatalError("Unexpected sender: \(sender)")
             }
             
@@ -457,8 +463,13 @@ class BuyTableViewController: UITableViewController {
             itemDetailViewController.itemId = selectedItemCell.itemID
         }
         
-        if (segue.identifier == "showFilters") {
-            let vc = segue.destination as! FilterViewController
+        if (segue.identifier == "showWishFilters") {
+            let vc = segue.destination as! WishFilterViewController
+            print("showWishFilters")
+            print("catFilterIndex")
+            print(catFilterIndex)
+            print("priceFilterIndex")
+            print(priceFilterIndex)
             vc.catFilterIndex = catFilterIndex
             vc.priceFilterIndex = priceFilterIndex
         }
@@ -542,4 +553,5 @@ class BuyTableViewController: UITableViewController {
         }
       } //end if
     }
+
 }

@@ -28,6 +28,11 @@ class BuyDetailViewController: UIViewController {
     @IBOutlet weak var itemDescriptionTextView: UITextView!
     @IBOutlet weak var contactSellerButton: UIButton!
     @IBOutlet weak var imageScrollView: UIScrollView!
+    @IBOutlet weak var wishlistButton: UIButton!
+    
+    @IBAction func addToWishlist(_ sender: Any) {
+        //add or remove item to wishlist
+    }
     
     @IBAction func unwindToBuyDetailViewController(segue: UIStoryboardSegue) {
     }
@@ -41,6 +46,8 @@ class BuyDetailViewController: UIViewController {
         navigationItem.title = itemTitle
         itemPriceLabel.text = itemPrice
         itemDescriptionTextView.text = itemDescription
+        
+        wishlistButton.layer.borderColor = #colorLiteral(red: 0.3822624683, green: 0.7218602896, blue: 0.2237514853, alpha: 1) //add wishlistButton border
         
         itemPicturesHandler()
     }
