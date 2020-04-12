@@ -41,9 +41,10 @@ const userSchema = mongoose.Schema({
         type: [mongoose.Schema.Types.ObjectID],
         ref: "Conversations",
     },
-    wishList: {
+    wishlist: {
         type: [mongoose.Schema.Types.ObjectID],
         ref: "Items",
+        default: [],
     }
 })
 
