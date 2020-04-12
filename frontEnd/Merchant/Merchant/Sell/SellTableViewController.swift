@@ -136,8 +136,8 @@ class SellTableViewController: UITableViewController {
 
         let indexPath = tableView.indexPath(for: cell)
         
-        print("ITEM ID")
-        print()
+//        print("ITEM ID")
+//        print()
         
         // create alert
         let alert = UIAlertController(title: "Please Confirm", message: "Are you sure you want to remove the Item from sale?", preferredStyle: .alert)
@@ -169,6 +169,47 @@ class SellTableViewController: UITableViewController {
         self.present(alert, animated: true)
     }
     
+    @IBAction func itemSold(_ sender: Any) {
+                debugPrint("sold clicked")
+                
+                guard let cell = (sender as AnyObject).superview?.superview as? SellTableViewCell else {
+                    return // or fatalError() or whatever
+                }
+
+                let indexPath = tableView.indexPath(for: cell)
+                
+        //        print("ITEM ID")
+        //        print()
+                
+                // create alert
+                let alert = UIAlertController(title: "Item Sold!", message: "Item will no longer be visible to other users and will be moved to your selling history.", preferredStyle: .alert)
+                
+                // Create Cancel button with action handlder
+                let cancel = UIAlertAction(title: "Cancel",
+                                           style: .cancel,
+                                           handler: { (action) -> Void in
+                    // add action if needed
+                })
+                
+                // Create Confirm button with action handler
+                let confirm = UIAlertAction(title: "Confirm",
+                                            style: .default,
+                                            handler: { (action) -> Void in
+                                                self.cellView.itemSoldHandler(
+                                                    itemID: self.itemIDs[indexPath!.row],
+                                                    username: self.currentUser ) { (validCode) in
+                                                        self.updateData()
+                                                }
+                                                
+                })
+
+                // add actions to the alert
+                alert.addAction(confirm)
+                alert.addAction(cancel)
+
+                // display alert
+                self.present(alert, animated: true)
+    }
     
     
 

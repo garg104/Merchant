@@ -50,6 +50,29 @@ class SellTableViewCell: UITableViewCell {
         }.resume()
     }
     
+    func itemSoldHandler(itemID: String, username: String, completion: @escaping (_ validCode: Int)->()) {
+        struct parameters: Encodable {
+                   var username = ""
+                   var itemID = ""
+        }
+        
+        print(itemID)
+        
+        let details = parameters(username: username, itemID: itemID)
+               
+        AF.request(API.URL + "/items/itemSold/", method: .post, parameters: details, encoder: URLEncodedFormParameterEncoder.default).responseJSON { response in
+               
+            if (response.response?.statusCode == 200) {
+                //self.table.updateData()
+            } else {
+                debugPrint("ERROR")
+            }
+            
+            completion(0)
+            
+        }.resume()
+    }
+    
     @IBAction func soldButton(_ sender: Any) {
         debugPrint("sold clicked")
     }
