@@ -4,6 +4,7 @@ import { getFiles, authenticate } from '../middlewares/middlewares'
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const User = require('../models/User')
+const Item = require('../models/Items')
 const express = require('express');
 const router = express.Router();
 import { config, getProfilePictureSchemas } from '../utils/fileHandling'
@@ -491,7 +492,23 @@ router.post('/wishlist', authenticate, async (req, res) => {
 router.get('/wishlist', authenticate, async (req, res) => {
   if (req.userInfo) {
     if (req.userInfo.wishlist) {
-      res.status(200).json({ wishlist: req.userInfo.wishlist, msg: 'The wishlist has been found' })
+      let wishlist = []
+      //retreiving all the images from the database and sorting them
+      await Promise.all(req.userInfo.wishlist.map(async itemId => {
+        //retreiving items from the database and adding them to the array
+        return new Promise(async (resolve, reject) => {
+          //looking up the item and adding to the database
+          try {
+            const item = await Item.findById(itemId)
+            wishlist.push(item)
+            resolve()
+          } catch (e) {
+            console.log(e)
+            reject()
+          }
+        })
+      }))
+      res.status(200).json({ wishlist: wishlist, msg: 'The wishlist has been found' })
     } else {
       res.status(400).json({ msg: 'The wishlist could not be found' })
     } //end if
