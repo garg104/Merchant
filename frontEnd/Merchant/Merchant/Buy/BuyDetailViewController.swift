@@ -32,6 +32,25 @@ class BuyDetailViewController: UIViewController {
     
     @IBAction func addToWishlist(_ sender: Any) {
         //add or remove item to wishlist
+        struct parameter: Encodable {
+            var id: String
+        }
+        let itemDetail = parameter(id: self.itemId)
+        let headers: HTTPHeaders = [
+            "Authorization": Authentication.getAuthToken(),
+            "Accept": "application/json"
+        ]
+        AF.request(API.URL + "/user/wishlist/", method: .post, parameters: itemDetail, headers: headers).responseJSON { response in
+            var title = "Error in wishlist"
+            var message = "Item couldn't be added to the wish list, try again"
+            if (response.response?.statusCode == 200) {
+                title = "Item succesfully added"
+                message = "Item has been successfully added to the wishlist"
+            } //end if
+            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
+            self.present(alert, animated: true)
+        }
     }
     
     @IBAction func unwindToBuyDetailViewController(segue: UIStoryboardSegue) {
