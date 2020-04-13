@@ -161,6 +161,14 @@ class WishlistTableViewController: UITableViewController {
             updateData()
         }
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if (StateManager.updateWishlist) {
+            updateData()
+            StateManager.updateWishlist = false
+        } //end if
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()

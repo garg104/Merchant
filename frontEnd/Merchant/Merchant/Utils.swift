@@ -50,6 +50,10 @@ extension UserDefaults {
     } //isLoggedIn
 } //UserDefaults
 
+class StateManager {
+    static var updateWishlist: Bool =  false
+}
+
 class Authentication {
     
     //Not in use right now

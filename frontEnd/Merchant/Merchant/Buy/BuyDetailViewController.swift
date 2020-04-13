@@ -46,6 +46,7 @@ class BuyDetailViewController: UIViewController {
             if (response.response?.statusCode == 200) {
                 title = "Item succesfully added"
                 message = "Item has been successfully added to the wishlist"
+                StateManager.updateWishlist = true; 
             } //end if
             let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
             alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
