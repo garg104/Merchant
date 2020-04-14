@@ -2198,19 +2198,23 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="7AG-rl-qWf">
-                                <rect key="frame" x="16" y="117" width="343" height="671"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="7AG-rl-qWf">
+                                <rect key="frame" x="0.0" y="117" width="375" height="671"/>
                             </mapView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9nD-Ot-gfe">
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9nD-Ot-gfe">
                                 <rect key="frame" x="16" y="60" width="48" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Cancel">
                                     <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                 </state>
                             </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="omL-1g-7Xe" firstAttribute="trailing" secondItem="7AG-rl-qWf" secondAttribute="trailing" id="GYd-Fz-4YU"/>
+                            <constraint firstItem="7AG-rl-qWf" firstAttribute="leading" secondItem="omL-1g-7Xe" secondAttribute="leading" id="hJQ-BG-mtf"/>
+                            <constraint firstItem="7AG-rl-qWf" firstAttribute="top" secondItem="9nD-Ot-gfe" secondAttribute="bottom" id="sP7-Li-ELH"/>
+                            <constraint firstAttribute="bottom" secondItem="7AG-rl-qWf" secondAttribute="bottom" id="ykZ-qW-Rk1"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="omL-1g-7Xe"/>
                     </view>
                     <connections>
