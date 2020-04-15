@@ -40,6 +40,7 @@
 		6C8B564F2408C035009BAE99 /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8B564E2408C035009BAE99 /* EditProfileViewController.swift */; };
 		6C8B56512408F180009BAE99 /* ResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8B56502408F180009BAE99 /* ResetPasswordViewController.swift */; };
 		6C8DB359242FE3780026EDF2 /* SellDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8DB358242FE3780026EDF2 /* SellDetailViewController.swift */; };
+		6CAAEEBF2447A503004E7942 /* SellHistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CAAEEBE2447A503004E7942 /* SellHistoryTableViewCell.swift */; };
 		6CE602FE2442CD410032CAA4 /* WishlistTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CE602FD2442CD410032CAA4 /* WishlistTableViewCell.swift */; };
 		6CE603002442CDF00032CAA4 /* WishlistTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CE602FF2442CDF00032CAA4 /* WishlistTableViewController.swift */; };
 		6CF50D1423F4ECCF008A306D /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CF50D1323F4ECCF008A306D /* LogInViewController.swift */; };
@@ -135,6 +136,7 @@
 		6C8B564E2408C035009BAE99 /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
 		6C8B56502408F180009BAE99 /* ResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordViewController.swift; sourceTree = "<group>"; };
 		6C8DB358242FE3780026EDF2 /* SellDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SellDetailViewController.swift; sourceTree = "<group>"; };
+		6CAAEEBE2447A503004E7942 /* SellHistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SellHistoryTableViewCell.swift; sourceTree = "<group>"; };
 		6CE602FD2442CD410032CAA4 /* WishlistTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WishlistTableViewCell.swift; sourceTree = "<group>"; };
 		6CE602FF2442CDF00032CAA4 /* WishlistTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WishlistTableViewController.swift; sourceTree = "<group>"; };
 		6CF50D1323F4ECCF008A306D /* LogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
@@ -229,6 +231,14 @@
 			path = Buy;
 			sourceTree = "<group>";
 		};
+		6CAAEEBD2447A192004E7942 /* Sell History */ = {
+			isa = PBXGroup;
+			children = (
+				6CAAEEBE2447A503004E7942 /* SellHistoryTableViewCell.swift */,
+			);
+			path = "Sell History";
+			sourceTree = "<group>";
+		};
 		6CE602FC2442CCBB0032CAA4 /* Wishlist */ = {
 			isa = PBXGroup;
 			children = (
@@ -278,6 +288,7 @@
 		7571D7DD23F351EF00C46379 /* Merchant */ = {
 			isa = PBXGroup;
 			children = (
+				6CAAEEBD2447A192004E7942 /* Sell History */,
 				6CE602FC2442CCBB0032CAA4 /* Wishlist */,
 				6CFBE07E241DDD1F00063775 /* Sell */,
 				6C866C6E2414B4F2003B8941 /* Buy */,
@@ -605,6 +616,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6CAAEEBF2447A503004E7942 /* SellHistoryTableViewCell.swift in Sources */,
 				6C8B564F2408C035009BAE99 /* EditProfileViewController.swift in Sources */,
 				6CFBD1E823F76695009F492F /* CreateAccountViewController.swift in Sources */,
 				75F076AE24303A5C00301D34 /* items.swift in Sources */,
