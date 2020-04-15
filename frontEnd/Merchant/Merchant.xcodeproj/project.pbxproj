@@ -41,6 +41,8 @@
 		6C8B56512408F180009BAE99 /* ResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8B56502408F180009BAE99 /* ResetPasswordViewController.swift */; };
 		6C8DB359242FE3780026EDF2 /* SellDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8DB358242FE3780026EDF2 /* SellDetailViewController.swift */; };
 		6CAAEEBF2447A503004E7942 /* SellHistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CAAEEBE2447A503004E7942 /* SellHistoryTableViewCell.swift */; };
+		6CAAEEC12447AA91004E7942 /* SellHistoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CAAEEC02447AA91004E7942 /* SellHistoryTableViewController.swift */; };
+		6CAAEEC32447B0F6004E7942 /* SellHistoryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CAAEEC22447B0F6004E7942 /* SellHistoryDetailViewController.swift */; };
 		6CE602FE2442CD410032CAA4 /* WishlistTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CE602FD2442CD410032CAA4 /* WishlistTableViewCell.swift */; };
 		6CE603002442CDF00032CAA4 /* WishlistTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CE602FF2442CDF00032CAA4 /* WishlistTableViewController.swift */; };
 		6CF50D1423F4ECCF008A306D /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CF50D1323F4ECCF008A306D /* LogInViewController.swift */; };
@@ -137,6 +139,8 @@
 		6C8B56502408F180009BAE99 /* ResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordViewController.swift; sourceTree = "<group>"; };
 		6C8DB358242FE3780026EDF2 /* SellDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SellDetailViewController.swift; sourceTree = "<group>"; };
 		6CAAEEBE2447A503004E7942 /* SellHistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SellHistoryTableViewCell.swift; sourceTree = "<group>"; };
+		6CAAEEC02447AA91004E7942 /* SellHistoryTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SellHistoryTableViewController.swift; sourceTree = "<group>"; };
+		6CAAEEC22447B0F6004E7942 /* SellHistoryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SellHistoryDetailViewController.swift; sourceTree = "<group>"; };
 		6CE602FD2442CD410032CAA4 /* WishlistTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WishlistTableViewCell.swift; sourceTree = "<group>"; };
 		6CE602FF2442CDF00032CAA4 /* WishlistTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WishlistTableViewController.swift; sourceTree = "<group>"; };
 		6CF50D1323F4ECCF008A306D /* LogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
@@ -235,6 +239,8 @@
 			isa = PBXGroup;
 			children = (
 				6CAAEEBE2447A503004E7942 /* SellHistoryTableViewCell.swift */,
+				6CAAEEC02447AA91004E7942 /* SellHistoryTableViewController.swift */,
+				6CAAEEC22447B0F6004E7942 /* SellHistoryDetailViewController.swift */,
 			);
 			path = "Sell History";
 			sourceTree = "<group>";
@@ -636,10 +642,12 @@
 				6C8DB359242FE3780026EDF2 /* SellDetailViewController.swift in Sources */,
 				153BC791242D9049000540EF /* PostItemViewController.swift in Sources */,
 				7571D7E123F351EF00C46379 /* SceneDelegate.swift in Sources */,
+				6CAAEEC32447B0F6004E7942 /* SellHistoryDetailViewController.swift in Sources */,
 				6CF50D1423F4ECCF008A306D /* LogInViewController.swift in Sources */,
 				157852E32431741500B8BED2 /* EditItemViewController.swift in Sources */,
 				1554FFAE23FAE2C50066A4F3 /* ProfileViewController.swift in Sources */,
 				6C866C672412A55A003B8941 /* BuyTableViewController.swift in Sources */,
+				6CAAEEC12447AA91004E7942 /* SellHistoryTableViewController.swift in Sources */,
 				6C866C702414B50F003B8941 /* BuyDetailViewController.swift in Sources */,
 				757F2D97240086AF00B7054F /* API.swift in Sources */,
 				6CE603002442CDF00032CAA4 /* WishlistTableViewController.swift in Sources */,

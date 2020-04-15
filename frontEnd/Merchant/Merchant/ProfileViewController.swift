@@ -237,5 +237,11 @@ class ProfileViewController: UIViewController {
             let vc = segue.destination as! ResetPasswordViewController
             vc.username = usernameLabel.text!
         }
+        
+        if (segue.identifier == "toSellHistory") {
+            let navVC = segue.destination as! UINavigationController
+            let sellVC = navVC.viewControllers[0] as! SellHistoryTableViewController
+            sellVC.currentUser = username
+        }
     }
 }

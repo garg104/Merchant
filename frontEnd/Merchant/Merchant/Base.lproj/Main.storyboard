@@ -745,7 +745,7 @@
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
-                                    <segue destination="hyp-M1-18Z" kind="presentation" modalPresentationStyle="fullScreen" id="ouq-Pk-jaM"/>
+                                    <segue destination="hyp-M1-18Z" kind="presentation" identifier="toSellHistory" modalPresentationStyle="fullScreen" id="ouq-Pk-jaM"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="99g-Ok-ngl">
@@ -2489,13 +2489,13 @@
         <!--Selling History-->
         <scene sceneID="tze-3N-czG">
             <objects>
-                <tableViewController id="nM4-9k-4gS" sceneMemberID="viewController">
+                <tableViewController id="nM4-9k-4gS" customClass="SellHistoryTableViewController" customModule="Merchant" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="4ID-fF-0hN">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="sellCell" rowHeight="126" id="Fa5-mc-rAb">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="historyItemCell" rowHeight="126" id="Fa5-mc-rAb" customClass="SellHistoryTableViewCell" customModule="Merchant" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="375" height="126"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Fa5-mc-rAb" id="OGT-Q6-qgt" customClass="SellHistoryTableViewCell" customModule="Merchant" customModuleProvider="target">
@@ -2543,9 +2543,9 @@
                                     </connections>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="itemPriceLabel" destination="mm0-pk-6f7" id="qig-mL-kWJ"/>
-                                    <outlet property="itemTitleLabel" destination="nF8-Ge-nqg" id="rCc-SP-CQ6"/>
-                                    <segue destination="x7o-RU-79k" kind="show" id="oN7-Bd-hcT"/>
+                                    <outlet property="itemPriceLabel" destination="mm0-pk-6f7" id="Eg9-g7-Phd"/>
+                                    <outlet property="itemTitleLabel" destination="nF8-Ge-nqg" id="170-ig-t8z"/>
+                                    <segue destination="x7o-RU-79k" kind="show" identifier="showHistoryDetail" id="oN7-Bd-hcT"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -2588,13 +2588,13 @@
         <!--Detail-->
         <scene sceneID="JlM-WR-sJ4">
             <objects>
-                <viewController id="x7o-RU-79k" customClass="BuyDetailViewController" customModule="Merchant" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="x7o-RU-79k" customClass="SellHistoryDetailViewController" customModule="Merchant" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="JiM-iH-AJL">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$0.00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DZU-BM-1di">
-                                <rect key="frame" x="16" y="383" width="343" height="47.666666666666686"/>
+                                <rect key="frame" x="16" y="382.33333333333331" width="343" height="47.666666666666686"/>
                                 <fontDescription key="fontDescription" name="Poppins-SemiBold" family="Poppins" pointSize="34"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -2605,7 +2605,7 @@
                                 <viewLayoutGuide key="frameLayoutGuide" id="3Il-8O-1nr"/>
                             </scrollView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" usesAttributedText="YES" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jRw-FE-Epv">
-                                <rect key="frame" x="16" y="438" width="343" height="279"/>
+                                <rect key="frame" x="16" y="437.33333333333326" width="343" height="279.66666666666674"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <attributedString key="attributedText">
                                     <fragment>
@@ -2638,9 +2638,9 @@
                     </view>
                     <navigationItem key="navigationItem" title="Detail" id="KZX-uf-7QY"/>
                     <connections>
-                        <outlet property="imageScrollView" destination="fQ6-Y4-mtk" id="ao3-fA-s8I"/>
-                        <outlet property="itemDescriptionTextView" destination="jRw-FE-Epv" id="4le-FV-gUs"/>
-                        <outlet property="itemPriceLabel" destination="DZU-BM-1di" id="e10-a4-BzY"/>
+                        <outlet property="imageScrollView" destination="fQ6-Y4-mtk" id="0zv-vG-StM"/>
+                        <outlet property="itemDescriptionTextView" destination="jRw-FE-Epv" id="rLH-cY-kMO"/>
+                        <outlet property="itemPriceLabel" destination="DZU-BM-1di" id="dgH-NK-fn0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1KJ-PR-Y4n" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

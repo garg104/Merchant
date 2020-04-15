@@ -27,11 +27,6 @@ class SellHistoryTableViewCell: UITableViewCell {
         
     }
     
-    @IBAction func deleteButton(_ sender: Any) {
-        debugPrint("delete clicked")
-    }
-    
-    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
