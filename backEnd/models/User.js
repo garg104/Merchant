@@ -68,6 +68,23 @@ const userSchema = mongoose.Schema({
             currentRating: 0,
             users: []
         }
+    },
+    reports: {
+        type: {
+            reportNum: String,
+            users: [{
+                userID: mongoose.Schema.Types.ObjectID,
+                reason: String,
+                DatePosted: {
+                    type: String,
+                    require: true,  
+                },
+            }]
+        },
+        default: {
+            reportNum: 0,
+            users: []
+        },
     } 
 })
 

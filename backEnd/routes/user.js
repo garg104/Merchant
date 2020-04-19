@@ -1,5 +1,5 @@
 require('dotenv').config()
-import { generateOtpMsg, sendEmail, generateTempPassword, generateResetPassword, generateDeleteAcctMsg } from '../utils/sendEmail'
+import { generateOtpMsg, sendEmail, generateTempPassword, generateResetPassword, generateDeleteAcctMsg, generateUserReport } from '../utils/sendEmail'
 import { getFiles, authenticate } from '../middlewares/middlewares'
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
@@ -555,37 +555,79 @@ router.post('/rating', async (req, res) => {
     });
 
     if (rated) {
-    // if user1 has already reviewed user2 before
-    // console.log(user1.username)
-    // console.log(index)
-    user2.rating.currentRating = ((user2.rating.currentRating * user2.rating.totalRatings) - (prevRating.rating * 1) + (req.body.newRating * 1)) / (user2.rating.totalRatings * 1)
-    user2.rating.users[index].rating = req.body.newRating
-    user2.rating.users[index].review = req.body.review
-    user2.rating.users[index].datePosted = dateTime   
-    // console.log(user2.rating)
-    let ret = await User.findOneAndUpdate({ username: user2.username} , {rating: user2.rating} )
-    } 
-    else {
-    // if user1 has not reviewed user2 before
-    user2.rating.currentRating = ((user2.rating.currentRating * user2.rating.totalRatings) + (req.body.newRating * 1)) / ((user2.rating.totalRatings * 1) + 1)
-    user2.rating.totalRatings = (user2.rating.totalRatings * 1) + 1
-    const temp = {
-      userID: user1._id, 
-      rating: req.body.newRating,
-      review: req.body.review,
-      datePosted: dateTime
+      // if user1 has already reviewed user2 before
+      // console.log(user1.username)
+      // console.log(index)
+      user2.rating.currentRating = ((user2.rating.currentRating * user2.rating.totalRatings) - (prevRating.rating * 1) + (req.body.newRating * 1)) / (user2.rating.totalRatings * 1)
+      user2.rating.users[index].rating = req.body.newRating
+      user2.rating.users[index].review = req.body.review
+      user2.rating.users[index].datePosted = dateTime   
+      // console.log(user2.rating)
+      let ret = await User.findOneAndUpdate({ username: user2.username} , {rating: user2.rating} )
+    } else {
+      // if user1 has not reviewed user2 before
+      user2.rating.currentRating = ((user2.rating.currentRating * user2.rating.totalRatings) + (req.body.newRating * 1)) / ((user2.rating.totalRatings * 1) + 1)
+      user2.rating.totalRatings = (user2.rating.totalRatings * 1) + 1
+      const temp = {
+        userID: user1._id, 
+        rating: req.body.newRating,
+        review: req.body.review,
+        datePosted: dateTime
+      }
+      user2.rating.users.push(temp)
+      let ret = await User.findOneAndUpdate({ username: user2.username} , {rating: user2.rating} )
     }
-    user2.rating.users.push(temp)
-    let ret = await User.findOneAndUpdate({ username: user2.username} , {rating: user2.rating} )
-  }
   
-  res.status(200).json({ msg: "success", rating: user2.rating })
+    res.status(200).json({ msg: "success", rating: user2.rating })
 
   } catch (e) {
     console.log(e)
     res.status(400).json({ msg: e })
   }
   
+})
+
+router.post('/report', async (req, res) => {
+  // user 1 is the user who is reporting the user. 
+  // user 2 is the user who is being reported.
+
+  const { user1, user2, reason } = req.body
+  console.log(user1)
+  console.log(user2)
+
+  try {
+    const user1 = await User.findOne({ username: req.body.user1 })
+    const user2 = await User.findOne({ username: req.body.user2 })
+    var today = new Date();
+    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    var dateTime = date+' '+time;
+    user2.reports.reportNum = (user2.reports.reportNum * 1) + 1 
+    let newReport = dateTime + ": " + reason
+    const temp = {
+      userID: user1._id, 
+      reason: newReport,
+      datePosted: dateTime
+    }
+    console.log(user2.reports.users)
+    user2.reports.users.push(temp)
+    if(user2.reports.reportNum >= 3) {
+      // wait for the sendEmail funtion to return and send a valid response
+      let reasonEmail = ""
+      user2.reports.users.forEach(report => {
+        reasonEmail = reasonEmail + report.reason + "\n"
+      });
+      const email = 'chirayugarg99@gmail.com'
+      console.log(email, req.body.user2, user2._id, reasonEmail)
+      const ret = await sendEmail(generateUserReport(email, req.body.user2, user2._id, reasonEmail))
+    }
+    console.log("wfwefrwer")
+    let ret = await User.findOneAndUpdate({ username: user2.username} , {reports: user2.reports} )
+    console.log(ret)
+    res.status(200).json({ msg: "success", rating: user2.reports })
+  } catch (error) {
+    res.status(400).json({ msg: error })
+  }  
 })
 
 
