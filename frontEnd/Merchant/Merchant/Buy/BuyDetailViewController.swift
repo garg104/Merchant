@@ -28,7 +28,9 @@ class BuyDetailViewController: UIViewController {
     @IBOutlet weak var itemDescriptionTextView: UITextView!
     @IBOutlet weak var contactSellerButton: UIButton!
     @IBOutlet weak var imageScrollView: UIScrollView!
-    @IBOutlet weak var wishlistButton: UIButton!
+    @IBOutlet weak var viewProfileButton: UIButton!
+    @IBOutlet weak var rewiewButton: UIButton!
+    @IBOutlet weak var reportButton: UIButton!
     
     @IBAction func addToWishlist(_ sender: Any) {
         //add or remove item to wishlist
@@ -67,7 +69,9 @@ class BuyDetailViewController: UIViewController {
         itemPriceLabel.text = itemPrice
         itemDescriptionTextView.text = itemDescription
         
-        wishlistButton.layer.borderColor = #colorLiteral(red: 0.3822624683, green: 0.7218602896, blue: 0.2237514853, alpha: 1) //add wishlistButton border
+        viewProfileButton.layer.borderColor = #colorLiteral(red: 0.3822624683, green: 0.7218602896, blue: 0.2237514853, alpha: 1) //add viewProfileButton border
+        rewiewButton.layer.borderColor = #colorLiteral(red: 0.3822624683, green: 0.7218602896, blue: 0.2237514853, alpha: 1) //add rewiewButton border
+        reportButton.layer.borderColor = #colorLiteral(red: 0.3822624683, green: 0.7218602896, blue: 0.2237514853, alpha: 1) //add reportButton border
         
         itemPicturesHandler()
     }
