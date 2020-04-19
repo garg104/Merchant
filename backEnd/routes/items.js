@@ -355,4 +355,39 @@ router.post('/pictures/:id', upload.array("data"), async (req, res) => {
   res.status(201).json({ file: req.file, msg: "item pictures have been updated" })
 })
 
+
+
+
+
+/**
+ * Removes the item from the wishlist of the user. 
+ * TODO: AAKARSHIT NEEDS TO EDIT AND CONNECT. THIS IS A SKELETON
+ */
+router.post('/removeFromWishlist', async (req, res) => {
+  const { username, itemID } = req.body
+
+  try {
+    //get the corresponding user
+    const user = await User.findOne({ username: username })
+    //get the corresponding itemIndex in the items array
+    const index = user.wishlist.indexOf(itemID);
+    if (index > -1) {
+      //remove the item from wishlist
+      user.wishlist.push(itemID)
+      user.wishlist.splice(index, 1)
+    } else {
+      //item couldn't be found
+      res.status(400).json({ msg: "item could not be found in the user's forSale list" })
+    }
+    // update wishlist Array
+    var ret = await User.findOneAndUpdate({ username: username }, { wishlist: user.wishlist })
+    res.status(200).json({ msg: "item has been successfully been marked as sold" })
+  } catch (e) {
+    //logging errors
+    console.log(e)
+    res.status(404).json({ msg: e.message })
+  }
+});
+
+
 module.exports = router;
