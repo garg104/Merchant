@@ -19,7 +19,7 @@ class BuyDetailViewController: UIViewController {
     var itemId = ""
     var pictures: NSArray = []
     var imagesForView = [UIImage]()
-    
+    var itemInWishlist = false
     var imageHeight = CGRect()
     var imageWidth = CGRect()
     
@@ -37,22 +37,30 @@ class BuyDetailViewController: UIViewController {
         struct parameter: Encodable {
             var id: String
         }
-        let itemDetail = parameter(id: self.itemId)
-        let headers: HTTPHeaders = [
-            "Authorization": Authentication.getAuthToken(),
-            "Accept": "application/json"
-        ]
-        AF.request(API.URL + "/user/wishlist/", method: .post, parameters: itemDetail, headers: headers).responseJSON { response in
-            var title = "Error in wishlist"
-            var message = "Item couldn't be added to the wish list, try again"
-            if (response.response?.statusCode == 200) {
-                title = "Item succesfully added"
-                message = "Item has been successfully added to the wishlist"
-                StateManager.updateWishlist = true; 
-            } //end if
-            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-            alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
-            self.present(alert, animated: true)
+        
+        if (itemInWishlist) {
+            //Removing the item from wish list
+            
+        } else {
+            //Adding the item to wishlist
+            let itemDetail = parameter(id: self.itemId)
+            let headers: HTTPHeaders = [
+                "Authorization": Authentication.getAuthToken(),
+                "Accept": "application/json"
+            ]
+            AF.request(API.URL + "/user/wishlist/", method: .post, parameters: itemDetail, headers: headers).responseJSON { response in
+                var title = "Error in wishlist"
+                var message = "Item couldn't be added to the wish list, try again"
+                if (response.response?.statusCode == 200) {
+                    title = "Item succesfully added"
+                    message = "Item has been successfully added to the wishlist"
+                    StateManager.updateWishlist = true;
+                    self.updateWishlistStatus(exists: true)
+                } //end if
+                let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+                alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
+                self.present(alert, animated: true)
+            }
         }
     }
     
@@ -62,6 +70,7 @@ class BuyDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        itemInWishlist = itemExistsInWishlist()
         
         //imageScrollView.frame = self.view.frame
         
@@ -80,6 +89,40 @@ class BuyDetailViewController: UIViewController {
         super.viewWillLayoutSubviews()
         contactSellerButton.titleLabel?.text = "Contact " + itemSeller
         
+    }
+    
+    func itemExistsInWishlist() -> Bool {
+        let headers: HTTPHeaders = [
+            "Authorization": Authentication.getAuthToken(),
+            "Accept": "application/json"
+        ]
+        var exists = false;
+        debugPrint("requesting wishlist")
+        AF.request(API.URL + "/user/wishlist/exists/\(self.itemId)", method: .get,
+                   headers: headers).responseJSON { response in
+            if (response.response?.statusCode == 200) {
+                debugPrint("EXISTS IN WISHLIST")
+                exists = true;
+            } else {
+                debugPrint("NOT EXISTS IN WISHLIST")
+                exists = false;
+            }//end if
+            if (self.itemInWishlist != exists) {
+                self.updateWishlistStatus(exists: exists)
+            }
+        }
+        return exists;
+    }
+    
+    func updateWishlistStatus(exists: Bool) {
+        //toggling the title of the wishlist button
+        if (!exists) {
+            wishlistButton.setTitle("Add to wishlist", for: .normal);
+            wishlistButton.setTitleColor(#colorLiteral(red: 0.3822624683, green: 0.7218602896, blue: 0.2237514853, alpha: 1), for: .normal);
+        } else {
+            wishlistButton.setTitle("Remove from wishlist", for: .normal);
+            wishlistButton.setTitleColor(.red, for: .normal);
+        }
     }
     
     func itemPicturesHandler() {
