@@ -55,6 +55,19 @@ class SellTableViewController: UITableViewController {
                 }
             } else {
                 debugPrint("ERROR")
+                let alert = UIAlertController(title: "Error!", message: "Something went wrong. Please try again", preferredStyle: .alert)
+                           
+                          
+                           // Create Confirm button with action handler
+                           let confirm = UIAlertAction(title: "OK",
+                                                       style: .default)
+
+                           // add actions to the alert
+                           alert.addAction(confirm)
+
+                           // display alert
+                           self.present(alert, animated: true)
+                
             }
             
             completion(0)

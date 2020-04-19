@@ -110,10 +110,28 @@ export const generateResetPassword = (email, firstName) => {
 export const generateEmailMsg = (email, opts) => {
     return {
         to: `${email}`,
-        from: 'merchant@example.com',
+        from: 'merchant@gmail.com',
         subject: opts.subject,
         text: opts.message,
         html: opts.html
     };
+}
+
+/**
+ * Generate a email for temp password
+ *
+ * @author Chirayu Garg
+ */
+
+export const generateUserReport = (email, username, userID, report) => {
+    return {
+        to: `${email}`,
+        from: 'merchant@gmail.com',
+        subject: `ATTENTION: ${username}(${userID}) has been reported mulitple times. `,
+        text: `Dear Admin, \n${username}(${userID}) has been reported by users multiple times.\n` +
+            `Please followup with these reports and take the neccesary steps. Reports are as follows - \n${report}` +
+            '\n\nRegards,\nMerchant Team!',
+    };
+    
 }
 
