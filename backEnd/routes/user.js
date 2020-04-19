@@ -518,6 +518,18 @@ router.get('/wishlist', authenticate, async (req, res) => {
   } //end if
 })
 
+router.get('/wishlist/exists/:id', authenticate, async (req, res) => {
+  if (req.userInfo) {
+    if (req.userInfo.wishlist) {
+      if (req.userInfo.wishlist.indexOf(req.params.id) !== -1) {
+        res.status(200).send(true);
+        return;
+      }
+    }
+  }
+  res.status(404).send(false);
+})
+
 /*
 * handles the rating of the user.
 */
@@ -527,7 +539,7 @@ router.get('/wishlist', authenticate, async (req, res) => {
 */
 
 router.post('/rating', async (req, res) => {
-  
+
   try {
     // user 1 is the user who is rating the user. 
     // user 2 is the user who is being rated.
@@ -549,29 +561,29 @@ router.post('/rating', async (req, res) => {
     });
 
     if (rated) {
-    // if user1 has already rated user2 before
-    user2.rating.currentRating = ((user2.rating.currentRating * user2.rating.totalRatings) - (prevRating.rating * 1) + (req.body.newRating * 1)) / (user2.rating.totalRatings * 1)
-    user2.rating.users[index].rating = req.body.newRating
-    let ret = await User.findOneAndUpdate({ username: user2.username} , {rating: user2.rating} )
-    } 
-    else {
-    // if user1 has not rated user2 before
-    user2.rating.currentRating = ((user2.rating.currentRating * user2.rating.totalRatings) + (req.body.newRating * 1)) / ((user2.rating.totalRatings * 1) + 1)
-    user2.rating.totalRatings = (user2.rating.totalRatings * 1) + 1
-    const temp = {
-      userID: user1._id, 
-      rating: req.body.newRating
+      // if user1 has already rated user2 before
+      user2.rating.currentRating = ((user2.rating.currentRating * user2.rating.totalRatings) - (prevRating.rating * 1) + (req.body.newRating * 1)) / (user2.rating.totalRatings * 1)
+      user2.rating.users[index].rating = req.body.newRating
+      let ret = await User.findOneAndUpdate({ username: user2.username }, { rating: user2.rating })
     }
-    user2.rating.users.push(temp)
-    let ret = await User.findOneAndUpdate({ username: user2.username} , {rating: user2.rating} )
-  }
-  res.status(200).json({ msg: "success", rating: user2.rating.currentRating })
+    else {
+      // if user1 has not rated user2 before
+      user2.rating.currentRating = ((user2.rating.currentRating * user2.rating.totalRatings) + (req.body.newRating * 1)) / ((user2.rating.totalRatings * 1) + 1)
+      user2.rating.totalRatings = (user2.rating.totalRatings * 1) + 1
+      const temp = {
+        userID: user1._id,
+        rating: req.body.newRating
+      }
+      user2.rating.users.push(temp)
+      let ret = await User.findOneAndUpdate({ username: user2.username }, { rating: user2.rating })
+    }
+    res.status(200).json({ msg: "success", rating: user2.rating.currentRating })
 
   } catch (e) {
     console.log(e)
     res.status(400).json({ msg: e })
   }
-  
+
 })
 
 
