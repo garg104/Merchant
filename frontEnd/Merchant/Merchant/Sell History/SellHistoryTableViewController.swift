@@ -16,7 +16,7 @@ class SellHistoryTableViewController: UITableViewController {
     //data structures
     var images: [String] = []
     var titles: [String] = []
-    var usernames: [String] = []
+    var usernames: [String] = [] 
     var prices: [String] = []
     var descriptions: [String] = []
     var itemCategories: [Int] = []
@@ -36,27 +36,36 @@ class SellHistoryTableViewController: UITableViewController {
         
         //UPDATE FOR SELLING HISTORY
           
-        let headers: HTTPHeaders = [
-            "Authorization": Authentication.getAuthToken(),
-            "Accept": "application/json"
-        ]
-        AF.request(API.URL + "/user/wishlist/", method: .get, headers: headers).responseJSON { response in
-    
-            if (response.response?.statusCode == 200) {
-                if let info = response.value {
-                    let JSON = info as! NSDictionary
-                    let items : NSArray =  JSON.value(forKey: "wishlist") as! NSArray
-                    for item in items {
-                        // make sure that the user does not see the objects they are selling
-                        let temp = item as! NSDictionary
-                        
-                        //fill in arrays
-                        
+//        let headers: HTTPHeaders = [
+//            "Authorization": Authentication.getAuthToken(),
+//            "Accept": "application/json"
+//        ]
+        AF.request(API.URL + "/items/userSellingHistory/\(currentUser)", method: .get).responseJSON { response in
+            debugPrint("in selling history")
+
+            
+        
+                if (response.response?.statusCode == 200) {
+                    debugPrint("response of user selling history is ")
+                    debugPrint(response.value!)
+
+
+                    if let info = response.value {
+                        let JSON = info as! NSDictionary
+                        let items : NSArray =  JSON.value(forKey: "items") as! NSArray
+                        for item in items {
+                            print(item)
+                            let temp = item as! NSDictionary
+                            self.titles.append(temp["title"]! as! String)
+                            self.prices.append(temp["price"]! as! String)
+                            self.descriptions.append(temp["description"]! as! String)
+                            self.itemIDs.append(temp["_id"]! as! String)
+                            self.itemCategories.append(Int(temp["category"] as! String)!)
+                        }
                     }
+                } else {
+                    debugPrint("ERROR")
                 }
-            } else {
-                debugPrint("ERROR")
-            }
             
             completion(0)
             
@@ -118,6 +127,9 @@ class SellHistoryTableViewController: UITableViewController {
         
             cell.itemTitleLabel.text = titles[indexPath.row]
             cell.itemPriceLabel.text = prices[indexPath.row]
+            cell.itemDescription = descriptions[indexPath.row]
+            cell.itemID = itemIDs[indexPath.row]
+            cell.username = currentUser
 
         return cell
     }
@@ -169,7 +181,7 @@ class SellHistoryTableViewController: UITableViewController {
                 fatalError("Unexpected destination: \(segue.destination)")
             }
             
-            guard let selectedItemCell = sender as? WishlistTableViewCell else {
+            guard let selectedItemCell = sender as? SellHistoryTableViewCell else {
                 fatalError("Unexpected sender: \(sender)")
             }
             
@@ -181,7 +193,6 @@ class SellHistoryTableViewController: UITableViewController {
             itemDetailViewController.itemTitle = selectedItemCell.itemTitleLabel.text!
             itemDetailViewController.itemDescription = selectedItemCell.itemDescription
             itemDetailViewController.itemPrice = selectedItemCell.itemPriceLabel.text!
-            itemDetailViewController.itemSeller = selectedItemCell.userNameLabel.text!
             itemDetailViewController.itemId = selectedItemCell.itemID
         }
         

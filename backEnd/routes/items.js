@@ -155,6 +155,7 @@ router.post('/itemSold', async (req, res) => {
     if (index > -1) {
       //remove the item from forSale and add it to sellingHistory
       user.sellingHistory.push(itemID)
+      var ret = await Item.findOneAndUpdate({ _id: itemID }, { isSold: true })
       user.forSale.splice(index, 1)
     } else {
       //item couldn't be found
@@ -174,20 +175,23 @@ router.post('/itemSold', async (req, res) => {
 /**
  * Selling history 
  */
-router.get('/userSellingHistory/', async (req, res) => {
+router.get('/userSellingHistory/:username', async (req, res) => {
   try {
     // get all items with isSold as true.
-    const user = await User.find({ username: req.body.username })
+    const user = await User.find({ username: req.params.username })
     let items = []
+    // console.log('user in sellingHistory backend is')
+    // console.log(user[0])
+    // console.log('selling history is')
+    // console.log(user[0].sellingHistory)
     if (user[0].sellingHistory.length === 0) {
       res.status(200).json({ items })
     } //end if
     user[0].sellingHistory.forEach(async (item) => {
       const temp = await Item.findById({ _id: item })
-      if (temp.isSold) {
-        items.push(temp)
-      } //end if
+      items.push(temp)
       if (item === user[0].sellingHistory[user[0].sellingHistory.length - 1]) {
+        // console.log(items)
         res.status(200).json({ items })
       } //end if
     })

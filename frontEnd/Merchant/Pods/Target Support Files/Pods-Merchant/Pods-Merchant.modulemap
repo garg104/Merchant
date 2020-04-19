@@ -1,4 +1,4 @@
-framework module Pods_Merchant {
+module Pods_Merchant {
   umbrella header "Pods-Merchant-umbrella.h"
 
   export *

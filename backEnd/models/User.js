@@ -46,30 +46,21 @@ const userSchema = mongoose.Schema({
         ref: "Items",
         default: [],
     },
-    reviews: {
-        type: [{
-            username: {
-                type: String,
-                require: true,
-            },
-            review: {
-                type: String,
-                require: true
-            },
-            DatePosted: {
-                type: Date,
-                default: Date.now,  
-            },
-        }],
-        default: []
-    },
     rating: {
         type: {
             totalRatings: String,
             currentRating: String,
             users: [{
                 userID: mongoose.Schema.Types.ObjectID,
-                rating: String
+                rating: String,
+                review: {
+                    type: String,
+                    require: true
+                },
+                DatePosted: {
+                    type: String,
+                    require: true,  
+                },
             }]
         },
         default: {
@@ -77,6 +68,23 @@ const userSchema = mongoose.Schema({
             currentRating: 0,
             users: []
         }
+    },
+    reports: {
+        type: {
+            reportNum: String,
+            users: [{
+                userID: mongoose.Schema.Types.ObjectID,
+                reason: String,
+                DatePosted: {
+                    type: String,
+                    require: true,  
+                },
+            }]
+        },
+        default: {
+            reportNum: 0,
+            users: []
+        },
     } 
 })
 
