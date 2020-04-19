@@ -127,10 +127,11 @@ export const generateUserReport = (email, username, userID, report) => {
     return {
         to: `${email}`,
         from: 'merchant@gmail.com',
-        subject: `ATTENTION: ${username}(${userID}) has been reported mulitple times.`,
-        text: `Dear Admin, \n${username}(${userID}) has been reported by users multiple times.\n`
+        subject: `ATTENTION: ${username}(${userID}) has been reported mulitple times. `,
+        text: `Dear Admin, \n${username}(${userID}) has been reported by users multiple times.\n` +
             `Please followup with these reports and take the neccesary steps. Reports are as follows - \n${report}` +
             '\n\nRegards,\nMerchant Team!',
     };
+    
 }
 

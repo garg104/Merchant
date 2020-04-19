@@ -618,12 +618,9 @@ router.post('/report', async (req, res) => {
         reasonEmail = reasonEmail + report.reason + "\n"
       });
       const email = 'chirayugarg99@gmail.com'
-      console.log(email, req.body.user2, user2._id, reasonEmail)
       const ret = await sendEmail(generateUserReport(email, req.body.user2, user2._id, reasonEmail))
     }
-    console.log("wfwefrwer")
     let ret = await User.findOneAndUpdate({ username: user2.username} , {reports: user2.reports} )
-    console.log(ret)
     res.status(200).json({ msg: "success", rating: user2.reports })
   } catch (error) {
     res.status(400).json({ msg: error })
