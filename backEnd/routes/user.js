@@ -549,23 +549,26 @@ router.post('/rating', async (req, res) => {
     });
 
     if (rated) {
-    // if user1 has already rated user2 before
+    // if user1 has already reviewed user2 before
     user2.rating.currentRating = ((user2.rating.currentRating * user2.rating.totalRatings) - (prevRating.rating * 1) + (req.body.newRating * 1)) / (user2.rating.totalRatings * 1)
     user2.rating.users[index].rating = req.body.newRating
+    user2.rating.users[index].review = req.body.review
     let ret = await User.findOneAndUpdate({ username: user2.username} , {rating: user2.rating} )
     } 
     else {
-    // if user1 has not rated user2 before
+    // if user1 has not reviewed user2 before
     user2.rating.currentRating = ((user2.rating.currentRating * user2.rating.totalRatings) + (req.body.newRating * 1)) / ((user2.rating.totalRatings * 1) + 1)
     user2.rating.totalRatings = (user2.rating.totalRatings * 1) + 1
     const temp = {
       userID: user1._id, 
-      rating: req.body.newRating
+      rating: req.body.newRating,
+      review: req.body.review
     }
     user2.rating.users.push(temp)
     let ret = await User.findOneAndUpdate({ username: user2.username} , {rating: user2.rating} )
   }
-  res.status(200).json({ msg: "success", rating: user2.rating.currentRating })
+  
+  res.status(200).json({ msg: "success", rating: user2.rating })
 
   } catch (e) {
     console.log(e)
