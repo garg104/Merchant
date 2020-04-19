@@ -1,6 +1,6 @@
 require('dotenv').config()
 import { config, getItemPictureSchemas, removeFiles } from '../utils/fileHandling'
-import { getManyFiles } from '../middlewares/middlewares';
+import { getManyFiles, authenticate } from '../middlewares/middlewares';
 const express = require('express');
 const router = express.Router();
 const Item = require('../models/Items')
@@ -355,33 +355,25 @@ router.post('/pictures/:id', upload.array("data"), async (req, res) => {
   res.status(201).json({ file: req.file, msg: "item pictures have been updated" })
 })
 
-
-
-
-
 /**
  * Removes the item from the wishlist of the user. 
- * TODO: AAKARSHIT NEEDS TO EDIT AND CONNECT. THIS IS A SKELETON
  */
-router.post('/removeFromWishlist', async (req, res) => {
-  const { username, itemID } = req.body
-
+router.post('/removeFromWishlist', authenticate, async (req, res) => {
+  const { itemID } = req.body
   try {
-    //get the corresponding user
-    const user = await User.findOne({ username: username })
     //get the corresponding itemIndex in the items array
+    const user = req.userInfo;
     const index = user.wishlist.indexOf(itemID);
     if (index > -1) {
       //remove the item from wishlist
-      user.wishlist.push(itemID)
       user.wishlist.splice(index, 1)
     } else {
       //item couldn't be found
-      res.status(400).json({ msg: "item could not be found in the user's forSale list" })
+      res.status(400).json({ msg: "item could not be found in the wishlist" })
     }
     // update wishlist Array
-    var ret = await User.findOneAndUpdate({ username: username }, { wishlist: user.wishlist })
-    res.status(200).json({ msg: "item has been successfully been marked as sold" })
+    var ret = await User.findOneAndUpdate({ _id: user._id }, { wishlist: user.wishlist })
+    res.status(200).json({ items: user.wishlist, msg: "item has been successfully removed from the wishlist" })
   } catch (e) {
     //logging errors
     console.log(e)
