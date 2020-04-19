@@ -47,7 +47,7 @@ class SellHistoryTableViewController: UITableViewController {
         
                 if (response.response?.statusCode == 200) {
                     debugPrint("response of user selling history is ")
-                    debugPrint(response.value)
+                    debugPrint(response.value!)
 
 
                     if let info = response.value {
@@ -127,6 +127,9 @@ class SellHistoryTableViewController: UITableViewController {
         
             cell.itemTitleLabel.text = titles[indexPath.row]
             cell.itemPriceLabel.text = prices[indexPath.row]
+            cell.itemDescription = descriptions[indexPath.row]
+            cell.itemID = itemIDs[indexPath.row]
+            cell.username = currentUser
 
         return cell
     }

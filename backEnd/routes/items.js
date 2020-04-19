@@ -180,10 +180,10 @@ router.get('/userSellingHistory/:username', async (req, res) => {
     // get all items with isSold as true.
     const user = await User.find({ username: req.params.username })
     let items = []
-    console.log('user in sellingHistory backend is')
-    console.log(user[0])
-    console.log('selling history is')
-    console.log(user[0].sellingHistory)
+    // console.log('user in sellingHistory backend is')
+    // console.log(user[0])
+    // console.log('selling history is')
+    // console.log(user[0].sellingHistory)
     if (user[0].sellingHistory.length === 0) {
       res.status(200).json({ items })
     } //end if
@@ -191,7 +191,7 @@ router.get('/userSellingHistory/:username', async (req, res) => {
       const temp = await Item.findById({ _id: item })
       items.push(temp)
       if (item === user[0].sellingHistory[user[0].sellingHistory.length - 1]) {
-        console.log(items)
+        // console.log(items)
         res.status(200).json({ items })
       } //end if
     })
