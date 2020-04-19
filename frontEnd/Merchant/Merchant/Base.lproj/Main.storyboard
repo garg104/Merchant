@@ -1252,7 +1252,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$0.00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B2q-Kk-3zD">
-                                <rect key="frame" x="16" y="379.33333333333331" width="343" height="39.666666666666686"/>
+                                <rect key="frame" x="16" y="371.33333333333326" width="343" height="47.666666666666686"/>
                                 <fontDescription key="fontDescription" name="Poppins-SemiBold" family="Poppins" pointSize="34"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -1261,7 +1261,7 @@
                                 <rect key="frame" x="16" y="427" width="343" height="139"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="139" id="eB5-ok-fVd"/>
+                                    <constraint firstAttribute="height" constant="139" id="8gK-nQ-Dcm"/>
                                 </constraints>
                                 <attributedString key="attributedText">
                                     <fragment>
@@ -1279,7 +1279,7 @@
                                 <rect key="frame" x="16" y="648" width="343" height="64"/>
                                 <color key="backgroundColor" red="0.46274509800000002" green="0.70980392160000005" blue="0.30196078430000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="64" id="t6J-Js-cqy"/>
+                                    <constraint firstAttribute="height" constant="64" id="ja2-tM-P8c"/>
                                 </constraints>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal">
@@ -1307,11 +1307,11 @@
                                 <viewLayoutGuide key="frameLayoutGuide" id="4z5-3I-f1T"/>
                             </scrollView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XBm-xw-byP">
-                                <rect key="frame" x="16" y="591" width="343" height="43"/>
+                                <rect key="frame" x="16.000000000000007" y="591" width="113.66666666666669" height="43"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="43" id="leM-Nw-z96"/>
+                                    <constraint firstAttribute="height" constant="43" id="uiM-24-vIB"/>
                                 </constraints>
-                                <state key="normal" title="Add to Wishlist"/>
+                                <state key="normal" title="View Profile"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                         <integer key="value" value="18"/>
@@ -1320,39 +1320,76 @@
                                         <integer key="value" value="2"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
-                                <connections>
-                                    <action selector="addToWishlist:" destination="nrs-E5-yiA" eventType="touchUpInside" id="wb8-gH-7mH"/>
-                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DmA-DY-tft">
+                                <rect key="frame" x="130.66666666666666" y="591" width="113.66666666666666" height="43"/>
+                                <state key="normal" title="Review"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="18"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
+                                        <integer key="value" value="2"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g1c-4o-Kuc">
+                                <rect key="frame" x="245.33333333333334" y="591" width="113.66666666666666" height="43"/>
+                                <state key="normal" title="Report"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="18"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
+                                        <integer key="value" value="2"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="0.92000000000000004" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="XBm-xw-byP" firstAttribute="trailing" secondItem="bnt-BR-RsH" secondAttribute="trailing" id="4FS-af-rmZ"/>
-                            <constraint firstItem="lqQ-qu-6ia" firstAttribute="top" secondItem="B2q-Kk-3zD" secondAttribute="bottom" constant="8.0000000000000568" id="6aV-iu-KPx"/>
-                            <constraint firstItem="bnt-BR-RsH" firstAttribute="top" secondItem="XBm-xw-byP" secondAttribute="bottom" constant="14" id="Bcz-2g-n7c"/>
-                            <constraint firstItem="XBm-xw-byP" firstAttribute="leading" secondItem="bnt-BR-RsH" secondAttribute="leading" id="CGq-fF-PDs"/>
-                            <constraint firstItem="XBm-xw-byP" firstAttribute="trailing" secondItem="lqQ-qu-6ia" secondAttribute="trailing" id="Fxr-V4-1fn"/>
-                            <constraint firstItem="B2q-Kk-3zD" firstAttribute="leading" secondItem="NCc-M6-RjQ" secondAttribute="leadingMargin" id="IL3-6L-QXV"/>
-                            <constraint firstItem="98z-wJ-4CF" firstAttribute="top" secondItem="aLU-HL-d6m" secondAttribute="top" id="IxU-qd-DIv"/>
-                            <constraint firstItem="lqQ-qu-6ia" firstAttribute="trailing" secondItem="B2q-Kk-3zD" secondAttribute="trailing" id="PIn-x1-Wx7"/>
-                            <constraint firstItem="B2q-Kk-3zD" firstAttribute="top" secondItem="98z-wJ-4CF" secondAttribute="bottom" constant="8.3333333333332575" id="aoA-Gg-cvN"/>
-                            <constraint firstItem="lqQ-qu-6ia" firstAttribute="leading" secondItem="B2q-Kk-3zD" secondAttribute="leading" id="bLu-oH-y2N"/>
-                            <constraint firstItem="XBm-xw-byP" firstAttribute="top" secondItem="lqQ-qu-6ia" secondAttribute="bottom" constant="25" id="cza-yZ-882"/>
-                            <constraint firstItem="B2q-Kk-3zD" firstAttribute="trailing" secondItem="NCc-M6-RjQ" secondAttribute="trailingMargin" id="fpV-Mg-oSe"/>
-                            <constraint firstItem="aLU-HL-d6m" firstAttribute="bottom" secondItem="bnt-BR-RsH" secondAttribute="bottom" constant="17" id="gnD-70-0jB"/>
-                            <constraint firstItem="XBm-xw-byP" firstAttribute="leading" secondItem="lqQ-qu-6ia" secondAttribute="leading" id="hf3-Po-DV4"/>
-                            <constraint firstItem="98z-wJ-4CF" firstAttribute="leading" secondItem="aLU-HL-d6m" secondAttribute="leading" id="kW7-gi-lQZ"/>
-                            <constraint firstItem="98z-wJ-4CF" firstAttribute="centerX" secondItem="B2q-Kk-3zD" secondAttribute="centerX" id="tll-Nz-s6j"/>
+                            <constraint firstItem="DmA-DY-tft" firstAttribute="width" secondItem="XBm-xw-byP" secondAttribute="width" id="0F3-p8-SRx"/>
+                            <constraint firstItem="XBm-xw-byP" firstAttribute="top" secondItem="DmA-DY-tft" secondAttribute="top" id="1E2-A4-mIn"/>
+                            <constraint firstItem="B2q-Kk-3zD" firstAttribute="leading" secondItem="NCc-M6-RjQ" secondAttribute="leadingMargin" id="2Rk-Fp-nwn"/>
+                            <constraint firstItem="DmA-DY-tft" firstAttribute="top" secondItem="g1c-4o-Kuc" secondAttribute="top" id="4Nt-BM-IZF"/>
+                            <constraint firstItem="aLU-HL-d6m" firstAttribute="bottom" secondItem="bnt-BR-RsH" secondAttribute="bottom" constant="17" id="4vZ-ij-qou"/>
+                            <constraint firstItem="bnt-BR-RsH" firstAttribute="top" secondItem="XBm-xw-byP" secondAttribute="bottom" constant="14" id="5AD-hx-ZJc"/>
+                            <constraint firstItem="98z-wJ-4CF" firstAttribute="top" secondItem="aLU-HL-d6m" secondAttribute="top" id="HUp-qL-bTg"/>
+                            <constraint firstItem="B2q-Kk-3zD" firstAttribute="trailing" secondItem="NCc-M6-RjQ" secondAttribute="trailingMargin" id="Kkf-4m-hXV"/>
+                            <constraint firstItem="g1c-4o-Kuc" firstAttribute="leading" secondItem="DmA-DY-tft" secondAttribute="trailing" constant="1" id="R66-YJ-eca"/>
+                            <constraint firstItem="B2q-Kk-3zD" firstAttribute="leading" secondItem="lqQ-qu-6ia" secondAttribute="leading" id="SzQ-bE-2aL"/>
+                            <constraint firstItem="XBm-xw-byP" firstAttribute="leading" secondItem="bnt-BR-RsH" secondAttribute="leading" id="UvR-mw-FPk"/>
+                            <constraint firstItem="lqQ-qu-6ia" firstAttribute="leading" secondItem="XBm-xw-byP" secondAttribute="leading" id="Wqz-jH-32R"/>
+                            <constraint firstItem="g1c-4o-Kuc" firstAttribute="width" secondItem="XBm-xw-byP" secondAttribute="width" id="Xo1-9G-Rir"/>
+                            <constraint firstItem="lqQ-qu-6ia" firstAttribute="trailing" secondItem="g1c-4o-Kuc" secondAttribute="trailing" id="asx-Ia-96L"/>
+                            <constraint firstItem="lqQ-qu-6ia" firstAttribute="top" secondItem="B2q-Kk-3zD" secondAttribute="bottom" constant="8.0000000000000568" id="caC-VJ-Rfk"/>
+                            <constraint firstItem="DmA-DY-tft" firstAttribute="baseline" secondItem="g1c-4o-Kuc" secondAttribute="firstBaseline" id="cag-xy-qmw"/>
+                            <constraint firstItem="XBm-xw-byP" firstAttribute="top" secondItem="lqQ-qu-6ia" secondAttribute="bottom" constant="25" id="fhd-uc-XQD"/>
+                            <constraint firstItem="g1c-4o-Kuc" firstAttribute="trailing" secondItem="bnt-BR-RsH" secondAttribute="trailing" id="hl1-N4-boU"/>
+                            <constraint firstItem="98z-wJ-4CF" firstAttribute="centerX" secondItem="B2q-Kk-3zD" secondAttribute="centerX" id="jze-ae-YQh"/>
+                            <constraint firstItem="98z-wJ-4CF" firstAttribute="leading" secondItem="aLU-HL-d6m" secondAttribute="leading" id="k9H-U6-4Vy"/>
+                            <constraint firstItem="B2q-Kk-3zD" firstAttribute="top" secondItem="98z-wJ-4CF" secondAttribute="bottom" constant="8.3333333333332575" id="lul-xR-eGh"/>
+                            <constraint firstItem="DmA-DY-tft" firstAttribute="centerX" secondItem="bnt-BR-RsH" secondAttribute="centerX" id="pRN-X5-44I"/>
+                            <constraint firstItem="B2q-Kk-3zD" firstAttribute="trailing" secondItem="lqQ-qu-6ia" secondAttribute="trailing" id="s0N-LX-fzs"/>
+                            <constraint firstItem="XBm-xw-byP" firstAttribute="baseline" secondItem="DmA-DY-tft" secondAttribute="firstBaseline" id="t2w-qx-6Mc"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="aLU-HL-d6m"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Detail" id="AeQ-Q5-gxk"/>
+                    <navigationItem key="navigationItem" title="Detail" id="AeQ-Q5-gxk">
+                        <barButtonItem key="rightBarButtonItem" image="bookmark" catalog="system" id="P5i-Lt-lZS">
+                            <connections>
+                                <action selector="addToWishlist:" destination="nrs-E5-yiA" id="jd4-cl-ua8"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="contactSellerButton" destination="bnt-BR-RsH" id="Wt7-mo-IGE"/>
                         <outlet property="imageScrollView" destination="98z-wJ-4CF" id="m32-yf-8cU"/>
                         <outlet property="itemDescriptionTextView" destination="lqQ-qu-6ia" id="wPA-57-DjV"/>
                         <outlet property="itemPriceLabel" destination="B2q-Kk-3zD" id="DPm-C1-GNY"/>
-                        <outlet property="wishlistButton" destination="XBm-xw-byP" id="3Uk-zj-s3j"/>
+                        <outlet property="reportButton" destination="g1c-4o-Kuc" id="U0u-fo-xra"/>
+                        <outlet property="rewiewButton" destination="DmA-DY-tft" id="ZJp-LQ-UgB"/>
+                        <outlet property="viewProfileButton" destination="XBm-xw-byP" id="ZfN-fH-gxe"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RI1-EP-axY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -2862,6 +2899,7 @@
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.46274509800000002" green="0.70980392160000005" blue="0.30196078430000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
     <resources>
+        <image name="bookmark" catalog="system" width="112" height="128"/>
         <image name="star" catalog="system" width="128" height="116"/>
     </resources>
 </document>
