@@ -181,7 +181,7 @@ class SellHistoryTableViewController: UITableViewController {
                 fatalError("Unexpected destination: \(segue.destination)")
             }
             
-            guard let selectedItemCell = sender as? WishlistTableViewCell else {
+            guard let selectedItemCell = sender as? SellHistoryTableViewCell else {
                 fatalError("Unexpected sender: \(sender)")
             }
             
@@ -193,7 +193,6 @@ class SellHistoryTableViewController: UITableViewController {
             itemDetailViewController.itemTitle = selectedItemCell.itemTitleLabel.text!
             itemDetailViewController.itemDescription = selectedItemCell.itemDescription
             itemDetailViewController.itemPrice = selectedItemCell.itemPriceLabel.text!
-            itemDetailViewController.itemSeller = selectedItemCell.userNameLabel.text!
             itemDetailViewController.itemId = selectedItemCell.itemID
         }
         
