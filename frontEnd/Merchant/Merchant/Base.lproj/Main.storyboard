@@ -2216,9 +2216,10 @@
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal">
                                     <attributedString key="attributedTitle">
-                                        <fragment content="Contact Seller with Username">
+                                        <fragment content="Submit Report">
                                             <attributes>
-                                                <font key="NSFont" metaFont="system" size="20"/>
+                                                <color key="NSColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <font key="NSFont" size="20" name="Poppins-Regular"/>
                                                 <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                             </attributes>
                                         </fragment>
@@ -2229,6 +2230,9 @@
                                         <integer key="value" value="20"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="submitReportButton:" destination="trL-Di-wF6" eventType="touchUpInside" id="7Qm-BA-BlB"/>
+                                </connections>
                             </button>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="rn8-aw-moX">
                                 <rect key="frame" x="16" y="154" width="343" height="541"/>
@@ -2729,10 +2733,139 @@
             </objects>
             <point key="canvasLocation" x="10188" y="2302"/>
         </scene>
+        <!--Review View Controller-->
+        <scene sceneID="YtG-Zx-bkB">
+            <objects>
+                <viewController id="bvd-GZ-sP6" customClass="ReviewViewController" customModule="Merchant" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="J4B-6l-Nmj">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Review" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O82-27-vtZ">
+                                <rect key="frame" x="15.999999999999993" y="74" width="122.33333333333331" height="47.666666666666657"/>
+                                <fontDescription key="fontDescription" name="Poppins-SemiBold" family="Poppins" pointSize="34"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="p6r-hX-RMK">
+                                <rect key="frame" x="16" y="714" width="343" height="64"/>
+                                <color key="backgroundColor" red="0.46274509800000002" green="0.70980392160000005" blue="0.30196078430000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="64" id="UJa-q5-nSK"/>
+                                </constraints>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal">
+                                    <attributedString key="attributedTitle">
+                                        <fragment content="Submit Review">
+                                            <attributes>
+                                                <color key="NSColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <font key="NSFont" size="20" name="Poppins-Regular"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                            </attributes>
+                                        </fragment>
+                                    </attributedString>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="20"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="submitReviewButton:" destination="bvd-GZ-sP6" eventType="touchUpInside" id="EMB-jg-iub"/>
+                                </connections>
+                            </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="9iO-uJ-uEk">
+                                <rect key="frame" x="16" y="232.66666666666666" width="343" height="462.33333333333337"/>
+                                <color key="backgroundColor" systemColor="systemGray6Color" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="15"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done"/>
+                            </textView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0kD-Mu-a9B">
+                                <rect key="frame" x="302" y="44" width="57" height="35"/>
+                                <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="16"/>
+                                <state key="normal" title="Cancel"/>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rating:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WjG-5A-grn">
+                                <rect key="frame" x="16" y="129.66666666666666" width="55" height="22.666666666666657"/>
+                                <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="16"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="top" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="CTd-eR-BTv" customClass="RatingController" customModule="Merchant" customModuleProvider="target">
+                                <rect key="frame" x="94.333333333333329" y="167.66666666666666" width="186.66666666666669" height="22"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="udA-zE-R0o">
+                                        <rect key="frame" x="0.0" y="0.0" width="25.333333333333332" height="22"/>
+                                        <state key="normal" image="star" catalog="system"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="K9B-MB-cHB">
+                                        <rect key="frame" x="40.333333333333336" y="0.0" width="25.333333333333336" height="22"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" image="star" catalog="system"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="XUd-yZ-wXV">
+                                        <rect key="frame" x="80.666666666666671" y="0.0" width="25.333333333333329" height="22"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" image="star" catalog="system"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="jfg-De-okW">
+                                        <rect key="frame" x="120.99999999999999" y="0.0" width="25.333333333333329" height="22"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" image="star" catalog="system"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Gjp-ir-a8h">
+                                        <rect key="frame" x="161.33333333333334" y="0.0" width="25.333333333333343" height="22"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" image="star" catalog="system"/>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Comments:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gV7-L6-wgg">
+                                <rect key="frame" x="16" y="210.66666666666666" width="93.333333333333329" height="22.666666666666657"/>
+                                <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="16"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="0kD-Mu-a9B" firstAttribute="top" secondItem="8fR-gc-UtY" secondAttribute="top" id="2b3-UZ-N97"/>
+                            <constraint firstItem="gV7-L6-wgg" firstAttribute="leading" secondItem="9iO-uJ-uEk" secondAttribute="leading" id="4e7-WV-QR9"/>
+                            <constraint firstItem="gV7-L6-wgg" firstAttribute="top" secondItem="CTd-eR-BTv" secondAttribute="bottom" constant="21.000000000000028" id="B6L-rp-Lo3"/>
+                            <constraint firstItem="9iO-uJ-uEk" firstAttribute="leading" secondItem="p6r-hX-RMK" secondAttribute="leading" id="IQ4-BY-Iub"/>
+                            <constraint firstItem="O82-27-vtZ" firstAttribute="leading" secondItem="WjG-5A-grn" secondAttribute="leading" id="IZq-5w-OL5"/>
+                            <constraint firstItem="WjG-5A-grn" firstAttribute="top" secondItem="O82-27-vtZ" secondAttribute="bottom" constant="8.0000000000000284" id="PVj-we-jtU"/>
+                            <constraint firstItem="0kD-Mu-a9B" firstAttribute="trailing" secondItem="J4B-6l-Nmj" secondAttribute="trailingMargin" id="W4d-Ax-DuW"/>
+                            <constraint firstItem="p6r-hX-RMK" firstAttribute="bottom" secondItem="8fR-gc-UtY" secondAttribute="bottom" id="bXU-D7-m47"/>
+                            <constraint firstItem="CTd-eR-BTv" firstAttribute="centerX" secondItem="9iO-uJ-uEk" secondAttribute="centerX" id="bZC-QD-zLY"/>
+                            <constraint firstItem="WjG-5A-grn" firstAttribute="leading" secondItem="gV7-L6-wgg" secondAttribute="leading" id="csd-MH-dDM"/>
+                            <constraint firstItem="9iO-uJ-uEk" firstAttribute="top" secondItem="CTd-eR-BTv" secondAttribute="bottom" constant="43.000000000000028" id="dJb-mg-T1K"/>
+                            <constraint firstItem="9iO-uJ-uEk" firstAttribute="trailing" secondItem="p6r-hX-RMK" secondAttribute="trailing" id="jdn-Lb-n4h"/>
+                            <constraint firstItem="CTd-eR-BTv" firstAttribute="top" secondItem="O82-27-vtZ" secondAttribute="bottom" constant="46" id="kR7-oj-iuV"/>
+                            <constraint firstItem="O82-27-vtZ" firstAttribute="leading" secondItem="J4B-6l-Nmj" secondAttribute="leadingMargin" id="kw3-SG-7ys"/>
+                            <constraint firstItem="0kD-Mu-a9B" firstAttribute="trailing" secondItem="9iO-uJ-uEk" secondAttribute="trailing" id="pHr-fG-t4S"/>
+                            <constraint firstItem="p6r-hX-RMK" firstAttribute="top" secondItem="9iO-uJ-uEk" secondAttribute="bottom" constant="19" id="raA-6u-Ymj"/>
+                            <constraint firstItem="O82-27-vtZ" firstAttribute="top" secondItem="8fR-gc-UtY" secondAttribute="top" constant="30" id="y8s-V0-l6t"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="8fR-gc-UtY"/>
+                    </view>
+                    <connections>
+                        <outlet property="commentsTextView" destination="9iO-uJ-uEk" id="5l5-Vf-bJJ"/>
+                        <outlet property="ratingStackView" destination="CTd-eR-BTv" id="zdz-yG-Fc0"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pLk-Vc-hl8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2453.5999999999999" y="857.88177339901483"/>
+        </scene>
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="JjF-JT-nfG"/>
         <segue reference="OSf-nI-m12"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.46274509800000002" green="0.70980392160000005" blue="0.30196078430000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+    <resources>
+        <image name="star" catalog="system" width="128" height="116"/>
+    </resources>
 </document>

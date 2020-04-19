@@ -1,5 +1,5 @@
 //
-//  ReportUserViewController.swift
+//  ReviewViewController.swift
 //  Merchant
 //
 //  Created by Domenic Conversa on 4/18/20.
@@ -7,20 +7,20 @@
 //
 
 import UIKit
-import Alamofire
 
-class ReportUserViewController: UIViewController, UITextViewDelegate {
+class ReviewViewController: UIViewController, UITextViewDelegate {
     
-    @IBOutlet weak var reportTextView: UITextView!
+    @IBOutlet weak var ratingStackView: RatingController!
+    @IBOutlet weak var commentsTextView: UITextView!
     
-    @IBAction func submitReportButton(_ sender: Any) {
+    @IBAction func submitReviewButton(_ sender: Any) {
+        print(ratingStackView.numStars)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Do any additional setup after loading the view.
-        self.reportTextView.delegate = self
+        self.commentsTextView.delegate = self
     }
     
     //dismiss keyboard on return
@@ -31,7 +31,6 @@ class ReportUserViewController: UIViewController, UITextViewDelegate {
         }
         return true
     }
-    
 
     /*
     // MARK: - Navigation
