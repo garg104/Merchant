@@ -41,8 +41,15 @@ class SellHistoryTableViewController: UITableViewController {
 //            "Accept": "application/json"
 //        ]
         AF.request(API.URL + "/items/userSellingHistory/\(currentUser)", method: .get).responseJSON { response in
+            debugPrint("in selling history")
+
+            
         
                 if (response.response?.statusCode == 200) {
+                    debugPrint("response of user selling history is ")
+                    debugPrint(response.value)
+
+
                     if let info = response.value {
                         let JSON = info as! NSDictionary
                         let items : NSArray =  JSON.value(forKey: "items") as! NSArray
