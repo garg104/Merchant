@@ -58,8 +58,8 @@ const userSchema = mongoose.Schema({
                     require: true
                 },
                 DatePosted: {
-                    type: Date,
-                    default: Date.now,  
+                    type: String,
+                    require: true,  
                 },
             }]
         },

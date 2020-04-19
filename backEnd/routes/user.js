@@ -534,25 +534,35 @@ router.post('/rating', async (req, res) => {
 
     const user1 = await User.findOne({ username: req.body.user1 })
     const user2 = await User.findOne({ username: req.body.user2 })
+    var today = new Date();
+    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    var dateTime = date+' '+time;
     var rated = false
     const currentRatings = user2.rating.users;
     let prevRating = {}
     let index = 0
     currentRatings.forEach(rating => {
       if (`${rating.userID}`.localeCompare(`${user1._id}`) === 0) {
-        console.log("inside the if condition")
+        // console.log("inside the if condition")
         prevRating = rating
         rated = true
         return
       }
-      index = index + 1
+      if (!rated) {
+        index = index + 1
+      }
     });
 
     if (rated) {
     // if user1 has already reviewed user2 before
+    // console.log(user1.username)
+    // console.log(index)
     user2.rating.currentRating = ((user2.rating.currentRating * user2.rating.totalRatings) - (prevRating.rating * 1) + (req.body.newRating * 1)) / (user2.rating.totalRatings * 1)
     user2.rating.users[index].rating = req.body.newRating
     user2.rating.users[index].review = req.body.review
+    user2.rating.users[index].datePosted = dateTime   
+    // console.log(user2.rating)
     let ret = await User.findOneAndUpdate({ username: user2.username} , {rating: user2.rating} )
     } 
     else {
@@ -562,7 +572,8 @@ router.post('/rating', async (req, res) => {
     const temp = {
       userID: user1._id, 
       rating: req.body.newRating,
-      review: req.body.review
+      review: req.body.review,
+      datePosted: dateTime
     }
     user2.rating.users.push(temp)
     let ret = await User.findOneAndUpdate({ username: user2.username} , {rating: user2.rating} )
