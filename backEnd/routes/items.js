@@ -174,10 +174,10 @@ router.post('/itemSold', async (req, res) => {
 /**
  * Selling history 
  */
-router.get('/userSellingHistory/', async (req, res) => {
+router.get('/userSellingHistory/:username', async (req, res) => {
   try {
     // get all items with isSold as true.
-    const user = await User.find({ username: req.body.username })
+    const user = await User.find({ username: req.params.username })
     let items = []
     if (user[0].sellingHistory.length === 0) {
       res.status(200).json({ items })

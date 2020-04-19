@@ -16,7 +16,7 @@ class SellHistoryTableViewController: UITableViewController {
     //data structures
     var images: [String] = []
     var titles: [String] = []
-    var usernames: [String] = []
+    var usernames: [String] = [] 
     var prices: [String] = []
     var descriptions: [String] = []
     var itemCategories: [Int] = []
@@ -36,27 +36,29 @@ class SellHistoryTableViewController: UITableViewController {
         
         //UPDATE FOR SELLING HISTORY
           
-        let headers: HTTPHeaders = [
-            "Authorization": Authentication.getAuthToken(),
-            "Accept": "application/json"
-        ]
-        AF.request(API.URL + "/user/wishlist/", method: .get, headers: headers).responseJSON { response in
-    
-            if (response.response?.statusCode == 200) {
-                if let info = response.value {
-                    let JSON = info as! NSDictionary
-                    let items : NSArray =  JSON.value(forKey: "wishlist") as! NSArray
-                    for item in items {
-                        // make sure that the user does not see the objects they are selling
-                        let temp = item as! NSDictionary
-                        
-                        //fill in arrays
-                        
+//        let headers: HTTPHeaders = [
+//            "Authorization": Authentication.getAuthToken(),
+//            "Accept": "application/json"
+//        ]
+        AF.request(API.URL + "/items/userSellingHistory/\(currentUser)", method: .get).responseJSON { response in
+        
+                if (response.response?.statusCode == 200) {
+                    if let info = response.value {
+                        let JSON = info as! NSDictionary
+                        let items : NSArray =  JSON.value(forKey: "items") as! NSArray
+                        for item in items {
+                            print(item)
+                            let temp = item as! NSDictionary
+                            self.titles.append(temp["title"]! as! String)
+                            self.prices.append(temp["price"]! as! String)
+                            self.descriptions.append(temp["description"]! as! String)
+                            self.itemIDs.append(temp["_id"]! as! String)
+                            self.itemCategories.append(Int(temp["category"] as! String)!)
+                        }
                     }
+                } else {
+                    debugPrint("ERROR")
                 }
-            } else {
-                debugPrint("ERROR")
-            }
             
             completion(0)
             
