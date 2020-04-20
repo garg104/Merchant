@@ -217,11 +217,33 @@ class ProfileViewController: UIViewController {
       }
     }
     
+    func deleteAllCache() {
+        //checking for cached image data
+        let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let fileURL = documentsURL.appendingPathComponent("com.merchant.turkeydaddy/")
+        let filePath = fileURL.path
+        let fileManager = FileManager.default
+        debugPrint(filePath)
+        
+        //checking if the required file already exists in the cache
+        if fileManager.fileExists(atPath: filePath) {
+            do {
+                //read the data from the cache
+                try fileManager.removeItem(atPath: filePath)
+                debugPrint("Cleared the cache")
+            } catch {
+                //File in cache is corrupted
+                debugPrint("Couldn't clear the cache")
+            } //end do-catch
+        } //end if
+    }
+    
    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         //do anything that needs to be done before logging out here
         if (segue.identifier == "profileToWelcome") {
             Authentication.logout()
+            deleteAllCache()
         }
         
         if (segue.identifier == "toEditProfile") {
