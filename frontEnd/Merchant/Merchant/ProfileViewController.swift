@@ -210,7 +210,10 @@ class ProfileViewController: UIViewController {
               let alert = UIAlertController(title: "Account Deleted", message: "Your account has successfully been deleted", preferredStyle: .alert)
               let okDeleteion = UIAlertAction( title: "Ok",
                                                style: .cancel,
-                                               handler: { (action) -> Void in self.performSegue(withIdentifier: "unwindAfterDelete", sender: nil)})
+                                               handler: { (action) -> Void in
+                                                    self.performSegue(withIdentifier: "unwindAfterDelete", sender: nil)
+                                                    self.deleteAllCache()
+                                                })
               alert.addAction(okDeleteion)
               self.present(alert, animated: true)
           }
