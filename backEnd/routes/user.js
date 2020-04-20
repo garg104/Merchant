@@ -470,6 +470,9 @@ router.get('/search/:query', async (req, res, next) => {
   } //end try-catch
 })
 
+/**
+ * Add an item to the wishlist
+ */
 router.post('/wishlist', authenticate, async (req, res) => {
   const idItem = req.body.id
   //check if the item id has been passed in the body or not
@@ -489,6 +492,7 @@ router.post('/wishlist', authenticate, async (req, res) => {
   } //end try-catch
 })
 
+/*Gets the wishlist of a particular user*/
 router.get('/wishlist', authenticate, async (req, res) => {
   if (req.userInfo) {
     if (req.userInfo.wishlist) {
@@ -518,6 +522,19 @@ router.get('/wishlist', authenticate, async (req, res) => {
   } //end if
 })
 
+/* Checks if an items exists in the wishlist */
+router.get('/wishlist/exists/:id', authenticate, async (req, res) => {
+  if (req.userInfo) {
+    if (req.userInfo.wishlist) {
+      if (req.userInfo.wishlist.indexOf(req.params.id) !== -1) {
+        res.status(200).send(true);
+        return;
+      }
+    }
+  }
+  res.status(404).send(false);
+})
+
 /*
 * handles the rating of the user.
 */
@@ -527,7 +544,7 @@ router.get('/wishlist', authenticate, async (req, res) => {
 */
 
 router.post('/rating', async (req, res) => {
-  
+
   try {
     // user 1 is the user who is rating the user. 
     // user 2 is the user who is being rated.
@@ -535,9 +552,9 @@ router.post('/rating', async (req, res) => {
     const user1 = await User.findOne({ username: req.body.user1 })
     const user2 = await User.findOne({ username: req.body.user2 })
     var today = new Date();
-    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+    var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
     var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-    var dateTime = date+' '+time;
+    var dateTime = date + ' ' + time;
     var rated = false
     const currentRatings = user2.rating.users;
     let prevRating = {}
@@ -561,30 +578,30 @@ router.post('/rating', async (req, res) => {
       user2.rating.currentRating = ((user2.rating.currentRating * user2.rating.totalRatings) - (prevRating.rating * 1) + (req.body.newRating * 1)) / (user2.rating.totalRatings * 1)
       user2.rating.users[index].rating = req.body.newRating
       user2.rating.users[index].review = req.body.review
-      user2.rating.users[index].datePosted = dateTime   
+      user2.rating.users[index].datePosted = dateTime
       // console.log(user2.rating)
-      let ret = await User.findOneAndUpdate({ username: user2.username} , {rating: user2.rating} )
+      let ret = await User.findOneAndUpdate({ username: user2.username }, { rating: user2.rating })
     } else {
       // if user1 has not reviewed user2 before
       user2.rating.currentRating = ((user2.rating.currentRating * user2.rating.totalRatings) + (req.body.newRating * 1)) / ((user2.rating.totalRatings * 1) + 1)
       user2.rating.totalRatings = (user2.rating.totalRatings * 1) + 1
       const temp = {
-        userID: user1._id, 
+        userID: user1._id,
         rating: req.body.newRating,
         review: req.body.review,
         datePosted: dateTime
       }
       user2.rating.users.push(temp)
-      let ret = await User.findOneAndUpdate({ username: user2.username} , {rating: user2.rating} )
+      let ret = await User.findOneAndUpdate({ username: user2.username }, { rating: user2.rating })
     }
-  
+
     res.status(200).json({ msg: "success", rating: user2.rating })
 
   } catch (e) {
     console.log(e)
     res.status(400).json({ msg: e })
   }
-  
+
 })
 
 router.post('/report', async (req, res) => {
@@ -599,19 +616,19 @@ router.post('/report', async (req, res) => {
     const user1 = await User.findOne({ username: req.body.user1 })
     const user2 = await User.findOne({ username: req.body.user2 })
     var today = new Date();
-    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+    var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
     var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-    var dateTime = date+' '+time;
-    user2.reports.reportNum = (user2.reports.reportNum * 1) + 1 
+    var dateTime = date + ' ' + time;
+    user2.reports.reportNum = (user2.reports.reportNum * 1) + 1
     let newReport = dateTime + ": " + reason
     const temp = {
-      userID: user1._id, 
+      userID: user1._id,
       reason: newReport,
       datePosted: dateTime
     }
     console.log(user2.reports.users)
     user2.reports.users.push(temp)
-    if(user2.reports.reportNum >= 3) {
+    if (user2.reports.reportNum >= 3) {
       // wait for the sendEmail funtion to return and send a valid response
       let reasonEmail = ""
       user2.reports.users.forEach(report => {
@@ -620,15 +637,11 @@ router.post('/report', async (req, res) => {
       const email = 'chirayugarg99@gmail.com'
       const ret = await sendEmail(generateUserReport(email, req.body.user2, user2._id, reasonEmail))
     }
-    let ret = await User.findOneAndUpdate({ username: user2.username} , {reports: user2.reports} )
+    let ret = await User.findOneAndUpdate({ username: user2.username }, { reports: user2.reports })
     res.status(200).json({ msg: "success", rating: user2.reports })
   } catch (error) {
     res.status(400).json({ msg: error })
-  }  
+  }
 })
-
-
-
-
 
 module.exports = router;
