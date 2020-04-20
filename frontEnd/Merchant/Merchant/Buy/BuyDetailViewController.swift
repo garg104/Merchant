@@ -23,6 +23,7 @@ class BuyDetailViewController: UIViewController {
     var imageHeight = CGRect()
     var imageWidth = CGRect()
     
+    @IBOutlet weak var wishlistButton: UIBarButtonItem!
     @IBOutlet weak var itemImageView: UIImageView!
     @IBOutlet weak var itemPriceLabel: UILabel!
     @IBOutlet weak var itemDescriptionTextView: UITextView!
@@ -37,17 +38,34 @@ class BuyDetailViewController: UIViewController {
         struct parameter: Encodable {
             var id: String
         }
+        struct removeParams: Encodable {
+            var itemID: String
+        }
+        let headers: HTTPHeaders = [
+            "Authorization": Authentication.getAuthToken(),
+            "Accept": "application/json"
+        ]
         
         if (itemInWishlist) {
-            //Removing the item from wish list
-            
+           //Removing the item from wish list
+           let itemDetail = removeParams(itemID: self.itemId)
+           AF.request(API.URL + "/items/removeFromWishlist/", method: .post, parameters: itemDetail, headers: headers).responseJSON { response in
+               var title = "Error in wishlist"
+               var message = "Item couldn't be removed from the wish list, try again"
+               if (response.response?.statusCode == 200) {
+                   title = "Item succesfully removed"
+                   message = "Item has been successfully removed from the wishlist"
+                   StateManager.updateWishlist = true;
+                   self.itemInWishlist = false
+                   self.updateWishlistStatus(exists: false)
+               } //end if
+               let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+               alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
+               self.present(alert, animated: true)
+           }
         } else {
             //Adding the item to wishlist
             let itemDetail = parameter(id: self.itemId)
-            let headers: HTTPHeaders = [
-                "Authorization": Authentication.getAuthToken(),
-                "Accept": "application/json"
-            ]
             AF.request(API.URL + "/user/wishlist/", method: .post, parameters: itemDetail, headers: headers).responseJSON { response in
                 var title = "Error in wishlist"
                 var message = "Item couldn't be added to the wish list, try again"
@@ -56,6 +74,7 @@ class BuyDetailViewController: UIViewController {
                     message = "Item has been successfully added to the wishlist"
                     StateManager.updateWishlist = true;
                     self.updateWishlistStatus(exists: true)
+                    self.itemInWishlist = true
                 } //end if
                 let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
                 alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
@@ -117,11 +136,9 @@ class BuyDetailViewController: UIViewController {
     func updateWishlistStatus(exists: Bool) {
         //toggling the title of the wishlist button
         if (!exists) {
-            wishlistButton.setTitle("Add to wishlist", for: .normal);
-            wishlistButton.setTitleColor(#colorLiteral(red: 0.3822624683, green: 0.7218602896, blue: 0.2237514853, alpha: 1), for: .normal);
+            wishlistButton.tintColor = #colorLiteral(red: 0.3822624683, green: 0.7218602896, blue: 0.2237514853, alpha: 1);
         } else {
-            wishlistButton.setTitle("Remove from wishlist", for: .normal);
-            wishlistButton.setTitleColor(.red, for: .normal);
+            wishlistButton.tintColor = .red;
         }
     }
     
