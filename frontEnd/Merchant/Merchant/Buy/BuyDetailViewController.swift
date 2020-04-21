@@ -128,6 +128,7 @@ class BuyDetailViewController: UIViewController {
             }//end if
             if (self.itemInWishlist != exists) {
                 self.updateWishlistStatus(exists: exists)
+                self.itemInWishlist = exists
             }
         }
         return exists;
