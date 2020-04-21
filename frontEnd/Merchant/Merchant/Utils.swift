@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import UIKit
+import Alamofire
 
 extension UserDefaults {
     
@@ -136,3 +138,93 @@ class Authentication {
         guard status == errSecSuccess || status == errSecItemNotFound else { debugPrint("Couldn't delete"); return }
     }
 } //Authentication
+
+extension UIImageView {
+    
+    func loadImageFromItemID(itemID: String) {
+        image = UIImage(imageLiteralResourceName: "no-image")
+        accessibilityLabel = itemID
+        
+        //setting the destination for storing the downloaded file
+        let destination: DownloadRequest.Destination = { _, _ in
+            let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+            let fileURL = documentsURL.appendingPathComponent("com.merchant.turkeydaddy/pictures/items/item_\(itemID).data")
+            return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
+        }
+
+        //checking cache
+        checkCacheForItemPicture(itemImageView: self, itemID: itemID)
+        
+        //making the server request
+        AF.download(API.URL + "/items/picture/\(itemID)", method: .get, to: destination).responseJSON { response in
+            if (response.response?.statusCode != 200) {
+                //render default image
+                if (self.accessibilityLabel == itemID) {
+                    self.image = base64ToUIImage(base64String: "", itemImageView: self)
+                }
+            } else {
+                //request successful
+                if let res = response.value {
+                    let resJson = res as! NSDictionary
+                    let pictures : NSArray =  resJson.value(forKey: "files") as! NSArray
+                    for picture in pictures {
+                        let encodedImageString = picture as! String
+                        if (self.accessibilityLabel == itemID) {
+                            self.image = base64ToUIImage(base64String: encodedImageString, itemImageView: self)
+                        } else {
+                            debugPrint("ITEM ID NOT MATCHING: ", self.accessibilityLabel ?? "NONE", itemID)
+                        }
+                        break
+                    }
+                }
+            } //end if
+        } //request
+        
+    }
+}
+
+func base64ToUIImage(base64String: String?, itemImageView: UIImageView) -> UIImage{
+  if (base64String?.isEmpty)! {
+      //debugPrint("No picture found")
+      return UIImage(imageLiteralResourceName: "no-image")
+  } else {
+      // Separating the metadata from the base64 data
+      let temp = base64String?.components(separatedBy: ",")
+      let dataDecoded : Data = Data(base64Encoded: temp![1], options: .ignoreUnknownCharacters)!
+      let decodedimage = UIImage(data: dataDecoded)
+    if (decodedimage != nil) {
+      return decodedimage!
+    } else {
+        return itemImageView.image!
+    }
+  } //end if
+}
+
+
+func checkCacheForItemPicture(itemImageView: UIImageView, itemID: String) {
+    //checking for cached image data
+    let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+    let fileURL = documentsURL.appendingPathComponent("com.merchant.turkeydaddy/pictures/items/item_\(itemID).data")
+    let filePath = fileURL.path
+    let fileManager = FileManager.default
+    
+    //checking if the required file already exists in the cache
+    if fileManager.fileExists(atPath: filePath) {
+        do {
+            //read the data from the cache
+            if let json = try JSONSerialization.jsonObject(with: Data(contentsOf: fileURL), options: []) as? [String: Any] {
+                // try to read out a string array
+                if let files = json["files"] as? [String] {
+                    for file in files {
+                        itemImageView.image = base64ToUIImage(base64String: file, itemImageView: itemImageView)
+                        break
+                    }
+                    //debugPrint("Cache hit: successfully rendered image")
+                }
+            }
+        } catch {
+            //File in cache is corrupted
+            //debugPrint("Chache Miss, making the request")
+        } //end do-catch
+    } //end if
+}

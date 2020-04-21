@@ -380,7 +380,8 @@ class BuyTableViewController: UITableViewController {
             cell.itemDescription = descriptions[searched[indexPath.row]]
             cell.itemCategory = itemCategories[searched[indexPath.row]]
             cell.itemID = itemIDs[searched[indexPath.row]]
-            itemPicturesHandler(itemImageView: cell.itemImageView, itemID: cell.itemID)
+//            itemPicturesHandler(itemImageView: cell.itemImageView, itemID: cell.itemID)
+            cell.itemImageView.loadImageFromItemID(itemID: cell.itemID)
         } else {
             cell.itemTitleLabel.text = titles[indexPath.row]
             cell.itemPriceLabel.text = prices[indexPath.row]
@@ -388,7 +389,8 @@ class BuyTableViewController: UITableViewController {
             cell.itemDescription = descriptions[indexPath.row]
             cell.itemCategory = itemCategories[indexPath.row]
             cell.itemID = itemIDs[indexPath.row]
-            itemPicturesHandler(itemImageView: cell.itemImageView, itemID: cell.itemID)
+//            itemPicturesHandler(itemImageView: cell.itemImageView, itemID: cell.itemID)
+            cell.itemImageView.loadImageFromItemID(itemID: cell.itemID)
         }
         return cell
     }
@@ -468,6 +470,7 @@ class BuyTableViewController: UITableViewController {
     //Image rendering funtions
     func itemPicturesHandler(itemImageView: UIImageView, itemID: String) {
         //first, setting up the default image
+        debugPrint("INSIDE -------")
         itemImageView.image = UIImage(imageLiteralResourceName: "no-image")
         
         //setting the destination for storing the downloaded file
