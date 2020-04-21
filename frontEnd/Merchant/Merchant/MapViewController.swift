@@ -19,14 +19,21 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         super.viewDidLoad()
         
         mapView.delegate = self
+        // Add gesture to mapView
+        let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
+        longPressRecognizer.minimumPressDuration = 0.5
+        mapView.addGestureRecognizer(longPressRecognizer)
+        
+        mapView.mapType = MKMapType.standard
 
         // Do any additional setup after loading the view.
-        // initialize location to WL IN
-        let purdueCoords = CLLocation(latitude: 40.4237, longitude: -86.9212)
-        mapView.centerToLocation(purdueCoords)
+        // initialize cenetered location to WL, IN
+        let purdueLocation = CLLocation(latitude: 40.4237, longitude: -86.9212)
+        mapView.centerToLocation(purdueLocation)
+        let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
     }
     
-    func handleTap(_ gestureRecognizer: UILongPressGestureRecognizer) {
+    @objc func handleTap(_ gestureRecognizer: UILongPressGestureRecognizer) {
         let location = gestureRecognizer.location(in: mapView)
         let coordinate = mapView.convert(location, toCoordinateFrom: mapView)
         
