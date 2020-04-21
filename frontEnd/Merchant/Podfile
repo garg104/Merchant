@@ -9,6 +9,12 @@ use_modular_headers!
   # Pods for Merchant
   pod 'Alamofire', '~> 5.0.0-rc'
 
+	# add the Firebase pod for Google Analytics
+	pod 'Firebase/Analytics'
+  
+  # Add the pod for Firebase Cloud Messaging
+  pod 'Firebase/Messaging'
+
   target 'MerchantTests' do
     inherit! :search_paths
 #    pod 'Alamofire', '~> 5.0'
