@@ -470,7 +470,6 @@ class BuyTableViewController: UITableViewController {
     //Image rendering funtions
     func itemPicturesHandler(itemImageView: UIImageView, itemID: String) {
         //first, setting up the default image
-        debugPrint("INSIDE -------")
         itemImageView.image = UIImage(imageLiteralResourceName: "no-image")
         
         //setting the destination for storing the downloaded file
