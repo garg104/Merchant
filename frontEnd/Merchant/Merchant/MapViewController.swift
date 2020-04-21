@@ -9,22 +9,35 @@
 import UIKit
 import MapKit
 
-class MapViewController: UIViewController {
+class MapViewController: UIViewController, MKMapViewDelegate {
 
     @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var mapView: MKMapView!
+    //var selectedAnnotation: MKPointAnnotation
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        mapView.delegate = self
 
         // Do any additional setup after loading the view.
         // initialize location to WL IN
-        let initialLocation = CLLocation(latitude: 40.4237, longitude: -86.9212)
-        mapView.centerToLocation(initialLocation)
+        let purdueCoords = CLLocation(latitude: 40.4237, longitude: -86.9212)
+        mapView.centerToLocation(purdueCoords)
     }
     
+    func handleTap(_ gestureRecognizer: UILongPressGestureRecognizer) {
+        let location = gestureRecognizer.location(in: mapView)
+        let coordinate = mapView.convert(location, toCoordinateFrom: mapView)
+        
+        // Add annotation
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = coordinate
+        annotation.title = "Custom pin"
+        mapView.addAnnotation(annotation)
+    }
     
-    
+
 
     /*
     // MARK: - Navigation
