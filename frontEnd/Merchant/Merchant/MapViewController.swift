@@ -30,7 +30,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         // initialize cenetered location to WL, IN
         let purdueLocation = CLLocation(latitude: 40.4237, longitude: -86.9212)
         mapView.centerToLocation(purdueLocation)
-        let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
     }
     
     @objc func handleTap(_ gestureRecognizer: UILongPressGestureRecognizer) {
