@@ -16,6 +16,8 @@ export const dispatchAPN = () => {
         production: false,
     })
 
+    let deviceToken = ""
+
     //setting up a new notification
     let note = new apn.Notification()
     note.expiry = Math.floor(Date.now() / 1000) + 3600; // Expires 1 hour from now.
