@@ -13,7 +13,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 
     @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var mapView: MKMapView!
-    //var selectedAnnotation: MKPointAnnotation
+    var selectedAnnotation: MKPointAnnotation?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,7 +37,15 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         mapView.addAnnotation(annotation)
     }
     
+    
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        let latValStr : String = String(format: "%.02f", Float((view.annotation?.coordinate.latitude)!))
+        let longValStr : String = String(format: "%.02f", Float((view.annotation?.coordinate.longitude)!))
+        
+        print("latitude:\(latValStr) & longitude\(longValStr)")
 
+    }
+    
 
     /*
     // MARK: - Navigation
