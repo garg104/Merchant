@@ -1,5 +1,48 @@
 const apn = require('apn')
 
+import * as admin from "firebase-admin";
+
+const serviceAccount = require('../firebase.json');
+
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    databaseURL: "https://merchant-307.firebaseio.com"
+});
+
+/**
+ * This function helps dispatch an
+ * APN (Appple Push Notification) to
+ * Apple's push notification server
+ */
+export const dispatchAPNViaFirebase = (username, userMessage) => {
+    // These registration tokens come from the client FCM SDKs.
+    const registrationTokens = [];
+
+    //formatting the message object
+    const message = {
+        notification: {
+            title: username,
+            body: userMessage,
+        },
+        data: { time: Date.now().toString() },
+        tokens: registrationTokens,
+    }
+
+    //broadcasting the message and error handling
+    admin.messaging().sendMulticast(message)
+        .then((response) => {
+            if (response.failureCount > 0) {
+                const failedTokens = [];
+                response.responses.forEach((resp, idx) => {
+                    if (!resp.success) {
+                        failedTokens.push(registrationTokens[idx]);
+                    }
+                });
+                console.log('List of tokens that caused failures: ' + failedTokens);
+            }
+        });
+}
+
 /**
  * This function helps dispatch an
  * APN (Apple Push Notification) to

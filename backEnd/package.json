@@ -23,6 +23,7 @@
     "dotenv": "^8.2.0",
     "esm": "^3.2.25",
     "express": "~4.16.1",
+    "firebase-admin": "^8.10.0",
     "gridfs-stream": "^1.1.1",
     "http-errors": "^1.7.3",
     "jsonwebtoken": "^8.5.1",
