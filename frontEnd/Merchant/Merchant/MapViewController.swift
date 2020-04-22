@@ -15,6 +15,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var mapView: MKMapView!
     var selectedAnnotation: MKPointAnnotation?
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -51,6 +52,29 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         print("latitude:\(latValStr) & longitude\(longValStr)")
 
     }
+    
+    // when custom pin is selected
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        let identifier = "Pin"
+        
+        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+        
+        if annotationView == nil {
+            annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+            annotationView?.canShowCallout = true
+            let cancelButton = UIButton(type: .close)
+            let shareButton = UIButton(type: .roundedRect)
+            annotationView?.rightCalloutAccessoryView = shareButton
+            annotationView?.leftCalloutAccessoryView = cancelButton
+        }
+        else {
+            annotationView?.annotation = annotation
+        }
+        
+        return annotationView
+    }
+    
+
     
 
     /*
