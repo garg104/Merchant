@@ -51,26 +51,28 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
         //initialize tableview
         conversationTableView.register(MessageTableViewCell.self, forCellReuseIdentifier: "messageCell")
         
-        
-        
         //get keyboard height
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+        
+        scrollToBottom()
         
     }
     
     override func viewWillLayoutSubviews() {
-        //auto scroll to bottom of tableview
-        conversationTableView.reloadData()
-        if (messages.count > 0) {
-            self.conversationTableView.reloadData()
-            let indexPath = NSIndexPath(row: self.messages.count-1, section: 0)
-            self.conversationTableView.scrollToRow(at: indexPath as IndexPath, at: .bottom, animated: true)
-        }
+        scrollToBottom()
     }
     
     @IBAction func sendPressed(_ sender: UIButton) {
         //send the message
         self.messageTextField.endEditing(true)
+    }
+    
+    func scrollToBottom() {
+        if (messages.count > 0) {
+            self.conversationTableView.reloadData()
+            let indexPath = NSIndexPath(row: self.messages.count-1, section: 0)
+            self.conversationTableView.scrollToRow(at: indexPath as IndexPath, at: .bottom, animated: true)
+        }
     }
     
     @objc func tableViewTapped() {
@@ -89,6 +91,8 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
             self.dockHeightConstraint.constant = CGFloat(self.keyboardHeight) + 20
             self.view.layoutIfNeeded()
         }, completion: nil)
+        
+        scrollToBottom()
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
@@ -100,6 +104,8 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
             self.dockHeightConstraint.constant = CGFloat(self.keyboardHeight) + 20
             self.view.layoutIfNeeded()
         }, completion: nil)
+        
+        scrollToBottom()
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
@@ -109,6 +115,8 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
             self.dockHeightConstraint.constant = 60
             self.view.layoutIfNeeded()
         }, completion: nil)
+        
+        scrollToBottom()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
