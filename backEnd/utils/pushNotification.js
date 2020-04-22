@@ -13,6 +13,10 @@ admin.initializeApp({
  * This function helps dispatch an
  * APN (Appple Push Notification) to
  * Apple's push notification server
+ * 
+ * @param senderUsername: username of the sender
+ * @param receiverUsername: username of the receiver
+ * @param userMessage: message body
  */
 export const dispatchAPNViaFirebase = async (senderUsername, receiverUsername, userMessage) => {
     return new Promise(async (resolve, reject) => {
@@ -28,10 +32,19 @@ export const dispatchAPNViaFirebase = async (senderUsername, receiverUsername, u
             return
         }
 
+        //get the name of the sender
+        let senderName = senderUsername
+        try {
+            const user = await User.findOne({ username: receiverUsername })
+            senderName = `${user.firstName} ${user.lastName}`
+        } catch (e) {
+            console.log(e.message)
+        }
+
         //formatting the message object
         const message = {
             notification: {
-                title: senderUsername,
+                title: senderName,
                 body: userMessage,
             },
             data: { time: Date.now().toString(), type: 'text-message' },
