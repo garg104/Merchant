@@ -20,9 +20,10 @@ export const dispatchAPNViaFirebase = async (senderUsername, receiverUsername, u
         let registrationTokens = [];
 
         try {
-            const user = await User.findOne({ username: receiver })
+            const user = await User.findOne({ username: receiverUsername })
             registrationTokens = user.deviceTokens
         } catch (e) {
+            console.log(e.message)
             reject({ msg: 'Error occured, cannot get the reciever' })
             return
         }
@@ -30,10 +31,10 @@ export const dispatchAPNViaFirebase = async (senderUsername, receiverUsername, u
         //formatting the message object
         const message = {
             notification: {
-                title: username,
+                title: senderUsername,
                 body: userMessage,
             },
-            data: { time: Date.now().toString() },
+            data: { time: Date.now().toString(), type: 'text-message' },
             tokens: registrationTokens,
         }
 

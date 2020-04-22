@@ -657,7 +657,7 @@ router.post('/addDeviceToken', authenticate, async (req, res) => {
     res.status(400).json({ msg: 'The token is too small' })
     return
   } else {
-    tokens = []
+    let tokens = []
     if (req.userInfo.deviceTokens) {
       //getting the user's deviceTokens array
       tokens = req.userInfo.deviceTokens
@@ -665,7 +665,7 @@ router.post('/addDeviceToken', authenticate, async (req, res) => {
     //pushing the new token to array if it exists
     if (tokens.indexOf(token) != -1) {
       res.status(200).json({
-        token: token[token.indexOf(token)],
+        token: tokens[token.indexOf(token)],
         msg: 'The device id already exists for the user'
       })
       return
@@ -694,7 +694,7 @@ router.post('/removeDeviceToken', authenticate, async (req, res) => {
   } else {
     if (req.userInfo.deviceTokens) {
       //getting the user's deviceTokens array
-      tokens = req.userInfo.deviceTokens
+      let tokens = req.userInfo.deviceTokens
       const index = tokens.indexOf(token)
       if (index == -1) {
         res.status(404).json({ msg: 'Specified device token did not exist for this user' })
