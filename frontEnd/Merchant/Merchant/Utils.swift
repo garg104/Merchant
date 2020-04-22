@@ -56,7 +56,7 @@ extension UserDefaults {
 class StateManager {
     static var updateWishlist: Bool =  false
     
-    func getDeviceToken() -> String {
+    static func getDeviceToken() -> String {
         var deviceToken = ""
         InstanceID.instanceID().instanceID { (result, error) in
                 if let error = error {
@@ -70,7 +70,7 @@ class StateManager {
         return deviceToken
     }
     
-    func sendDeviceToken() {
+    static func sendDeviceToken() {
         struct parameter: Encodable {
             var token: String
         }

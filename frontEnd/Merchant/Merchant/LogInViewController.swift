@@ -69,6 +69,7 @@ class LogInViewController: UIViewController {
                 debugPrint("SUCCESS!!!!")
                 Authentication.login(authToken: self.authToken)
                 Authentication.setCurrentUser(username: self.usernameTextField.text!)
+                StateManager.sendDeviceToken()
                 self.performSegue(withIdentifier: "toTabBar", sender: nil)
             } else if (validationCode == 1) { //username invalid
                 let alert = UIAlertController(title: "Invalid Username", message: "Please enter a valid username", preferredStyle: .alert)

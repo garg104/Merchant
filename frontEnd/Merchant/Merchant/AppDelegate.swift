@@ -151,6 +151,7 @@ extension AppDelegate: MessagingDelegate {
         //          self.instanceIDTokenMessage.text  = "Remote InstanceID token: \(result.token)"
                 }
         }
+        StateManager.sendDeviceToken()
     }
     
     func messaging(_ messaging: Messaging, didReceive remoteMessage: MessagingRemoteMessage) {
