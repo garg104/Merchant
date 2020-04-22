@@ -70,6 +70,7 @@ extension UserDefaults {
 
 class StateManager {
     static var updateWishlist: Bool =  false
+    static var receivedNewNotification: Bool = false
     
     static func getUpdatedDeviceToken() -> String {
         var deviceToken = ""

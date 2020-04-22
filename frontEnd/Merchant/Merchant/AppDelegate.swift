@@ -69,6 +69,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       if let messageID = userInfo[gcmMessageIDKey] {
         print("Message ID: \(messageID)")
       }
+        
+      StateManager.receivedNewNotification = true
 
       // Print full message.
       print(userInfo)
@@ -88,6 +90,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         print("Message ID: \(messageID)")
       }
 
+      StateManager.receivedNewNotification = true
+        
       // Print full message.
       print(userInfo)
 
