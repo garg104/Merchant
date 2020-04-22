@@ -33,8 +33,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         mapView.centerToLocation(purdueLocation)
         
         // create places
-        let PMU = Place(title: "PMU", coordinate: CLLocationCoordinate2D(latitude: 40.4247, longitude: -86.911), info: "Purdue Memorial Union")
-        let engineeringFountain = Place(title: "Engineering Fountain", coordinate: CLLocationCoordinate2D(latitude: 40.4286, longitude: -86.9138), info: "In the center of the engineering mall")
+        let PMU = Place(title: "PMU", coordinate: CLLocationCoordinate2D(latitude: 40.4247, longitude: -86.911))
+        let engineeringFountain = Place(title: "Engineering Fountain", coordinate: CLLocationCoordinate2D(latitude: 40.4286, longitude: -86.9138))
         
         // add places to map
         mapView.addAnnotation(PMU)
@@ -81,6 +81,24 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         
         return annotationView
     }
+    
+    // share button is pressed
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        guard let place = view.annotation as? Place else { return }
+        
+        let placeName = place.title
+        let placeCoords = place.coordinate
+        
+        let ac = UIAlertController(title: placeName, message: "Would you like to select this location?", preferredStyle: .actionSheet)
+        ac.addAction(UIAlertAction(title: "OK", style: .default))
+        ac.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        present(ac, animated: true)
+        
+        // TODO: Aakarshit - please store coordinates (placeCoords.latitude and placeCoords.longitude) in the database however you see fit
+        
+    }
+    
+    
 
     /*
     // MARK: - Navigation
