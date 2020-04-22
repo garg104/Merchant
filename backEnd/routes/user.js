@@ -634,6 +634,9 @@ router.post('/report', async (req, res) => {
       user2.reports.users.forEach(report => {
         reasonEmail = reasonEmail + report.reason + "\n"
       });
+
+      // this will be a random search from the  list of admins in th database and set the email,
+      // for now I am just hardcoding my email
       const email = 'chirayugarg99@gmail.com'
       const ret = await sendEmail(generateUserReport(email, req.body.user2, user2._id, reasonEmail))
     }

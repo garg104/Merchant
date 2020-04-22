@@ -34,10 +34,11 @@ class ReportUserViewController: UIViewController, UITextViewDelegate {
         return true
     }
     
-    func postReview() {
+   
+    func sendReport() {
         
-        // user 1 is the user who is rating the user.
-        // user 2 is the user who is being rated.
+        // user 1 is the user who is reporting the user.
+        // user 2 is the user who is being reported.
         
         
         // TODO
@@ -46,24 +47,19 @@ class ReportUserViewController: UIViewController, UITextViewDelegate {
         // USER 2 is the user beeeing rated. ENTER THEIR USERNAME IN THE DETAILS
         let userBeingRated = "" // edit this
         
-        // NEW RATING IS THE RATING GIVEN BY USER1 TO USER2. GET IT FROM THE UI. THIS IS ALWAYS OUT OF 5 SO IT SHOULD BE SOMETHING BETWEEEN 1-5. ENTER IT BELOW
-        let newRating = ""
-        
         // REVIEW IS THE REVIEW GIVEN BY USER1 TO USER2. GET IT FROM THE UI. ENTER IT BELOW.
-        let review = ""
+        let reason = ""
         
         
-        // do not change the var names in the struct as these correspond to the ones in backend.
         struct parameters: Encodable {
             var user1 = ""
             var user2 = ""
-            var newRating = ""
-            var review = ""
+            var reason = ""
         }
         
-        let details = parameters(user1: currentUser, user2: userBeingRated, newRating: newRating, review: review)
+        let details = parameters(user1: currentUser, user2: userBeingRated, reason: reason)
         
-        AF.request(API.URL + "/user/rating", method: .post, parameters: details, encoder: URLEncodedFormParameterEncoder.default).response { response in
+        AF.request(API.URL + "/user/report", method: .post, parameters: details, encoder: URLEncodedFormParameterEncoder.default).response { response in
             
             // deal with the request
             if (response.response?.statusCode != 200) {
@@ -85,7 +81,6 @@ class ReportUserViewController: UIViewController, UITextViewDelegate {
             
         }.resume()
     }
-    
     
 
     /*
