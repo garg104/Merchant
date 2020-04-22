@@ -28,13 +28,20 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         mapView.mapType = MKMapType.standard
 
         // Do any additional setup after loading the view.
-        // initialize cenetered location to WL, IN
+        // Center map on Purdue
         let purdueLocation = CLLocation(latitude: 40.4237, longitude: -86.9212)
         mapView.centerToLocation(purdueLocation)
         
+        // create places
         let PMU = Place(title: "PMU", coordinate: CLLocationCoordinate2D(latitude: 40.4247, longitude: -86.911), info: "Purdue Memorial Union")
+        let engineeringFountain = Place(title: "Engineering Fountain", coordinate: CLLocationCoordinate2D(latitude: 40.4286, longitude: -86.9138), info: "In the center of the engineering mall")
+        
+        // add places to map
+        mapView.addAnnotation(PMU)
+        mapView.addAnnotation(engineeringFountain)
     }
     
+    // gesture for users to add custom pins
     @objc func handleTap(_ gestureRecognizer: UILongPressGestureRecognizer) {
         let location = gestureRecognizer.location(in: mapView)
         let coordinate = mapView.convert(location, toCoordinateFrom: mapView)
@@ -55,28 +62,25 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 
     }
     
-    // when custom pin is selected
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        let identifier = "Pin"
+        guard annotation is Place else { return nil }
         
+        let identifier = "Place"
         var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
         
         if annotationView == nil {
             annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
             annotationView?.canShowCallout = true
-            let shareButton = UIButton(type: .roundedRect)
+            
+            let shareButton = UIButton(type: .contactAdd)
+            
             annotationView?.rightCalloutAccessoryView = shareButton
-        }
-        else {
+        } else {
             annotationView?.annotation = annotation
         }
         
         return annotationView
     }
-    
-    
-
-    
 
     /*
     // MARK: - Navigation
