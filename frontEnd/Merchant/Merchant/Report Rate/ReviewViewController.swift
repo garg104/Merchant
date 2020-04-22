@@ -9,15 +9,17 @@
 import UIKit
 import Alamofire
 
-var currentUser = "";
-
 class ReviewViewController: UIViewController, UITextViewDelegate {
+    
+    var currentUser = ""
+    var userBeingRated = ""
     
     @IBOutlet weak var ratingStackView: RatingController!
     @IBOutlet weak var commentsTextView: UITextView!
     
     @IBAction func submitReviewButton(_ sender: Any) {
         print(ratingStackView.numStars)
+        postReview()
     }
     
     override func viewDidLoad() {
@@ -44,20 +46,34 @@ class ReviewViewController: UIViewController, UITextViewDelegate {
         // REMEMBER TO PASS CURRENT USER IN THE SEGUE TO THIS CONTROLLER FROM THE PREVIOUS CONTROLLER. I HAVE MADE THE GLOBAL VARIABLE
         
         // USER 2 is the user beeeing rated. ENTER THEIR USERNAME IN THE DETAILS
-        let userBeingRated = "" // edit this
+        let userBeingRated = self.userBeingRated
         
         // NEW RATING IS THE RATING GIVEN BY USER1 TO USER2. GET IT FROM THE UI. THIS IS ALWAYS OUT OF 5 SO IT SHOULD BE SOMETHING BETWEEEN 1-5. ENTER IT BELOW
-        let newRating = ""
+        let newRating = ratingStackView.numStars
         
         // REVIEW IS THE REVIEW GIVEN BY USER1 TO USER2. GET IT FROM THE UI. ENTER IT BELOW.
-        let review = ""
+        var review = ""
+        if (commentsTextView.text! == "") {
+            //create alert
+            let alert = UIAlertController(title: "Empty Comment", message: "Please enter a comment to go along with your rating.", preferredStyle: .alert)
+            // Create Confirm button with action handler
+            let confirm = UIAlertAction(title: "OK",
+                                        style: .default)
+            // add actions to the alert
+            alert.addAction(confirm)
+            // display alert
+            self.present(alert, animated: true)
+            return
+        } else {
+            review = commentsTextView.text!
+        }
         
         
         // do not change the var names in the struct as these correspond to the ones in backend.
         struct parameters: Encodable {
             var user1 = ""
             var user2 = ""
-            var newRating = ""
+            var newRating = 0
             var review = ""
         }
         

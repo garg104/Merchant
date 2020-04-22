@@ -58,6 +58,7 @@ public extension UIDevice {
 class BuyDetailViewController: UIViewController {
     
     var modelName = ""
+    var currentUser = ""
     
     var itemTitle = ""
     var itemDescription = ""
@@ -358,14 +359,24 @@ class BuyDetailViewController: UIViewController {
       } //end if
     }
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
+        if (segue.identifier == "toReport") {
+            let vc = segue.destination as! ReportUserViewController
+            vc.currentUser = currentUser
+            vc.userBeingReported = itemSeller
+        }
+        if (segue.identifier == "toReview") {
+            let vc = segue.destination as! ReviewViewController
+            vc.currentUser = currentUser
+            vc.userBeingRated = itemSeller
+        }
     }
-    */
+    
 
 }

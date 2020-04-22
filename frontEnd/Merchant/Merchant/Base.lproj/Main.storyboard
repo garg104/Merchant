@@ -1416,6 +1416,9 @@
                                         <integer key="value" value="2"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <segue destination="bvd-GZ-sP6" kind="presentation" identifier="toReview" id="ZV4-n7-TRq"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g1c-4o-Kuc">
                                 <rect key="frame" x="245.33333333333334" y="591" width="113.66666666666666" height="43"/>
@@ -1428,6 +1431,9 @@
                                         <integer key="value" value="2"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <segue destination="trL-Di-wF6" kind="presentation" identifier="toReport" id="Zmc-Mw-f7K"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$0.00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B2q-Kk-3zD">
                                 <rect key="frame" x="16" y="415" width="343" height="47.666666666666686"/>
@@ -1528,7 +1534,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iiz-5o-N41" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="xzu-rO-eSb" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="7528.8000000000002" y="-134.48275862068965"/>
+            <point key="canvasLocation" x="7529" y="69"/>
         </scene>
         <!--Main Tab Bar Controller-->
         <scene sceneID="eeM-2h-Lep">
@@ -1941,7 +1947,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KtH-W2-4ON" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="j6T-D7-aNO" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="8601" y="791"/>
+            <point key="canvasLocation" x="8484" y="791"/>
         </scene>
         <!--Edit Item View Controller-->
         <scene sceneID="StD-0Y-5BA">
@@ -2319,24 +2325,24 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mE4-OG-BMa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="8601" y="69"/>
+            <point key="canvasLocation" x="10374" y="-621"/>
         </scene>
         <!--Report User View Controller-->
         <scene sceneID="fzB-Sg-z47">
             <objects>
                 <viewController id="trL-Di-wF6" customClass="ReportUserViewController" customModule="Merchant" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="vlO-rQ-Ne4">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="758"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Report" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0WN-5b-6it">
-                                <rect key="frame" x="16.000000000000007" y="74" width="114.66666666666669" height="47.666666666666657"/>
+                                <rect key="frame" x="16.000000000000007" y="29.999999999999996" width="114.66666666666669" height="47.666666666666657"/>
                                 <fontDescription key="fontDescription" name="Poppins-SemiBold" family="Poppins" pointSize="34"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KW8-hz-tqf">
-                                <rect key="frame" x="16" y="714" width="343" height="64"/>
+                                <rect key="frame" x="16" y="660" width="343" height="64"/>
                                 <color key="backgroundColor" red="0.46274509800000002" green="0.70980392160000005" blue="0.30196078430000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="64" id="Fm9-1v-Jnp"/>
@@ -2363,27 +2369,30 @@
                                 </connections>
                             </button>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="rn8-aw-moX">
-                                <rect key="frame" x="16" y="153.33333333333331" width="343" height="541.66666666666674"/>
+                                <rect key="frame" x="16" y="109.33333333333331" width="343" height="531.66666666666674"/>
                                 <color key="backgroundColor" systemColor="systemGray6Color" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="15"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done"/>
                             </textView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pfr-Y5-vKy">
-                                <rect key="frame" x="302" y="44" width="57" height="35"/>
-                                <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="16"/>
-                                <state key="normal" title="Cancel"/>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please explain your reasoning below:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EPV-e8-ZK6">
-                                <rect key="frame" x="16" y="129.66666666666666" width="294.33333333333331" height="22.666666666666657"/>
+                                <rect key="frame" x="16" y="85.666666666666671" width="294.33333333333331" height="22.666666666666671"/>
                                 <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="16"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pfr-Y5-vKy">
+                                <rect key="frame" x="302" y="11" width="57" height="35"/>
+                                <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="16"/>
+                                <state key="normal" title="Cancel"/>
+                                <connections>
+                                    <segue destination="j65-Rs-sDe" kind="unwind" unwindAction="unwindToBuyDetailViewControllerWithSegue:" id="oub-Ql-415"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="pfr-Y5-vKy" firstAttribute="top" secondItem="LFV-d6-bqd" secondAttribute="top" id="2aF-Lt-txL"/>
+                            <constraint firstItem="pfr-Y5-vKy" firstAttribute="top" secondItem="LFV-d6-bqd" secondAttribute="top" constant="11" id="2aF-Lt-txL"/>
                             <constraint firstItem="KW8-hz-tqf" firstAttribute="bottom" secondItem="LFV-d6-bqd" secondAttribute="bottom" id="38o-Bu-4ee"/>
                             <constraint firstItem="0WN-5b-6it" firstAttribute="leading" secondItem="vlO-rQ-Ne4" secondAttribute="leadingMargin" id="6kX-7K-b96"/>
                             <constraint firstItem="rn8-aw-moX" firstAttribute="leading" secondItem="KW8-hz-tqf" secondAttribute="leading" id="89I-UO-pnp"/>
@@ -2404,8 +2413,9 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5fI-Mz-EOf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="j65-Rs-sDe" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1509.5999999999999" y="857.88177339901483"/>
+            <point key="canvasLocation" x="8484" y="69"/>
         </scene>
         <!--Map View Controller-->
         <scene sceneID="NNo-ph-ENF">
@@ -2788,17 +2798,17 @@
             <objects>
                 <viewController id="bvd-GZ-sP6" customClass="ReviewViewController" customModule="Merchant" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="J4B-6l-Nmj">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="758"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Review" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O82-27-vtZ">
-                                <rect key="frame" x="15.999999999999993" y="74" width="122.33333333333331" height="47.666666666666657"/>
+                                <rect key="frame" x="15.999999999999993" y="29.999999999999996" width="122.33333333333331" height="47.666666666666657"/>
                                 <fontDescription key="fontDescription" name="Poppins-SemiBold" family="Poppins" pointSize="34"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="p6r-hX-RMK">
-                                <rect key="frame" x="16" y="714" width="343" height="64"/>
+                                <rect key="frame" x="16" y="660" width="343" height="64"/>
                                 <color key="backgroundColor" red="0.46274509800000002" green="0.70980392160000005" blue="0.30196078430000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="64" id="UJa-q5-nSK"/>
@@ -2825,25 +2835,28 @@
                                 </connections>
                             </button>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="9iO-uJ-uEk">
-                                <rect key="frame" x="16" y="232.66666666666666" width="343" height="462.33333333333337"/>
+                                <rect key="frame" x="16" y="188.66666666666666" width="343" height="452.33333333333337"/>
                                 <color key="backgroundColor" systemColor="systemGray6Color" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="15"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done"/>
                             </textView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0kD-Mu-a9B">
-                                <rect key="frame" x="302" y="44" width="57" height="35"/>
+                                <rect key="frame" x="302" y="11" width="57" height="35"/>
                                 <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="16"/>
                                 <state key="normal" title="Cancel"/>
+                                <connections>
+                                    <segue destination="5aJ-1J-Blw" kind="unwind" unwindAction="unwindToBuyDetailViewControllerWithSegue:" id="0YJ-IQ-m6c"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rating:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WjG-5A-grn">
-                                <rect key="frame" x="16" y="129.66666666666666" width="55" height="22.666666666666657"/>
+                                <rect key="frame" x="16" y="85.666666666666671" width="55" height="22.666666666666671"/>
                                 <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="16"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="top" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="CTd-eR-BTv" customClass="RatingController" customModule="Merchant" customModuleProvider="target">
-                                <rect key="frame" x="94.333333333333329" y="167.66666666666666" width="186.66666666666669" height="22"/>
+                                <rect key="frame" x="94.333333333333329" y="123.66666666666669" width="186.66666666666669" height="22"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="udA-zE-R0o">
                                         <rect key="frame" x="0.0" y="0.0" width="25.333333333333332" height="22"/>
@@ -2872,7 +2885,7 @@
                                 </subviews>
                             </stackView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Comments:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gV7-L6-wgg">
-                                <rect key="frame" x="16" y="210.66666666666666" width="93.333333333333329" height="22.666666666666657"/>
+                                <rect key="frame" x="16" y="166.66666666666666" width="93.333333333333329" height="22.666666666666657"/>
                                 <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="16"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -2880,7 +2893,7 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="0kD-Mu-a9B" firstAttribute="top" secondItem="8fR-gc-UtY" secondAttribute="top" id="2b3-UZ-N97"/>
+                            <constraint firstItem="0kD-Mu-a9B" firstAttribute="top" secondItem="8fR-gc-UtY" secondAttribute="top" constant="11" id="2b3-UZ-N97"/>
                             <constraint firstItem="gV7-L6-wgg" firstAttribute="leading" secondItem="9iO-uJ-uEk" secondAttribute="leading" id="4e7-WV-QR9"/>
                             <constraint firstItem="gV7-L6-wgg" firstAttribute="top" secondItem="CTd-eR-BTv" secondAttribute="bottom" constant="21.000000000000028" id="B6L-rp-Lo3"/>
                             <constraint firstItem="9iO-uJ-uEk" firstAttribute="leading" secondItem="p6r-hX-RMK" secondAttribute="leading" id="IQ4-BY-Iub"/>
@@ -2906,8 +2919,9 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pLk-Vc-hl8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="5aJ-1J-Blw" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="2453.5999999999999" y="857.88177339901483"/>
+            <point key="canvasLocation" x="9476" y="69"/>
         </scene>
         <!--Sell-->
         <scene sceneID="rN9-0H-Wbo">

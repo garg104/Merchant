@@ -12,10 +12,12 @@ import Alamofire
 class ReportUserViewController: UIViewController, UITextViewDelegate {
     
     var currentUser = ""
+    var userBeingReported = ""
     
     @IBOutlet weak var reportTextView: UITextView!
     
     @IBAction func submitReportButton(_ sender: Any) {
+        sendReport()
     }
     
     override func viewDidLoad() {
@@ -45,10 +47,24 @@ class ReportUserViewController: UIViewController, UITextViewDelegate {
         // REMEMBER TO PASS CURRENT USER IN THE SEGUE TO THIS CONTROLLER FROM THE PREVIOUS CONTROLLER. I HAVE MADE THE GLOBAL VARIABLE
         
         // USER 2 is the user beeeing rated. ENTER THEIR USERNAME IN THE DETAILS
-        let userBeingRated = "" // edit this
+        let userBeingReported = self.userBeingReported
         
         // REVIEW IS THE REVIEW GIVEN BY USER1 TO USER2. GET IT FROM THE UI. ENTER IT BELOW.
-        let reason = ""
+        var reason = ""
+        if (reportTextView.text! == "") {
+            //create alert
+            let alert = UIAlertController(title: "Empty Reason", message: "Please enter a reason for reporting the user.", preferredStyle: .alert)
+            // Create Confirm button with action handler
+            let confirm = UIAlertAction(title: "OK",
+                                        style: .default)
+            // add actions to the alert
+            alert.addAction(confirm)
+            // display alert
+            self.present(alert, animated: true)
+            return
+        } else {
+            reason = reportTextView.text!
+        }
         
         
         struct parameters: Encodable {
@@ -57,7 +73,7 @@ class ReportUserViewController: UIViewController, UITextViewDelegate {
             var reason = ""
         }
         
-        let details = parameters(user1: currentUser, user2: userBeingRated, reason: reason)
+        let details = parameters(user1: currentUser, user2: userBeingReported, reason: reason)
         
         AF.request(API.URL + "/user/report", method: .post, parameters: details, encoder: URLEncodedFormParameterEncoder.default).response { response in
             
