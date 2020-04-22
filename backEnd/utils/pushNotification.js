@@ -42,6 +42,7 @@ export const dispatchAPNViaFirebase = async (senderUsername, receiverUsername, u
         //broadcasting the message and error handling
         admin.messaging().sendMulticast(message)
             .then((response) => {
+                console.log(response)
                 if (response.failureCount > 0) {
                     const failedTokens = [];
                     response.responses.forEach((resp, idx) => {
