@@ -136,6 +136,29 @@ class StateManager {
             }
         }
     }
+    
+    static func removeDeviceTokenFromDB(authToken: String) {
+        //getting updated device token
+        let deviceToken = UserDefaults.standard.getDeviceToken()
+        
+        struct parameter: Encodable {
+            var token: String
+        }
+        
+        let headers: HTTPHeaders = [
+            "Authorization": authToken,
+            "Accept": "application/json"
+        ]
+        
+        AF.request(API.URL + "/user/removeDeviceToken", method: .post, parameters: parameter(token: deviceToken), encoder: URLEncodedFormParameterEncoder.default, headers: headers).responseJSON { response in
+            let status = (response.response?.statusCode ?? 0)
+            if (status == 200) {
+                debugPrint("Removed device token for the user: \(UserDefaults.standard.getUsername())")
+            } else {
+                debugPrint("Failed to remove device token")
+            }
+        }
+    }
 }
 
 class Authentication {
@@ -159,6 +182,7 @@ class Authentication {
     
     static func logout() {
         //deleteAuthToken()
+        StateManager.removeDeviceTokenFromDB(authToken: UserDefaults.standard.getAuthToken())
         UserDefaults.standard.removeAuthToken()
         UserDefaults.standard.removeDeviceToken()
         UserDefaults.standard.setIsLoggedIn(authStatus: false)
