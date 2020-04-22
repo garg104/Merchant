@@ -13,11 +13,23 @@ struct ChatMessage {
     let isIncoming: Bool
 }
 
-class ConversationViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class ConversationViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
     
+    @IBOutlet weak var dockHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var conversationTableView: UITableView!
+    @IBOutlet weak var sendButton: UIButton!
+    @IBOutlet weak var messageTextField: UITextField!
     
+    var keyboardHeight = 0
     let messages = [
+        ChatMessage(message: "Hello", isIncoming: true),
+        ChatMessage(message: "Hey!", isIncoming: false),
+        ChatMessage(message: "What's up?", isIncoming: true),
+        ChatMessage(message: "This is a longer message that should wrap down to multiple lines", isIncoming: false),
+        ChatMessage(message: "Hello", isIncoming: true),
+        ChatMessage(message: "Hey!", isIncoming: false),
+        ChatMessage(message: "What's up?", isIncoming: true),
+        ChatMessage(message: "This is a longer message that should wrap down to multiple lines", isIncoming: false),
         ChatMessage(message: "Hello", isIncoming: true),
         ChatMessage(message: "Hey!", isIncoming: false),
         ChatMessage(message: "What's up?", isIncoming: true),
@@ -28,11 +40,75 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        self.messageTextField.delegate = self
         self.conversationTableView.delegate = self
         self.conversationTableView.dataSource = self
         
+        //add tap gesture recognizer to tableview to stop editing
+        let tapGesture:UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tableViewTapped))
+        self.conversationTableView.addGestureRecognizer(tapGesture)
+        
+        //initialize tableview
         conversationTableView.register(MessageTableViewCell.self, forCellReuseIdentifier: "messageCell")
         
+        
+        
+        //get keyboard height
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+        
+    }
+    
+    override func viewWillLayoutSubviews() {
+        //auto scroll to bottom of tableview
+        conversationTableView.reloadData()
+        if (messages.count > 0) {
+            self.conversationTableView.reloadData()
+            let indexPath = NSIndexPath(row: self.messages.count-1, section: 0)
+            self.conversationTableView.scrollToRow(at: indexPath as IndexPath, at: .bottom, animated: true)
+        }
+    }
+    
+    @IBAction func sendPressed(_ sender: UIButton) {
+        //send the message
+        self.messageTextField.endEditing(true)
+    }
+    
+    @objc func tableViewTapped() {
+        self.messageTextField.endEditing(true)
+    }
+    
+    @objc func keyboardWillShow(_ notification: NSNotification) {
+        if let keyboardRect = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+              keyboardHeight = Int(keyboardRect.height)
+            print(keyboardHeight)
+        }
+        self.view.layoutIfNeeded()
+        UIView.animate(withDuration: 0.3, animations: {
+            print("Animation")
+            print(self.keyboardHeight)
+            self.dockHeightConstraint.constant = CGFloat(self.keyboardHeight) + 20
+            self.view.layoutIfNeeded()
+        }, completion: nil)
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        //move dock up
+        self.view.layoutIfNeeded()
+        UIView.animate(withDuration: 0.3, animations: {
+            print("Animation")
+            print(self.keyboardHeight)
+            self.dockHeightConstraint.constant = CGFloat(self.keyboardHeight) + 20
+            self.view.layoutIfNeeded()
+        }, completion: nil)
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        //move dock back down
+        self.view.layoutIfNeeded()
+        UIView.animate(withDuration: 0.3, animations: {
+            self.dockHeightConstraint.constant = 60
+            self.view.layoutIfNeeded()
+        }, completion: nil)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
