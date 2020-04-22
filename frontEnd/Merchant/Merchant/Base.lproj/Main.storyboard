@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="HBR-XR-gPB">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="HBR-XR-gPB">
     <device id="retina5_9" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -338,14 +338,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="0000" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="NDP-Nm-Tqt">
-                                <rect key="frame" x="16" y="119" width="343" height="80"/>
+                                <rect key="frame" x="16" y="119" width="343" height="81"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="68"/>
                                 <textInputTraits key="textInputTraits" keyboardType="numberPad" textContentType="one-time-code"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9eI-F4-kOL">
-                                <rect key="frame" x="16" y="207" width="343" height="64"/>
+                                <rect key="frame" x="16" y="208" width="343" height="64"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="64" id="732-RP-2EY"/>
@@ -365,7 +365,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jfG-bE-Z7Z">
-                                <rect key="frame" x="16" y="283" width="343" height="32"/>
+                                <rect key="frame" x="16" y="284" width="343" height="32"/>
                                 <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="17"/>
                                 <state key="normal" title="Resend Code">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -2327,8 +2327,12 @@
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="7AG-rl-qWf">
                                 <rect key="frame" x="0.0" y="117" width="375" height="671"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="375" id="3Md-5T-7ng"/>
+                                    <constraint firstAttribute="height" constant="671" id="wB9-Ri-a43"/>
+                                </constraints>
                             </mapView>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9nD-Ot-gfe">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9nD-Ot-gfe">
                                 <rect key="frame" x="16" y="60" width="48" height="30"/>
                                 <state key="normal" title="Cancel">
                                     <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -2337,10 +2341,9 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="omL-1g-7Xe" firstAttribute="trailing" secondItem="7AG-rl-qWf" secondAttribute="trailing" id="GYd-Fz-4YU"/>
-                            <constraint firstItem="7AG-rl-qWf" firstAttribute="leading" secondItem="omL-1g-7Xe" secondAttribute="leading" id="hJQ-BG-mtf"/>
-                            <constraint firstItem="7AG-rl-qWf" firstAttribute="top" secondItem="9nD-Ot-gfe" secondAttribute="bottom" id="sP7-Li-ELH"/>
-                            <constraint firstAttribute="bottom" secondItem="7AG-rl-qWf" secondAttribute="bottom" id="ykZ-qW-Rk1"/>
+                            <constraint firstItem="9nD-Ot-gfe" firstAttribute="leading" secondItem="JmW-s5-gi4" secondAttribute="leadingMargin" id="6he-N8-0Xz"/>
+                            <constraint firstItem="9nD-Ot-gfe" firstAttribute="top" secondItem="omL-1g-7Xe" secondAttribute="top" constant="16" id="RQM-ed-Dqg"/>
+                            <constraint firstItem="7AG-rl-qWf" firstAttribute="top" secondItem="9nD-Ot-gfe" secondAttribute="bottom" constant="27" id="ocu-8G-Pgu"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="omL-1g-7Xe"/>
                     </view>
@@ -2894,13 +2897,13 @@
             <point key="canvasLocation" x="9333.6000000000004" y="2301.7241379310344"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="bookmark" catalog="system" width="56" height="64"/>
-        <image name="star" catalog="system" width="64" height="58"/>
-    </resources>
     <inferredMetricsTieBreakers>
         <segue reference="JjF-JT-nfG"/>
         <segue reference="OSf-nI-m12"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.46274509800000002" green="0.70980392160000005" blue="0.30196078430000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+    <resources>
+        <image name="bookmark" catalog="system" width="112" height="128"/>
+        <image name="star" catalog="system" width="128" height="116"/>
+    </resources>
 </document>
