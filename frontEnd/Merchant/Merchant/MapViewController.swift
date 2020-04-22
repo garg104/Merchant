@@ -15,6 +15,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var mapView: MKMapView!
     var selectedAnnotation: MKPointAnnotation?
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -30,6 +31,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         // initialize cenetered location to WL, IN
         let purdueLocation = CLLocation(latitude: 40.4237, longitude: -86.9212)
         mapView.centerToLocation(purdueLocation)
+        
+        let PMU = Place(title: "PMU", coordinate: CLLocationCoordinate2D(latitude: 40.4247, longitude: -86.911), info: "Purdue Memorial Union")
     }
     
     @objc func handleTap(_ gestureRecognizer: UILongPressGestureRecognizer) {
@@ -51,6 +54,28 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         print("latitude:\(latValStr) & longitude\(longValStr)")
 
     }
+    
+    // when custom pin is selected
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        let identifier = "Pin"
+        
+        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+        
+        if annotationView == nil {
+            annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+            annotationView?.canShowCallout = true
+            let shareButton = UIButton(type: .roundedRect)
+            annotationView?.rightCalloutAccessoryView = shareButton
+        }
+        else {
+            annotationView?.annotation = annotation
+        }
+        
+        return annotationView
+    }
+    
+    
+
     
 
     /*
