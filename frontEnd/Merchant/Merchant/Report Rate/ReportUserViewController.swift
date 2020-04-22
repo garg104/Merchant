@@ -96,6 +96,7 @@ class ReportUserViewController: UIViewController, UITextViewDelegate {
             
             
         }.resume()
+        self.performSegue(withIdentifier: "submitReportUnwind", sender: nil)
     }
     
 

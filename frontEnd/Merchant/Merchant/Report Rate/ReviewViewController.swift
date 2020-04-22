@@ -100,6 +100,7 @@ class ReviewViewController: UIViewController, UITextViewDelegate {
             
             
         }.resume()
+        self.performSegue(withIdentifier: "submitReviewUnwind", sender: nil)
     }
        
 

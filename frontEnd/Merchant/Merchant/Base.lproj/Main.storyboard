@@ -2386,7 +2386,7 @@
                                 <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="16"/>
                                 <state key="normal" title="Cancel"/>
                                 <connections>
-                                    <segue destination="j65-Rs-sDe" kind="unwind" unwindAction="unwindToBuyDetailViewControllerWithSegue:" id="oub-Ql-415"/>
+                                    <segue destination="j65-Rs-sDe" kind="unwind" identifier="cancelReportUnwind" unwindAction="unwindToBuyDetailViewControllerWithSegue:" id="oub-Ql-415"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -2410,6 +2410,7 @@
                     </view>
                     <connections>
                         <outlet property="reportTextView" destination="rn8-aw-moX" id="JHh-f1-0X0"/>
+                        <segue destination="j65-Rs-sDe" kind="unwind" identifier="submitReportUnwind" unwindAction="unwindToBuyDetailViewControllerWithSegue:" id="hRK-32-skD"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5fI-Mz-EOf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -2846,7 +2847,7 @@
                                 <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="16"/>
                                 <state key="normal" title="Cancel"/>
                                 <connections>
-                                    <segue destination="5aJ-1J-Blw" kind="unwind" unwindAction="unwindToBuyDetailViewControllerWithSegue:" id="0YJ-IQ-m6c"/>
+                                    <segue destination="5aJ-1J-Blw" kind="unwind" identifier="cancelReviewUnwind" unwindAction="unwindToBuyDetailViewControllerWithSegue:" id="0YJ-IQ-m6c"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rating:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WjG-5A-grn">
@@ -2916,6 +2917,7 @@
                     <connections>
                         <outlet property="commentsTextView" destination="9iO-uJ-uEk" id="5l5-Vf-bJJ"/>
                         <outlet property="ratingStackView" destination="CTd-eR-BTv" id="zdz-yG-Fc0"/>
+                        <segue destination="5aJ-1J-Blw" kind="unwind" identifier="submitReviewUnwind" unwindAction="unwindToBuyDetailViewControllerWithSegue:" id="ymN-Od-afR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pLk-Vc-hl8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
