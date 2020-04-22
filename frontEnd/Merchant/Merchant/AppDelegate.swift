@@ -38,14 +38,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         debugPrint("Configuring")
         FirebaseApp.configure()
         
-        InstanceID.instanceID().instanceID { (result, error) in
-           if let error = error {
-             debugPrint("Error fetching remote instance ID: \(error)")
-           } else if let result = result {
-             debugPrint("Remote instance ID token: \(result.token)")
-   //          self.instanceIDTokenMessage.text  = "Remote InstanceID token: \(result.token)"
-           }
-       }
+        StateManager.sendDeviceTokenIfNew()
         
         return true
     }

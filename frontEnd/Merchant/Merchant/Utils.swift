@@ -45,6 +45,11 @@ extension UserDefaults {
         synchronize()
     }
     
+    func removeDeviceToken() {
+        removeObject(forKey: UserDefaultKeys.deviceTokenID.rawValue)
+        synchronize()
+    }
+    
     func getUsername() -> String {
         return string(forKey: UserDefaultKeys.currentUsername.rawValue) ?? ""
     }
@@ -73,8 +78,7 @@ class StateManager {
                   debugPrint("Error fetching remote instance ID: \(error)")
                 } else if let result = result {
                   debugPrint("Remote instance ID token: \(result.token)")
-                    deviceToken = result.token
-        //          self.instanceIDTokenMessage.text  = "Remote InstanceID token: \(result.token)"
+                  deviceToken = result.token
                 }
         }
         return deviceToken
@@ -90,20 +94,45 @@ class StateManager {
             "Accept": "application/json"
         ]
         
-        let token = getUpdatedDeviceToken()
-        
-        UserDefaults.standard.setDeviceToken(tokenID: token)
-        
-        if (token.elementsEqual("")) {
-            return
+        //getting updated device token
+        InstanceID.instanceID().instanceID { (result, error) in
+            if let error = error {
+                debugPrint("Error fetching remote instance ID: \(error)")
+            } else if let result = result {
+                debugPrint("Remote instance ID token: \(result.token)")
+                let token = result.token
+                UserDefaults.standard.setDeviceToken(tokenID: token)
+                
+                if (token.elementsEqual("")) {
+                    return
+                }
+                
+                AF.request(API.URL + "/user/addDeviceToken", method: .post, parameters: parameter(token: token), encoder: URLEncodedFormParameterEncoder.default, headers: headers).responseJSON { response in
+                    let status = (response.response?.statusCode ?? 0)
+                    if (status == 200) {
+                        debugPrint("Posted device token for the user: \(UserDefaults.standard.getUsername())")
+                    } else {
+                        debugPrint("Failed to post device token")
+                    }
+                }
+                
+            }
         }
-        
-        AF.request(API.URL + "/user/addDeviceToken", method: .post, parameters: parameter(token: token), encoder: URLEncodedFormParameterEncoder.default, headers: headers).responseJSON { response in
-            let status = (response.response?.statusCode ?? 0)
-            if (status == 200) {
-                debugPrint("Posted device token")
-            } else {
-                debugPrint("Failed to post device token")
+    }
+    
+    static func sendDeviceTokenIfNew() {
+        //getting updated device token
+        InstanceID.instanceID().instanceID { (result, error) in
+            if let error = error {
+                debugPrint("Error fetching remote instance ID: \(error)")
+            } else if let result = result {
+                debugPrint("Remote instance ID token: \(result.token)")
+                let token = result.token
+                if (!UserDefaults.standard.getDeviceToken().elementsEqual(token)) {
+                    self.sendDeviceToken()
+                } else {
+                    debugPrint("The previous device token was the same as new: aborting update request")
+                }
             }
         }
     }
@@ -120,6 +149,7 @@ class Authentication {
         //storeAuthTokenInKeyChain(authToken: authToken)
         UserDefaults.standard.setIsLoggedIn(authStatus: true)
         UserDefaults.standard.setAuthToken(authToken: authToken)
+        StateManager.sendDeviceToken()
     }
     
     static func isLoggedIn() -> Bool {
@@ -130,6 +160,7 @@ class Authentication {
     static func logout() {
         //deleteAuthToken()
         UserDefaults.standard.removeAuthToken()
+        UserDefaults.standard.removeDeviceToken()
         UserDefaults.standard.setIsLoggedIn(authStatus: false)
     }
     
