@@ -12,6 +12,7 @@
 		155D49D1243BEC9900090293 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155D49D0243BEC9900090293 /* MapViewController.swift */; };
 		156690E0243FFF7600092632 /* ChatTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156690DF243FFF7600092632 /* ChatTableViewController.swift */; };
 		157852E32431741500B8BED2 /* EditItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157852E22431741500B8BED2 /* EditItemViewController.swift */; };
+		6C2E18CB244FF4D2006BF53A /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C2E18CA244FF4D2006BF53A /* ConversationViewController.swift */; };
 		6C2EB81C23F4ACC000320528 /* Poppins-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6C2EB80923F4ACBF00320528 /* Poppins-Light.otf */; };
 		6C2EB81D23F4ACC000320528 /* Poppins-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6C2EB80A23F4ACBF00320528 /* Poppins-SemiBold.otf */; };
 		6C2EB81E23F4ACC000320528 /* Poppins-ExtraBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6C2EB80B23F4ACBF00320528 /* Poppins-ExtraBold.otf */; };
@@ -92,7 +93,7 @@
 		153BC790242D9049000540EF /* PostItemViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostItemViewController.swift; sourceTree = "<group>"; };
 		1554FFAD23FAE2C50066A4F3 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		155D49D0243BEC9900090293 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
-		156690DF243FFF7600092632 /* ChatTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ChatTableViewController.swift; path = ../ChatTableViewController.swift; sourceTree = "<group>"; };
+		156690DF243FFF7600092632 /* ChatTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTableViewController.swift; sourceTree = "<group>"; };
 		157852E22431741500B8BED2 /* EditItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditItemViewController.swift; sourceTree = "<group>"; };
 		23D67E866DD9AFE8D27946D9 /* Pods-Merchant.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Merchant.debug.xcconfig"; path = "Target Support Files/Pods-Merchant/Pods-Merchant.debug.xcconfig"; sourceTree = "<group>"; };
 		3B89CD3FF5AA0331FB47E34A /* Pods-MerchantTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MerchantTests.debug.xcconfig"; path = "Target Support Files/Pods-MerchantTests/Pods-MerchantTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -102,6 +103,7 @@
 		661F2A7D6CA24EC994DB472D /* Pods-Merchant-MerchantUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Merchant-MerchantUITests.debug.xcconfig"; path = "Target Support Files/Pods-Merchant-MerchantUITests/Pods-Merchant-MerchantUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		6889C560541BDFCBC660FBF5 /* Pods-MerchantTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MerchantTests.release.xcconfig"; path = "Target Support Files/Pods-MerchantTests/Pods-MerchantTests.release.xcconfig"; sourceTree = "<group>"; };
 		6BB5BB44F7CCC91FEBBE45A5 /* Pods-Merchant.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Merchant.release.xcconfig"; path = "Target Support Files/Pods-Merchant/Pods-Merchant.release.xcconfig"; sourceTree = "<group>"; };
+		6C2E18CA244FF4D2006BF53A /* ConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewController.swift; sourceTree = "<group>"; };
 		6C2EB80923F4ACBF00320528 /* Poppins-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Poppins-Light.otf"; path = "../../../../poppins/Poppins-Light.otf"; sourceTree = "<group>"; };
 		6C2EB80A23F4ACBF00320528 /* Poppins-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Poppins-SemiBold.otf"; path = "../../../../poppins/Poppins-SemiBold.otf"; sourceTree = "<group>"; };
 		6C2EB80B23F4ACBF00320528 /* Poppins-ExtraBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Poppins-ExtraBold.otf"; path = "../../../../poppins/Poppins-ExtraBold.otf"; sourceTree = "<group>"; };
@@ -195,6 +197,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6C2E18C9244FF4AC006BF53A /* Chat */ = {
+			isa = PBXGroup;
+			children = (
+				6C2E18CA244FF4D2006BF53A /* ConversationViewController.swift */,
+				156690DF243FFF7600092632 /* ChatTableViewController.swift */,
+			);
+			path = Chat;
+			sourceTree = "<group>";
+		};
 		6C2EB80823F4ACA700320528 /* Poppins */ = {
 			isa = PBXGroup;
 			children = (
@@ -301,6 +312,7 @@
 		7571D7DD23F351EF00C46379 /* Merchant */ = {
 			isa = PBXGroup;
 			children = (
+				6C2E18C9244FF4AC006BF53A /* Chat */,
 				6CEA6B6F244C00DB006CFA2B /* Report Rate */,
 				6CAAEEBD2447A192004E7942 /* Sell History */,
 				6CE602FC2442CCBB0032CAA4 /* Wishlist */,
@@ -310,7 +322,6 @@
 				7571D7DE23F351EF00C46379 /* AppDelegate.swift */,
 				7571D7E023F351EF00C46379 /* SceneDelegate.swift */,
 				6CFBD1E723F76695009F492F /* CreateAccountViewController.swift */,
-				156690DF243FFF7600092632 /* ChatTableViewController.swift */,
 				6CFBD1E523F7664E009F492F /* OTPViewController.swift */,
 				6C447D2423F4A30000C8B023 /* RegisterViewController.swift */,
 				6CF50D1323F4ECCF008A306D /* LogInViewController.swift */,
@@ -597,6 +608,7 @@
 			files = (
 				6CAAEEBF2447A503004E7942 /* SellHistoryTableViewCell.swift in Sources */,
 				6C8B564F2408C035009BAE99 /* EditProfileViewController.swift in Sources */,
+				6C2E18CB244FF4D2006BF53A /* ConversationViewController.swift in Sources */,
 				6CFBD1E823F76695009F492F /* CreateAccountViewController.swift in Sources */,
 				75F076AE24303A5C00301D34 /* items.swift in Sources */,
 				6CFBD1E623F7664E009F492F /* OTPViewController.swift in Sources */,

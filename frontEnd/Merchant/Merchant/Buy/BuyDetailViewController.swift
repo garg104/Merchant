@@ -189,9 +189,11 @@ class BuyDetailViewController: UIViewController {
     func updateWishlistStatus(exists: Bool) {
         //toggling the title of the wishlist button
         if (!exists) {
-            wishlistButton.tintColor = #colorLiteral(red: 0.3822624683, green: 0.7218602896, blue: 0.2237514853, alpha: 1);
+            //wishlistButton.tintColor = #colorLiteral(red: 0.3822624683, green: 0.7218602896, blue: 0.2237514853, alpha: 1);
+            wishlistButton.image = UIImage(systemName: "bookmark")
         } else {
-            wishlistButton.tintColor = .red;
+            //wishlistButton.tintColor = .red;
+            wishlistButton.image = UIImage(systemName: "bookmark.fill")
         }
     }
     

@@ -9,6 +9,8 @@
 import UIKit
 
 class ChatTableViewController: UITableViewController {
+    
+    var currentUser = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
