@@ -17,7 +17,13 @@ extension UserDefaults {
         case isLoggedIn
         case authToken
         case currentUsername
+        case deviceTokenID
     } //userDefaultKeys
+    
+    func setDeviceToken(tokenID: String) {
+        set(tokenID, forKey: UserDefaultKeys.deviceTokenID.rawValue)
+        synchronize()
+    } //setIsLoggedIn
     
     func setIsLoggedIn(authStatus: Bool) {
         set(authStatus, forKey: UserDefaultKeys.isLoggedIn.rawValue)
@@ -43,6 +49,10 @@ extension UserDefaults {
         return string(forKey: UserDefaultKeys.currentUsername.rawValue) ?? ""
     }
     
+    func getDeviceToken() -> String {
+        return string(forKey: UserDefaultKeys.deviceTokenID.rawValue) ?? ""
+    }
+    
     func getAuthToken() -> String {
         let token =  string(forKey: UserDefaultKeys.authToken.rawValue) ?? ""
         return "Bearer \(token)"
@@ -56,7 +66,7 @@ extension UserDefaults {
 class StateManager {
     static var updateWishlist: Bool =  false
     
-    static func getDeviceToken() -> String {
+    static func getUpdatedDeviceToken() -> String {
         var deviceToken = ""
         InstanceID.instanceID().instanceID { (result, error) in
                 if let error = error {
@@ -80,7 +90,10 @@ class StateManager {
             "Accept": "application/json"
         ]
         
-        let token = getDeviceToken()
+        let token = getUpdatedDeviceToken()
+        
+        UserDefaults.standard.setDeviceToken(tokenID: token)
+        
         if (token.elementsEqual("")) {
             return
         }
