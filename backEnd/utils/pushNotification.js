@@ -1,14 +1,13 @@
 const apn = require('apn')
 const User = require('../models/User')
-
-import * as admin from "firebase-admin";
+const admin = require('firebase-admin')
 
 const serviceAccount = require('../firebase.json');
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
     databaseURL: "https://merchant-307.firebaseio.com"
-});
+})
 
 /**
  * This function helps dispatch an
@@ -16,7 +15,7 @@ admin.initializeApp({
  * Apple's push notification server
  */
 export const dispatchAPNViaFirebase = async (senderUsername, receiverUsername, userMessage) => {
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         // These registration tokens come from the client FCM SDKs.
         let registrationTokens = [];
 
