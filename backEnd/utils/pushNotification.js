@@ -1,4 +1,5 @@
 const apn = require('apn')
+const User = require('../models/User')
 
 import * as admin from "firebase-admin";
 
@@ -14,33 +15,44 @@ admin.initializeApp({
  * APN (Appple Push Notification) to
  * Apple's push notification server
  */
-export const dispatchAPNViaFirebase = (username, userMessage) => {
-    // These registration tokens come from the client FCM SDKs.
-    const registrationTokens = [];
+export const dispatchAPNViaFirebase = async (senderUsername, receiverUsername, userMessage) => {
+    return new Promise((resolve, reject) => {
+        // These registration tokens come from the client FCM SDKs.
+        let registrationTokens = [];
 
-    //formatting the message object
-    const message = {
-        notification: {
-            title: username,
-            body: userMessage,
-        },
-        data: { time: Date.now().toString() },
-        tokens: registrationTokens,
-    }
+        try {
+            const user = await User.findOne({ username: receiver })
+            registrationTokens = user.deviceTokens
+        } catch (e) {
+            reject({ msg: 'Error occured, cannot get the reciever' })
+            return
+        }
 
-    //broadcasting the message and error handling
-    admin.messaging().sendMulticast(message)
-        .then((response) => {
-            if (response.failureCount > 0) {
-                const failedTokens = [];
-                response.responses.forEach((resp, idx) => {
-                    if (!resp.success) {
-                        failedTokens.push(registrationTokens[idx]);
-                    }
-                });
-                console.log('List of tokens that caused failures: ' + failedTokens);
-            }
-        });
+        //formatting the message object
+        const message = {
+            notification: {
+                title: username,
+                body: userMessage,
+            },
+            data: { time: Date.now().toString() },
+            tokens: registrationTokens,
+        }
+
+        //broadcasting the message and error handling
+        admin.messaging().sendMulticast(message)
+            .then((response) => {
+                if (response.failureCount > 0) {
+                    const failedTokens = [];
+                    response.responses.forEach((resp, idx) => {
+                        if (!resp.success) {
+                            failedTokens.push(registrationTokens[idx]);
+                        }
+                    });
+                    console.log('List of tokens that caused failures: ' + failedTokens);
+                }
+                resolve({ msg: 'The push notifications have been sent' })
+            });
+    })
 }
 
 /**
