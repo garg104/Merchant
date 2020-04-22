@@ -20,7 +20,7 @@ export const dispatchAPNViaFirebase = async (senderUsername, receiverUsername, u
         let registrationTokens = [];
 
         try {
-            const user = await User.findOne({ username: receiver })
+            const user = await User.findOne({ username: receiverUsername })
             console.log(user)
             registrationTokens = user.deviceTokens
         } catch (e) {
@@ -32,7 +32,7 @@ export const dispatchAPNViaFirebase = async (senderUsername, receiverUsername, u
         //formatting the message object
         const message = {
             notification: {
-                title: username,
+                title: senderUsername,
                 body: userMessage,
             },
             data: { time: Date.now().toString() },
