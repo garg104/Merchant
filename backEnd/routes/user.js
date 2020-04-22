@@ -652,24 +652,59 @@ router.post('/addDeviceToken', authenticate, async (req, res) => {
   const { token } = req.body
   if (!token) {
     res.status(400).json({ msg: 'The token is not found' })
+    return
   } else if (token.localeCompare("") == 0) {
     res.status(400).json({ msg: 'The token is too small' })
+    return
   } else {
     tokens = []
     if (req.userInfo.deviceTokens) {
       //getting the user's deviceTokens array
       tokens = req.userInfo.deviceTokens
     }
-    if (tokens.length > 30) {
-      //restricting the number of possible simultaneous logins
-      tokens.splice(0, 1);
-    }
+    //pushing the new token to array
     tokens.push(token)
     try {
-      await User.findOneAndDelete({ username: req.userInfo.username }, [])
-      res.status(400).json({ token: token, msg: 'Stored the dvice ID' })
+      //updating the device token
+      await User.findOneAndUpdate({ username: req.userInfo.username }, { deviceTokens: tokens })
+      res.status(200).json({ token: token, msg: 'Stored the device ID' })
     } catch (e) {
+      //sending an error
       res.status(400).json({ msg: 'Could not store the device ID' })
+    }
+  }
+})
+
+/* This route removes the device token from the user's list */
+router.post('/removeDeviceToken', authenticate, async (req, res) => {
+  const { token } = req.body
+  if (!token) {
+    res.status(400).json({ msg: 'The token is not found' })
+    return
+  } else if (token.localeCompare("") == 0) {
+    res.status(400).json({ msg: 'The token is too small' })
+    return
+  } else {
+    if (req.userInfo.deviceTokens) {
+      //getting the user's deviceTokens array
+      tokens = req.userInfo.deviceTokens
+      const index = tokens.indexOf(token)
+      if (index == -1) {
+        res.status(404).json({ msg: 'Specified device token did not exist for this user' })
+        return
+      }
+      //removing the token from the array
+      tokens.splice(index, 1)
+      try {
+        //updating the device token
+        await User.findOneAndUpdate({ username: req.userInfo.username }, { deviceTokens: tokens })
+        res.status(200).json({ token: token, msg: `Removed the device ID for ${req.userInfo.username}` })
+      } catch (e) {
+        //sending an error
+        res.status(400).json({ msg: 'Could not remove the device ID' })
+      }
+    } else {
+      res.status(404).json({ msg: 'User is not subscribed to any device' })
     }
   }
 })
