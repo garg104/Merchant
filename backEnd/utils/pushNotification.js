@@ -35,7 +35,7 @@ export const dispatchAPNViaFirebase = async (senderUsername, receiverUsername, u
                 title: senderUsername,
                 body: userMessage,
             },
-            data: { time: Date.now().toString() },
+            data: { time: Date.now().toString(), type: 'text-message' },
             tokens: registrationTokens,
         }
 
