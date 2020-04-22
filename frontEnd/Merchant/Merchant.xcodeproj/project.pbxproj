@@ -304,7 +304,6 @@
 		7571D7DD23F351EF00C46379 /* Merchant */ = {
 			isa = PBXGroup;
 			children = (
-				D6421C40244FAE5D0072C155 /* Merchant.entitlements */,
 				6CEA6B6F244C00DB006CFA2B /* Report Rate */,
 				6CAAEEBD2447A192004E7942 /* Sell History */,
 				6CE602FC2442CCBB0032CAA4 /* Wishlist */,
@@ -327,6 +326,7 @@
 				6C37EE12240787D100D8687F /* MainTabBarController.swift */,
 				7571D7E723F351F000C46379 /* Assets.xcassets */,
 				7571D7E923F351F000C46379 /* LaunchScreen.storyboard */,
+				D6421C40244FAE5D0072C155 /* Merchant.entitlements */,
 				7571D7EC23F351F000C46379 /* Info.plist */,
 				D683D0232438ECB5009E4665 /* Utils.swift */,
 				D6421C3E244FA8CA0072C155 /* GoogleService-Info.plist */,

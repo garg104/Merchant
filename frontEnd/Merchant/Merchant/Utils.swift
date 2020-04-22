@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import Alamofire
+import Firebase
 
 extension UserDefaults {
     
@@ -54,6 +55,45 @@ extension UserDefaults {
 
 class StateManager {
     static var updateWishlist: Bool =  false
+    
+    func getDeviceToken() -> String {
+        var deviceToken = ""
+        InstanceID.instanceID().instanceID { (result, error) in
+                if let error = error {
+                  debugPrint("Error fetching remote instance ID: \(error)")
+                } else if let result = result {
+                  debugPrint("Remote instance ID token: \(result.token)")
+                    deviceToken = result.token
+        //          self.instanceIDTokenMessage.text  = "Remote InstanceID token: \(result.token)"
+                }
+        }
+        return deviceToken
+    }
+    
+    func sendDeviceToken() {
+        struct parameter: Encodable {
+            var token: String
+        }
+        
+        let headers: HTTPHeaders = [
+            "Authorization": Authentication.getAuthToken(),
+            "Accept": "application/json"
+        ]
+        
+        let token = getDeviceToken()
+        if (token.elementsEqual("")) {
+            return
+        }
+        
+        AF.request(API.URL + "/user/addDeviceToken", method: .post, parameters: parameter(token: token), encoder: URLEncodedFormParameterEncoder.default, headers: headers).responseJSON { response in
+            let status = (response.response?.statusCode ?? 0)
+            if (status == 200) {
+                debugPrint("Posted device token")
+            } else {
+                debugPrint("Failed to post device token")
+            }
+        }
+    }
 }
 
 class Authentication {

@@ -35,6 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Messaging.messaging().delegate = self
         application.registerForRemoteNotifications()
         
+        debugPrint("Configuring")
         FirebaseApp.configure()
         
         return true
@@ -142,6 +143,14 @@ extension AppDelegate: MessagingDelegate {
       NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: dataDict)
       // TODO: If necessary send token to application server.
       // Note: This callback is fired at each app startup and whenever a new token is generated.
+        InstanceID.instanceID().instanceID { (result, error) in
+                if let error = error {
+                  debugPrint("Error fetching remote instance ID: \(error)")
+                } else if let result = result {
+                  debugPrint("Remote instance ID token: \(result.token)")
+        //          self.instanceIDTokenMessage.text  = "Remote InstanceID token: \(result.token)"
+                }
+        }
     }
     
     func messaging(_ messaging: Messaging, didReceive remoteMessage: MessagingRemoteMessage) {
