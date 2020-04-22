@@ -662,7 +662,14 @@ router.post('/addDeviceToken', authenticate, async (req, res) => {
       //getting the user's deviceTokens array
       tokens = req.userInfo.deviceTokens
     }
-    //pushing the new token to array
+    //pushing the new token to array if it exists
+    if (tokens.indexOf(token) != -1) {
+      res.status(200).json({
+        token: token[token.indexOf(token)],
+        msg: 'The device id already exists for the user'
+      })
+      return
+    }
     tokens.push(token)
     try {
       //updating the device token
