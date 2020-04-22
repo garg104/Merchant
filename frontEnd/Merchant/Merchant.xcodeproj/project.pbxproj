@@ -71,6 +71,7 @@
 		84EC196A422F13C4A0E8834F /* libPods-Merchant.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F70D0A05594FBF7C8298402 /* libPods-Merchant.a */; };
 		9ABF26AA9AEC0EBEC9ECECA4 /* libPods-MerchantTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 86EA867B782E24E7673DB5CC /* libPods-MerchantTests.a */; };
 		D683D0242438ECB5009E4665 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D683D0232438ECB5009E4665 /* Utils.swift */; };
+		D6874BF82450A78A008A0B3A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D6874BF72450A78A008A0B3A /* GoogleService-Info.plist */; };
 		F6ACABB008EC351083BB1599 /* libPods-Merchant-MerchantUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4BC57D8F29B99C4187F9BB84 /* libPods-Merchant-MerchantUITests.a */; };
 /* End PBXBuildFile section */
 
@@ -170,7 +171,9 @@
 		75F076AD24303A5C00301D34 /* items.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = items.swift; sourceTree = "<group>"; };
 		86EA867B782E24E7673DB5CC /* libPods-MerchantTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MerchantTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F70D0A05594FBF7C8298402 /* libPods-Merchant.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Merchant.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D6421C40244FAE5D0072C155 /* Merchant.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Merchant.entitlements; sourceTree = "<group>"; };
 		D683D0232438ECB5009E4665 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		D6874BF72450A78A008A0B3A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -338,8 +341,10 @@
 				7571D7E423F351EF00C46379 /* Main.storyboard */,
 				7571D7E223F351EF00C46379 /* WelcomeViewController.swift */,
 				6C37EE12240787D100D8687F /* MainTabBarController.swift */,
+				D6874BF72450A78A008A0B3A /* GoogleService-Info.plist */,
 				7571D7E723F351F000C46379 /* Assets.xcassets */,
 				7571D7E923F351F000C46379 /* LaunchScreen.storyboard */,
+				D6421C40244FAE5D0072C155 /* Merchant.entitlements */,
 				7571D7EC23F351F000C46379 /* Info.plist */,
 				D683D0232438ECB5009E4665 /* Utils.swift */,
 				6C2EB80823F4ACA700320528 /* Poppins */,
@@ -516,6 +521,7 @@
 				6C2EB82D23F4ACC000320528 /* Poppins-Black.otf in Resources */,
 				6C2EB82823F4ACC000320528 /* Poppins-MediumItalic.otf in Resources */,
 				6C2EB82023F4ACC000320528 /* Poppins-Bold.otf in Resources */,
+				D6874BF82450A78A008A0B3A /* GoogleService-Info.plist in Resources */,
 				6C2EB82623F4ACC000320528 /* Poppins-Regular.otf in Resources */,
 				6C2EB82B23F4ACC000320528 /* Poppins-SemiBoldItalic.otf in Resources */,
 				7571D7E623F351EF00C46379 /* Main.storyboard in Resources */,
@@ -823,8 +829,10 @@
 			baseConfigurationReference = 23D67E866DD9AFE8D27946D9 /* Pods-Merchant.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Merchant/Merchant.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = BWNBBDW27S;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Merchant/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -833,6 +841,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.CS307Team4.Merchant;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -843,8 +852,10 @@
 			baseConfigurationReference = 6BB5BB44F7CCC91FEBBE45A5 /* Pods-Merchant.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Merchant/Merchant.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = BWNBBDW27S;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Merchant/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -853,6 +864,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.CS307Team4.Merchant;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
