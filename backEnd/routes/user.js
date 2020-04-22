@@ -644,4 +644,31 @@ router.post('/report', async (req, res) => {
   }
 })
 
+/* This route adds a device token to the user's list */
+router.post('/addDeviceToken', authenticate, async (req, res) => {
+  const { token } = req.body
+  if (!token) {
+    res.status(400).json({ msg: 'The token is not found' })
+  } else if (token.localeCompare("") == 0) {
+    res.status(400).json({ msg: 'The token is too small' })
+  } else {
+    tokens = []
+    if (req.userInfo.deviceTokens) {
+      //getting the user's deviceTokens array
+      tokens = req.userInfo.deviceTokens
+    }
+    if (tokens.length > 30) {
+      //restricting the number of possible simultaneous logins
+      tokens.splice(0, 1);
+    }
+    tokens.push(token)
+    try {
+      await User.findOneAndDelete({ username: req.userInfo.username }, [])
+      res.status(400).json({ token: token, msg: 'Stored the dvice ID' })
+    } catch (e) {
+      res.status(400).json({ msg: 'Could not store the device ID' })
+    }
+  }
+})
+
 module.exports = router;
