@@ -21,8 +21,10 @@ export const dispatchAPNViaFirebase = async (senderUsername, receiverUsername, u
 
         try {
             const user = await User.findOne({ username: receiver })
+            console.log(user)
             registrationTokens = user.deviceTokens
         } catch (e) {
+            console.log(e.message)
             reject({ msg: 'Error occured, cannot get the reciever' })
             return
         }
