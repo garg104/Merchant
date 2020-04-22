@@ -21,7 +21,6 @@ export const dispatchAPNViaFirebase = async (senderUsername, receiverUsername, u
 
         try {
             const user = await User.findOne({ username: receiverUsername })
-            console.log(user)
             registrationTokens = user.deviceTokens
         } catch (e) {
             console.log(e.message)
@@ -42,7 +41,6 @@ export const dispatchAPNViaFirebase = async (senderUsername, receiverUsername, u
         //broadcasting the message and error handling
         admin.messaging().sendMulticast(message)
             .then((response) => {
-                console.log(response)
                 if (response.failureCount > 0) {
                     const failedTokens = [];
                     response.responses.forEach((resp, idx) => {
