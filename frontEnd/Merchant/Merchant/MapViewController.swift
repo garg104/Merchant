@@ -62,10 +62,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         if annotationView == nil {
             annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
             annotationView?.canShowCallout = true
-            let cancelButton = UIButton(type: .close)
             let shareButton = UIButton(type: .roundedRect)
             annotationView?.rightCalloutAccessoryView = shareButton
-            annotationView?.leftCalloutAccessoryView = cancelButton
         }
         else {
             annotationView?.annotation = annotation
@@ -73,6 +71,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         
         return annotationView
     }
+    
     
 
     
