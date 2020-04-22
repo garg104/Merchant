@@ -46,6 +46,13 @@ class MainTabBarController: UITabBarController {
             let sellVC = sellNavVC.viewControllers[0] as! SellTableViewController
             sellVC.currentUser = self.username
             
+            //send current username to ChatTableViewController
+            let chatVC = chatNavVC.viewControllers[0] as! ChatTableViewController
+            chatVC.currentUser = self.username
+            
+            //senf current username to WishlistTableViewController
+            let wishVC = wishlistNavVC.viewControllers[0] as! WishlistTableViewController
+            wishVC.currentUser = self.username
         }
     }
     
