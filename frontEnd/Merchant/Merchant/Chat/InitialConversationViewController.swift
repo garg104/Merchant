@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Alamofire
 
 class InitialConversationViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
     
@@ -19,7 +20,7 @@ class InitialConversationViewController: UIViewController, UITableViewDelegate, 
     var currentUser = ""
     var userChattingWith = ""
     var keyboardHeight = 0
-    let messages = [
+    var messages = [
         ChatMessage(message: "Hello", isIncoming: true),
         ChatMessage(message: "Hey!", isIncoming: false),
         ChatMessage(message: "What's up?", isIncoming: true),
@@ -70,6 +71,48 @@ class InitialConversationViewController: UIViewController, UITableViewDelegate, 
     @IBAction func sendPressed(_ sender: UIButton) {
         //send the message
         self.messageTextField.endEditing(true)
+        if (messageTextField.text != "") {
+            // nothing should happen if it is a empty message
+            
+            struct parameters: Encodable {
+                var userSender = ""
+                var userReceiver = ""
+                var message = ""
+                var conversationID = ""
+            }
+            
+            let details = parameters(userSender: self.currentUser, userReceiver: self.userChattingWith, message: messageTextField.text ?? "", conversationID: "")
+            
+            AF.request(API.URL + "/user/chat", method: .post, parameters: details, encoder: URLEncodedFormParameterEncoder.default).response { response in
+                
+                // deal with the request
+                if (response.response?.statusCode != 200) {
+                    debugPrint("ERROR")
+                    let alert = UIAlertController(title: "Error!", message: "Message could not be sent", preferredStyle: .alert)
+                    
+                    
+                    // Create Confirm button with action handler
+                    let confirm = UIAlertAction(title: "OK",
+                                                style: .default)
+                    
+                    // add actions to the alert
+                    alert.addAction(confirm)
+                    
+                    // display alert
+                    self.present(alert, animated: true)
+                } else {
+                    self.messages.append(ChatMessage(message: self.messageTextField.text ?? "", isIncoming: false))
+                    self.messageTextField.text = ""
+
+                }
+                
+                
+            }.resume()
+            
+            
+            
+            
+        }
     }
     
     func scrollToBottom() {
