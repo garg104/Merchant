@@ -376,6 +376,10 @@ class BuyDetailViewController: UIViewController {
             vc.currentUser = currentUser
             vc.userBeingRated = itemSeller
         }
+        if (segue.identifier == "toViewReviews") {
+            let vc = segue.destination as! ViewReviewsViewController
+            vc.username = currentUser
+        }
     }
     
 

@@ -12,6 +12,9 @@
 		155D49D1243BEC9900090293 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155D49D0243BEC9900090293 /* MapViewController.swift */; };
 		156690E0243FFF7600092632 /* ChatTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156690DF243FFF7600092632 /* ChatTableViewController.swift */; };
 		157852E32431741500B8BED2 /* EditItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 157852E22431741500B8BED2 /* EditItemViewController.swift */; };
+		6C11EED42451066B004F9980 /* ViewReviewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C11EED32451066B004F9980 /* ViewReviewsViewController.swift */; };
+		6C11EED624510805004F9980 /* ReviewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C11EED524510805004F9980 /* ReviewTableViewCell.swift */; };
+		6C11EED824510A96004F9980 /* StaticRatingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C11EED724510A96004F9980 /* StaticRatingController.swift */; };
 		6C2E18CB244FF4D2006BF53A /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C2E18CA244FF4D2006BF53A /* ConversationViewController.swift */; };
 		6C2E18CD245007C0006BF53A /* MessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C2E18CC245007C0006BF53A /* MessageTableViewCell.swift */; };
 		6C2EB81C23F4ACC000320528 /* Poppins-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6C2EB80923F4ACBF00320528 /* Poppins-Light.otf */; };
@@ -104,6 +107,9 @@
 		661F2A7D6CA24EC994DB472D /* Pods-Merchant-MerchantUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Merchant-MerchantUITests.debug.xcconfig"; path = "Target Support Files/Pods-Merchant-MerchantUITests/Pods-Merchant-MerchantUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		6889C560541BDFCBC660FBF5 /* Pods-MerchantTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MerchantTests.release.xcconfig"; path = "Target Support Files/Pods-MerchantTests/Pods-MerchantTests.release.xcconfig"; sourceTree = "<group>"; };
 		6BB5BB44F7CCC91FEBBE45A5 /* Pods-Merchant.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Merchant.release.xcconfig"; path = "Target Support Files/Pods-Merchant/Pods-Merchant.release.xcconfig"; sourceTree = "<group>"; };
+		6C11EED32451066B004F9980 /* ViewReviewsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewReviewsViewController.swift; sourceTree = "<group>"; };
+		6C11EED524510805004F9980 /* ReviewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewTableViewCell.swift; sourceTree = "<group>"; };
+		6C11EED724510A96004F9980 /* StaticRatingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticRatingController.swift; sourceTree = "<group>"; };
 		6C2E18CA244FF4D2006BF53A /* ConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewController.swift; sourceTree = "<group>"; };
 		6C2E18CC245007C0006BF53A /* MessageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageTableViewCell.swift; sourceTree = "<group>"; };
 		6C2EB80923F4ACBF00320528 /* Poppins-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Poppins-Light.otf"; path = "../../../../poppins/Poppins-Light.otf"; sourceTree = "<group>"; };
@@ -272,6 +278,9 @@
 				6CEA6B70244C00FD006CFA2B /* ReportUserViewController.swift */,
 				6CEA6B72244C07EF006CFA2B /* RatingController.swift */,
 				6CEA6B74244C0CAC006CFA2B /* ReviewViewController.swift */,
+				6C11EED32451066B004F9980 /* ViewReviewsViewController.swift */,
+				6C11EED524510805004F9980 /* ReviewTableViewCell.swift */,
+				6C11EED724510A96004F9980 /* StaticRatingController.swift */,
 			);
 			path = "Report Rate";
 			sourceTree = "<group>";
@@ -624,13 +633,16 @@
 				155D49D1243BEC9900090293 /* MapViewController.swift in Sources */,
 				7571D7E323F351EF00C46379 /* WelcomeViewController.swift in Sources */,
 				6CE602FE2442CD410032CAA4 /* WishlistTableViewCell.swift in Sources */,
+				6C11EED42451066B004F9980 /* ViewReviewsViewController.swift in Sources */,
 				6C866C692412EAA9003B8941 /* BuyTableViewCell.swift in Sources */,
 				156690E0243FFF7600092632 /* ChatTableViewController.swift in Sources */,
 				6CFBE082241DDDD700063775 /* SellTableViewCell.swift in Sources */,
 				6CFEA8ED2443A59B006231F7 /* WishFilterViewController.swift in Sources */,
 				7571D7DF23F351EF00C46379 /* AppDelegate.swift in Sources */,
 				6C8DB359242FE3780026EDF2 /* SellDetailViewController.swift in Sources */,
+				6C11EED624510805004F9980 /* ReviewTableViewCell.swift in Sources */,
 				153BC791242D9049000540EF /* PostItemViewController.swift in Sources */,
+				6C11EED824510A96004F9980 /* StaticRatingController.swift in Sources */,
 				7571D7E123F351EF00C46379 /* SceneDelegate.swift in Sources */,
 				6CAAEEC32447B0F6004E7942 /* SellHistoryDetailViewController.swift in Sources */,
 				6CF50D1423F4ECCF008A306D /* LogInViewController.swift in Sources */,
