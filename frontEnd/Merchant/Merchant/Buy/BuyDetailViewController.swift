@@ -366,6 +366,7 @@ class BuyDetailViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
+        
         if (segue.identifier == "toReport") {
             let vc = segue.destination as! ReportUserViewController
             vc.currentUser = currentUser
@@ -379,9 +380,49 @@ class BuyDetailViewController: UIViewController {
         if (segue.identifier == "toViewReviews") {
             let vc = segue.destination as! ViewReviewsViewController
             vc.itemSeller = self.itemSeller
-            vc.currentUser = currentUser
+            vc.currentUser = self.currentUser
         }
     }
+    
+    func getItems(completion: @escaping (_ validCode: Int)->()) {
+            
+            struct parameter: Encodable {
+                var username = ""
+            }
+            let details = parameter(username: self.itemSeller)
+            
+            AF.request(API.URL + "/user/viewRating", method: .post, parameters: details, encoder: URLEncodedFormParameterEncoder.default).responseJSON { response in
+                var stars = 0
+                if (response.response?.statusCode == 200) {
+                    if let info = response.value {
+                        let JSON = info as! NSDictionary
+                        debugPrint(JSON)
+                        stars =  JSON.value(forKey: "currentRating") as! Int
+                        debugPrint("stars")
+                        debugPrint(stars)
+                        completion(stars)
+                    }
+                } else {
+                    debugPrint("ERROR")
+                    let alert = UIAlertController(title: "Error!", message: "Something went wrong. Please try again", preferredStyle: .alert)
+                    
+                    
+                    // Create Confirm button with action handler
+                    let confirm = UIAlertAction(title: "OK",
+                                                style: .default)
+                    
+                    // add actions to the alert
+                    alert.addAction(confirm)
+                    
+                    // display alert
+                    self.present(alert, animated: true)
+                    
+                }
+                
+                completion(stars)
+                
+            }.resume()
+        }
     
 
 }

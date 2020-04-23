@@ -27,6 +27,10 @@ class ViewReviewsViewController: UIViewController, UITableViewDataSource, UITabl
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        print("initial avg rating")
+        print(avgRating)
+        //avgStarRating.numStars = avgRating
+        
         getItems() { (validCode) in
             print("LOADING DATA")
             self.usernameLabel.text = self.itemSeller
@@ -36,10 +40,14 @@ class ViewReviewsViewController: UIViewController, UITableViewDataSource, UITabl
             
             //TODO
             //obtain average rating as an integer
-            //        self.avgRating = 3 //change to equal real average
             print("number of stars are \(self.avgStarRating.numStars)")
-            self.avgStarRating.numStars = 4
-            self.avgRatingLabel.text = String(self.avgRating) + "/5"
+            
+            if (self.users[0] == "No Reviews Yet") {
+                self.avgRatingLabel.text = "-/5"
+            } else {
+                self.avgRatingLabel.text = String(self.avgRating) + "/5"
+            }
+            self.updateStars()
             self.commentsTableView.reloadData()
         }
         
@@ -49,8 +57,23 @@ class ViewReviewsViewController: UIViewController, UITableViewDataSource, UITabl
         //TODO
         //populate users, comments, ratings arrays with the reviews info for username
         
+        
     }
     
+    func updateStars() {
+        let myViews = self.avgStarRating.subviews.filter{$0 is UIButton}
+        var starTag = 0
+        for theView in myViews {
+            if let theButton = theView as? UIButton {
+                if (starTag < self.avgRating) {
+                    theButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
+                } else {
+                    theButton.setImage(UIImage(systemName: "star"), for: .normal)
+                }
+                starTag = starTag + 1
+            }
+        }
+    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return users.count
@@ -60,12 +83,11 @@ class ViewReviewsViewController: UIViewController, UITableViewDataSource, UITabl
         let cell = tableView.dequeueReusableCell(withIdentifier: "reviewCell", for: indexPath) as! ReviewTableViewCell
         cell.usernameLabel.text = users[indexPath.row]
         cell.commentLabel.text = comments[indexPath.row]
-//        cell.starRating.numStars = ratings[indexPath.row]
+        cell.starRating.numStars = ratings[indexPath.row]
         return cell
     }
     
     func getItems(completion: @escaping (_ validCode: Int)->()) {
-        // #warning Incomplete implementation, return the number of sections
         
         struct parameter: Encodable {
             var username = ""
@@ -83,7 +105,7 @@ class ViewReviewsViewController: UIViewController, UITableViewDataSource, UITabl
                     let JSON = info as! NSDictionary
                     debugPrint(JSON)
                     self.avgRating =  JSON.value(forKey: "currentRating") as! Int
-                    self.avgStarRating.numStars = self.avgRating
+                    //self.avgStarRating.numStars = self.avgRating
                     debugPrint(self.avgRating)
 //                    let userRatings : String =  JSON.value(forKey: "currentRating") as! String
                     let userRatings : NSArray =  JSON.value(forKey: "rating") as! NSArray
@@ -93,7 +115,7 @@ class ViewReviewsViewController: UIViewController, UITableViewDataSource, UITabl
                         let temp = userRating as! NSDictionary
                         self.users.append(temp["username"]! as! String)
                         self.comments.append(temp["review"]! as! String)
-//                        self.ratings.append(temp.value(forKey: "rating") as! NSInteger)
+                        self.ratings.append(Int(temp.value(forKey: "rating") as! String)!)
                     }
                 }
             } else {
@@ -111,6 +133,12 @@ class ViewReviewsViewController: UIViewController, UITableViewDataSource, UITabl
                 // display alert
                 self.present(alert, animated: true)
                 
+            }
+            
+            if (self.users.count == 0) {
+                self.users.append("No Reviews Yet")
+                self.comments.append("")
+                self.ratings.append(0)
             }
             
             completion(0)
