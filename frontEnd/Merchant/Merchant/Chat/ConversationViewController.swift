@@ -153,6 +153,7 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
             vc.conversationID = self.conversationID
             vc.receiver = self.userChattingWith
             vc.currentUser = self.currentUser
+            vc.userChattingWith = self.userChattingWith
          }
          
      }
