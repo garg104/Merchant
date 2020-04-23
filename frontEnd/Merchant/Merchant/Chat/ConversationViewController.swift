@@ -62,6 +62,9 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
         //scroll to bottom of coversation
         scrollToBottom()
         
+        //TODO
+        //load in conversation between currentUser and userChattingWith into messages array
+        
     }
     
     override func viewWillLayoutSubviews() {
