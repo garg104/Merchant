@@ -48,6 +48,7 @@
 		6CAAEEBF2447A503004E7942 /* SellHistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CAAEEBE2447A503004E7942 /* SellHistoryTableViewCell.swift */; };
 		6CAAEEC12447AA91004E7942 /* SellHistoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CAAEEC02447AA91004E7942 /* SellHistoryTableViewController.swift */; };
 		6CAAEEC32447B0F6004E7942 /* SellHistoryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CAAEEC22447B0F6004E7942 /* SellHistoryDetailViewController.swift */; };
+		6CB72669245232D100194EB3 /* InitialConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CB72668245232D100194EB3 /* InitialConversationViewController.swift */; };
 		6CE602FE2442CD410032CAA4 /* WishlistTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CE602FD2442CD410032CAA4 /* WishlistTableViewCell.swift */; };
 		6CE603002442CDF00032CAA4 /* WishlistTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CE602FF2442CDF00032CAA4 /* WishlistTableViewController.swift */; };
 		6CEA6B71244C00FD006CFA2B /* ReportUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CEA6B70244C00FD006CFA2B /* ReportUserViewController.swift */; };
@@ -146,6 +147,7 @@
 		6CAAEEBE2447A503004E7942 /* SellHistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SellHistoryTableViewCell.swift; sourceTree = "<group>"; };
 		6CAAEEC02447AA91004E7942 /* SellHistoryTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SellHistoryTableViewController.swift; sourceTree = "<group>"; };
 		6CAAEEC22447B0F6004E7942 /* SellHistoryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SellHistoryDetailViewController.swift; sourceTree = "<group>"; };
+		6CB72668245232D100194EB3 /* InitialConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialConversationViewController.swift; sourceTree = "<group>"; };
 		6CE602FD2442CD410032CAA4 /* WishlistTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WishlistTableViewCell.swift; sourceTree = "<group>"; };
 		6CE602FF2442CDF00032CAA4 /* WishlistTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WishlistTableViewController.swift; sourceTree = "<group>"; };
 		6CEA6B70244C00FD006CFA2B /* ReportUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportUserViewController.swift; sourceTree = "<group>"; };
@@ -219,6 +221,7 @@
 				156690DF243FFF7600092632 /* ChatTableViewController.swift */,
 				6C2E18CC245007C0006BF53A /* MessageTableViewCell.swift */,
 				6C11EED924511F82004F9980 /* ChatTableViewCell.swift */,
+				6CB72668245232D100194EB3 /* InitialConversationViewController.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -657,6 +660,7 @@
 				153BC791242D9049000540EF /* PostItemViewController.swift in Sources */,
 				6C11EED824510A96004F9980 /* StaticRatingController.swift in Sources */,
 				7571D7E123F351EF00C46379 /* SceneDelegate.swift in Sources */,
+				6CB72669245232D100194EB3 /* InitialConversationViewController.swift in Sources */,
 				6CAAEEC32447B0F6004E7942 /* SellHistoryDetailViewController.swift in Sources */,
 				6CF50D1423F4ECCF008A306D /* LogInViewController.swift in Sources */,
 				157852E32431741500B8BED2 /* EditItemViewController.swift in Sources */,

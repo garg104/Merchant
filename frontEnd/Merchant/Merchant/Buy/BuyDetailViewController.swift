@@ -381,6 +381,11 @@ class BuyDetailViewController: UIViewController {
             vc.itemSeller = self.itemSeller
             vc.currentUser = currentUser
         }
+        if (segue.identifier == "toInitialConversation") {
+            let vc = segue.destination as! InitialConversationViewController
+            vc.currentUser = self.currentUser
+            vc.userChattingWith = self.itemSeller
+        }
     }
     
 
