@@ -726,7 +726,7 @@ router.post('/viewRating', async (req, res) => {
 
     const user = await User.findOne({ username: req.body.username })     
     console.log(user)
-    res.status(200).json({ msg: "success", rating: user.rating })
+    res.status(200).json({ msg: "success", currentRating: user.rating.currentRating, totalRatings: user.rating.totalRatings, rating: user.rating.users })
 
   } catch (e) {
     console.log(e)

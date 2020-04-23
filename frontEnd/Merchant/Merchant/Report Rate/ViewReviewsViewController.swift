@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Alamofire
 
 class ViewReviewsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
@@ -14,7 +15,8 @@ class ViewReviewsViewController: UIViewController, UITableViewDataSource, UITabl
     var comments: [String] = ["great job this is a longer comment that should hopefully wrap around to two lines and automatically resize the cell", "shorter comment"]
     var ratings: [Int] = [3, 5]
     var avgRating = 0
-    var username = "" //the user whose reviews are being looked at
+    var itemSeller = "" //the user whose reviews are being looked at
+    var currentUser = ""
     
     @IBOutlet weak var avgRatingLabel: UILabel!
     @IBOutlet weak var usernameLabel: UILabel!
@@ -24,9 +26,13 @@ class ViewReviewsViewController: UIViewController, UITableViewDataSource, UITabl
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        getItems() { (validCode) in
+            print("LOADING DATA")
+//            self.tableView.reloadData()
+        }
 
         // Do any additional setup after loading the view.
-        self.usernameLabel.text = username
+        self.usernameLabel.text = self.itemSeller
         
         self.commentsTableView.dataSource = self
         self.commentsTableView.delegate = self
@@ -42,6 +48,7 @@ class ViewReviewsViewController: UIViewController, UITableViewDataSource, UITabl
         
     }
     
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return users.count
     }
@@ -52,6 +59,58 @@ class ViewReviewsViewController: UIViewController, UITableViewDataSource, UITabl
         cell.commentLabel.text = comments[indexPath.row]
         cell.starRating.numStars = ratings[indexPath.row]
         return cell
+    }
+    
+    func getItems(completion: @escaping (_ validCode: Int)->()) {
+        // #warning Incomplete implementation, return the number of sections
+        
+        struct parameter: Encodable {
+            var username = ""
+        }
+        // set parameters for logging in user
+//        print(username)
+        let details = parameter(username: self.itemSeller)
+        
+        
+        AF.request(API.URL + "/user/viewRating", method: .post, parameters: details, encoder: URLEncodedFormParameterEncoder.default).responseJSON { response in
+            
+            
+            if (response.response?.statusCode == 200) {
+                if let info = response.value {
+                    let JSON = info as! NSDictionary
+                    debugPrint(JSON)
+//                    let ratings : NSArray =  JSON.value(forKey: "rating") as! NSArray
+//                    debugPrint(ratings)
+//                  for item in items {
+//                        print(item)
+//                        let temp = item as! NSDictionary
+//                        self.titles.append(temp["title"]! as! String)
+//                        self.prices.append(temp["price"]! as! String)
+//                        self.descriptions.append(temp["description"]! as! String)
+//                        self.itemIDs.append(temp["_id"]! as! String)
+//                        self.categories.append(Int(temp["category"] as! String)!)
+//                    }
+                }
+            } else {
+                debugPrint("ERROR")
+                let alert = UIAlertController(title: "Error!", message: "Something went wrong. Please try again", preferredStyle: .alert)
+                
+                
+                // Create Confirm button with action handler
+                let confirm = UIAlertAction(title: "OK",
+                                            style: .default)
+                
+                // add actions to the alert
+                alert.addAction(confirm)
+                
+                // display alert
+                self.present(alert, animated: true)
+                
+            }
+            
+            completion(0)
+            
+        }.resume()
     }
     
 
