@@ -12,6 +12,7 @@ const router = express.Router();
 import { config, getProfilePictureSchemas } from '../utils/fileHandling'
 const upload = config('profile-pictures')
 const randomstring = require('../node_modules/randomstring')
+import { dispatchAPNViaFirebase } from  '../utils/pushNotification'
 
 /* GET users listing. (for debugging) */
 router.get('/', async (req, res) => {
@@ -774,6 +775,7 @@ router.post('/chat', async (req, res) => {
       console.log(chat)
       let ret = await User.findByIdAndUpdate({ _id: userReceiver._id }, { chats: chat })
       ret = await User.findByIdAndUpdate({ _id: userSender._id }, { chats: chat })
+      ret = await dispatchAPNViaFirebase(userSender.username, userReceiver.username, message)
       res.status(200).json({ msg: "success",  conversation: conversation})
 
     } else {
@@ -789,6 +791,7 @@ router.post('/chat', async (req, res) => {
       // ret = await User.findByIdAndUpdate({ _id: userIDSender._id }, {  })
 
       console.log(ret)
+      ret = await dispatchAPNViaFirebase(userSender.username, userReceiver.username, message)
       res.status(200).json({ msg: "success",  conversation: conversation})
 
     }
