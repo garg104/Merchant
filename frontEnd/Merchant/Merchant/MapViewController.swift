@@ -15,6 +15,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var mapView: MKMapView!
     var selectedAnnotation: MKPointAnnotation?
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -27,11 +28,22 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         mapView.mapType = MKMapType.standard
 
         // Do any additional setup after loading the view.
-        // initialize cenetered location to WL, IN
+        // Center map on Purdue
         let purdueLocation = CLLocation(latitude: 40.4237, longitude: -86.9212)
         mapView.centerToLocation(purdueLocation)
+        
+        // create places
+        let PMU = Place(title: "PMU", address: "101 North Grant Street West Lafayette, IN 47906", coordinate: CLLocationCoordinate2D(latitude: 40.4247, longitude: -86.911))
+        let engineeringFountain = Place(title: "Engineering Fountain", address: "610 Purdue Mall, West Lafayette, IN 47906", coordinate: CLLocationCoordinate2D(latitude: 40.4286, longitude: -86.9138))
+        
+        
+                
+        // add places to map
+        mapView.addAnnotation(PMU)
+        mapView.addAnnotation(engineeringFountain)
     }
     
+    // gesture for users to add custom pins
     @objc func handleTap(_ gestureRecognizer: UILongPressGestureRecognizer) {
         let location = gestureRecognizer.location(in: mapView)
         let coordinate = mapView.convert(location, toCoordinateFrom: mapView)
@@ -51,6 +63,44 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         print("latitude:\(latValStr) & longitude\(longValStr)")
 
     }
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        guard annotation is Place else { return nil }
+        
+        let identifier = "Place"
+        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+        
+        if annotationView == nil {
+            annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+            annotationView?.canShowCallout = true
+            
+            let shareButton = UIButton(type: .contactAdd)
+            
+            annotationView?.rightCalloutAccessoryView = shareButton
+        } else {
+            annotationView?.annotation = annotation
+        }
+        
+        return annotationView
+    }
+    
+    // share button is pressed
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        guard let place = view.annotation as? Place else { return }
+        
+        let placeName = place.title
+        let placeCoords = place.coordinate
+        
+        let ac = UIAlertController(title: placeName, message: "Would you like to select this location?", preferredStyle: .actionSheet)
+        ac.addAction(UIAlertAction(title: "OK", style: .default))
+        ac.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        present(ac, animated: true)
+//        view.image
+        
+        // TODO: Aakarshit - please store coordinates (placeCoords.latitude and placeCoords.longitude) in the database however you see fit
+        
+    }
+    
     
 
     /*

@@ -107,6 +107,9 @@ iOSInjectionProject/
 #.env
 /backend/.env
 
+/backend/*.p8
+/backend/firebase.json
+
 # misc
 .DS_Store
 /backend/.DS_Store
