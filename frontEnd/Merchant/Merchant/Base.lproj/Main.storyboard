@@ -3148,7 +3148,7 @@
             </objects>
             <point key="canvasLocation" x="10373.6" y="68.7192118226601"/>
         </scene>
-        <!--Sell-->
+        <!--Selling History-->
         <scene sceneID="rN9-0H-Wbo">
             <objects>
                 <tableViewController id="nT2-mg-U01" customClass="SellHistoryTableViewController" customModule="Merchant" customModuleProvider="target" sceneMemberID="viewController">
@@ -3208,7 +3208,7 @@
                             <outlet property="delegate" destination="nT2-mg-U01" id="FqA-uC-C5L"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Sell" id="e5W-XJ-jrV">
+                    <navigationItem key="navigationItem" title="Selling History" id="e5W-XJ-jrV">
                         <barButtonItem key="leftBarButtonItem" systemItem="refresh" id="hKX-BS-Tqo">
                             <connections>
                                 <action selector="refreshButton:" destination="nT2-mg-U01" id="I1n-HJ-1oG"/>
