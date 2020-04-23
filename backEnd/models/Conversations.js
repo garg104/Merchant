@@ -1,6 +1,19 @@
 const mongoose = require('mongoose');
 
 const userSchema = mongoose.Schema({  
+    lastMessage: {
+        type: {
+            time : { 
+                type : String, 
+                require: true, 
+            },
+            text: {
+                type: String,
+                require: true
+            }
+        },
+        require: true
+    },
     messages: {
         type: [{
             userIDSender: {

@@ -12,11 +12,63 @@ import Alamofire
 class ChatTableViewController: UITableViewController {
     
     var currentUser = ""
-    var users: [String] = ["user1"]
-    var previews: [String] = ["the is a preview of the conversation bewteen current user and user 1"]
-
+    var users: [String] = []
+    var previews: [String] = []
+    
+    func getConversations(completion: @escaping (_ validCode: Int)->()) {
+        // #warning Incomplete implementation, return the number of sections
+        
+        AF.request(API.URL + "/items/conversations/\(currentUser)", method: .get).responseJSON { response in
+            
+            if (response.response?.statusCode == 200) {
+                if let info = response.value {
+                    let JSON = info as! NSDictionary
+                    debugPrint("JSON")
+                    debugPrint(JSON)
+//                    let items : NSArray =  JSON.value(forKey: "items") as! NSArray
+//                    for item in items {
+//                        print(item)
+//                        let temp = item as! NSDictionary
+//                        self.titles.append(temp["title"]! as! String)
+//                        self.prices.append(temp["price"]! as! String)
+//                        self.descriptions.append(temp["description"]! as! String)
+//                        self.itemIDs.append(temp["_id"]! as! String)
+//                        self.categories.append(Int(temp["category"] as! String)!)
+//                    }
+                }
+            } else {
+                debugPrint("ERROR")
+                let alert = UIAlertController(title: "Error!", message: "Something went wrong. Please restart the App", preferredStyle: .alert)
+                
+                
+                // Create Confirm button with action handler
+                let confirm = UIAlertAction(title: "OK",
+                                            style: .default)
+                
+                // add actions to the alert
+                alert.addAction(confirm)
+                
+                // display alert
+                self.present(alert, animated: true)
+                
+            }
+            
+            completion(0)
+            
+        }.resume()
+    }
+    
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        getConversations() { (validCode) in
+            print("LOADING DATA")
+            self.tableView.reloadData()
+        }
+        
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
