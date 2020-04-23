@@ -51,21 +51,16 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         let coordinate = mapView.convert(location, toCoordinateFrom: mapView)
         
         // Add annotation
-        let annotation = MKPointAnnotation()
-        annotation.coordinate = coordinate
-        annotation.title = "Custom pin"
-        mapView.addAnnotation(annotation)
+        let place = Place(title: "Custom pin", address: "Not specified", coordinate: coordinate)
+//        let annotation = MKPointAnnotation()
+//        annotation.coordinate = coordinate
+//        annotation.title = "Custom pin"
+        mapView.addAnnotation(place)
     }
     
     
-    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        let latValStr : String = String(format: "%.02f", Float((view.annotation?.coordinate.latitude)!))
-        let longValStr : String = String(format: "%.02f", Float((view.annotation?.coordinate.longitude)!))
-        
-        print("latitude:\(latValStr) & longitude\(longValStr)")
-
-    }
     
+    // when a pin is selected
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         guard annotation is Place else { return nil }
         
@@ -87,7 +82,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         return annotationView
     }
     
-    // share button is pressed
+    // when either info or share are pressed it goes here
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         guard let place = view.annotation as? Place else { return }
         
@@ -110,6 +105,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         
     }
     
+    // handler for when share button is pressed
     func share(_ place: Place) {
         let placeName = place.title
         let placeAddress = place.address
