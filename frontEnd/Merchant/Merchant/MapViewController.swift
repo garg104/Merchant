@@ -32,13 +32,13 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         let purdueLocation = CLLocation(latitude: 40.4237, longitude: -86.9212)
         mapView.centerToLocation(purdueLocation)
         
-        // create places
+        // create default places
         let PMU = Place(title: "PMU", address: "101 North Grant Street West Lafayette, IN 47906", coordinate: CLLocationCoordinate2D(latitude: 40.4247, longitude: -86.911))
         let engineeringFountain = Place(title: "Engineering Fountain", address: "610 Purdue Mall, West Lafayette, IN 47906", coordinate: CLLocationCoordinate2D(latitude: 40.4286, longitude: -86.9138))
         let harrys = Place(title: "Harry's Chocolate Shop", address: "329 W State St, West Lafayette, IN 47906", coordinate: CLLocationCoordinate2D(latitude: 40.4238, longitude: -86.9090))
         let corec = Place(title: "CoRec", address: "355 Martin Jischke Dr, West Lafayette, IN 47906", coordinate: CLLocationCoordinate2D(latitude: 40.4285, longitude: -86.9220))
                 
-        // add places to map
+        // add default places to map
         mapView.addAnnotation(PMU)
         mapView.addAnnotation(engineeringFountain)
         mapView.addAnnotation(harrys)
@@ -79,6 +79,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             let shareButton = UIButton(type: .contactAdd)
             
             annotationView?.rightCalloutAccessoryView = shareButton
+            annotationView?.leftCalloutAccessoryView = UIButton(type: .infoLight)
         } else {
             annotationView?.annotation = annotation
         }
@@ -91,16 +92,30 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         guard let place = view.annotation as? Place else { return }
         
         let placeName = place.title
-        let placeCoords = place.coordinate
+        let placeAddress = place.address
         
-        let ac = UIAlertController(title: placeName, message: "Would you like to select this location?", preferredStyle: .actionSheet)
-        ac.addAction(UIAlertAction(title: "OK", style: .default))
-        ac.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-        present(ac, animated: true)
+        if view.rightCalloutAccessoryView == control { // if share
+            let ac = UIAlertController(title: placeName, message: "Would you like to select this location?", preferredStyle: .actionSheet)
+            ac.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in self.share(place) }))
+            ac.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+            present(ac, animated: true)
+        }
+        else if view.leftCalloutAccessoryView == control { // if info
+            let alert = UIAlertController(title: "Address", message: placeAddress, preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "Yeet", style: UIAlertAction.Style.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+            
+        }
 //        view.image
         
+    }
+    
+    func share(_ place: Place) {
+        let placeName = place.title
+        let placeAddress = place.address
+        let placeCoords = place.coordinate
+    
         // TODO: Aakarshit - please store coordinates (placeCoords.latitude and placeCoords.longitude) in the database however you see fit
-        
     }
     
     
