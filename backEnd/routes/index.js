@@ -78,4 +78,36 @@ router.get('/sendPushNotifications', async (req, res) => {
   }
 })
 
+router.push('/deleteConversation', authenticate, async (req, res) => {
+  const { receiverUsername } = req.body
+  try {
+    //getting the receiver object
+    const receiver = await User.findOne({ username: receiverUsername })
+    //finding the conversation based on the ids
+    const conversation = await Conversations.findOne({ userIDReceiver: receiver._id, userIDSender: req.userInfo._id })
+    //removing the conversation id from the receivers array
+    if (receiver.chats) {
+      const index = receiver.chats.indexOf(conversation._id)
+      if (index != -1) {
+        receiver.chats.splice(index, 1)
+      } //end if
+    } //end if
+    //removing the conversation id from the sender's array
+    if (req.userInfo.chats) {
+      const index = req.userInfo.chats.indexOf(conversation._id)
+      if (index != -1) {
+        req.userInfo.chats.splice(index, 1)
+      } //end if
+    } //end if
+    //deleting the actual conversation
+    await User.findOneAndUpdate({ _id: req.userInfo._id }, { chats: req.userInfo.chats })
+    await User.findOneAndUpdate({ _id: receiver._id }, { chats: receiver.chats })
+    await Conversations.findOneAndDelete({ _id: conversation._id })
+    res.status(200).json({ msg: 'The conversation has been deleted' })
+  } catch (e) {
+    console.log(e.message)
+    res.status(400).json({ msg: 'The conversation could not be deleted' })
+  }
+})
+
 module.exports = router;
