@@ -229,3 +229,28 @@ describe('\nWishlist routes\n', () => {
         done()
     }, 50000)
 })
+
+//Sending push notifications
+describe('\nSending Push Notifications\n', () => {
+    it('Sending push notification between two users', async (done) => {
+        const ret = await request.post('/sendPushNotifications').send({
+            sender: 'dconver1',
+            receiver: 'pandey25',
+            messageBody: 'Hi There!'
+        })
+        expect(ret.status).toBe(200)
+        done()
+    }, 50000)
+})
+
+//Adding and removing device tokens
+describe('\nSending and Receivng Device Token\n', () => {
+    it('Adding Device Token', async (done) => {
+        const ret = await request.post('/user/addDeviceToken').set('Authorization', jwt).send({ token: 'test' })
+        expect(ret.status).toBe(400)
+    }, 50000)
+    it('Removing Device Token', async (done) => {
+        const ret = await request.post('/user/removeDeviceToken').set('Authorization', jwt).send({ token: 'test' })
+        expect(ret.status).toBe(400)
+    }, 50000)
+})

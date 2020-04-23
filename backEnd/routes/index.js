@@ -67,7 +67,7 @@ router.get('/safeLocations', authenticate, async (req, res) => {
   }
 })
 
-router.get('/sendPushNotifications', async (req, res) => {
+router.post('/sendPushNotifications', async (req, res) => {
   try {
     const { sender, receiver, messageBody } = req.body
     const ret = await dispatchAPNViaFirebase(sender, receiver, messageBody)
