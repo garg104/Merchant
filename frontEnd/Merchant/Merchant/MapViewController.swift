@@ -15,8 +15,10 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var proposedButton: UIButton!
     
+    var currentUser = ""
     var conversationID = ""
     var receiver = ""
+    var userChattingWith = ""
     var selectedAnnotation: MKPointAnnotation?
     var proposedPlace = Place(title: "Temporary place", address: "123 Sesame St", coordinate: CLLocationCoordinate2D(latitude: 40.4237, longitude: -86.9200))
     
@@ -51,7 +53,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         mapView.addAnnotation(harrys)
         mapView.addAnnotation(corec)
         
-        let tempTitle: String = "<user> wants to meet at : " + (proposedPlace.title)!
+        let tempTitle: String = userChattingWith + " wants to meet at : " + (proposedPlace.title)!
                 
         proposedButton.setTitle(tempTitle, for: .normal)
     }
