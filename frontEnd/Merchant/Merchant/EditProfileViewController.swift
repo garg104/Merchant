@@ -97,10 +97,11 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, UINaviga
         return true
     }
     
-    let image = UIImagePickerController()
+    var image = UIImagePickerController()
     
     @IBAction func changeProfilePicture(_ sender: UIButton) {
         image.delegate = self
+        sender.isUserInteractionEnabled = true
 
         let alert = UIAlertController(title: "Choose Image", message: nil, preferredStyle: .actionSheet)
         alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: { _ in self.openCamera() }))
@@ -145,7 +146,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, UINaviga
     }
     
     func openGallery() {
-        image.sourceType = UIImagePickerController.SourceType.photoLibrary
+        image.sourceType = .photoLibrary
         image.allowsEditing = true
         self.present(image, animated: true, completion: nil)
     }

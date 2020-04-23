@@ -149,9 +149,11 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
          // Get the new view controller using segue.destination.
          // Pass the selected object to the new view controller.
          if (segue.identifier == "toMapView") {
-             let vc = segue.destination as! MapViewController
-             vc.conversationID = self.conversationID
-             vc.receiver = self.userChattingWith
+            let vc = segue.destination as! MapViewController
+            vc.conversationID = self.conversationID
+            vc.receiver = self.userChattingWith
+            vc.currentUser = self.currentUser
+            vc.userChattingWith = self.userChattingWith
          }
          
      }

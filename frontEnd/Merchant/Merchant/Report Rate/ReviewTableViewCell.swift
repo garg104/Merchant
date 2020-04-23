@@ -12,7 +12,7 @@ class ReviewTableViewCell: UITableViewCell {
 
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var commentLabel: UILabel!
-    @IBOutlet weak var starRating: RatingController!
+    @IBOutlet weak var starRating: StaticRatingController!
     
     var numStars = 0
     
