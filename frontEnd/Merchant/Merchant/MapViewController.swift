@@ -11,9 +11,11 @@ import MapKit
 
 class MapViewController: UIViewController, MKMapViewDelegate {
 
-    @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var proposedButton: UIButton!
+    
     var selectedAnnotation: MKPointAnnotation?
+    let proposedPlace = Place(title: "Temporary place", address: "123 Sesame St", coordinate: CLLocationCoordinate2D(latitude: 40.4237, longitude: -86.9200))
     
     
     override func viewDidLoad() {
@@ -43,6 +45,10 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         mapView.addAnnotation(engineeringFountain)
         mapView.addAnnotation(harrys)
         mapView.addAnnotation(corec)
+        
+        let tempTitle: String = "<user> wants to meet at : " + (proposedPlace.title)!
+                
+        proposedButton.setTitle(tempTitle, for: .normal)
     }
     
     // gesture for users to add custom pins
