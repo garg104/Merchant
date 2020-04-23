@@ -225,15 +225,16 @@ class PostItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
         photoSelect()
     }
     
+    let image = UIImagePickerController()
+    
     func photoSelect () {
-        let image = UIImagePickerController()
+        let alert = UIAlertController(title: "Choose Image", message: nil, preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: { _ in self.openCamera() }))
+        alert.addAction(UIAlertAction(title: "Gallery", style: .default, handler: { _ in self.openGallery() }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
         image.delegate = self
-        image.sourceType = UIImagePickerController.SourceType.photoLibrary
-        // handles if camera exists on device (sim vs. device)
-        if (UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.camera)) {
-            image.sourceType = UIImagePickerController.SourceType.camera
-        }
-        image.allowsEditing = false
+        self.present(alert, animated: true)
         self.present(image, animated: true)
     }
     
@@ -265,6 +266,25 @@ class PostItemViewController: UIViewController, UIPickerViewDataSource, UIPicker
         
         // hide controller when finished
         self.dismiss(animated: true, completion: nil)
+    }
+    
+    func openCamera() {
+        if (UIImagePickerController .isSourceTypeAvailable(UIImagePickerController.SourceType.camera)) {
+            image.sourceType = .camera
+            image.allowsEditing = true
+            self.present(image, animated: true, completion: nil)
+        }
+        else {
+            let alert = UIAlertController(title: "Warning", message: "You don't have a camera", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    func openGallery() {
+        image.sourceType = UIImagePickerController.SourceType.photoLibrary
+        image.allowsEditing = true
+        self.present(image, animated: true, completion: nil)
     }
     
 

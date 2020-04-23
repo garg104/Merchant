@@ -51,6 +51,9 @@ class ChatTableViewController: UITableViewController {
     }
     
 
+    @IBAction func refreshFeed(_ sender: UIBarButtonItem) {
+        // TODO implement refresh functionality
+    }
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -64,7 +67,13 @@ class ChatTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
+            // TODO: Aakarshit: remove the chat in the database
+            
+            
+            self.users.remove(at: indexPath.row)
+            self.previews.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
