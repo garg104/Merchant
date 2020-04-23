@@ -22,7 +22,11 @@ class RatingController: UIStackView {
         var starTag = 1
         for theView in myViews {
             if let theButton = theView as? UIButton {
-                theButton.setImage(UIImage(systemName: emptyStarPic), for: .normal)
+                if (starTag == 1) {
+                    theButton.setImage(UIImage(systemName: filledStarPic), for: .normal)
+                } else {
+                    theButton.setImage(UIImage(systemName: emptyStarPic), for: .normal)
+                }
                 theButton.addTarget(self, action: #selector(self.pressed(sender:)), for: .touchUpInside)
                 theButton.tag = starTag
                 starTag = starTag + 1
