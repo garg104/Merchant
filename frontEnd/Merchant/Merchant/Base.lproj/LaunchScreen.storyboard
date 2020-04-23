@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="M00-w2-5lP">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="M00-w2-5lP">
+    <device id="retina5_9" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -12,16 +12,30 @@
             <objects>
                 <viewController id="M00-w2-5lP" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="VQj-Yu-kmQ">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="0.46274509800000002" green="0.70980392160000005" blue="0.30196078430000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Merchant Load Image" translatesAutoresizingMaskIntoConstraints="NO" id="Qcx-cM-7Zn">
+                                <rect key="frame" x="0.0" y="44" width="375" height="734"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Qcx-cM-7Zn" firstAttribute="centerX" secondItem="VQj-Yu-kmQ" secondAttribute="centerX" id="I6T-27-w0s"/>
+                            <constraint firstItem="Qcx-cM-7Zn" firstAttribute="leading" secondItem="OTF-yX-BoL" secondAttribute="leading" id="KyR-Hi-UyR"/>
+                            <constraint firstItem="Qcx-cM-7Zn" firstAttribute="top" secondItem="OTF-yX-BoL" secondAttribute="top" id="kwc-1K-DOP"/>
+                            <constraint firstItem="Qcx-cM-7Zn" firstAttribute="bottom" secondItem="OTF-yX-BoL" secondAttribute="bottom" id="npu-88-yde"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="OTF-yX-BoL"/>
                     </view>
                     <navigationItem key="navigationItem" id="KSL-Eu-Mb8"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ckg-Ma-0NO" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="807" y="375"/>
+            <point key="canvasLocation" x="805.79710144927537" y="375"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Merchant Load Image" width="4025" height="1024"/>
+    </resources>
 </document>
