@@ -10,7 +10,7 @@ import UIKit
 
 class RatingController: UIStackView {
     
-    var numStars = 0;
+    var numStars = 1;
     var emptyStarPic = "star"
     var filledStarPic = "star.fill"
 
