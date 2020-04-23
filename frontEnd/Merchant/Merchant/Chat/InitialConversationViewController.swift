@@ -70,9 +70,11 @@ class InitialConversationViewController: UIViewController, UITableViewDelegate, 
     
     @IBAction func sendPressed(_ sender: UIButton) {
         //send the message
-        self.messageTextField.endEditing(true)
+//        self.messageTextField.endEditing(true)
         if (messageTextField.text != "") {
             // nothing should happen if it is a empty message
+            
+            self.messages.append(ChatMessage(message: self.messageTextField.text ?? "", isIncoming: false))
             
             struct parameters: Encodable {
                 var userSender = ""
@@ -82,6 +84,8 @@ class InitialConversationViewController: UIViewController, UITableViewDelegate, 
             }
             
             let details = parameters(userSender: self.currentUser, userReceiver: self.userChattingWith, message: messageTextField.text ?? "", conversationID: "")
+            
+            self.messageTextField.text = ""
             
             AF.request(API.URL + "/user/chat", method: .post, parameters: details, encoder: URLEncodedFormParameterEncoder.default).response { response in
                 
@@ -101,15 +105,12 @@ class InitialConversationViewController: UIViewController, UITableViewDelegate, 
                     // display alert
                     self.present(alert, animated: true)
                 } else {
-                    self.messages.append(ChatMessage(message: self.messageTextField.text ?? "", isIncoming: false))
-                    self.messageTextField.text = ""
+                    
 
                 }
                 
                 
             }.resume()
-            
-            
             
             
         }
