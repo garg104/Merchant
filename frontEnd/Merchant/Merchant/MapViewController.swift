@@ -35,12 +35,14 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         // create places
         let PMU = Place(title: "PMU", address: "101 North Grant Street West Lafayette, IN 47906", coordinate: CLLocationCoordinate2D(latitude: 40.4247, longitude: -86.911))
         let engineeringFountain = Place(title: "Engineering Fountain", address: "610 Purdue Mall, West Lafayette, IN 47906", coordinate: CLLocationCoordinate2D(latitude: 40.4286, longitude: -86.9138))
-        
-        
+        let harrys = Place(title: "Harry's Chocolate Shop", address: "329 W State St, West Lafayette, IN 47906", coordinate: CLLocationCoordinate2D(latitude: 40.4238, longitude: -86.9090))
+        let corec = Place(title: "CoRec", address: "355 Martin Jischke Dr, West Lafayette, IN 47906", coordinate: CLLocationCoordinate2D(latitude: 40.4285, longitude: -86.9220))
                 
         // add places to map
         mapView.addAnnotation(PMU)
         mapView.addAnnotation(engineeringFountain)
+        mapView.addAnnotation(harrys)
+        mapView.addAnnotation(corec)
     }
     
     // gesture for users to add custom pins
