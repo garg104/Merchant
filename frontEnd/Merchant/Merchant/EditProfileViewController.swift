@@ -135,7 +135,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, UINaviga
     func openCamera() {
         if (UIImagePickerController .isSourceTypeAvailable(UIImagePickerController.SourceType.camera)) {
             image.sourceType = .camera
-            image.allowsEditing = false
+            image.allowsEditing = true
             self.present(image, animated: true, completion: nil)
         }
         else {

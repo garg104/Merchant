@@ -576,6 +576,7 @@ router.post('/rating', async (req, res) => {
       // console.log(user1.username)
       // console.log(index)
       user2.rating.currentRating = ((user2.rating.currentRating * user2.rating.totalRatings) - (prevRating.rating * 1) + (req.body.newRating * 1)) / (user2.rating.totalRatings * 1)
+      user2.rating.currentRating = Math.round(user2.rating.currentRating)
       user2.rating.users[index].rating = req.body.newRating
       user2.rating.users[index].review = req.body.review
       user2.rating.users[index].datePosted = dateTime
@@ -584,6 +585,7 @@ router.post('/rating', async (req, res) => {
     } else {
       // if user1 has not reviewed user2 before
       user2.rating.currentRating = ((user2.rating.currentRating * user2.rating.totalRatings) + (req.body.newRating * 1)) / ((user2.rating.totalRatings * 1) + 1)
+      user2.rating.currentRating = Math.round(user2.rating.currentRating)
       user2.rating.totalRatings = (user2.rating.totalRatings * 1) + 1
       const temp = {
         userID: user1._id,
