@@ -11,7 +11,7 @@ admin.initializeApp({
 
 /**
  * This function helps dispatch an
- * APN (Appple Push Notification) to
+ * APN (Apple Push Notification) to
  * Apple's push notification server
  * 
  * @param senderUsername: username of the sender

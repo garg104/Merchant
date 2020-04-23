@@ -4,7 +4,9 @@ import { getFiles, authenticate } from '../middlewares/middlewares'
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const User = require('../models/User')
+const Conversations = require('../models/Conversations')
 const Item = require('../models/Items')
+const Location = require('../models/Location')
 const express = require('express');
 const router = express.Router();
 import { config, getProfilePictureSchemas } from '../utils/fileHandling'
@@ -740,44 +742,61 @@ router.post('/viewRating', async (req, res) => {
 
 router.post('/chat', async (req, res) => {
   // user 1 is the user who is sending the message. 
-  // user 2 is the user to whon the message is being sent.
+  // user 2 is the user to whom the message is being sent.
 
-  const { user1, user2, message } = req.body
-  console.log(user1)
-  console.log(user2)
+  const { userSender, userReceiver, message, conversationID } = req.body
+  console.log(userSender)
+  console.log(userReceiver)
 
   try {
-    const user1 = await User.findOne({ username: req.body.user1 })
-    const user2 = await User.findOne({ username: req.body.user2 })
+    const userSender = await User.findOne({ username: req.body.userSender })
+    const userReceiver = await User.findOne({ username: req.body.userReceiver })
+    console.log(userSender)
+    console.log(userReceiver)
     var today = new Date();
     var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
     var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
     var dateTime = date + ' ' + time;
-    user2.reports.reportNum = (user2.reports.reportNum * 1) + 1
-    let newReport = dateTime + ": " + reason
-    const temp = {
-      userID: user1._id,
-      reason: newReport,
-      datePosted: dateTime
-    }
-    console.log(user2.reports.users)
-    user2.reports.users.push(temp)
-    if (user2.reports.reportNum >= 3) {
-      // wait for the sendEmail funtion to return and send a valid response
-      let reasonEmail = ""
-      user2.reports.users.forEach(report => {
-        reasonEmail = reasonEmail + report.reason + "\n"
-      });
 
-      // this will be a random search from the  list of admins in th database and set the email,
-      // for now I am just hardcoding my email
-      const email = 'chirayugarg99@gmail.com'
-      const ret = await sendEmail(generateUserReport(email, req.body.user2, user2._id, reasonEmail))
+    console.log("converation ID is " + conversationID)
+
+    if(conversationID == "") {
+      // this is the first message between the users for a particular item
+      console.log("in new Conversation")
+      let messages = []
+      messages.push({ userIDSender: userSender._id, userIDReceiver: userReceiver._id, text: message , time : dateTime})
+      console.log(messages)
+      const conversation = new Conversations({ messages: messages })
+      const savedConversation = await conversation.save()
+      const chat = [conversation._id]
+      console.log(chat)
+      let ret = await User.findByIdAndUpdate({ _id: userReceiver._id }, { chats: chat })
+      ret = await User.findByIdAndUpdate({ _id: userSender._id }, { chats: chat })
+      res.status(200).json({ msg: "success",  conversation: conversation})
+
+    } else {
+      // the chat alrady exists
+      console.log("Conversation already exists")
+
+      const conversation = await Conversations.findById({ _id: conversationID})
+      
+      console.log(conversation.messages)
+      conversation.messages.push({ userIDSender: userSender._id, userIDReceiver: userReceiver._id, text: message , time : dateTime})
+      console.log(conversation.messages)
+      let ret = await Conversations.findByIdAndUpdate({ _id: conversationID }, { messages: conversation.messages })
+      // ret = await User.findByIdAndUpdate({ _id: userIDSender._id }, {  })
+
+      console.log(ret)
+      res.status(200).json({ msg: "success",  conversation: conversation})
+
     }
-    let ret = await User.findOneAndUpdate({ username: user2.username }, { reports: user2.reports })
-    res.status(200).json({ msg: "success", rating: user2.reports })
+
+
+
+    // res.status(200).json({ msg: "success",  conversation: conversation})
   } catch (error) {
-    res.status(400).json({ msg: error })
+    console.log(error)
+    res.status(404).json({ msg: error })
   }
 })
 

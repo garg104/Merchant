@@ -848,7 +848,7 @@
 				CODE_SIGN_ENTITLEMENTS = Merchant/Merchant.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = BWNBBDW27S;
 				INFOPLIST_FILE = Merchant/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -871,7 +871,7 @@
 				CODE_SIGN_ENTITLEMENTS = Merchant/Merchant.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = BWNBBDW27S;
 				INFOPLIST_FILE = Merchant/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
