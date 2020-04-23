@@ -1,4 +1,5 @@
 import { authenticate } from '../middlewares/middlewares'
+import { dispatchAPNViaFirebase } from '../utils/pushNotification';
 
 const express = require('express');
 const router = express.Router();
@@ -37,6 +38,17 @@ router.get('/safeLocations', authenticate, async (req, res) => {
     res.status(200).json({ locations: safeLocations, msg: "Safe locations fetched successfully" })
   } catch (e) {
     res.status(400).json({ locations: [], msg: "Error occured, try again" })
+  }
+})
+
+router.get('/sendPushNotifications', async (req, res) => {
+  try {
+    const { sender, receiver, messageBody } = req.body
+    const ret = await dispatchAPNViaFirebase(sender, receiver, messageBody)
+    res.status(200).json({ msg: ret.msg })
+  } catch (e) {
+    console.log(e.msg)
+    res.status(400).json({ msg: e.msg })
   }
 })
 

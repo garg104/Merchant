@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import Alamofire
+import Firebase
 
 extension UserDefaults {
     
@@ -16,7 +17,13 @@ extension UserDefaults {
         case isLoggedIn
         case authToken
         case currentUsername
+        case deviceTokenID
     } //userDefaultKeys
+    
+    func setDeviceToken(tokenID: String) {
+        set(tokenID, forKey: UserDefaultKeys.deviceTokenID.rawValue)
+        synchronize()
+    } //setIsLoggedIn
     
     func setIsLoggedIn(authStatus: Bool) {
         set(authStatus, forKey: UserDefaultKeys.isLoggedIn.rawValue)
@@ -38,8 +45,17 @@ extension UserDefaults {
         synchronize()
     }
     
+    func removeDeviceToken() {
+        removeObject(forKey: UserDefaultKeys.deviceTokenID.rawValue)
+        synchronize()
+    }
+    
     func getUsername() -> String {
         return string(forKey: UserDefaultKeys.currentUsername.rawValue) ?? ""
+    }
+    
+    func getDeviceToken() -> String {
+        return string(forKey: UserDefaultKeys.deviceTokenID.rawValue) ?? ""
     }
     
     func getAuthToken() -> String {
@@ -54,6 +70,96 @@ extension UserDefaults {
 
 class StateManager {
     static var updateWishlist: Bool =  false
+    static var receivedNewNotification: Bool = false
+    
+    static func getUpdatedDeviceToken() -> String {
+        var deviceToken = ""
+        InstanceID.instanceID().instanceID { (result, error) in
+                if let error = error {
+                  debugPrint("Error fetching remote instance ID: \(error)")
+                } else if let result = result {
+                  debugPrint("Remote instance ID token: \(result.token)")
+                  deviceToken = result.token
+                }
+        }
+        return deviceToken
+    }
+    
+    static func sendDeviceToken() {
+        struct parameter: Encodable {
+            var token: String
+        }
+        
+        let headers: HTTPHeaders = [
+            "Authorization": Authentication.getAuthToken(),
+            "Accept": "application/json"
+        ]
+        
+        //getting updated device token
+        InstanceID.instanceID().instanceID { (result, error) in
+            if let error = error {
+                debugPrint("Error fetching remote instance ID: \(error)")
+            } else if let result = result {
+                debugPrint("Remote instance ID token: \(result.token)")
+                let token = result.token
+                UserDefaults.standard.setDeviceToken(tokenID: token)
+                
+                if (token.elementsEqual("")) {
+                    return
+                }
+                
+                AF.request(API.URL + "/user/addDeviceToken", method: .post, parameters: parameter(token: token), encoder: URLEncodedFormParameterEncoder.default, headers: headers).responseJSON { response in
+                    let status = (response.response?.statusCode ?? 0)
+                    if (status == 200) {
+                        debugPrint("Posted device token for the user: \(UserDefaults.standard.getUsername())")
+                    } else {
+                        debugPrint("Failed to post device token")
+                    }
+                }
+                
+            }
+        }
+    }
+    
+    static func sendDeviceTokenIfNew() {
+        //getting updated device token
+        InstanceID.instanceID().instanceID { (result, error) in
+            if let error = error {
+                debugPrint("Error fetching remote instance ID: \(error)")
+            } else if let result = result {
+                debugPrint("Remote instance ID token: \(result.token)")
+                let token = result.token
+                if (!UserDefaults.standard.getDeviceToken().elementsEqual(token)) {
+                    self.sendDeviceToken()
+                } else {
+                    debugPrint("The previous device token was the same as new: aborting update request")
+                }
+            }
+        }
+    }
+    
+    static func removeDeviceTokenFromDB(authToken: String) {
+        //getting updated device token
+        let deviceToken = UserDefaults.standard.getDeviceToken()
+        
+        struct parameter: Encodable {
+            var token: String
+        }
+        
+        let headers: HTTPHeaders = [
+            "Authorization": authToken,
+            "Accept": "application/json"
+        ]
+        
+        AF.request(API.URL + "/user/removeDeviceToken", method: .post, parameters: parameter(token: deviceToken), encoder: URLEncodedFormParameterEncoder.default, headers: headers).responseJSON { response in
+            let status = (response.response?.statusCode ?? 0)
+            if (status == 200) {
+                debugPrint("Removed device token for the user: \(UserDefaults.standard.getUsername())")
+            } else {
+                debugPrint("Failed to remove device token")
+            }
+        }
+    }
 }
 
 class Authentication {
@@ -67,6 +173,7 @@ class Authentication {
         //storeAuthTokenInKeyChain(authToken: authToken)
         UserDefaults.standard.setIsLoggedIn(authStatus: true)
         UserDefaults.standard.setAuthToken(authToken: authToken)
+        StateManager.sendDeviceToken()
     }
     
     static func isLoggedIn() -> Bool {
@@ -76,7 +183,9 @@ class Authentication {
     
     static func logout() {
         //deleteAuthToken()
+        StateManager.removeDeviceTokenFromDB(authToken: UserDefaults.standard.getAuthToken())
         UserDefaults.standard.removeAuthToken()
+        UserDefaults.standard.removeDeviceToken()
         UserDefaults.standard.setIsLoggedIn(authStatus: false)
     }
     

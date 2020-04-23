@@ -457,6 +457,7 @@ class BuyTableViewController: UITableViewController {
             itemDetailViewController.itemPrice = selectedItemCell.itemPriceLabel.text!
             itemDetailViewController.itemSeller = selectedItemCell.userNameLabel.text!
             itemDetailViewController.itemId = selectedItemCell.itemID
+            itemDetailViewController.currentUser = self.currentUser
         }
         
         if (segue.identifier == "showFilters") {

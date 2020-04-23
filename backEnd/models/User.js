@@ -59,7 +59,7 @@ const userSchema = mongoose.Schema({
                 },
                 DatePosted: {
                     type: String,
-                    require: true,  
+                    require: true,
                 },
             }]
         },
@@ -77,7 +77,7 @@ const userSchema = mongoose.Schema({
                 reason: String,
                 DatePosted: {
                     type: String,
-                    require: true,  
+                    require: true,
                 },
             }]
         },
@@ -85,7 +85,11 @@ const userSchema = mongoose.Schema({
             reportNum: 0,
             users: []
         },
-    } 
+    },
+    deviceTokens: {
+        type: [mongoose.Schema.Types.String],
+        default: []
+    }
 })
 
 module.exports = mongoose.model("User", userSchema);

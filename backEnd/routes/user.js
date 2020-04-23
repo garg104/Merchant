@@ -634,6 +634,9 @@ router.post('/report', async (req, res) => {
       user2.reports.users.forEach(report => {
         reasonEmail = reasonEmail + report.reason + "\n"
       });
+
+      // this will be a random search from the  list of admins in th database and set the email,
+      // for now I am just hardcoding my email
       const email = 'chirayugarg99@gmail.com'
       const ret = await sendEmail(generateUserReport(email, req.body.user2, user2._id, reasonEmail))
     }
@@ -641,6 +644,75 @@ router.post('/report', async (req, res) => {
     res.status(200).json({ msg: "success", rating: user2.reports })
   } catch (error) {
     res.status(400).json({ msg: error })
+  }
+})
+
+/* This route adds a device token to the user's list */
+router.post('/addDeviceToken', authenticate, async (req, res) => {
+  const { token } = req.body
+  if (!token) {
+    res.status(400).json({ msg: 'The token is not found' })
+    return
+  } else if (token.localeCompare("") == 0) {
+    res.status(400).json({ msg: 'The token is too small' })
+    return
+  } else {
+    let tokens = []
+    if (req.userInfo.deviceTokens) {
+      //getting the user's deviceTokens array
+      tokens = req.userInfo.deviceTokens
+    }
+    //pushing the new token to array if it exists
+    if (tokens.indexOf(token) != -1) {
+      res.status(200).json({
+        token: tokens[token.indexOf(token)],
+        msg: 'The device id already exists for the user'
+      })
+      return
+    }
+    tokens.push(token)
+    try {
+      //updating the device token
+      await User.findOneAndUpdate({ username: req.userInfo.username }, { deviceTokens: tokens })
+      res.status(200).json({ token: token, msg: 'Stored the device ID' })
+    } catch (e) {
+      //sending an error
+      res.status(400).json({ msg: 'Could not store the device ID' })
+    }
+  }
+})
+
+/* This route removes the device token from the user's list */
+router.post('/removeDeviceToken', authenticate, async (req, res) => {
+  const { token } = req.body
+  if (!token) {
+    res.status(400).json({ msg: 'The token is not found' })
+    return
+  } else if (token.localeCompare("") == 0) {
+    res.status(400).json({ msg: 'The token is too small' })
+    return
+  } else {
+    if (req.userInfo.deviceTokens) {
+      //getting the user's deviceTokens array
+      let tokens = req.userInfo.deviceTokens
+      const index = tokens.indexOf(token)
+      if (index == -1) {
+        res.status(404).json({ msg: 'Specified device token did not exist for this user' })
+        return
+      }
+      //removing the token from the array
+      tokens.splice(index, 1)
+      try {
+        //updating the device token
+        await User.findOneAndUpdate({ username: req.userInfo.username }, { deviceTokens: tokens })
+        res.status(200).json({ token: token, msg: `Removed the device ID for ${req.userInfo.username}` })
+      } catch (e) {
+        //sending an error
+        res.status(400).json({ msg: 'Could not remove the device ID' })
+      }
+    } else {
+      res.status(404).json({ msg: 'User is not subscribed to any device' })
+    }
   }
 })
 
