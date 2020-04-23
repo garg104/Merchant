@@ -20,12 +20,13 @@ class ViewReviewsViewController: UIViewController, UITableViewDataSource, UITabl
     
     @IBOutlet weak var avgRatingLabel: UILabel!
     @IBOutlet weak var usernameLabel: UILabel!
-    @IBOutlet weak var avgStarRating: RatingController!
+    @IBOutlet weak var avgStarRating: StaticRatingController!
     @IBOutlet weak var commentsTableView: UITableView!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         getItems() { (validCode) in
             print("LOADING DATA")
             self.usernameLabel.text = self.itemSeller
@@ -37,13 +38,13 @@ class ViewReviewsViewController: UIViewController, UITableViewDataSource, UITabl
             //obtain average rating as an integer
             //        self.avgRating = 3 //change to equal real average
             print("number of stars are \(self.avgStarRating.numStars)")
-
+            self.avgStarRating.numStars = 4
             self.avgRatingLabel.text = String(self.avgRating) + "/5"
-            //            self.tableView.reloadData()
+            self.commentsTableView.reloadData()
         }
         
         // Do any additional setup after loading the view.
-       
+        
         
         //TODO
         //populate users, comments, ratings arrays with the reviews info for username
