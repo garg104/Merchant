@@ -28,20 +28,21 @@ class ViewReviewsViewController: UIViewController, UITableViewDataSource, UITabl
         super.viewDidLoad()
         getItems() { (validCode) in
             print("LOADING DATA")
-//            self.tableView.reloadData()
+            self.usernameLabel.text = self.itemSeller
+            self.commentsTableView.dataSource = self
+            self.commentsTableView.delegate = self
+            print("average rating is \(self.avgRating)")
+            
+            //TODO
+            //obtain average rating as an integer
+            //        self.avgRating = 3 //change to equal real average
+            self.avgStarRating.numStars = self.avgRating
+            self.avgRatingLabel.text = String(self.avgRating) + "/5"
+            //            self.tableView.reloadData()
         }
         
         // Do any additional setup after loading the view.
-        self.usernameLabel.text = self.itemSeller
-        
-        self.commentsTableView.dataSource = self
-        self.commentsTableView.delegate = self
-        
-        //TODO
-        //obtain average rating as an integer
-//        self.avgRating = 3 //change to equal real average
-        self.avgStarRating.numStars = self.avgRating
-        self.avgRatingLabel.text = String(self.avgRating) + "/5"
+       
         
         //TODO
         //populate users, comments, ratings arrays with the reviews info for username
@@ -57,7 +58,7 @@ class ViewReviewsViewController: UIViewController, UITableViewDataSource, UITabl
         let cell = tableView.dequeueReusableCell(withIdentifier: "reviewCell", for: indexPath) as! ReviewTableViewCell
         cell.usernameLabel.text = users[indexPath.row]
         cell.commentLabel.text = comments[indexPath.row]
-        cell.starRating.numStars = ratings[indexPath.row]
+//        cell.starRating.numStars = ratings[indexPath.row]
         return cell
     }
     
@@ -83,13 +84,13 @@ class ViewReviewsViewController: UIViewController, UITableViewDataSource, UITabl
                     debugPrint(self.avgRating)
 //                    let userRatings : String =  JSON.value(forKey: "currentRating") as! String
                     let userRatings : NSArray =  JSON.value(forKey: "rating") as! NSArray
-                    debugPrint(userRatings)
+//                    debugPrint(userRatings)
                     for userRating in userRatings {
-                        print(userRating)
+//                        print(userRating)
                         let temp = userRating as! NSDictionary
-                        self.users.append(temp["userID"]! as! String)
+                        self.users.append(temp["username"]! as! String)
                         self.comments.append(temp["review"]! as! String)
-                        self.ratings.append(temp["rating"]! as! Int)
+//                        self.ratings.append(temp.value(forKey: "rating") as! NSInteger)
                     }
                 }
             } else {
