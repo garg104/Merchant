@@ -769,7 +769,11 @@ router.post('/message', async (req, res) => {
       let messages = []
       messages.push({ userIDSender: userSender._id, userIDReceiver: userReceiver._id, text: message , time : dateTime})
       console.log(messages)
-      const conversation = new Conversations({ lastMessage: dateTime, messages: messages })
+      let last = {
+        time: dateTime,
+        text: message
+      }
+      const conversation = new Conversations({ user1: userSender._id, user2: userReceiver._id, lastMessage: last, messages: messages })
       const savedConversation = await conversation.save()
       userReceiver.chats.push(conversation._id)
       userSender.chats.push(conversation._id)
@@ -785,10 +789,19 @@ router.post('/message', async (req, res) => {
 
       const conversation = await Conversations.findById({ _id: conversationID})
       
-      console.log(conversation.messages)
+      // console.log(conversation.messages)
       conversation.messages.push({ userIDSender: userSender._id, userIDReceiver: userReceiver._id, text: message , time : dateTime})
-      console.log(conversation.messages)
-      let ret = await Conversations.findByIdAndUpdate({ _id: conversationID }, { messages: conversation.messages })
+      // console.log(conversation.messages)
+      let last = {
+        time: dateTime,
+        text: message
+      }
+      console.log(last)
+      // let ret = await Conversations.findByIdAndUpdate({ _id: conversationID }, { "$set": {messages: conversation.messages, lastMessage: last }})
+      let ret1 = await Conversations.findByIdAndUpdate({ _id: conversationID }, { lastMessage: last })
+
+      let ret = await Conversations.findByIdAndUpdate({ _id: conversationID },  { messages: conversation.messages })
+
       // ret = await User.findByIdAndUpdate({ _id: userIDSender._id }, {  })
 
       console.log(ret)
@@ -821,7 +834,19 @@ router.get('/conversations/:username', async (req, res) => {
     await Promise.all(user.chats.map(async conversationID =>  {
       return new Promise(async (resolve, reject) => {
         let conversation = await Conversations.findById({ _id : conversationID })
-        conversations.push(conversation)
+        let user = {}
+        let messages = conversation.messages.reverse()
+        if (conversation.user1._id == user._id) {
+          user = await User.findById({ _id : conversation.user1._id })
+        } else {
+          user = await User.findById({ _id : conversation.user2._id })
+        }
+        let temp = {
+          user: user.username,
+          messages: messages,
+          lastMessage: conversation.lastMessage
+        }
+        conversations.push(temp)
         resolve()
       })
     }))

@@ -1,6 +1,14 @@
 const mongoose = require('mongoose');
 
 const userSchema = mongoose.Schema({  
+    user1: {
+        type: mongoose.Schema.Types.ObjectID,
+        ref: "User",
+    },
+    user2: {
+        type: mongoose.Schema.Types.ObjectID,
+        ref: "User",
+    },
     lastMessage: {
         type: {
             time : { 

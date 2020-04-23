@@ -18,23 +18,24 @@ class ChatTableViewController: UITableViewController {
     func getConversations(completion: @escaping (_ validCode: Int)->()) {
         // #warning Incomplete implementation, return the number of sections
         
-        AF.request(API.URL + "/items/conversations/\(currentUser)", method: .get).responseJSON { response in
+        AF.request(API.URL + "/user/conversations/\(currentUser)", method: .get).responseJSON { response in
             
             if (response.response?.statusCode == 200) {
                 if let info = response.value {
                     let JSON = info as! NSDictionary
                     debugPrint("JSON")
                     debugPrint(JSON)
-//                    let items : NSArray =  JSON.value(forKey: "items") as! NSArray
-//                    for item in items {
-//                        print(item)
-//                        let temp = item as! NSDictionary
-//                        self.titles.append(temp["title"]! as! String)
+                    let conversations : NSArray =  JSON.value(forKey: "reversed") as! NSArray
+                    for conversation in conversations {
+                        let details = conversation as! NSDictionary
+                        print(details.value(forKey: "messages")!)
+//                        let temp = conversation as! NSDictionary
+//                        self.users.append(temp["title"]! as! String)
 //                        self.prices.append(temp["price"]! as! String)
 //                        self.descriptions.append(temp["description"]! as! String)
 //                        self.itemIDs.append(temp["_id"]! as! String)
 //                        self.categories.append(Int(temp["category"] as! String)!)
-//                    }
+                    }
                 }
             } else {
                 debugPrint("ERROR")
