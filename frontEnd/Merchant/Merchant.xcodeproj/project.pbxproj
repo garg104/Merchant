@@ -357,9 +357,9 @@
 				7571D7E923F351F000C46379 /* LaunchScreen.storyboard */,
 				D6421C40244FAE5D0072C155 /* Merchant.entitlements */,
 				7571D7EC23F351F000C46379 /* Info.plist */,
+				D6259C3E24518D9300F5B50B /* Place.swift */,
 				D683D0232438ECB5009E4665 /* Utils.swift */,
 				6C2EB80823F4ACA700320528 /* Poppins */,
-				D6259C3E24518D9300F5B50B /* Place.swift */,
 			);
 			path = Merchant;
 			sourceTree = "<group>";
