@@ -11,12 +11,12 @@ import MapKit
 
 class Place: NSObject, MKAnnotation {
     var title: String?
+    var address: String?
     var coordinate: CLLocationCoordinate2D
-    var info: String
     
-    init(title: String, coordinate: CLLocationCoordinate2D, info: String) {
+    init(title: String, address: String, coordinate: CLLocationCoordinate2D) {
         self.title = title
+        self.address = address
         self.coordinate = coordinate
-        self.info = info
     }
 }
