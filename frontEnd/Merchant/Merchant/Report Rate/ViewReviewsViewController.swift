@@ -36,7 +36,8 @@ class ViewReviewsViewController: UIViewController, UITableViewDataSource, UITabl
             //TODO
             //obtain average rating as an integer
             //        self.avgRating = 3 //change to equal real average
-            self.avgStarRating.numStars = self.avgRating
+            print("number of stars are \(self.avgStarRating.numStars)")
+
             self.avgRatingLabel.text = String(self.avgRating) + "/5"
             //            self.tableView.reloadData()
         }
@@ -81,6 +82,7 @@ class ViewReviewsViewController: UIViewController, UITableViewDataSource, UITabl
                     let JSON = info as! NSDictionary
                     debugPrint(JSON)
                     self.avgRating =  JSON.value(forKey: "currentRating") as! Int
+                    self.avgStarRating.numStars = self.avgRating
                     debugPrint(self.avgRating)
 //                    let userRatings : String =  JSON.value(forKey: "currentRating") as! String
                     let userRatings : NSArray =  JSON.value(forKey: "rating") as! NSArray
