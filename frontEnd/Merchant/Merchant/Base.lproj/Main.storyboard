@@ -798,7 +798,7 @@
                         <viewLayoutGuide key="safeArea" id="mtN-Gw-9pU"/>
                     </view>
                     <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="D0g-TY-lJL">
-                        <barButtonItem key="rightBarButtonItem" title="Map" id="lnU-cp-N6D"/>
+                        <barButtonItem key="rightBarButtonItem" image="mappin.circle" catalog="system" id="lnU-cp-N6D"/>
                     </navigationItem>
                     <connections>
                         <outlet property="conversationTableView" destination="PK4-c1-mol" id="aHS-ib-ah2"/>
@@ -815,7 +815,7 @@
         <scene sceneID="cb6-48-b9J">
             <objects>
                 <navigationController id="BQT-Ym-vL0" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Chat" id="ufc-Wm-Ofo"/>
+                    <tabBarItem key="tabBarItem" title="Chat" image="message" catalog="system" selectedImage="message.fill" id="ufc-Wm-Ofo"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="Vf4-jM-MvQ">
                         <rect key="frame" x="0.0" y="44" width="375" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -1097,7 +1097,7 @@
         <scene sceneID="taN-wl-kp5">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Rga-Di-Mq5" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Account" id="SVH-em-9yc"/>
+                    <tabBarItem key="tabBarItem" title="Account" image="person" catalog="system" selectedImage="person.fill" id="SVH-em-9yc"/>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="b7e-KW-Yrc"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="ove-7M-2jG">
@@ -1219,7 +1219,7 @@
         <scene sceneID="PdN-7x-jHC">
             <objects>
                 <navigationController id="72f-hO-hxF" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Sell" id="LmH-ed-qDe"/>
+                    <tabBarItem key="tabBarItem" title="Sell" image="dollarsign.circle" catalog="system" selectedImage="dollarsign.circle.fill" id="LmH-ed-qDe"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="1vL-xE-htk">
                         <rect key="frame" x="0.0" y="44" width="375" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -1717,7 +1717,7 @@
         <scene sceneID="Isx-hK-D87">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="0Ux-OZ-TNa" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Buy" id="xwi-y3-Dbg"/>
+                    <tabBarItem key="tabBarItem" title="Buy" image="cart" catalog="system" selectedImage="cart.fill" id="xwi-y3-Dbg"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="WJX-Lx-8Ho">
                         <rect key="frame" x="0.0" y="44" width="375" height="96"/>
@@ -2608,7 +2608,7 @@
         <scene sceneID="F2j-tl-c36">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Hz4-Mb-eAr" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Wishlist" id="uhO-8b-2Ag"/>
+                    <tabBarItem key="tabBarItem" title="Wishlist" image="bookmark" catalog="system" selectedImage="bookmark.fill" id="uhO-8b-2Ag"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="jCp-CW-Oce">
                         <rect key="frame" x="0.0" y="44" width="375" height="96"/>
@@ -3230,6 +3230,16 @@
     <color key="tintColor" red="0.46274509800000002" green="0.70980392160000005" blue="0.30196078430000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
     <resources>
         <image name="bookmark" catalog="system" width="112" height="128"/>
+        <image name="bookmark.fill" catalog="system" width="112" height="128"/>
+        <image name="cart" catalog="system" width="128" height="102"/>
+        <image name="cart.fill" catalog="system" width="128" height="102"/>
+        <image name="dollarsign.circle" catalog="system" width="128" height="121"/>
+        <image name="dollarsign.circle.fill" catalog="system" width="128" height="121"/>
+        <image name="mappin.circle" catalog="system" width="128" height="121"/>
+        <image name="message" catalog="system" width="128" height="113"/>
+        <image name="message.fill" catalog="system" width="128" height="113"/>
+        <image name="person" catalog="system" width="128" height="117"/>
+        <image name="person.fill" catalog="system" width="128" height="120"/>
         <image name="star" catalog="system" width="128" height="116"/>
     </resources>
 </document>
