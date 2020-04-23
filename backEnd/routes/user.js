@@ -716,4 +716,27 @@ router.post('/removeDeviceToken', authenticate, async (req, res) => {
   }
 })
 
+
+
+router.post('/viewRating', async (req, res) => {
+  try {
+
+    const user = await User.findOne({ username: req.body.username })     
+    let currentRatings = user.rating.users
+    await Promise.all(currentRatings.map(async rating =>  {
+      return new Promise(async (resolve, reject) => {
+        let user = await User.findById({ _id : rating.userID })
+        rating["username"] = user.username
+        resolve()
+      })
+    }))
+    res.status(200).json({ msg: "success", currentRating: user.rating.currentRating, totalRatings: user.rating.totalRatings, rating: currentRatings })
+  } catch (e) {
+    console.log(e)
+    res.status(400).json({ msg: e })
+  }
+})
+
+
+
 module.exports = router;
