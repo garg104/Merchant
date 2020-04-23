@@ -24,14 +24,16 @@ class ChatTableViewController: UITableViewController {
                 if let info = response.value {
                     let JSON = info as! NSDictionary
                     debugPrint("JSON")
-                    debugPrint(JSON)
+//                    debugPrint(JSON)
                     let conversations : NSArray =  JSON.value(forKey: "reversed") as! NSArray
                     for conversation in conversations {
                         let details = conversation as! NSDictionary
+//                        print(details.value(forKey: "user")!)
                         print(details.value(forKey: "messages")!)
-//                        let temp = conversation as! NSDictionary
-//                        self.users.append(temp["title"]! as! String)
-//                        self.prices.append(temp["price"]! as! String)
+                        let temp = details.value(forKey: "lastMessage")! as! NSDictionary
+                        print(temp)
+                        self.users.append(details.value(forKey: "user")! as! String)
+                        self.previews.append(temp["text"]! as! String)
 //                        self.descriptions.append(temp["description"]! as! String)
 //                        self.itemIDs.append(temp["_id"]! as! String)
 //                        self.categories.append(Int(temp["category"] as! String)!)
