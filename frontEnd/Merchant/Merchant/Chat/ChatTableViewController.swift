@@ -11,6 +11,8 @@ import UIKit
 class ChatTableViewController: UITableViewController {
     
     var currentUser = ""
+    var users: [String] = ["user1"]
+    var previews: [String] = ["the is a preview of the conversation bewteen current user and user 1"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,23 +28,24 @@ class ChatTableViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return users.count
     }
 
-    /*
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "chatCell", for: indexPath) as! ChatTableViewCell
 
-        // Configure the cell...
+        cell.usernameLabel.text = users[indexPath.row]
+        cell.previewLabel.text = previews[indexPath.row]
 
         return cell
     }
-    */
+    
 
     /*
     // Override to support conditional editing of the table view.
@@ -78,14 +81,32 @@ class ChatTableViewController: UITableViewController {
     }
     */
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
+        
+        if (segue.identifier == "showConversation") {
+            guard let itemDetailViewController = segue.destination as? ConversationViewController else {
+                fatalError("Unexpected destination: \(segue.destination)")
+            }
+            
+            guard let selectedItemCell = sender as? ChatTableViewCell else {
+                fatalError("Unexpected sender: \(String(describing: sender))")
+            }
+            
+            guard let indexPath = tableView.indexPath(for: selectedItemCell) else {
+                fatalError("The selected cell is not being displayed by the table")
+            }
+            
+            let selectedItemIndex = indexPath.row
+            itemDetailViewController.currentUser = currentUser
+            itemDetailViewController.userChattingWith = users[selectedItemIndex]
+        }
     }
-    */
+    
 
 }

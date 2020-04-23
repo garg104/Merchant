@@ -15,6 +15,7 @@
 		6C11EED42451066B004F9980 /* ViewReviewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C11EED32451066B004F9980 /* ViewReviewsViewController.swift */; };
 		6C11EED624510805004F9980 /* ReviewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C11EED524510805004F9980 /* ReviewTableViewCell.swift */; };
 		6C11EED824510A96004F9980 /* StaticRatingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C11EED724510A96004F9980 /* StaticRatingController.swift */; };
+		6C11EEDA24511F82004F9980 /* ChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C11EED924511F82004F9980 /* ChatTableViewCell.swift */; };
 		6C2E18CB244FF4D2006BF53A /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C2E18CA244FF4D2006BF53A /* ConversationViewController.swift */; };
 		6C2E18CD245007C0006BF53A /* MessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C2E18CC245007C0006BF53A /* MessageTableViewCell.swift */; };
 		6C2EB81C23F4ACC000320528 /* Poppins-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6C2EB80923F4ACBF00320528 /* Poppins-Light.otf */; };
@@ -110,6 +111,7 @@
 		6C11EED32451066B004F9980 /* ViewReviewsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewReviewsViewController.swift; sourceTree = "<group>"; };
 		6C11EED524510805004F9980 /* ReviewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewTableViewCell.swift; sourceTree = "<group>"; };
 		6C11EED724510A96004F9980 /* StaticRatingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticRatingController.swift; sourceTree = "<group>"; };
+		6C11EED924511F82004F9980 /* ChatTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTableViewCell.swift; sourceTree = "<group>"; };
 		6C2E18CA244FF4D2006BF53A /* ConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewController.swift; sourceTree = "<group>"; };
 		6C2E18CC245007C0006BF53A /* MessageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageTableViewCell.swift; sourceTree = "<group>"; };
 		6C2EB80923F4ACBF00320528 /* Poppins-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Poppins-Light.otf"; path = "../../../../poppins/Poppins-Light.otf"; sourceTree = "<group>"; };
@@ -211,6 +213,7 @@
 				6C2E18CA244FF4D2006BF53A /* ConversationViewController.swift */,
 				156690DF243FFF7600092632 /* ChatTableViewController.swift */,
 				6C2E18CC245007C0006BF53A /* MessageTableViewCell.swift */,
+				6C11EED924511F82004F9980 /* ChatTableViewCell.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -625,6 +628,7 @@
 				75F076AE24303A5C00301D34 /* items.swift in Sources */,
 				6CFBD1E623F7664E009F492F /* OTPViewController.swift in Sources */,
 				6CEA6B71244C00FD006CFA2B /* ReportUserViewController.swift in Sources */,
+				6C11EEDA24511F82004F9980 /* ChatTableViewCell.swift in Sources */,
 				6CEA6B75244C0CAC006CFA2B /* ReviewViewController.swift in Sources */,
 				6C8B56512408F180009BAE99 /* ResetPasswordViewController.swift in Sources */,
 				6C37EE13240787D100D8687F /* MainTabBarController.swift in Sources */,

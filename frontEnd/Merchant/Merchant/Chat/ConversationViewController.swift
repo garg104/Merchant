@@ -20,6 +20,8 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var messageTextField: UITextField!
     
+    var currentUser = ""
+    var userChattingWith = ""
     var keyboardHeight = 0
     let messages = [
         ChatMessage(message: "Hello", isIncoming: true),
@@ -54,6 +56,10 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
         //get keyboard height
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         
+        //set title to be username of user chatting with
+        navigationItem.title = userChattingWith
+        
+        //scroll to bottom of coversation
         scrollToBottom()
         
     }

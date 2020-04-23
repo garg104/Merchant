@@ -680,13 +680,44 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="convoCell" rowHeight="67" id="EXO-ID-Ecz">
-                                <rect key="frame" x="0.0" y="28" width="375" height="67"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="chatCell" rowHeight="88" id="EXO-ID-Ecz" customClass="ChatTableViewCell" customModule="Merchant" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="375" height="88"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="EXO-ID-Ecz" id="wra-No-Mmf">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="67"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="348" height="88"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="username" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TNN-Ha-br6">
+                                            <rect key="frame" x="16" y="11" width="324" height="21"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="21" id="hSz-qp-LF9"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" name="Poppins-Medium" family="Poppins" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="preview" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xQw-Gf-Iw1">
+                                            <rect key="frame" x="16" y="40" width="324" height="41"/>
+                                            <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="15"/>
+                                            <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="bottomMargin" secondItem="xQw-Gf-Iw1" secondAttribute="bottom" constant="-4" id="61q-3v-S4I"/>
+                                        <constraint firstItem="TNN-Ha-br6" firstAttribute="leading" secondItem="wra-No-Mmf" secondAttribute="leadingMargin" id="CqY-9e-DTR"/>
+                                        <constraint firstItem="TNN-Ha-br6" firstAttribute="trailing" secondItem="wra-No-Mmf" secondAttribute="trailingMargin" id="ge1-J6-PcJ"/>
+                                        <constraint firstItem="xQw-Gf-Iw1" firstAttribute="top" secondItem="TNN-Ha-br6" secondAttribute="bottom" constant="8" id="gsQ-tC-7go"/>
+                                        <constraint firstItem="TNN-Ha-br6" firstAttribute="top" secondItem="wra-No-Mmf" secondAttribute="topMargin" id="oOx-nm-iNZ"/>
+                                        <constraint firstItem="TNN-Ha-br6" firstAttribute="trailing" secondItem="xQw-Gf-Iw1" secondAttribute="trailing" id="oQM-xe-ix6"/>
+                                        <constraint firstItem="TNN-Ha-br6" firstAttribute="leading" secondItem="xQw-Gf-Iw1" secondAttribute="leading" id="uL3-in-hQo"/>
+                                    </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="previewLabel" destination="xQw-Gf-Iw1" id="TNE-TG-nLd"/>
+                                    <outlet property="usernameLabel" destination="TNN-Ha-br6" id="gzw-oe-GvE"/>
+                                    <segue destination="ln4-7r-YDG" kind="show" identifier="showConversation" id="fb6-oa-HQo"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -694,17 +725,11 @@
                             <outlet property="delegate" destination="oC3-GQ-o48" id="783-p6-P1P"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Chats" id="rTq-xB-0LJ">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="3Ua-sV-Wsc">
-                            <connections>
-                                <segue destination="ln4-7r-YDG" kind="show" id="NM3-PJ-BhM"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Chats" id="rTq-xB-0LJ"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="loS-vj-Jqg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5944.8000000000002" y="1500.7389162561576"/>
+            <point key="canvasLocation" x="5944.8000000000002" y="1500"/>
         </scene>
         <!--Conversation View Controller-->
         <scene sceneID="gOI-6A-XgZ">
@@ -773,11 +798,7 @@
                         <viewLayoutGuide key="safeArea" id="mtN-Gw-9pU"/>
                     </view>
                     <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="D0g-TY-lJL">
-                        <barButtonItem key="rightBarButtonItem" title="Map" id="lnU-cp-N6D">
-                            <connections>
-                                <segue destination="ARO-pI-igT" kind="show" id="WY8-eg-c0b"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Map" id="lnU-cp-N6D"/>
                     </navigationItem>
                     <connections>
                         <outlet property="conversationTableView" destination="PK4-c1-mol" id="aHS-ib-ah2"/>
@@ -2430,13 +2451,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="7AG-rl-qWf">
-                                <rect key="frame" x="0.0" y="117" width="375" height="671"/>
+                                <rect key="frame" x="0.0" y="166" width="375" height="671"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="671" id="85v-c3-AB8"/>
                                 </constraints>
                             </mapView>
                             <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9nD-Ot-gfe">
-                                <rect key="frame" x="16" y="60" width="48" height="30"/>
+                                <rect key="frame" x="16" y="109" width="48" height="30"/>
                                 <state key="normal" title="Cancel">
                                     <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                 </state>
