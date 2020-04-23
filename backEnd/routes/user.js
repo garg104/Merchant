@@ -834,15 +834,18 @@ router.get('/conversations/:username', async (req, res) => {
     await Promise.all(user.chats.map(async conversationID =>  {
       return new Promise(async (resolve, reject) => {
         let conversation = await Conversations.findById({ _id : conversationID })
-        let user = {}
+        let otherUser = {}
         let messages = conversation.messages.reverse()
-        if (conversation.user1._id == user._id) {
-          user = await User.findById({ _id : conversation.user1._id })
+        console.log(conversation.user2)
+        console.log(user._id)
+        console.log(`${user._id}`.localeCompare(`${conversation.user2}`) === 0)
+        if (`${user._id}`.localeCompare(`${conversation.user2}`) === 0) {
+          otherUser = await User.findById({ _id : conversation.user1._id })
         } else {
-          user = await User.findById({ _id : conversation.user2._id })
+          otherUser = await User.findById({ _id : conversation.user2._id })
         }
         let temp = {
-          user: user.username,
+          user: otherUser.username,
           messages: messages,
           lastMessage: conversation.lastMessage
         }
@@ -850,7 +853,7 @@ router.get('/conversations/:username', async (req, res) => {
         resolve()
       })
     }))
-    console.log(conversations)
+    // console.log(conversations)
     const reversed = conversations.reverse()
     res.status(200).json({ reversed })
 
