@@ -11,6 +11,8 @@ import Alamofire
 
 class SellHistoryDetailViewController: UIViewController {
 
+    var modelName = ""
+    
     var itemTitle = ""
     var itemDescription = ""
     var itemPrice = ""
@@ -33,6 +35,7 @@ class SellHistoryDetailViewController: UIViewController {
         // Do any additional setup after loading the view.
         
         //imageScrollView.frame = self.view.frame
+        modelName = UIDevice.modelName
         
         navigationItem.title = itemTitle
         itemPriceLabel.text = itemPrice
@@ -90,7 +93,23 @@ class SellHistoryDetailViewController: UIViewController {
             imageView.image = imagesForView[i]
             imageView.contentMode = .scaleAspectFit
             let xPosition = self.view.frame.width * CGFloat(i)
-            imageView.frame = CGRect(x: xPosition, y: 0, width: 400, height: 300)
+            //imageView.frame = CGRect(x: xPosition, y: 0, width: 400, height: 300)
+            if (modelName.contains("iPhone 11 Pro Max") ||
+                modelName.contains("iPhone XS Max")) {
+                imageView.frame = CGRect(x: xPosition, y: 0, width: 400, height: 300)
+            } else if (modelName.contains("iPhone 11 Pro") ||
+                modelName.contains("iPhone XS") ||
+                modelName.contains("iPhone X")) {
+                imageView.frame = CGRect(x: xPosition, y: 0, width: 370, height: 277)
+            } else if (modelName.contains("iPhone 11") ||
+                modelName.contains("iPhone XR")) {
+                imageView.frame = CGRect(x: xPosition, y: 0, width: 370, height: 277)
+            } else if (modelName.contains("iPhone 7 Plus") ||
+                modelName.contains("iPhone 8 Plus")) {
+                imageView.frame = CGRect(x: xPosition, y: 0, width: 300, height: 225)
+            } else {
+                imageView.frame = CGRect(x: xPosition, y: 0, width: 280, height: 210)
+            }
             
             self.imageScrollView.contentSize.width = 405 * CGFloat(i + 1) //self.imageScrollView.frame.width * CGFloat(i + 1)
             self.imageScrollView.addSubview(imageView)
@@ -139,7 +158,23 @@ class SellHistoryDetailViewController: UIViewController {
             //imageView.contentMode = .scaleAspectFill
             let xPosition = self.view.frame.width * CGFloat(i)
             //imageView.frame = CGRect(x: xPosition, y: 0, width: self.imageScrollView.frame.width, height: self.imageScrollView.frame.height)
-            imageView.frame = CGRect(x: xPosition, y: 0, width: 400, height: 300)
+            //imageView.frame = CGRect(x: xPosition, y: 0, width: 400, height: 300)
+            if (modelName.contains("iPhone 11 Pro Max") ||
+                modelName.contains("iPhone XS Max")) {
+                imageView.frame = CGRect(x: xPosition, y: 0, width: 400, height: 300)
+            } else if (modelName.contains("iPhone 11 Pro") ||
+                modelName.contains("iPhone XS") ||
+                modelName.contains("iPhone X")) {
+                imageView.frame = CGRect(x: xPosition, y: 0, width: 370, height: 277)
+            } else if (modelName.contains("iPhone 11") ||
+                modelName.contains("iPhone XR")) {
+                imageView.frame = CGRect(x: xPosition, y: 0, width: 370, height: 277)
+            } else if (modelName.contains("iPhone 7 Plus") ||
+                modelName.contains("iPhone 8 Plus")) {
+                imageView.frame = CGRect(x: xPosition, y: 0, width: 300, height: 225)
+            } else {
+                imageView.frame = CGRect(x: xPosition, y: 0, width: 280, height: 210)
+            }
             
             self.imageScrollView.contentSize.width = 405 * CGFloat(i + 1) //self.imageScrollView.frame.width * CGFloat(i + 1)
             self.imageScrollView.addSubview(imageView)
