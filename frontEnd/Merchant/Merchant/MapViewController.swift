@@ -33,9 +33,11 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         mapView.centerToLocation(purdueLocation)
         
         // create places
-        let PMU = Place(title: "PMU", coordinate: CLLocationCoordinate2D(latitude: 40.4247, longitude: -86.911))
-        let engineeringFountain = Place(title: "Engineering Fountain", coordinate: CLLocationCoordinate2D(latitude: 40.4286, longitude: -86.9138))
+        let PMU = Place(title: "PMU", address: "101 North Grant Street West Lafayette, IN 47906", coordinate: CLLocationCoordinate2D(latitude: 40.4247, longitude: -86.911))
+        let engineeringFountain = Place(title: "Engineering Fountain", address: "610 Purdue Mall, West Lafayette, IN 47906", coordinate: CLLocationCoordinate2D(latitude: 40.4286, longitude: -86.9138))
         
+        
+                
         // add places to map
         mapView.addAnnotation(PMU)
         mapView.addAnnotation(engineeringFountain)
@@ -93,6 +95,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         ac.addAction(UIAlertAction(title: "OK", style: .default))
         ac.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         present(ac, animated: true)
+//        view.image
         
         // TODO: Aakarshit - please store coordinates (placeCoords.latitude and placeCoords.longitude) in the database however you see fit
         
