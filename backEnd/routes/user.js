@@ -720,7 +720,6 @@ router.post('/removeDeviceToken', authenticate, async (req, res) => {
 
 router.post('/viewRating', async (req, res) => {
   try {
-
     const user = await User.findOne({ username: req.body.username })     
     let currentRatings = user.rating.users
     await Promise.all(currentRatings.map(async rating =>  {
@@ -736,6 +735,52 @@ router.post('/viewRating', async (req, res) => {
     res.status(400).json({ msg: e })
   }
 })
+
+// Route for recieving and sending the chat from one user to the other
+
+router.post('/chat', async (req, res) => {
+  // user 1 is the user who is sending the message. 
+  // user 2 is the user to whon the message is being sent.
+
+  const { user1, user2, message } = req.body
+  console.log(user1)
+  console.log(user2)
+
+  try {
+    const user1 = await User.findOne({ username: req.body.user1 })
+    const user2 = await User.findOne({ username: req.body.user2 })
+    var today = new Date();
+    var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    var dateTime = date + ' ' + time;
+    user2.reports.reportNum = (user2.reports.reportNum * 1) + 1
+    let newReport = dateTime + ": " + reason
+    const temp = {
+      userID: user1._id,
+      reason: newReport,
+      datePosted: dateTime
+    }
+    console.log(user2.reports.users)
+    user2.reports.users.push(temp)
+    if (user2.reports.reportNum >= 3) {
+      // wait for the sendEmail funtion to return and send a valid response
+      let reasonEmail = ""
+      user2.reports.users.forEach(report => {
+        reasonEmail = reasonEmail + report.reason + "\n"
+      });
+
+      // this will be a random search from the  list of admins in th database and set the email,
+      // for now I am just hardcoding my email
+      const email = 'chirayugarg99@gmail.com'
+      const ret = await sendEmail(generateUserReport(email, req.body.user2, user2._id, reasonEmail))
+    }
+    let ret = await User.findOneAndUpdate({ username: user2.username }, { reports: user2.reports })
+    res.status(200).json({ msg: "success", rating: user2.reports })
+  } catch (error) {
+    res.status(400).json({ msg: error })
+  }
+})
+
 
 
 
