@@ -3157,47 +3157,41 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="historyItemCell" rowHeight="126" id="5l7-Hp-rdg" customClass="SellHistoryTableViewCell" customModule="Merchant" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="historyItemCell" rowHeight="126" id="5l7-Hp-rdg" customClass="SellHistoryTableViewCell" customModule="Merchant" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="375" height="126"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="5l7-Hp-rdg" id="D2L-70-omN">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="126"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="348" height="126"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="10" adjustsLetterSpacingToFitWidth="YES" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Xz4-J6-k9Y">
-                                            <rect key="frame" x="20.999999999999996" y="11" width="41.666666666666657" height="55"/>
+                                            <rect key="frame" x="16" y="11" width="324" height="68"/>
                                             <fontDescription key="fontDescription" name="Poppins-Medium" family="Poppins" pointSize="20"/>
                                             <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$0.00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="une-MJ-dxE">
-                                            <rect key="frame" x="21" y="74" width="211" height="32"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$0.00" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="10" adjustsLetterSpacingToFitWidth="YES" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="inq-VU-DWu">
+                                            <rect key="frame" x="16" y="87" width="324" height="28"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="28" id="Q7V-Rc-hkA"/>
+                                            </constraints>
                                             <fontDescription key="fontDescription" name="Poppins-Medium" family="Poppins" pointSize="20"/>
-                                            <nil key="textColor"/>
+                                            <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eCI-2M-Ujr">
-                                            <rect key="frame" x="273" y="71" width="102" height="38"/>
-                                            <color key="backgroundColor" white="0.86236428990000003" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <fontDescription key="fontDescription" name="Poppins-SemiBold" family="Poppins" pointSize="16"/>
-                                            <state key="normal" title="Remove">
-                                                <color key="titleColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            </state>
-                                        </button>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstAttribute="bottomMargin" secondItem="eCI-2M-Ujr" secondAttribute="bottom" constant="6" id="3Py-NW-SXX"/>
-                                        <constraint firstItem="Xz4-J6-k9Y" firstAttribute="leading" secondItem="une-MJ-dxE" secondAttribute="leading" id="4C6-hP-4RK"/>
-                                        <constraint firstAttribute="trailing" secondItem="eCI-2M-Ujr" secondAttribute="trailing" id="4Qm-Zu-xoQ"/>
-                                        <constraint firstItem="eCI-2M-Ujr" firstAttribute="leading" secondItem="une-MJ-dxE" secondAttribute="trailing" constant="41" id="4VK-j3-tpu"/>
-                                        <constraint firstItem="Xz4-J6-k9Y" firstAttribute="top" secondItem="D2L-70-omN" secondAttribute="topMargin" id="8Nh-x4-Nhd"/>
-                                        <constraint firstItem="une-MJ-dxE" firstAttribute="top" secondItem="Xz4-J6-k9Y" secondAttribute="bottom" constant="8" id="isA-2P-x2g"/>
-                                        <constraint firstItem="eCI-2M-Ujr" firstAttribute="centerY" secondItem="une-MJ-dxE" secondAttribute="centerY" id="ow1-bu-Yoa"/>
+                                        <constraint firstItem="Xz4-J6-k9Y" firstAttribute="leading" secondItem="inq-VU-DWu" secondAttribute="leading" id="8AM-tn-BZA"/>
+                                        <constraint firstItem="inq-VU-DWu" firstAttribute="bottom" secondItem="D2L-70-omN" secondAttribute="bottomMargin" id="AYt-Ig-T8P"/>
+                                        <constraint firstItem="Xz4-J6-k9Y" firstAttribute="top" secondItem="D2L-70-omN" secondAttribute="topMargin" id="EiM-N1-jed"/>
+                                        <constraint firstItem="inq-VU-DWu" firstAttribute="top" secondItem="Xz4-J6-k9Y" secondAttribute="bottom" constant="8" id="LIG-xC-eyQ"/>
+                                        <constraint firstItem="Xz4-J6-k9Y" firstAttribute="trailing" secondItem="inq-VU-DWu" secondAttribute="trailing" id="Ncg-Xl-GwO"/>
+                                        <constraint firstItem="Xz4-J6-k9Y" firstAttribute="leading" secondItem="D2L-70-omN" secondAttribute="leadingMargin" id="mOF-iI-iRq"/>
+                                        <constraint firstItem="Xz4-J6-k9Y" firstAttribute="trailing" secondItem="D2L-70-omN" secondAttribute="trailingMargin" id="rXy-oT-oLT"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="itemPriceLabel" destination="une-MJ-dxE" id="yTO-Lq-gV0"/>
+                                    <outlet property="itemPriceLabel" destination="inq-VU-DWu" id="WaH-9H-cLa"/>
                                     <outlet property="itemTitleLabel" destination="Xz4-J6-k9Y" id="m2Y-FY-piU"/>
                                     <segue destination="x7o-RU-79k" kind="show" identifier="showHistoryDetail" id="VXO-1p-E8d"/>
                                 </connections>
