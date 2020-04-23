@@ -11,9 +11,9 @@ import Alamofire
 
 class ViewReviewsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
-    var users: [String] = ["dconver", "dconver1"]
-    var comments: [String] = ["great job this is a longer comment that should hopefully wrap around to two lines and automatically resize the cell", "shorter comment"]
-    var ratings: [Int] = [3, 5]
+    var users: [String] = []// = ["dconver", "dconver1"]
+    var comments: [String] = []// = ["great job this is a longer comment that should hopefully wrap around to two lines and automatically resize the cell", "shorter comment"]
+    var ratings: [Int] = [] //= [3, 5]
     var avgRating = 0
     var itemSeller = "" //the user whose reviews are being looked at
     var currentUser = ""
@@ -23,14 +23,14 @@ class ViewReviewsViewController: UIViewController, UITableViewDataSource, UITabl
     @IBOutlet weak var avgStarRating: RatingController!
     @IBOutlet weak var commentsTableView: UITableView!
     
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         getItems() { (validCode) in
             print("LOADING DATA")
 //            self.tableView.reloadData()
         }
-
+        
         // Do any additional setup after loading the view.
         self.usernameLabel.text = self.itemSeller
         
@@ -39,7 +39,7 @@ class ViewReviewsViewController: UIViewController, UITableViewDataSource, UITabl
         
         //TODO
         //obtain average rating as an integer
-        self.avgRating = 3 //change to equal real average
+//        self.avgRating = 3 //change to equal real average
         self.avgStarRating.numStars = self.avgRating
         self.avgRatingLabel.text = String(self.avgRating) + "/5"
         
@@ -68,7 +68,7 @@ class ViewReviewsViewController: UIViewController, UITableViewDataSource, UITabl
             var username = ""
         }
         // set parameters for logging in user
-//        print(username)
+        //        print(username)
         let details = parameter(username: self.itemSeller)
         
         
@@ -79,17 +79,18 @@ class ViewReviewsViewController: UIViewController, UITableViewDataSource, UITabl
                 if let info = response.value {
                     let JSON = info as! NSDictionary
                     debugPrint(JSON)
-//                    let ratings : NSArray =  JSON.value(forKey: "rating") as! NSArray
-//                    debugPrint(ratings)
-//                  for item in items {
-//                        print(item)
-//                        let temp = item as! NSDictionary
-//                        self.titles.append(temp["title"]! as! String)
-//                        self.prices.append(temp["price"]! as! String)
-//                        self.descriptions.append(temp["description"]! as! String)
-//                        self.itemIDs.append(temp["_id"]! as! String)
-//                        self.categories.append(Int(temp["category"] as! String)!)
-//                    }
+                    self.avgRating =  JSON.value(forKey: "currentRating") as! Int
+                    debugPrint(self.avgRating)
+//                    let userRatings : String =  JSON.value(forKey: "currentRating") as! String
+                    let userRatings : NSArray =  JSON.value(forKey: "rating") as! NSArray
+                    debugPrint(userRatings)
+                    for userRating in userRatings {
+                        print(userRating)
+                        let temp = userRating as! NSDictionary
+                        self.users.append(temp["userID"]! as! String)
+                        self.comments.append(temp["review"]! as! String)
+                        self.ratings.append(temp["rating"]! as! Int)
+                    }
                 }
             } else {
                 debugPrint("ERROR")
@@ -113,15 +114,15 @@ class ViewReviewsViewController: UIViewController, UITableViewDataSource, UITabl
         }.resume()
     }
     
-
+    
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destination.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }

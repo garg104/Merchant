@@ -719,20 +719,22 @@ router.post('/removeDeviceToken', authenticate, async (req, res) => {
 
 
 router.post('/viewRating', async (req, res) => {
-
-  // console.log(req.body)
   try {
-    // user 1 is the user who is rating the user. 
 
     const user = await User.findOne({ username: req.body.username })     
-    console.log(user)
-    res.status(200).json({ msg: "success", currentRating: user.rating.currentRating, totalRatings: user.rating.totalRatings, rating: user.rating.users })
-
+    let currentRatings = user.rating.users
+    await Promise.all(currentRatings.map(async rating =>  {
+      return new Promise(async (resolve, reject) => {
+        let user = await User.findById({ _id : rating.userID })
+        rating["username"] = user.username
+        resolve()
+      })
+    }))
+    res.status(200).json({ msg: "success", currentRating: user.rating.currentRating, totalRatings: user.rating.totalRatings, rating: currentRatings })
   } catch (e) {
     console.log(e)
     res.status(400).json({ msg: e })
   }
-
 })
 
 
