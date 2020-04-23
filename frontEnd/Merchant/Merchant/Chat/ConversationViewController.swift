@@ -20,6 +20,7 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var messageTextField: UITextField!
     
+    var conversationID = ""
     var currentUser = ""
     var userChattingWith = ""
     var keyboardHeight = 0
@@ -142,14 +143,17 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
     }
     
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
+     // MARK: - Navigation
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+         // Get the new view controller using segue.destination.
+         // Pass the selected object to the new view controller.
+         if (segue.identifier == "toMapView") {
+             let vc = segue.destination as! MapViewController
+             vc.conversationID = self.conversationID
+             vc.receiver = self.userChattingWith
+         }
+         
+     }
 
 }

@@ -5,13 +5,14 @@ const userSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectID,
         ref: "User",
     },
-    userIDReciever: {
+    userIDReceiver: {
         type: mongoose.Schema.Types.ObjectID,
         ref: "User",
     },
     messages: {
         type: [mongoose.Schema.Types.ObjectID],
-        ref: "Message"
+        ref: "Message",
+        default: [],
     },
     meeting: {
         type: mongoose.Schema.Types.ObjectID,

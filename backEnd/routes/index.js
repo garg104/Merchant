@@ -14,21 +14,47 @@ router.get('/', function (req, res, next) {
 });
 
 /* Route for adding a meeting location for the conversation */
-router.post('/meetingLocation/', authenticate, async (req, res) => {
-  const { conversationID, latitude, longitude } = req.body
+router.post('/meetingLocations', authenticate, async (req, res) => {
+  const { conversationID, latitude, longitude, address, title, receiverUsername } = req.body
   const conversation = await Conversations.findById(conversationID)
   if (conversation) {
     try {
-      const location = new Location({ latitude, longitude })
+      const location = new Location({ latitude, longitude, address, title })
       const savedLocation = await location.save()
       conversation.meeting = savedLocation._id
       await Conversations.findByIdAndUpdate(conversationID, { ...conversation })
+      //sending the push notification
+      const ret = await dispatchAPNViaFirebase(req.userInfo.username,
+        receiverUsername,
+        `${receiverUsername} has updated the meeting location`)
       res.status(200).json({ location, msg: "Location has been saved" })
     } catch (e) {
       res.status(400).json({ msg: "Location couldn't be updated" })
     } //end try-catch
   } else {
-    res.status(404).json({ msg: "Conversation not found" })
+    //in case wrong conversation id supplied
+    try {
+      const receiver = await User.findOne({ username: receiverUsername })
+      if (receiver) {
+        //finding the conversation using the id of users
+        const conversation = await Conversations.findOne({ userIDSender: req.userInfo._id, userIDReceiver: receiver._id })
+        if (conversation) {
+          //updating the new user location
+          const location = new Location({ latitude, longitude, address, title })
+          const savedLocation = await location.save()
+          conversation.meeting = savedLocation._id
+          await Conversations.findByIdAndUpdate(conversation._id, { ...conversation })
+          const ret = await dispatchAPNViaFirebase(req.userInfo.username,
+            receiverUsername,
+            `${receiverUsername} has updated the meeting location`)
+          res.status(200).json({ location, msg: "Location has been saved" })
+          //sending the push notification
+        }
+      }
+    } catch (e) {
+      console.log(e)
+      res.status(400).json({ msg: "Location couldn't be updated" })
+    }
   } //end if
 })
 

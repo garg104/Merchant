@@ -8,14 +8,17 @@
 
 import UIKit
 import MapKit
+import Alamofire
 
 class MapViewController: UIViewController, MKMapViewDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var proposedButton: UIButton!
     
+    var conversationID = ""
+    var receiver = ""
     var selectedAnnotation: MKPointAnnotation?
-    let proposedPlace = Place(title: "Temporary place", address: "123 Sesame St", coordinate: CLLocationCoordinate2D(latitude: 40.4237, longitude: -86.9200))
+    var proposedPlace = Place(title: "Temporary place", address: "123 Sesame St", coordinate: CLLocationCoordinate2D(latitude: 40.4237, longitude: -86.9200))
     
     
     override func viewDidLoad() {
@@ -28,6 +31,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         mapView.addGestureRecognizer(longPressRecognizer)
         
         mapView.mapType = MKMapType.standard
+        
+        debugPrint(conversationID)
 
         // Do any additional setup after loading the view.
         // Center map on Purdue
@@ -118,6 +123,34 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         let placeCoords = place.coordinate
     
         // TODO: Aakarshit - please store coordinates (placeCoords.latitude and placeCoords.longitude) in the database however you see fit
+        
+        let headers: HTTPHeaders = [
+            "Authorization": Authentication.getAuthToken(),
+            "Accept": "application/json"
+        ]
+        
+        struct parameter: Encodable {
+            var conversatioID: String
+            var latitude: Double
+            var longitude: Double
+            var address: String
+            var title: String
+        }
+        
+        let params = parameter(conversatioID: conversationID,
+                               latitude: placeCoords.latitude,
+                               longitude: placeCoords.longitude,
+                               address: placeAddress ?? "",
+                               title: placeName ?? "")
+        
+        AF.request(API.URL + "/meetingLocation", method: .post,
+                   parameters: params, headers: headers).responseJSON { response in
+                if (response.response?.statusCode == 200) {
+                   //the meeting location for the conversation has been saved
+                } else {
+                    debugPrint("ERROR")
+                }
+            }.resume()
     }
     
     
