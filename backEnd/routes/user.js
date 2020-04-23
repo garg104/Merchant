@@ -743,7 +743,7 @@ router.post('/viewRating', async (req, res) => {
 
 // Route for recieving and sending the chat from one user to the other
 
-router.post('/chat', async (req, res) => {
+router.post('/message', async (req, res) => {
   // user 1 is the user who is sending the message. 
   // user 2 is the user to whom the message is being sent.
 
@@ -769,12 +769,13 @@ router.post('/chat', async (req, res) => {
       let messages = []
       messages.push({ userIDSender: userSender._id, userIDReceiver: userReceiver._id, text: message , time : dateTime})
       console.log(messages)
-      const conversation = new Conversations({ messages: messages })
+      const conversation = new Conversations({ lastMessage: dateTime, messages: messages })
       const savedConversation = await conversation.save()
-      const chat = [conversation._id]
-      console.log(chat)
-      let ret = await User.findByIdAndUpdate({ _id: userReceiver._id }, { chats: chat })
-      ret = await User.findByIdAndUpdate({ _id: userSender._id }, { chats: chat })
+      userReceiver.chats.push(conversation._id)
+      userSender.chats.push(conversation._id)
+      // console.log(chat)
+      let ret = await User.findByIdAndUpdate({ _id: userReceiver._id }, { chats: userReceiver.chats })
+      ret = await User.findByIdAndUpdate({ _id: userSender._id }, { chats: userSender.chats })
       ret = await dispatchAPNViaFirebase(userSender.username, userReceiver.username, message)
       res.status(200).json({ msg: "success",  conversation: conversation})
 
@@ -804,6 +805,35 @@ router.post('/chat', async (req, res) => {
     res.status(404).json({ msg: error })
   }
 })
+
+/*
+* This route return all the converssations a particular user has.
+*/
+
+router.get('/conversations/:username', async (req, res) => {
+  try {
+    // get all items with isSold as true.
+    const user = await User.findOne({ username: req.params.username })
+    let conversations = []
+    if (user.chats.length === 0) {
+      res.status(200).json({ conversations })
+    } //end if
+    await Promise.all(user.chats.map(async conversationID =>  {
+      return new Promise(async (resolve, reject) => {
+        let conversation = await Conversations.findById({ _id : conversationID })
+        conversations.push(conversation)
+        resolve()
+      })
+    }))
+    console.log(conversations)
+    const reversed = conversations.reverse()
+    res.status(200).json({ reversed })
+
+  } catch (e) {
+    res.status(404).json({ msg: e.message })
+  }
+});
+
 
 
 

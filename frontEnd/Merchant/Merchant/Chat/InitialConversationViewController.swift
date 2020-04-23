@@ -87,7 +87,7 @@ class InitialConversationViewController: UIViewController, UITableViewDelegate, 
             
             self.messageTextField.text = ""
             
-            AF.request(API.URL + "/user/chat", method: .post, parameters: details, encoder: URLEncodedFormParameterEncoder.default).response { response in
+            AF.request(API.URL + "/user/message", method: .post, parameters: details, encoder: URLEncodedFormParameterEncoder.default).response { response in
                 
                 // deal with the request
                 if (response.response?.statusCode != 200) {
