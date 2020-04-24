@@ -25,7 +25,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     var receiver = ""
     var userChattingWith = ""
     var selectedAnnotation: MKPointAnnotation?
-    var proposedPlace = Place(title: "Temporary place", address: "123 Sesame St", coordinate: CLLocationCoordinate2D(latitude: 40.4237, longitude: -86.9200))
+    var proposedPlace = Place(title: "Not chosen", address: "Not chosen", coordinate: CLLocationCoordinate2D(latitude: 40.4237, longitude: -86.9200))
     var locationManager = CLLocationManager()
     var currLocation: Place!
 
@@ -73,9 +73,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         mapView.addAnnotation(harrys)
         mapView.addAnnotation(corec)
         
-        let tempTitle: String = userChattingWith + "'s suggestion: " + (proposedPlace.title)!
-                
-        proposedButton.setTitle(tempTitle, for: .normal)
+        
         
         //fetching any existing meeting location
         AF.request(API.URL + "/meetingLocation/\(conversationID)", method: .get).responseJSON { response in
@@ -136,6 +134,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         self.locationManager.requestWhenInUseAuthorization()
         
         if CLLocationManager.locationServicesEnabled() {
+            locationManager = CLLocationManager()
             locationManager.delegate = self
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             locationManager.startUpdatingLocation()
@@ -143,7 +142,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     }
     
     // locationManager delegate
-    func locationManager(_ manager: CLLocationManager, didUpdatelocations locations: [CLLocation]) {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
         let title = currentUser + "'s Current Location"
         currLocation = Place(title: title, address: "Not specified", coordinate: locValue)
@@ -151,6 +150,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     @IBAction func shareLocationPressed(_ sender: Any) {
         //TODO change the fill of button
+        mapView.addAnnotation(currLocation)
         
     }
     
@@ -171,6 +171,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
 //        annotation.coordinate = coordinate
 //        annotation.title = "Custom pin"
         mapView.addAnnotation(place)
+        mapView.centerToLocation(CLLocation(latitude: place.coordinate.latitude, longitude: place.coordinate.longitude))
     }
     
     //function to take the response from web service center the point
@@ -180,6 +181,13 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         let longitude : NSNumber =  location.value(forKey: "longitude") as! NSNumber
         let title : String =  location.value(forKey: "title") as! String
         let address : String =  location.value(forKey: "address") as! String
+        
+        // update suggested
+        proposedPlace = Place(title: title, address: address, coordinate: CLLocationCoordinate2D(latitude: CLLocationDegrees(latitude), longitude: CLLocationDegrees(longitude)))
+        
+        // change button text
+        let tempTitle: String = userChattingWith + "'s suggestion: " + title
+        proposedButton.setTitle(tempTitle, for: .normal)
 
         //make the map coordinate
         let coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(Double(truncating: latitude)), longitude: CLLocationDegrees(Double(truncating: longitude)))
