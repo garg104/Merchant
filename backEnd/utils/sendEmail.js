@@ -43,7 +43,7 @@ export const sendEmail = async (msg) => {
 export const generateOtpMsg = (email, otp) => {
     return {
         to: `${email}`,
-        from: 'merchant.cs307@gmail.com',
+        from: 'merchant@gmail.com',
         subject: 'ATTENTION: Verify your merchant account',
         text: 'Hi,\n Thank you for creating an account on Merchant.' +
             `Please enter the following One Time Password on your app to verify your account: ${otp}` +
@@ -60,7 +60,7 @@ export const generateOtpMsg = (email, otp) => {
 export const generateDeleteAcctMsg = (email) => {
     return {
         to: `${email}`,
-        from: 'merchant.cs307@gmail.com',
+        from: 'merchant@gmail.com',
         subject: 'Account Deleted',
         text: 'Hi,\n Thank you for using Merchant. Your account has been deleted.' +
             '\nRegards,\nMerchant Team!',
@@ -76,7 +76,7 @@ export const generateDeleteAcctMsg = (email) => {
 export const generateTempPassword = (email, firstName, password) => {
     return {
         to: `${email}`,
-        from: 'merchant.cs307@gmail.com',
+        from: 'merchant@gmail.com',
         subject: 'ATTENTION: Temporary password. ',
         text: `Hi, ${firstName}\nYour temporary password is\n` + `${password}\n` +
             `Please update your password from the User page after logging in using the above password.` +
@@ -93,7 +93,7 @@ export const generateTempPassword = (email, firstName, password) => {
 export const generateResetPassword = (email, firstName) => {
     return {
         to: `${email}`,
-        from: 'merchant.cs307@gmail.com',
+        from: 'merchant@gmail.com',
         subject: 'ATTENTION: Password reset. ',
         text: `Hi, ${firstName}\nYour password has been reset.\n` +
             '\nRegards,\nMerchant Team!',
@@ -110,7 +110,7 @@ export const generateResetPassword = (email, firstName) => {
 export const generateEmailMsg = (email, opts) => {
     return {
         to: `${email}`,
-        from: 'merchant.cs307@gmail.com',
+        from: 'merchant@gmail.com',
         subject: opts.subject,
         text: opts.message,
         html: opts.html
@@ -126,7 +126,7 @@ export const generateEmailMsg = (email, opts) => {
 export const generateUserReport = (email, username, userID, report) => {
     return {
         to: `${email}`,
-        from: 'merchant.cs307@gmail.com',
+        from: 'merchant@gmail.com',
         subject: `ATTENTION: ${username}(${userID}) has been reported mulitple times. `,
         text: `Dear Admin, \n${username}(${userID}) has been reported by users multiple times.\n` +
             `Please followup with these reports and take the neccesary steps. Reports are as follows - \n${report}` +

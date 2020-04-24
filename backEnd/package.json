@@ -15,7 +15,7 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
-    "@sendgrid/mail": "^6.5.5",
+    "@sendgrid/mail": "^6.5.3",
     "apn": "^2.2.0",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "~1.4.4",
