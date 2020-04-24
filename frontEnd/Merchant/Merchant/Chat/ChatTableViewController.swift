@@ -164,11 +164,21 @@ class ChatTableViewController: UITableViewController {
         if editingStyle == .delete {
             // Delete the row from the data source
             // TODO: Aakarshit: remove the chat in the database
-            
-            
-            self.users.remove(at: indexPath.row)
-            self.previews.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .automatic)
+            let headers: HTTPHeaders = [
+                "Authorization": Authentication.getAuthToken(),
+                "Accept": "application/json"
+            ]
+            AF.request(API.URL + "/deleteConversation/\(self.conversationIDs[indexPath.row])", method: .delete, headers: headers).responseJSON { response in
+        
+                if (response.response?.statusCode == 200) {
+                    self.users.remove(at: indexPath.row)
+                    self.previews.remove(at: indexPath.row)
+                    tableView.deleteRows(at: [indexPath], with: .automatic)
+                    debugPrint("Conversation has been deleted")
+                } else {
+                    debugPrint("Conversation couldn't be deleted")
+                }
+            }
             
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
