@@ -9,6 +9,8 @@
 import UIKit
 import MapKit
 import Alamofire
+import PusherSwift
+
 
 class MapViewController: UIViewController, MKMapViewDelegate {
 
@@ -16,6 +18,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var proposedButton: UIButton!
     @IBOutlet weak var shareLocationButton: UIButton!
     
+    var pusher: Pusher!
     var currentUser = ""
     var conversationID = ""
     var receiver = ""
@@ -57,6 +60,39 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         let tempTitle: String = userChattingWith + " wants to meet at : " + (proposedPlace.title)!
                 
         proposedButton.setTitle(tempTitle, for: .normal)
+        
+        // listen for messages
+        let options = PusherClientOptions(
+            host: .cluster("us2")
+        )
+        
+        pusher = Pusher(
+            key: "0abb5543b425a847ea81",
+            options: options
+        )
+        pusher.connect()
+        
+        
+        // subscribe to channel
+        let channelName = userChattingWith + "-" + currentUser + "-maps"
+        print(channelName)
+        let channel = pusher.subscribe(channelName)
+        
+        // bind a callback to handle an event
+        let _ = channel.bind(eventName: "map-location", callback: { (data: Any?) -> Void in
+            if let data = data as? [String : AnyObject] {
+                if let location = data["location"] as? NSDictionary {
+                    let latitude : NSNumber =  location.value(forKey: "latitude") as! NSNumber
+                    let longitude : NSNumber =  location.value(forKey: "longitude") as! NSNumber
+                    let title : String =  location.value(forKey: "latitude") as! String
+                    let address : String =  location.value(forKey: "latitude") as! String
+                    debugPrint("GOT LOCATION", latitude, longitude)
+                    self.mapView.centerToLocation(CLLocation(latitude: CLLocationDegrees(truncating: latitude), longitude: CLLocationDegrees(truncating: longitude)))
+//                    let place = Place(title: title, address: address, coordinate: )
+//                    self.mapView.addAnnotation(place)
+                }
+            }
+        })
     }
     
     @IBAction func shareLocationPressed(_ sender: Any) {
@@ -80,7 +116,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         let coordinate = mapView.convert(location, toCoordinateFrom: mapView)
         
         // Add annotation
-        let place = Place(title: "Custom pin", address: "Not specified", coordinate: coordinate)
+        let place = Place(title: "Custom pin", address: "Unknown address", coordinate: coordinate)
 //        let annotation = MKPointAnnotation()
 //        annotation.coordinate = coordinate
 //        annotation.title = "Custom pin"
@@ -161,7 +197,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                                address: placeAddress ?? "",
                                title: placeName ?? "")
         
-        AF.request(API.URL + "/meetingLocation", method: .post,
+        AF.request(API.URL + "/meetingLocations", method: .post,
                    parameters: params, headers: headers).responseJSON { response in
                 if (response.response?.statusCode == 200) {
                    //the meeting location for the conversation has been saved
