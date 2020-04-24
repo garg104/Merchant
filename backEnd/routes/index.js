@@ -104,31 +104,40 @@ router.post('/sendPushNotifications', async (req, res) => {
   }
 })
 
-router.push('/deleteConversation', authenticate, async (req, res) => {
-  const { receiverUsername } = req.body
+router.delete('/deleteConversation/:id', authenticate, async (req, res) => {
+  const { id } = req.params
   try {
-    //getting the receiver object
-    const receiver = await User.findOne({ username: receiverUsername })
     //finding the conversation based on the ids
-    const conversation = await Conversations.findOne({ userIDReceiver: receiver._id, userIDSender: req.userInfo._id })
+    const conversation = await Conversations.findById(id)
+    //getting the receiver object
+    const user1 = await User.findById(conversation.user1)
+    const user2 = await User.findById(conversation.user2)
     //removing the conversation id from the receivers array
-    if (receiver.chats) {
-      const index = receiver.chats.indexOf(conversation._id)
+    if (user1.chats) {
+      const index = user1.chats.indexOf(id)
       if (index != -1) {
-        receiver.chats.splice(index, 1)
+        user1.chats.splice(index, 1)
       } //end if
     } //end if
     //removing the conversation id from the sender's array
-    if (req.userInfo.chats) {
-      const index = req.userInfo.chats.indexOf(conversation._id)
+    if (user2.chats) {
+      const index = user2.chats.indexOf(id)
       if (index != -1) {
-        req.userInfo.chats.splice(index, 1)
+        user2.chats.splice(index, 1)
       } //end if
     } //end if
     //deleting the actual conversation
-    await User.findOneAndUpdate({ _id: req.userInfo._id }, { chats: req.userInfo.chats })
-    await User.findOneAndUpdate({ _id: receiver._id }, { chats: receiver.chats })
-    await Conversations.findOneAndDelete({ _id: conversation._id })
+    await User.findOneAndUpdate({ _id: user1._id }, { chats: user1.chats })
+    await User.findOneAndUpdate({ _id: user2._id }, { chats: user2.chats })
+    //deleting the meeting location if exists
+    if (conversation.meeting) {
+      try {
+        await Location.findByIdAndDelete(conversation.meeting)
+      } catch (e) {
+        console.log(e)
+      }
+    } //end if
+    await conversation.delete()
     res.status(200).json({ msg: 'The conversation has been deleted' })
   } catch (e) {
     console.log(e.message)
