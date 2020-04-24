@@ -37,19 +37,10 @@ export const dispatchAPNViaFirebase = async (senderUsername, receiverUsername, u
             return
         }
 
-        //get the name of the sender
-        let senderName = senderUsername
-        try {
-            const user = await User.findOne({ username: receiverUsername })
-            senderName = `${user.firstName} ${user.lastName}`
-        } catch (e) {
-            console.log(e.message)
-        }
-
         //formatting the message object
         const message = {
             notification: {
-                title: senderName,
+                title: senderUsername,
                 body: userMessage,
             },
             data: { time: Date.now().toString(), type: 'text-message' },

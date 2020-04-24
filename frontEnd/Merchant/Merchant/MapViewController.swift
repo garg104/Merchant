@@ -150,8 +150,10 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     @IBAction func shareLocationPressed(_ sender: Any) {
         //TODO change the fill of button
-        mapView.addAnnotation(currLocation)
-        
+        if (currLocation != nil) {
+            mapView.addAnnotation(currLocation)
+            shareCurrentLocation(currLocation)
+        }
     }
     
     @IBAction func getSuggestedAddress(_ sender: Any) {
@@ -329,7 +331,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         let params = parameter(latitude: placeCoords.latitude,
                                longitude: placeCoords.longitude,
                                address: placeAddress ?? "",
-                               title: "\(userChattingWith)'s current location",
+                               title: "\(currentUser)'s current location",
                                receiverUsername: self.userChattingWith)
         
         debugPrint("PARAMS", params)
