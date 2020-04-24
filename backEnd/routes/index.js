@@ -146,40 +146,68 @@ router.post('/sendPushNotifications', async (req, res) => {
   }
 })
 
-router.delete('/deleteConversation/:id', authenticate, async (req, res) => {
-  const { id } = req.params
+router.post('/deleteConversation', authenticate, async (req, res) => {
+  const { id, toDeleteUserName } = req.body
   try {
+    //finding the userID of the user
+    const user = await User.findOne({ username: toDeleteUserName })
+    const toDeleteUserID = user._id
     //finding the conversation based on the ids
     const conversation = await Conversations.findById(id)
     //getting the receiver object
     const user1 = await User.findById(conversation.user1)
     const user2 = await User.findById(conversation.user2)
     //removing the conversation id from the receivers array
+    let refCountOfChat = 2
+    let user1Changed = false
+    let user2Changed = false
     if (user1.chats) {
       const index = user1.chats.indexOf(id)
       if (index != -1) {
-        user1.chats.splice(index, 1)
-      } //end if
-    } //end if
+        if (user1._id == toDeleteUserID) {
+          user1.chats.splice(index, 1)
+          refCountOfChat--;
+          user1Changed = true
+        }
+      } else {
+        refCountOfChat--;
+      }//end if
+    } else {
+      refCountOfChat--;
+    }//end if
     //removing the conversation id from the sender's array
     if (user2.chats) {
       const index = user2.chats.indexOf(id)
       if (index != -1) {
-        user2.chats.splice(index, 1)
-      } //end if
-    } //end if
+        if (user2._id == toDeleteUserID) {
+          user2.chats.splice(index, 1)
+          refCountOfChat--;
+          user2Changed = true
+        }
+      } else {
+        refCountOfChat--;
+      }//end if
+    } else {
+      refCountOfChat--;
+    }//end if
     //deleting the actual conversation
-    await User.findOneAndUpdate({ _id: user1._id }, { chats: user1.chats })
-    await User.findOneAndUpdate({ _id: user2._id }, { chats: user2.chats })
+    if (user1Changed)
+      await User.findOneAndUpdate({ _id: user1._id }, { chats: user1.chats })
+    if (user2Changed)
+      await User.findOneAndUpdate({ _id: user2._id }, { chats: user2.chats })
     //deleting the meeting location if exists
-    if (conversation.meeting) {
-      try {
-        await Location.findByIdAndDelete(conversation.meeting)
-      } catch (e) {
-        console.log(e)
-      }
+    if (refCountOfChat === 0) {
+      console.log('deleting the actual conversation')
+      if (conversation.meeting) {
+        try {
+          //deleting the meeting location
+          await Location.findByIdAndDelete(conversation.meeting)
+        } catch (e) {
+          console.log(e)
+        }
+      } //end if
+      await conversation.delete()
     } //end if
-    await conversation.delete()
     res.status(200).json({ msg: 'The conversation has been deleted' })
   } catch (e) {
     console.log(e.message)
