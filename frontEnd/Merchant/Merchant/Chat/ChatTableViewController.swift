@@ -65,6 +65,10 @@ class ChatTableViewController: UITableViewController {
         }.resume()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        refreshFeed()
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -110,6 +114,19 @@ class ChatTableViewController: UITableViewController {
     
     
     @IBAction func refreshFeed(_ sender: UIBarButtonItem) {
+        // TODO implement refresh functionality
+        self.users = []
+        self.previews = []
+        self.messages = []
+        self.messagesTransfer = []
+        
+        
+        getConversations() { (validCode) in
+            self.tableView.reloadData()
+        }
+    }
+    
+    func refreshFeed() {
         // TODO implement refresh functionality
         self.users = []
         self.previews = []
