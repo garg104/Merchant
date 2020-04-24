@@ -14,6 +14,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var proposedButton: UIButton!
+    @IBOutlet weak var shareLocationButton: UIButton!
     
     var currentUser = ""
     var conversationID = ""
@@ -56,6 +57,15 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         let tempTitle: String = userChattingWith + " wants to meet at : " + (proposedPlace.title)!
                 
         proposedButton.setTitle(tempTitle, for: .normal)
+    }
+    
+    @IBAction func shareLocationPressed(_ sender: Any) {
+        //TODO change the fill of button!
+        //if (currently sharing location) {
+        //  shareLocationButton.setImage(UIImage(systemName: "location"), for: .normal)
+        //} else {
+        //  shareLocationButton.setImage(UIImage(systemName: "location.fill"), for: .normal)
+        //}
     }
     
     @IBAction func getSuggestedAddress(_ sender: Any) {
