@@ -144,6 +144,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         let alert = UIAlertController(title: "Address", message: proposedPlace.address, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
         self.present(alert, animated: true)
+        mapView.centerToLocation(CLLocation(latitude: proposedPlace.coordinate.latitude, longitude: proposedPlace.coordinate.longitude))
     }
     
     // gesture for users to add custom pins
