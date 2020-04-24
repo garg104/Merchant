@@ -2418,24 +2418,35 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="7AG-rl-qWf">
-                                <rect key="frame" x="0.0" y="63" width="375" height="774"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="774" id="Q8m-Pv-MAj"/>
-                                </constraints>
+                                <rect key="frame" x="0.0" y="63" width="375" height="695"/>
                             </mapView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nxD-Mu-7Me">
-                                <rect key="frame" x="16" y="20" width="343" height="30"/>
+                                <rect key="frame" x="16" y="20" width="292" height="30"/>
                                 <state key="normal" title="Button"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LCB-D1-n9A">
+                                <rect key="frame" x="329" y="20" width="30" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="30" id="xYu-jw-UKv"/>
+                                </constraints>
+                                <state key="normal" image="location" catalog="system"/>
+                                <connections>
+                                    <action selector="shareLocationPressed:" destination="ARO-pI-igT" eventType="touchUpInside" id="o5Y-2U-isq"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="nxD-Mu-7Me" firstAttribute="leading" secondItem="JmW-s5-gi4" secondAttribute="leadingMargin" id="64G-nn-W2p"/>
-                            <constraint firstItem="nxD-Mu-7Me" firstAttribute="top" secondItem="omL-1g-7Xe" secondAttribute="top" constant="20" id="9Lp-ta-XSm"/>
-                            <constraint firstItem="nxD-Mu-7Me" firstAttribute="centerX" secondItem="7AG-rl-qWf" secondAttribute="centerX" id="Fga-T0-x5R"/>
-                            <constraint firstItem="nxD-Mu-7Me" firstAttribute="trailing" secondItem="JmW-s5-gi4" secondAttribute="trailingMargin" id="aiz-Id-1QA"/>
-                            <constraint firstItem="7AG-rl-qWf" firstAttribute="top" secondItem="nxD-Mu-7Me" secondAttribute="bottom" constant="13" id="hnx-rA-PRx"/>
-                            <constraint firstItem="7AG-rl-qWf" firstAttribute="leading" secondItem="omL-1g-7Xe" secondAttribute="leading" id="oAd-xi-R03"/>
+                            <constraint firstItem="nxD-Mu-7Me" firstAttribute="top" secondItem="LCB-D1-n9A" secondAttribute="top" id="F3n-BT-ai3"/>
+                            <constraint firstItem="nxD-Mu-7Me" firstAttribute="leading" secondItem="JmW-s5-gi4" secondAttribute="leadingMargin" id="KR4-Nw-obZ"/>
+                            <constraint firstItem="nxD-Mu-7Me" firstAttribute="bottom" secondItem="LCB-D1-n9A" secondAttribute="bottom" id="Lbq-Ru-7Xd"/>
+                            <constraint firstItem="7AG-rl-qWf" firstAttribute="centerX" secondItem="JmW-s5-gi4" secondAttribute="centerX" id="OrJ-GN-vd2"/>
+                            <constraint firstItem="LCB-D1-n9A" firstAttribute="leading" secondItem="nxD-Mu-7Me" secondAttribute="trailing" constant="21" id="Prv-uh-Z91"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="7AG-rl-qWf" secondAttribute="bottom" constant="-34" id="W2V-SX-gZI"/>
+                            <constraint firstItem="nxD-Mu-7Me" firstAttribute="top" secondItem="omL-1g-7Xe" secondAttribute="top" constant="20" id="cNx-w8-SUh"/>
+                            <constraint firstItem="7AG-rl-qWf" firstAttribute="leading" secondItem="omL-1g-7Xe" secondAttribute="leading" id="ccG-zO-YtC"/>
+                            <constraint firstItem="LCB-D1-n9A" firstAttribute="trailing" secondItem="JmW-s5-gi4" secondAttribute="trailingMargin" id="jBX-yL-Yhd"/>
+                            <constraint firstItem="7AG-rl-qWf" firstAttribute="top" secondItem="nxD-Mu-7Me" secondAttribute="bottom" constant="13" id="xTL-Aa-WDa"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="omL-1g-7Xe"/>
                     </view>
@@ -2443,6 +2454,7 @@
                     <connections>
                         <outlet property="mapView" destination="7AG-rl-qWf" id="kbX-mY-98X"/>
                         <outlet property="proposedButton" destination="nxD-Mu-7Me" id="F6M-L2-Efc"/>
+                        <outlet property="shareLocationButton" destination="LCB-D1-n9A" id="cwH-lk-fTz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pWH-bC-muA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -3301,6 +3313,7 @@
         <image name="cart.fill" catalog="system" width="128" height="102"/>
         <image name="dollarsign.circle" catalog="system" width="128" height="121"/>
         <image name="dollarsign.circle.fill" catalog="system" width="128" height="121"/>
+        <image name="location" catalog="system" width="128" height="115"/>
         <image name="mappin.circle" catalog="system" width="128" height="121"/>
         <image name="message" catalog="system" width="128" height="113"/>
         <image name="message.fill" catalog="system" width="128" height="113"/>
