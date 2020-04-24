@@ -147,10 +147,10 @@ router.post('/sendPushNotifications', async (req, res) => {
 })
 
 router.post('/deleteConversation', authenticate, async (req, res) => {
-  const { id, toDeleteUserName } = req.body
+  const { id, toDeleteUsername } = req.body
   try {
     //finding the userID of the user
-    const user = await User.findOne({ username: toDeleteUserName })
+    const user = await User.findOne({ username: toDeleteUsername })
     const toDeleteUserID = user._id
     //finding the conversation based on the ids
     const conversation = await Conversations.findById(id)
