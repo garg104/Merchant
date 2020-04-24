@@ -17,34 +17,40 @@ router.get('/', function (req, res, next) {
 /* Route for adding a meeting location for the conversation */
 router.post('/meetingLocations', authenticate, async (req, res) => {
   const { conversationID, latitude, longitude, address, title, receiverUsername } = req.body
-  const conversation = await Conversations.findById(conversationID)
+  try {
+    const conversation = await Conversations.findById(conversationID)
 
-  //create a pusher instance
-  let pusher = new Pusher({
-    appId: '988508',
-    key: '0abb5543b425a847ea81',
-    secret: '28b34e176e9568cd6048',
-    cluster: 'us2',
-    encrypted: true
-  });
+    //create a pusher instance
+    let pusher = new Pusher({
+      appId: '988508',
+      key: '0abb5543b425a847ea81',
+      secret: '28b34e176e9568cd6048',
+      cluster: 'us2',
+      encrypted: true
+    });
 
-  let channelName = req.userInfo.username + '-' + receiverUsername + '-maps'
+    let channelName = req.userInfo.username + '-' + receiverUsername + '-maps'
 
-  if (conversation) {
-    try {
-      const location = new Location({ latitude, longitude, address, title })
-      const savedLocation = await location.save()
-      conversation.meeting = savedLocation._id
-      await Conversations.findByIdAndUpdate(conversationID, { ...conversation })
-      //sending the push notification
-      const ret = await dispatchAPNViaFirebase(req.userInfo.username,
-        receiverUsername,
-        `${receiverUsername} has updated the meeting location`)
-      pusher.trigger(channelName, 'map-location', { "location": location });
-      res.status(200).json({ location, msg: "Location has been saved" })
-    } catch (e) {
-      res.status(400).json({ msg: "Location couldn't be updated" })
-    } //end try-catch
+    if (conversation) {
+      try {
+        const location = new Location({ latitude, longitude, address, title })
+        const savedLocation = await location.save()
+        conversation.meeting = savedLocation._id
+        await Conversations.findByIdAndUpdate(conversationID, { ...conversation })
+        //sending the push notification
+        const ret = await dispatchAPNViaFirebase(req.userInfo.username,
+          receiverUsername,
+          `${receiverUsername} has updated the meeting location`)
+        pusher.trigger(channelName, 'map-location', { "location": location });
+        res.status(200).json({ location, msg: "Location has been saved" })
+      } catch (e) {
+        res.status(400).json({ msg: "Location couldn't be updated" })
+      } //end try-catch
+    }
+  } catch (e) {
+    console.log(e.message)
+    res.status(401).json({ msg: e.message })
+
   }
 })
 
