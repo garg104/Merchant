@@ -120,6 +120,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         self.locationManager.requestWhenInUseAuthorization()
         
         if CLLocationManager.locationServicesEnabled() {
+            locationManager = CLLocationManager()
             locationManager.delegate = self
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             locationManager.startUpdatingLocation()
@@ -128,7 +129,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     }
     
     // locationManager delegate
-    func locationManager(_ manager: CLLocationManager, didUpdatelocations locations: [CLLocation]) {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        print("GETTING CURRENT LOCATION")
         guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
         let title = currentUser + "'s Current Location"
         currLocation = Place(title: title, address: "Not specified", coordinate: locValue)
