@@ -73,9 +73,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         mapView.addAnnotation(harrys)
         mapView.addAnnotation(corec)
         
-        let tempTitle: String = userChattingWith + "'s suggestion: " + (proposedPlace.title)!
-                
-        proposedButton.setTitle(tempTitle, for: .normal)
+        
         
         //fetching any existing meeting location
         AF.request(API.URL + "/meetingLocation/\(conversationID)", method: .get).responseJSON { response in
@@ -168,6 +166,13 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         let longitude : NSNumber =  location.value(forKey: "longitude") as! NSNumber
         let title : String =  location.value(forKey: "title") as! String
         let address : String =  location.value(forKey: "address") as! String
+        
+        // update suggested
+        proposedPlace = Place(title: title, address: address, coordinate: CLLocationCoordinate2D(latitude: CLLocationDegrees(latitude), longitude: CLLocationDegrees(longitude)))
+        
+        // change button text
+        let tempTitle: String = userChattingWith + "'s suggestion: " + title
+        proposedButton.setTitle(tempTitle, for: .normal)
 
         //make the map coordinate
         let coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(Double(truncating: latitude)), longitude: CLLocationDegrees(Double(truncating: longitude)))
