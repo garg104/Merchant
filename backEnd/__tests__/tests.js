@@ -15,8 +15,8 @@ describe('\nUtility tests\n', () => {
     it('Mail: Legit emails', async done => {
         //send request to the /validate endpoint
         const res = await request.post('/user/validate').send({ OTP: "0000", email: 'aakarshit_p@yahoo.com' })
-        // expect(res.status).toBe(200)
-        // expect(res.body.msg).toBe('Email sent successfully')
+        expect(res.status).toBe(200)
+        expect(res.body.msg).toBe('Email sent successfully')
         done()
     }, 10000)
 
@@ -103,9 +103,9 @@ describe('\nTesting user creation, forgot password, and deletion\n', () => {
 
     it('Test the deletion of the created user', async done => {
         //User deletion route test
-        // const res = await request.post('/user/delete').send({ username: 'deadbeef' })
-        // expect(res.status).toBe(200)
-        // expect(res.body.msg).toBe('The specified user was deleted.')
+        const res = await request.post('/user/delete').send({ username: 'deadbeef' })
+        expect(res.status).toBe(200)
+        expect(res.body.msg).toBe('The specified user was deleted.')
         done()
     }, 10000)
 })
@@ -114,16 +114,16 @@ describe('\nTesting user creation, forgot password, and deletion\n', () => {
 describe('\nTests for picture\n', () => {
     it('Tests the picture route for a legitimate user', async done => {
         //Test the route
-        // const res = await request.get('/user/picture/pandey25')
-        // expect(res.status).toBe(200)
+        const res = await request.get('/user/picture/pandey25')
+        expect(res.status).toBe(200)
         done()
     }, 50000)
 
     //Testing the get picture route
     it('Tests the picture route for no data', async done => {
         //Test the route
-        // const res = await request.get('/user/picture/test')
-        // expect(res.status).toBe(404)
+        const res = await request.get('/user/picture/test')
+        expect(res.status).toBe(404)
         done()
     }, 50000)
 })
@@ -238,7 +238,7 @@ describe('\nSending Push Notifications\n', () => {
 //Item picture routes
 describe('\nItem picture routes\n', () => {
     it('Getting all the pictures of an item', async done => {
-        const ret = await request.get('/items/picture/5e83b2cd312728002a61b3a2')
+        const ret = await request.get('/items/picture/5e9cdeb78cf109002a8e7cb4')
         expect(1).toBe(1)
         done()
         expect(ret.status).toBe(200)
@@ -255,28 +255,27 @@ describe('\nItem picture routes\n', () => {
 //Wishlist routes
 describe('\nWishlist routes\n', () => {
     it('Adding an item to a wishlist', async (done) => {
-        // const ret = await request.get('/user/').set('Authorization', jwt).send({
-        //     id: '5e838e4bf4ec24002afe8c7c'
-        // })
-        // expect(200).toBe(200)
+        const ret = await request.get('/user/').set('Authorization', jwt).send({
+            id: '5e9cdeb78cf109002a8e7cb4'
+        })
+        expect(200).toBe(200)
         done()
     }, 50000)
     it('Getting the wishlist of a user', async (done) => {
-        // const ret = await request.get('/user/wishlist').set('Authorization', jwt)
-        // expect(ret.status).toBe(200)
+        const ret = await request.get('/user/wishlist').set('Authorization', jwt)
+        expect(ret.status).toBe(200)
         done()
     }, 50000)
     it('Checking if an item is in wishlist', async (done) => {
-        // const ret = await request.get('/user/wishlist/exists/5e838e4bf4ec24002afe8c7c')
-        // .set('Authorization', jwt)
-        // expect(ret.status).toBe(200)
+        const ret = await request.get('/user/wishlist/exists/5e9cdeb78cf109002a8e7cb4').set('Authorization', jwt)
+        expect(ret.status).toBe(404)
         done()
     }, 50000)
     it('Removing an item from the wishlist', async (done) => {
-        // const ret = await request.post('/items/removeFromWishlist/').set('Authorization', jwt).send({
-        //     id: '5e838e4bf4ec24002afe8c7c'
-        // })
-        // expect(ret.status).toBe(400)
+        const ret = await request.post('/items/removeFromWishlist/').set('Authorization', jwt).send({
+            id: '5e838e4bf4ec24002afe8c7c'
+        })
+        expect(ret.status).toBe(400)
         done()
     }, 50000)
 })
