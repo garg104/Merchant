@@ -104,4 +104,45 @@ router.post('/sendPushNotifications', async (req, res) => {
   }
 })
 
+router.delete('/deleteConversation/:id', authenticate, async (req, res) => {
+  const { id } = req.params
+  try {
+    //finding the conversation based on the ids
+    const conversation = await Conversations.findById(id)
+    //getting the receiver object
+    const user1 = await User.findById(conversation.user1)
+    const user2 = await User.findById(conversation.user2)
+    //removing the conversation id from the receivers array
+    if (user1.chats) {
+      const index = user1.chats.indexOf(id)
+      if (index != -1) {
+        user1.chats.splice(index, 1)
+      } //end if
+    } //end if
+    //removing the conversation id from the sender's array
+    if (user2.chats) {
+      const index = user2.chats.indexOf(id)
+      if (index != -1) {
+        user2.chats.splice(index, 1)
+      } //end if
+    } //end if
+    //deleting the actual conversation
+    await User.findOneAndUpdate({ _id: user1._id }, { chats: user1.chats })
+    await User.findOneAndUpdate({ _id: user2._id }, { chats: user2.chats })
+    //deleting the meeting location if exists
+    if (conversation.meeting) {
+      try {
+        await Location.findByIdAndDelete(conversation.meeting)
+      } catch (e) {
+        console.log(e)
+      }
+    } //end if
+    await conversation.delete()
+    res.status(200).json({ msg: 'The conversation has been deleted' })
+  } catch (e) {
+    console.log(e.message)
+    res.status(400).json({ msg: 'The conversation could not be deleted' })
+  }
+})
+
 module.exports = router;

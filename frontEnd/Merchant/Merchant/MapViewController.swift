@@ -246,8 +246,14 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                    parameters: params, headers: headers).responseJSON { response in
                 if (response.response?.statusCode == 200) {
                    //the meeting location for the conversation has been saved
+                    let alert = UIAlertController(title: "Meeting Location", message: "Your suggested meeting location has been shared with \(self.userChattingWith)", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
+                    self.present(alert, animated: true)
                 } else {
                     debugPrint("ERROR")
+                    let alert = UIAlertController(title: "Meeting Location", message: "Your suggested meeting location couldn't be shared. Try Again!", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
+                    self.present(alert, animated: true)
                 }
             }.resume()
     }
