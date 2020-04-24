@@ -58,6 +58,12 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         proposedButton.setTitle(tempTitle, for: .normal)
     }
     
+    @IBAction func getSuggestedAddress(_ sender: Any) {
+        let alert = UIAlertController(title: "Address", message: proposedPlace.address, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
+        self.present(alert, animated: true)
+    }
+    
     // gesture for users to add custom pins
     @objc func handleTap(_ gestureRecognizer: UILongPressGestureRecognizer) {
         let location = gestureRecognizer.location(in: mapView)
@@ -110,7 +116,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         }
         else if view.leftCalloutAccessoryView == control { // if info
             let alert = UIAlertController(title: "Address", message: placeAddress, preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "Yeet", style: UIAlertAction.Style.default, handler: nil))
+            alert.addAction(UIAlertAction(title: "Okay", style: UIAlertAction.Style.default, handler: nil))
             self.present(alert, animated: true, completion: nil)
             
         }
