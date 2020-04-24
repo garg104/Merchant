@@ -6,8 +6,8 @@ const userSchema = mongoose.Schema({
         require: true,
     },
     time : { 
-        type : Date, 
-        default: Date.now, 
+        type : String, 
+        require: true, 
     }
 })
 

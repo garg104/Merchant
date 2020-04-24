@@ -4,12 +4,16 @@ import { getFiles, authenticate } from '../middlewares/middlewares'
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const User = require('../models/User')
+const Conversations = require('../models/Conversations')
 const Item = require('../models/Items')
+const Location = require('../models/Location')
 const express = require('express');
 const router = express.Router();
 import { config, getProfilePictureSchemas } from '../utils/fileHandling'
 const upload = config('profile-pictures')
 const randomstring = require('../node_modules/randomstring')
+import { dispatchAPNViaFirebase } from  '../utils/pushNotification'
+const Pusher = require('pusher')
 
 /* GET users listing. (for debugging) */
 router.get('/', async (req, res) => {
@@ -722,7 +726,6 @@ router.post('/removeDeviceToken', authenticate, async (req, res) => {
 
 router.post('/viewRating', async (req, res) => {
   try {
-
     const user = await User.findOne({ username: req.body.username })     
     let currentRatings = user.rating.users
     await Promise.all(currentRatings.map(async rating =>  {
@@ -738,6 +741,141 @@ router.post('/viewRating', async (req, res) => {
     res.status(400).json({ msg: e })
   }
 })
+
+// Route for recieving and sending the chat from one user to the other
+
+router.post('/message', async (req, res) => {
+  // user 1 is the user who is sending the message. 
+  // user 2 is the user to whom the message is being sent.
+
+  const { userSender, userReceiver, message, conversationID } = req.body
+  console.log(userSender)
+  console.log(userReceiver)
+
+  try {
+    const userSender = await User.findOne({ username: req.body.userSender })
+    const userReceiver = await User.findOne({ username: req.body.userReceiver })
+    console.log(userSender)
+    console.log(userReceiver)
+    var today = new Date();
+    var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+    var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    var dateTime = date + ' ' + time;
+
+    var pusher = new Pusher({
+      appId: '988508',
+      key: '0abb5543b425a847ea81',
+      secret: '28b34e176e9568cd6048',
+      cluster: 'us2',
+      encrypted: true
+    });
+
+    let channelName = userReceiver.username + "-" + userSender.username
+    console.log(channelName)
+    
+    console.log("converation ID is " + conversationID)
+
+    if(conversationID == "") {
+      // this is the first message between the users for a particular item
+      console.log("in new Conversation")
+      let messages = []
+      messages.push({ userIDSender: userSender._id, userIDReceiver: userReceiver._id, sender: userSender.username, text: message , time : dateTime})
+      // console.log(messages)
+      let last = {
+        time: dateTime,
+        text: message
+      }
+      const conversation = new Conversations({ user1: userSender._id, user2: userReceiver._id, lastMessage: last, messages: messages })
+      const savedConversation = await conversation.save()
+      userReceiver.chats.push(conversation._id)
+      userSender.chats.push(conversation._id)
+      // console.log(chat)
+      let ret = await User.findByIdAndUpdate({ _id: userReceiver._id }, { chats: userReceiver.chats })
+      ret = await User.findByIdAndUpdate({ _id: userSender._id }, { chats: userSender.chats })
+      ret = await dispatchAPNViaFirebase(userSender.username, userReceiver.username, message)
+      pusher.trigger(channelName, 'my-event', {"message": message});
+      let id = conversation._id
+      res.status(200).json({ id })
+    } else {
+      // the chat alrady exists
+      console.log("Conversation already exists")
+
+      const conversation = await Conversations.findById({ _id: conversationID})
+      
+      // console.log(conversation.messages)
+      conversation.messages.push({ userIDSender: userSender._id, userIDReceiver: userReceiver._id, sender: userSender.username, text: message , time : dateTime})
+      // console.log(conversation.messages)
+      let last = {
+        time: dateTime,
+        text: message
+      }
+      console.log(last)
+      // let ret = await Conversations.findByIdAndUpdate({ _id: conversationID }, { "$set": {messages: conversation.messages, lastMessage: last }})
+      let ret1 = await Conversations.findByIdAndUpdate({ _id: conversationID }, { lastMessage: last })
+
+      let ret = await Conversations.findByIdAndUpdate({ _id: conversationID },  { messages: conversation.messages })
+
+      // ret = await User.findByIdAndUpdate({ _id: userIDSender._id }, {  })
+
+      // console.log(ret)
+      ret = await dispatchAPNViaFirebase(userSender.username, userReceiver.username, message)
+      pusher.trigger(channelName, 'my-event', {"message": message});
+      res.status(200).json({ msg: "success",  conversation: conversation})
+
+    }
+
+    // res.status(200).json({ msg: "success",  conversation: conversation})
+  } catch (error) {
+    console.log(error)
+    res.status(404).json({ msg: error })
+  }
+})
+
+/*
+* This route return all the converssations a particular user has.
+*/
+
+router.get('/conversations/:username', async (req, res) => {
+  try {
+    // get all items with isSold as true.
+    const user = await User.findOne({ username: req.params.username })
+    let conversations = []
+    if (user.chats.length === 0) {
+      res.status(200).json({ conversations })
+    } //end if
+    await Promise.all(user.chats.map(async conversationID =>  {
+      return new Promise(async (resolve, reject) => {
+        let conversation = await Conversations.findById({ _id : conversationID })
+        let otherUser = {}
+        let messages = conversation.messages.reverse()
+        console.log(conversation.user2)
+        console.log(user._id)
+        console.log(`${user._id}`.localeCompare(`${conversation.user2}`) === 0)
+        if (`${user._id}`.localeCompare(`${conversation.user2}`) === 0) {
+          otherUser = await User.findById({ _id : conversation.user1._id })
+        } else {
+          otherUser = await User.findById({ _id : conversation.user2._id })
+        }
+        let temp = {
+          user: otherUser.username,
+          messages: messages,
+          lastMessage: conversation.lastMessage,
+          conversationID: conversationID
+        }
+        conversations.push(temp)
+        resolve()
+      })
+    }))
+    // console.log(conversations)
+    const reversed = conversations.reverse()
+    res.status(200).json({ reversed })
+
+  } catch (e) {
+    res.status(404).json({ msg: e.message })
+  }
+});
+
+
 
 
 

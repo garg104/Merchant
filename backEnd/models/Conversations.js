@@ -1,22 +1,56 @@
 const mongoose = require('mongoose');
 
-const userSchema = mongoose.Schema({
-    userIDSender: {
+const userSchema = mongoose.Schema({  
+    user1: {
         type: mongoose.Schema.Types.ObjectID,
         ref: "User",
     },
-    userIDReceiver: {
+    user2: {
         type: mongoose.Schema.Types.ObjectID,
         ref: "User",
+    },
+    lastMessage: {
+        type: {
+            time : { 
+                type : String, 
+                require: true, 
+            },
+            text: {
+                type: String,
+                require: true
+            }
+        },
+        require: true
     },
     messages: {
-        type: [mongoose.Schema.Types.ObjectID],
-        ref: "Message",
+        type: [{
+            userIDSender: {
+                type: mongoose.Schema.Types.ObjectID,
+                ref: "User",
+            },
+            userIDReceiver: {
+                type: mongoose.Schema.Types.ObjectID,
+                ref: "User",
+            },
+            sender: {
+                type: String,
+                require: true,
+            },
+            text: {
+                type: String,
+                require: true,
+            },
+            time : { 
+                type : String, 
+                require: true, 
+            }
+        }],
         default: [],
     },
     meeting: {
         type: mongoose.Schema.Types.ObjectID,
-        ref: "Location"
+        ref: "Location",
+        require: false
     }
 })
 

@@ -1,0 +1,6 @@
+module PusherSwift {
+  umbrella header "PusherSwift-umbrella.h"
+
+  export *
+  module * { export * }
+}
