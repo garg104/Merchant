@@ -809,9 +809,6 @@ router.post('/message', async (req, res) => {
           chatInReciever = true
           return
         }
-        if (!rated) {
-          index = index + 1
-        }
       })
 
       if (!chatInReciever) {
