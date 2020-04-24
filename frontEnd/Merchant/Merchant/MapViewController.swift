@@ -29,7 +29,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         mapView.delegate = self
         // Add gesture to mapView
         let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
@@ -197,18 +196,20 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         ]
         
         struct parameter: Encodable {
-            var conversatioID: String
+            var id: String
             var latitude: Double
             var longitude: Double
             var address: String
             var title: String
+            var receiverUsername: String
         }
         
-        let params = parameter(conversatioID: conversationID,
+        let params = parameter(id: conversationID,
                                latitude: placeCoords.latitude,
                                longitude: placeCoords.longitude,
                                address: placeAddress ?? "",
-                               title: placeName ?? "")
+                               title: placeName ?? "",
+                               receiverUsername: self.userChattingWith)
         
         debugPrint("PARAMS", params)
         
