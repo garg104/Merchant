@@ -14,6 +14,27 @@ router.get('/', function (req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
+/* Getting the meeting location for a conversation id */
+router.get('/meetingLocation/:id', async (req, res) => {
+  const { id } = req.params
+  try {
+    //getting the conversation
+    const conversation = await Conversations.findById(id)
+    if (conversation.meeting) {
+      //getting the corresponding location
+      const location = await Location.findById(conversation.meeting)
+      //sending the response
+      res.status(200).json({ location, msg: 'The meeting location has been found' })
+    } else {
+      //no meeting location found
+      res.status(404).json({ msg: 'Not meeting location stored yet' })
+    } //end if
+  } catch (e) {
+    //logging errors
+    res.status(400).json({ msg: 'wrong conversation id supplied' })
+  }
+})
+
 /* Route for adding a meeting location for the conversation */
 router.post('/meetingLocations', authenticate, async (req, res) => {
   const { id, latitude, longitude, address, title, receiverUsername } = req.body
@@ -37,6 +58,10 @@ router.post('/meetingLocations', authenticate, async (req, res) => {
         console.log(latitude, longitude, address, title)
         const location = new Location({ latitude, longitude, address, title })
         const savedLocation = await location.save()
+        if (conversation.meeting) {
+          //deleting the old location
+          await Location.findByIdAndDelete(conversation.meeting)
+        }
         conversation.meeting = savedLocation._id
         await Conversations.findByIdAndUpdate(id, { meeting: conversation.meeting })
         //sending the push notification

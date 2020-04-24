@@ -26,6 +26,19 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     var selectedAnnotation: MKPointAnnotation?
     var proposedPlace = Place(title: "Temporary place", address: "123 Sesame St", coordinate: CLLocationCoordinate2D(latitude: 40.4237, longitude: -86.9200))
     
+    override func viewDidAppear(_ animated: Bool) {
+           super.viewDidAppear(animated)
+           AF.request(API.URL + "/meetingLocation/\(conversationID)", method: .get).responseJSON { response in
+               if (response.response?.statusCode == 200) {
+                   if let res = response.value {
+                       let responseJSON = res as! NSDictionary
+                       let location : NSDictionary =  responseJSON.value(forKey: "location") as! NSDictionary
+                       self.addPointToMapAndRecenter(location: location)
+                   } //end if
+               } //end if
+           }.resume()
+       }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,7 +73,18 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                 
         proposedButton.setTitle(tempTitle, for: .normal)
         
-        // listen for messages
+        //fetching any existing meeting location
+        AF.request(API.URL + "/meetingLocation/\(conversationID)", method: .get).responseJSON { response in
+            if (response.response?.statusCode == 200) {
+                if let res = response.value {
+                    let responseJSON = res as! NSDictionary
+                    let location : NSDictionary =  responseJSON.value(forKey: "location") as! NSDictionary
+                    self.addPointToMapAndRecenter(location: location)
+                } //end if
+            } //end if
+        }.resume()
+        
+        // listen for changing map locations
         let options = PusherClientOptions(
             host: .cluster("us2")
         )
@@ -82,28 +106,9 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             if let data = data as? [String : AnyObject] {
                 if let location = data["location"] as? NSDictionary {
                     //getting the function response parameters
-                    let latitude : NSNumber =  location.value(forKey: "latitude") as! NSNumber
-                    let longitude : NSNumber =  location.value(forKey: "longitude") as! NSNumber
-                    let title : String =  location.value(forKey: "title") as! String
-                    let address : String =  location.value(forKey: "address") as! String
-                    debugPrint("GOT LOCATION", latitude, longitude)
-                    
-                    //adding annotation
-                    let point = CGPoint(x: CGFloat(truncating: latitude), y: CGFloat(truncating: longitude))
-                    
-                    //make the map coordinate
-                    let coordinate = self.mapView.convert(point, toCoordinateFrom: self.mapView)
-            
-                    // Add annotation
-                    let place = Place(title: "\(self.userChattingWith)'s suggestion: \(title)",
-                        address: "\(address)", coordinate: coordinate)
-                    debugPrint(place)
-                    self.mapView.addAnnotation(place)
-                    
-                    //cantering the map to that point
-                    self.mapView.centerToLocation(CLLocation(latitude: place.coordinate.latitude, longitude: place.coordinate.latitude))
-                }
-            }
+                    self.addPointToMapAndRecenter(location: location)
+                } //end if
+            } //end if
         })
     }
     
@@ -133,6 +138,31 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 //        annotation.coordinate = coordinate
 //        annotation.title = "Custom pin"
         mapView.addAnnotation(place)
+    }
+    
+    //function to take the response from web service center the point
+    func addPointToMapAndRecenter(location: NSDictionary) {
+        //getting the function response parameters
+        let latitude : NSNumber =  location.value(forKey: "latitude") as! NSNumber
+        let longitude : NSNumber =  location.value(forKey: "longitude") as! NSNumber
+        let title : String =  location.value(forKey: "title") as! String
+        let address : String =  location.value(forKey: "address") as! String
+        debugPrint("GOT LOCATION", latitude, longitude)
+        
+        //adding annotation
+        let point = CGPoint(x: CGFloat(truncating: latitude), y: CGFloat(truncating: longitude))
+        
+        //make the map coordinate
+        let coordinate = self.mapView.convert(point, toCoordinateFrom: self.mapView)
+
+        // Add annotation
+        let place = Place(title: "\(self.userChattingWith)'s suggestion: \(title)",
+            address: "\(address)", coordinate: coordinate)
+        debugPrint(place)
+        self.mapView.addAnnotation(place)
+        
+        //cantering the map to that point
+        self.mapView.centerToLocation(CLLocation(latitude: place.coordinate.latitude, longitude: place.coordinate.latitude))
     }
     
     
