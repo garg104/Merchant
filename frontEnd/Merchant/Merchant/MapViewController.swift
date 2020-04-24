@@ -10,9 +10,10 @@ import UIKit
 import MapKit
 import Alamofire
 import PusherSwift
+import CoreLocation
 
 
-class MapViewController: UIViewController, MKMapViewDelegate {
+class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var proposedButton: UIButton!
@@ -25,6 +26,9 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     var userChattingWith = ""
     var selectedAnnotation: MKPointAnnotation?
     var proposedPlace = Place(title: "Temporary place", address: "123 Sesame St", coordinate: CLLocationCoordinate2D(latitude: 40.4237, longitude: -86.9200))
+    var locationManager = CLLocationManager()
+    var currLocation: Place!
+
     
     override func viewDidAppear(_ animated: Bool) {
            super.viewDidAppear(animated)
@@ -69,7 +73,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         mapView.addAnnotation(harrys)
         mapView.addAnnotation(corec)
         
-        let tempTitle: String = userChattingWith + " wants to meet at : " + (proposedPlace.title)!
+        let tempTitle: String = userChattingWith + "'s suggestion: " + (proposedPlace.title)!
                 
         proposedButton.setTitle(tempTitle, for: .normal)
         
@@ -110,15 +114,29 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                 } //end if
             } //end if
         })
+        
+        // get user's current location
+        self.locationManager.requestAlwaysAuthorization()
+        self.locationManager.requestWhenInUseAuthorization()
+        
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            locationManager.startUpdatingLocation()
+
+        }
+    }
+    
+    // locationManager delegate
+    func locationManager(_ manager: CLLocationManager, didUpdatelocations locations: [CLLocation]) {
+        guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
+        let title = currentUser + "'s Current Location"
+        currLocation = Place(title: title, address: "Not specified", coordinate: locValue)
     }
     
     @IBAction func shareLocationPressed(_ sender: Any) {
-        //TODO change the fill of button!
-        //if (currently sharing location) {
-        //  shareLocationButton.setImage(UIImage(systemName: "location"), for: .normal)
-        //} else {
-        //  shareLocationButton.setImage(UIImage(systemName: "location.fill"), for: .normal)
-        //}
+        //TODO change the fill of button
+        
     }
     
     @IBAction func getSuggestedAddress(_ sender: Any) {
