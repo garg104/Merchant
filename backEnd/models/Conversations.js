@@ -32,6 +32,10 @@ const userSchema = mongoose.Schema({
                 type: mongoose.Schema.Types.ObjectID,
                 ref: "User",
             },
+            sender: {
+                type: String,
+                require: true,
+            },
             text: {
                 type: String,
                 require: true,

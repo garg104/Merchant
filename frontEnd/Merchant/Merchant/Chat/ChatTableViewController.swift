@@ -14,6 +14,7 @@ class ChatTableViewController: UITableViewController {
     var currentUser = ""
     var users: [String] = []
     var previews: [String] = []
+    var messages: [NSArray] = []
     
     func getConversations(completion: @escaping (_ validCode: Int)->()) {
         // #warning Incomplete implementation, return the number of sections
@@ -28,13 +29,14 @@ class ChatTableViewController: UITableViewController {
                     let conversations : NSArray =  JSON.value(forKey: "reversed") as! NSArray
                     for conversation in conversations {
                         let details = conversation as! NSDictionary
-//                        print(details.value(forKey: "user")!)
-                        print(details.value(forKey: "messages")!)
                         let temp = details.value(forKey: "lastMessage")! as! NSDictionary
-                        print(temp)
+                        let messages = details.value(forKey: "messages")! as! NSArray
+                        print(messages)
                         self.users.append(details.value(forKey: "user")! as! String)
                         self.previews.append(temp["text"]! as! String)
-//                        self.descriptions.append(temp["description"]! as! String)
+                        self.messages.append(messages)
+                        
+//                        self.messages.append(temp["description"]! as! String)
 //                        self.itemIDs.append(temp["_id"]! as! String)
 //                        self.categories.append(Int(temp["category"] as! String)!)
                     }
@@ -173,6 +175,7 @@ class ChatTableViewController: UITableViewController {
             
             let selectedItemIndex = indexPath.row
             itemDetailViewController.currentUser = currentUser
+//            itemDetailViewController.messages = messages[selectedItemIndex]
             itemDetailViewController.userChattingWith = users[selectedItemIndex]
         }
     }

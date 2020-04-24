@@ -767,7 +767,7 @@ router.post('/message', async (req, res) => {
       // this is the first message between the users for a particular item
       console.log("in new Conversation")
       let messages = []
-      messages.push({ userIDSender: userSender._id, userIDReceiver: userReceiver._id, text: message , time : dateTime})
+      messages.push({ userIDSender: userSender._id, userIDReceiver: userReceiver._id, sender: userSender.username, text: message , time : dateTime})
       console.log(messages)
       let last = {
         time: dateTime,
@@ -790,7 +790,7 @@ router.post('/message', async (req, res) => {
       const conversation = await Conversations.findById({ _id: conversationID})
       
       // console.log(conversation.messages)
-      conversation.messages.push({ userIDSender: userSender._id, userIDReceiver: userReceiver._id, text: message , time : dateTime})
+      conversation.messages.push({ userIDSender: userSender._id, userIDReceiver: userReceiver._id, sender: userSender.username, text: message , time : dateTime})
       // console.log(conversation.messages)
       let last = {
         time: dateTime,
