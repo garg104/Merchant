@@ -89,9 +89,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                     let address : String =  location.value(forKey: "address") as! String
                     debugPrint("GOT LOCATION", latitude, longitude)
                     
-                    //cantering the map to that point
-                    self.mapView.centerToLocation(CLLocation(latitude: CLLocationDegrees(truncating: latitude), longitude: CLLocationDegrees(truncating: longitude)))
-                    
                     //adding annotation
                     let point = CGPoint(x: CGFloat(truncating: latitude), y: CGFloat(truncating: longitude))
                     
@@ -101,7 +98,11 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                     // Add annotation
                     let place = Place(title: "\(self.userChattingWith)'s suggestion: \(title)",
                         address: "\(address)", coordinate: coordinate)
+                    debugPrint(place)
                     self.mapView.addAnnotation(place)
+                    
+                    //cantering the map to that point
+                    self.mapView.centerToLocation(CLLocation(latitude: place.coordinate.latitude, longitude: place.coordinate.latitude))
                 }
             }
         })
