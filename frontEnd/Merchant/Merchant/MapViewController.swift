@@ -132,6 +132,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
         let title = currentUser + "'s Current Location"
         currLocation = Place(title: title, address: "Not specified", coordinate: locValue)
+        print("HERE")
     }
     
     @IBAction func shareLocationPressed(_ sender: Any) {
