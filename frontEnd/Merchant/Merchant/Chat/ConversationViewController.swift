@@ -8,8 +8,7 @@
 
 import UIKit
 import Alamofire
-
-
+import PusherSwift
 
 class ConversationViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
     
@@ -28,6 +27,8 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
     var userChattingWith = ""
     var keyboardHeight = 0
     var messages: [ChatMessage] = []
+    var pusher: Pusher!
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,6 +56,32 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
         
         //TODO
         //load in conversation between currentUser and userChattingWith into messages array
+        
+        // listen for messages
+        let options = PusherClientOptions(
+            host: .cluster("us2")
+        )
+        
+        pusher = Pusher(
+            key: "0abb5543b425a847ea81",
+            options: options
+        )
+        pusher.connect()
+        
+        
+        // subscribe to channel
+        let channel = pusher.subscribe("my-channel")
+        
+        // bind a callback to handle an event
+        let _ = channel.bind(eventName: "my-event", callback: { (data: Any?) -> Void in
+            if let data = data as? [String : AnyObject] {
+                if let message = data["message"] as? String {
+                    print(message)
+                    self.messages.append(ConversationViewController.ChatMessage(message: message, isIncoming: false))
+
+                }
+            }
+        })
         
     }
     
