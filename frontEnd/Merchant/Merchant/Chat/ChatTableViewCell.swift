@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 class ChatTableViewCell: UITableViewCell {
 
     @IBOutlet weak var usernameLabel: UILabel!

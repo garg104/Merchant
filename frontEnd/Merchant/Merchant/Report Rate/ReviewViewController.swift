@@ -26,6 +26,8 @@ class ReviewViewController: UIViewController, UITextViewDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         self.commentsTextView.delegate = self
+        print("initial star")
+        print(ratingStackView.numStars)
     }
     
     //dismiss keyboard on return

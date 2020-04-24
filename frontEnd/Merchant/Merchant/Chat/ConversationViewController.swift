@@ -7,11 +7,8 @@
 //
 
 import UIKit
-
-struct ChatMessage {
-    let message: String
-    let isIncoming: Bool
-}
+import Alamofire
+import PusherSwift
 
 class ConversationViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
     
@@ -20,26 +17,22 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var messageTextField: UITextField!
     
+    struct ChatMessage {
+        let message: String
+        let isIncoming: Bool
+    }
+    
     var conversationID = ""
     var currentUser = ""
     var userChattingWith = ""
     var keyboardHeight = 0
-    let messages = [
-        ChatMessage(message: "Hello", isIncoming: true),
-        ChatMessage(message: "Hey!", isIncoming: false),
-        ChatMessage(message: "What's up?", isIncoming: true),
-        ChatMessage(message: "This is a longer message that should wrap down to multiple lines", isIncoming: false),
-        ChatMessage(message: "Hello", isIncoming: true),
-        ChatMessage(message: "Hey!", isIncoming: false),
-        ChatMessage(message: "What's up?", isIncoming: true),
-        ChatMessage(message: "This is a longer message that should wrap down to multiple lines", isIncoming: false),
-        ChatMessage(message: "Hello", isIncoming: true),
-        ChatMessage(message: "Hey!", isIncoming: false),
-        ChatMessage(message: "What's up?", isIncoming: true),
-        ChatMessage(message: "This is a longer message that should wrap down to multiple lines", isIncoming: false)
-    ]
+    var messages: [ChatMessage] = []
+    var pusher: Pusher!
+
     
     override func viewDidLoad() {
+        
+        print("Conversattion ID is \(self.conversationID)")
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
@@ -66,6 +59,35 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
         //TODO
         //load in conversation between currentUser and userChattingWith into messages array
         
+        // listen for messages
+        let options = PusherClientOptions(
+            host: .cluster("us2")
+        )
+        
+        pusher = Pusher(
+            key: "0abb5543b425a847ea81",
+            options: options
+        )
+        pusher.connect()
+        
+        
+        // subscribe to channel
+        let channelName = currentUser + "-" + userChattingWith
+        print(channelName)
+        let channel = pusher.subscribe(channelName)
+        
+        // bind a callback to handle an event
+        let _ = channel.bind(eventName: "my-event", callback: { (data: Any?) -> Void in
+            if let data = data as? [String : AnyObject] {
+                if let message = data["message"] as? String {
+                    print(message)
+                    self.messages.append(ConversationViewController.ChatMessage(message: message, isIncoming: true))
+                    self.conversationTableView.reloadData()
+                    self.scrollToBottom()
+                }
+            }
+        })
+        
     }
     
     override func viewWillLayoutSubviews() {
@@ -74,7 +96,56 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
     
     @IBAction func sendPressed(_ sender: UIButton) {
         //send the message
-        self.messageTextField.endEditing(true)
+//        self.messageTextField.endEditing(true)
+        if (messageTextField.text != "" && self.conversationID != "") {
+            // nothing should happen if message is empty or conversation ID doesn not exist
+            
+
+            
+            self.messages.append(ConversationViewController.ChatMessage(message: self.messageTextField.text ?? "", isIncoming: false))
+            
+            struct parameters: Encodable {
+                var userSender = ""
+                var userReceiver = ""
+                var message = ""
+                var conversationID = ""
+            }
+            
+            let details = parameters(userSender: self.currentUser, userReceiver: self.userChattingWith, message: messageTextField.text ?? "", conversationID: self.conversationID)
+            
+            print("sending to channel \(self.userChattingWith)-\(self.currentUser)")
+            
+            self.messageTextField.text = ""
+            
+            AF.request(API.URL + "/user/message", method: .post, parameters: details, encoder: URLEncodedFormParameterEncoder.default).response { response in
+                
+                // deal with the request
+                if (response.response?.statusCode != 200) {
+                    debugPrint("ERROR")
+                    let alert = UIAlertController(title: "Error!", message: "Message could not be sent", preferredStyle: .alert)
+                    
+                    
+                    // Create Confirm button with action handler
+                    let confirm = UIAlertAction(title: "OK",
+                                                style: .default)
+                    
+                    // add actions to the alert
+                    alert.addAction(confirm)
+                    
+                    // display alert
+                    self.present(alert, animated: true)
+                } else {
+                    
+
+                }
+                
+                
+            }.resume()
+            
+            
+        } else {
+            debugPrint("empty message or conversation ID")
+        }
     }
     
     func scrollToBottom() {
@@ -153,6 +224,7 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
             vc.conversationID = self.conversationID
             vc.receiver = self.userChattingWith
             vc.currentUser = self.currentUser
+            vc.userChattingWith = self.userChattingWith
          }
          
      }

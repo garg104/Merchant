@@ -14,10 +14,12 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var proposedButton: UIButton!
+    @IBOutlet weak var shareLocationButton: UIButton!
     
     var currentUser = ""
     var conversationID = ""
     var receiver = ""
+    var userChattingWith = ""
     var selectedAnnotation: MKPointAnnotation?
     var proposedPlace = Place(title: "Temporary place", address: "123 Sesame St", coordinate: CLLocationCoordinate2D(latitude: 40.4237, longitude: -86.9200))
     
@@ -52,9 +54,24 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         mapView.addAnnotation(harrys)
         mapView.addAnnotation(corec)
         
-        let tempTitle: String = currentUser + " wants to meet at : " + (proposedPlace.title)!
+        let tempTitle: String = userChattingWith + " wants to meet at : " + (proposedPlace.title)!
                 
         proposedButton.setTitle(tempTitle, for: .normal)
+    }
+    
+    @IBAction func shareLocationPressed(_ sender: Any) {
+        //TODO change the fill of button!
+        //if (currently sharing location) {
+        //  shareLocationButton.setImage(UIImage(systemName: "location"), for: .normal)
+        //} else {
+        //  shareLocationButton.setImage(UIImage(systemName: "location.fill"), for: .normal)
+        //}
+    }
+    
+    @IBAction func getSuggestedAddress(_ sender: Any) {
+        let alert = UIAlertController(title: "Address", message: proposedPlace.address, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
+        self.present(alert, animated: true)
     }
     
     // gesture for users to add custom pins
@@ -109,7 +126,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         }
         else if view.leftCalloutAccessoryView == control { // if info
             let alert = UIAlertController(title: "Address", message: placeAddress, preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "Yeet", style: UIAlertAction.Style.default, handler: nil))
+            alert.addAction(UIAlertAction(title: "Okay", style: UIAlertAction.Style.default, handler: nil))
             self.present(alert, animated: true, completion: nil)
             
         }
