@@ -8,6 +8,8 @@
 
 import UIKit
 import Alamofire
+import PusherSwift
+
 
 class ChatTableViewController: UITableViewController {
     
