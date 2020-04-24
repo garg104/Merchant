@@ -147,22 +147,21 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         let longitude : NSNumber =  location.value(forKey: "longitude") as! NSNumber
         let title : String =  location.value(forKey: "title") as! String
         let address : String =  location.value(forKey: "address") as! String
-        debugPrint("GOT LOCATION", latitude, longitude)
-        
-        //adding annotation
-        let point = CGPoint(x: CGFloat(truncating: latitude), y: CGFloat(truncating: longitude))
-        
+
         //make the map coordinate
-        let coordinate = self.mapView.convert(point, toCoordinateFrom: self.mapView)
+        let coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(Double(truncating: latitude)), longitude: CLLocationDegrees(Double(truncating: longitude)))
 
         // Add annotation
         let place = Place(title: "\(self.userChattingWith)'s suggestion: \(title)",
             address: "\(address)", coordinate: coordinate)
-        debugPrint(place)
+    
+        //adding annotation
         self.mapView.addAnnotation(place)
         
+        let newLocation = CLLocation(latitude: CLLocationDegrees(truncating: latitude), longitude: CLLocationDegrees(truncating: longitude))
+        
         //cantering the map to that point
-        self.mapView.centerToLocation(CLLocation(latitude: place.coordinate.latitude, longitude: place.coordinate.latitude))
+        self.mapView.centerToLocation(newLocation)
     }
     
     
