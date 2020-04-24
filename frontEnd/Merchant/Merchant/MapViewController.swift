@@ -150,16 +150,16 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     @IBAction func shareLocationPressed(_ sender: Any) {
         //TODO change the fill of button
-        if (currLocation != nil) {
-            mapView.addAnnotation(currLocation)
-            shareCurrentLocation(currLocation)
-        }
+        mapView.addAnnotation(currLocation)
+        mapView.centerToLocation(CLLocation(latitude: currLocation.coordinate.latitude, longitude: currLocation.coordinate.longitude))
+        mapView.selectAnnotation(currLocation, animated: true)
     }
     
     @IBAction func getSuggestedAddress(_ sender: Any) {
         let alert = UIAlertController(title: "Address", message: proposedPlace.address, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
         self.present(alert, animated: true)
+        mapView.centerToLocation(CLLocation(latitude: proposedPlace.coordinate.latitude, longitude: proposedPlace.coordinate.longitude))
     }
     
     // gesture for users to add custom pins
