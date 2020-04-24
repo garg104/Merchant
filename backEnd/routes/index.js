@@ -164,7 +164,7 @@ router.post('/deleteConversation', authenticate, async (req, res) => {
     if (user1.chats) {
       const index = user1.chats.indexOf(id)
       if (index != -1) {
-        if (user1._id == toDeleteUserID) {
+        if (`${user1._id}`.localeCompare(`${toDeleteUserID}`) === 0) {
           user1.chats.splice(index, 1)
           refCountOfChat--;
           user1Changed = true
@@ -179,7 +179,7 @@ router.post('/deleteConversation', authenticate, async (req, res) => {
     if (user2.chats) {
       const index = user2.chats.indexOf(id)
       if (index != -1) {
-        if (user2._id == toDeleteUserID) {
+        if (`${user2._id}`.localeCompare(`${toDeleteUserID}` === 0)) {
           user2.chats.splice(index, 1)
           refCountOfChat--;
           user2Changed = true
