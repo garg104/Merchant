@@ -1,4 +1,4 @@
-{
+module.exports = {
   "type": "service_account",
   "project_id": "merchant-307",
   "private_key_id": "847d19b16c7198091976a1567d60617dc43c7337",

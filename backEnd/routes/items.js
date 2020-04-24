@@ -370,6 +370,7 @@ router.post('/removeFromWishlist', authenticate, async (req, res) => {
     } else {
       //item couldn't be found
       res.status(400).json({ msg: "item could not be found in the wishlist" })
+      return
     }
     // update wishlist Array
     var ret = await User.findOneAndUpdate({ _id: user._id }, { wishlist: user.wishlist })
