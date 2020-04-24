@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const locationSchema = mongoose.Schema({
-    lattitude: {
+    latitude: {
         type: mongoose.Schema.Types.Number,
         required: true
     },

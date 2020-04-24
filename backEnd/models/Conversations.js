@@ -1,6 +1,27 @@
 const mongoose = require('mongoose');
 
 const userSchema = mongoose.Schema({  
+    user1: {
+        type: mongoose.Schema.Types.ObjectID,
+        ref: "User",
+    },
+    user2: {
+        type: mongoose.Schema.Types.ObjectID,
+        ref: "User",
+    },
+    lastMessage: {
+        type: {
+            time : { 
+                type : String, 
+                require: true, 
+            },
+            text: {
+                type: String,
+                require: true
+            }
+        },
+        require: true
+    },
     messages: {
         type: [{
             userIDSender: {
@@ -10,6 +31,10 @@ const userSchema = mongoose.Schema({
             userIDReceiver: {
                 type: mongoose.Schema.Types.ObjectID,
                 ref: "User",
+            },
+            sender: {
+                type: String,
+                require: true,
             },
             text: {
                 type: String,

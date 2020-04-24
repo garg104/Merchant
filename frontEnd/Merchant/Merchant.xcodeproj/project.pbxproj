@@ -61,6 +61,7 @@
 		6CFBE082241DDDD700063775 /* SellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CFBE081241DDDD700063775 /* SellTableViewCell.swift */; };
 		6CFEA8ED2443A59B006231F7 /* WishFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CFEA8EC2443A59B006231F7 /* WishFilterViewController.swift */; };
 		6CFFF4C62432B5B400F81558 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CFFF4C52432B5B400F81558 /* FilterViewController.swift */; };
+		750D882724528A6E001B560A /* libPusherSwift.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 750D882624528A6E001B560A /* libPusherSwift.a */; };
 		7571D7DF23F351EF00C46379 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7571D7DE23F351EF00C46379 /* AppDelegate.swift */; };
 		7571D7E123F351EF00C46379 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7571D7E023F351EF00C46379 /* SceneDelegate.swift */; };
 		7571D7E323F351EF00C46379 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7571D7E223F351EF00C46379 /* WelcomeViewController.swift */; };
@@ -160,6 +161,7 @@
 		6CFBE081241DDDD700063775 /* SellTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SellTableViewCell.swift; sourceTree = "<group>"; };
 		6CFEA8EC2443A59B006231F7 /* WishFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WishFilterViewController.swift; sourceTree = "<group>"; };
 		6CFFF4C52432B5B400F81558 /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
+		750D882624528A6E001B560A /* libPusherSwift.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libPusherSwift.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		7571D7DB23F351EF00C46379 /* Merchant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Merchant.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7571D7DE23F351EF00C46379 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7571D7E023F351EF00C46379 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -191,6 +193,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				750D882724528A6E001B560A /* libPusherSwift.a in Frameworks */,
 				84EC196A422F13C4A0E8834F /* libPods-Merchant.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -401,6 +404,7 @@
 		DCB558BB8AA280E3FFE9ECBC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				750D882624528A6E001B560A /* libPusherSwift.a */,
 				758A0BC6244CFDCC00F4C7BE /* Alamofire.framework */,
 				4F88B7190818A5EECEE76F94 /* Pods_Merchant.framework */,
 				9F70D0A05594FBF7C8298402 /* libPods-Merchant.a */,

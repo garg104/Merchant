@@ -9,12 +9,16 @@
 import UIKit
 import MapKit
 import Alamofire
+import PusherSwift
+
 
 class MapViewController: UIViewController, MKMapViewDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var proposedButton: UIButton!
+    @IBOutlet weak var shareLocationButton: UIButton!
     
+    var pusher: Pusher!
     var currentUser = ""
     var conversationID = ""
     var receiver = ""
@@ -22,10 +26,22 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     var selectedAnnotation: MKPointAnnotation?
     var proposedPlace = Place(title: "Temporary place", address: "123 Sesame St", coordinate: CLLocationCoordinate2D(latitude: 40.4237, longitude: -86.9200))
     
+    override func viewDidAppear(_ animated: Bool) {
+           super.viewDidAppear(animated)
+           AF.request(API.URL + "/meetingLocation/\(conversationID)", method: .get).responseJSON { response in
+               if (response.response?.statusCode == 200) {
+                   if let res = response.value {
+                       let responseJSON = res as! NSDictionary
+                       let location : NSDictionary =  responseJSON.value(forKey: "location") as! NSDictionary
+                       self.addPointToMapAndRecenter(location: location)
+                   } //end if
+               } //end if
+           }.resume()
+       }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         mapView.delegate = self
         // Add gesture to mapView
         let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
@@ -56,6 +72,59 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         let tempTitle: String = userChattingWith + " wants to meet at : " + (proposedPlace.title)!
                 
         proposedButton.setTitle(tempTitle, for: .normal)
+        
+        //fetching any existing meeting location
+        AF.request(API.URL + "/meetingLocation/\(conversationID)", method: .get).responseJSON { response in
+            if (response.response?.statusCode == 200) {
+                if let res = response.value {
+                    let responseJSON = res as! NSDictionary
+                    let location : NSDictionary =  responseJSON.value(forKey: "location") as! NSDictionary
+                    self.addPointToMapAndRecenter(location: location)
+                } //end if
+            } //end if
+        }.resume()
+        
+        // listen for changing map locations
+        let options = PusherClientOptions(
+            host: .cluster("us2")
+        )
+        
+        pusher = Pusher(
+            key: "0abb5543b425a847ea81",
+            options: options
+        )
+        pusher.connect()
+        
+        
+        // subscribe to channel
+        let channelName = userChattingWith + "-" + currentUser + "-maps"
+        print(channelName)
+        let channel = pusher.subscribe(channelName)
+        
+        // bind a callback to handle an event
+        let _ = channel.bind(eventName: "map-location", callback: { (data: Any?) -> Void in
+            if let data = data as? [String : AnyObject] {
+                if let location = data["location"] as? NSDictionary {
+                    //getting the function response parameters
+                    self.addPointToMapAndRecenter(location: location)
+                } //end if
+            } //end if
+        })
+    }
+    
+    @IBAction func shareLocationPressed(_ sender: Any) {
+        //TODO change the fill of button!
+        //if (currently sharing location) {
+        //  shareLocationButton.setImage(UIImage(systemName: "location"), for: .normal)
+        //} else {
+        //  shareLocationButton.setImage(UIImage(systemName: "location.fill"), for: .normal)
+        //}
+    }
+    
+    @IBAction func getSuggestedAddress(_ sender: Any) {
+        let alert = UIAlertController(title: "Address", message: proposedPlace.address, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
+        self.present(alert, animated: true)
     }
     
     // gesture for users to add custom pins
@@ -64,11 +133,35 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         let coordinate = mapView.convert(location, toCoordinateFrom: mapView)
         
         // Add annotation
-        let place = Place(title: "Custom pin", address: "Not specified", coordinate: coordinate)
+        let place = Place(title: "Custom pin", address: "Unknown address", coordinate: coordinate)
 //        let annotation = MKPointAnnotation()
 //        annotation.coordinate = coordinate
 //        annotation.title = "Custom pin"
         mapView.addAnnotation(place)
+    }
+    
+    //function to take the response from web service center the point
+    func addPointToMapAndRecenter(location: NSDictionary) {
+        //getting the function response parameters
+        let latitude : NSNumber =  location.value(forKey: "latitude") as! NSNumber
+        let longitude : NSNumber =  location.value(forKey: "longitude") as! NSNumber
+        let title : String =  location.value(forKey: "title") as! String
+        let address : String =  location.value(forKey: "address") as! String
+
+        //make the map coordinate
+        let coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(Double(truncating: latitude)), longitude: CLLocationDegrees(Double(truncating: longitude)))
+
+        // Add annotation
+        let place = Place(title: "\(self.userChattingWith)'s suggestion: \(title)",
+            address: "\(address)", coordinate: coordinate)
+    
+        //adding annotation
+        self.mapView.addAnnotation(place)
+        
+        let newLocation = CLLocation(latitude: CLLocationDegrees(truncating: latitude), longitude: CLLocationDegrees(truncating: longitude))
+        
+        //cantering the map to that point
+        self.mapView.centerToLocation(newLocation)
     }
     
     
@@ -110,7 +203,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         }
         else if view.leftCalloutAccessoryView == control { // if info
             let alert = UIAlertController(title: "Address", message: placeAddress, preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "Yeet", style: UIAlertAction.Style.default, handler: nil))
+            alert.addAction(UIAlertAction(title: "Okay", style: UIAlertAction.Style.default, handler: nil))
             self.present(alert, animated: true, completion: nil)
             
         }
@@ -132,20 +225,24 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         ]
         
         struct parameter: Encodable {
-            var conversatioID: String
+            var id: String
             var latitude: Double
             var longitude: Double
             var address: String
             var title: String
+            var receiverUsername: String
         }
         
-        let params = parameter(conversatioID: conversationID,
+        let params = parameter(id: conversationID,
                                latitude: placeCoords.latitude,
                                longitude: placeCoords.longitude,
                                address: placeAddress ?? "",
-                               title: placeName ?? "")
+                               title: placeName ?? "",
+                               receiverUsername: self.userChattingWith)
         
-        AF.request(API.URL + "/meetingLocation", method: .post,
+        debugPrint("PARAMS", params)
+        
+        AF.request(API.URL + "/meetingLocations", method: .post,
                    parameters: params, headers: headers).responseJSON { response in
                 if (response.response?.statusCode == 200) {
                    //the meeting location for the conversation has been saved

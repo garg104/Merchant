@@ -8,6 +8,7 @@
 
 import UIKit
 import Alamofire
+import PusherSwift
 
 class InitialConversationViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
     
@@ -20,24 +21,13 @@ class InitialConversationViewController: UIViewController, UITableViewDelegate, 
     var currentUser = ""
     var userChattingWith = ""
     var keyboardHeight = 0
-    var messages = [
-        ChatMessage(message: "Hello", isIncoming: true),
-        ChatMessage(message: "Hey!", isIncoming: false),
-        ChatMessage(message: "What's up?", isIncoming: true),
-        ChatMessage(message: "This is a longer message that should wrap down to multiple lines", isIncoming: false),
-        ChatMessage(message: "Hello", isIncoming: true),
-        ChatMessage(message: "Hey!", isIncoming: false),
-        ChatMessage(message: "What's up?", isIncoming: true),
-        ChatMessage(message: "This is a longer message that should wrap down to multiple lines", isIncoming: false),
-        ChatMessage(message: "Hello", isIncoming: true),
-        ChatMessage(message: "Hey!", isIncoming: false),
-        ChatMessage(message: "What's up?", isIncoming: true),
-        ChatMessage(message: "This is a longer message that should wrap down to multiple lines", isIncoming: false)
-    ]
+    var messages: [ConversationViewController.ChatMessage] = []
+    var pusher: Pusher!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
         self.messageTextField.delegate = self
         self.conversationTableView.delegate = self
@@ -62,6 +52,35 @@ class InitialConversationViewController: UIViewController, UITableViewDelegate, 
         //TODO
         //load in conversation between currentUser and userChattingWith into messages array
         
+        // listen for messages
+        let options = PusherClientOptions(
+            host: .cluster("us2")
+        )
+        
+        pusher = Pusher(
+            key: "0abb5543b425a847ea81",
+            options: options
+        )
+        pusher.connect()
+        
+        
+        // subscribe to channel
+        let channelName = currentUser + "-" + userChattingWith
+        print(channelName)
+        let channel = pusher.subscribe(channelName)
+        
+        // bind a callback to handle an event
+        let _ = channel.bind(eventName: "my-event", callback: { (data: Any?) -> Void in
+            if let data = data as? [String : AnyObject] {
+                if let message = data["message"] as? String {
+                    print(message)
+                    self.messages.append(ConversationViewController.ChatMessage(message: message, isIncoming: true))
+                    self.conversationTableView.reloadData()
+                    self.scrollToBottom()
+                }
+            }
+        })
+        
     }
     
     override func viewWillLayoutSubviews() {
@@ -70,11 +89,14 @@ class InitialConversationViewController: UIViewController, UITableViewDelegate, 
     
     @IBAction func sendPressed(_ sender: UIButton) {
         //send the message
-//        self.messageTextField.endEditing(true)
+        //        self.messageTextField.endEditing(true)
         if (messageTextField.text != "") {
             // nothing should happen if it is a empty message
             
-            self.messages.append(ChatMessage(message: self.messageTextField.text ?? "", isIncoming: false))
+            //updating the global state
+            StateManager.newConversationStarted = true
+            
+            self.messages.append(ConversationViewController.ChatMessage(message: self.messageTextField.text ?? "", isIncoming: false))
             
             struct parameters: Encodable {
                 var userSender = ""
@@ -83,11 +105,13 @@ class InitialConversationViewController: UIViewController, UITableViewDelegate, 
                 var conversationID = ""
             }
             
-            let details = parameters(userSender: self.currentUser, userReceiver: self.userChattingWith, message: messageTextField.text ?? "", conversationID: "")
+            let details = parameters(userSender: self.currentUser, userReceiver: self.userChattingWith, message: messageTextField.text ?? "", conversationID: self.conversationID)
+            
+            print("conversation id is \(self.conversationID)")
             
             self.messageTextField.text = ""
             
-            AF.request(API.URL + "/user/chat", method: .post, parameters: details, encoder: URLEncodedFormParameterEncoder.default).response { response in
+            AF.request(API.URL + "/user/message", method: .post, parameters: details, encoder: URLEncodedFormParameterEncoder.default).responseJSON { response in
                 
                 // deal with the request
                 if (response.response?.statusCode != 200) {
@@ -104,9 +128,16 @@ class InitialConversationViewController: UIViewController, UITableViewDelegate, 
                     
                     // display alert
                     self.present(alert, animated: true)
-                } else {
-                    
-
+                } else if (self.conversationID == "") {
+                    if response.value != nil {
+                        switch response.result {
+                        case .success(let value as [String: Any]):
+                            print(value)
+                            self.conversationID = value["id"] as! String
+                        default:
+                            fatalError("received non-dictionary JSON response")
+                        }
+                    }
                 }
                 
                 
@@ -130,7 +161,7 @@ class InitialConversationViewController: UIViewController, UITableViewDelegate, 
     
     @objc func keyboardWillShow(_ notification: NSNotification) {
         if let keyboardRect = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-              keyboardHeight = Int(keyboardRect.height)
+            keyboardHeight = Int(keyboardRect.height)
             print(keyboardHeight)
         }
         self.view.layoutIfNeeded()
@@ -181,13 +212,13 @@ class InitialConversationViewController: UIViewController, UITableViewDelegate, 
         return cell
     }
     
-
-     // MARK: - Navigation
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-         // Get the new view controller using segue.destination.
-         // Pass the selected object to the new view controller.
-         
-     }
-
+    
+    // MARK: - Navigation
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destination.
+        // Pass the selected object to the new view controller.
+        
+    }
+    
 }
