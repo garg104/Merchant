@@ -20,6 +20,16 @@ class ChatTableViewController: UITableViewController {
     var conversationIDs: [String] = []
     var messagesTransfer: [ConversationViewController.ChatMessage] = []
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        //if new conversation was started in the same session
+        if (StateManager.newConversationStarted == true) {
+            debugPrint("Refreshing")
+            refreshFeed()
+            StateManager.newConversationStarted = false
+        }
+    }
+    
     
     func getConversations(completion: @escaping (_ validCode: Int)->()) {
         // #warning Incomplete implementation, return the number of sections

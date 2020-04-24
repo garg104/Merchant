@@ -93,6 +93,9 @@ class InitialConversationViewController: UIViewController, UITableViewDelegate, 
         if (messageTextField.text != "") {
             // nothing should happen if it is a empty message
             
+            //updating the global state
+            StateManager.newConversationStarted = true
+            
             self.messages.append(ConversationViewController.ChatMessage(message: self.messageTextField.text ?? "", isIncoming: false))
             
             struct parameters: Encodable {
