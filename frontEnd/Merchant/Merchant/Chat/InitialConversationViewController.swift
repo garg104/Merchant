@@ -8,6 +8,7 @@
 
 import UIKit
 import Alamofire
+import PusherSwift
 
 class InitialConversationViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
     
@@ -21,6 +22,8 @@ class InitialConversationViewController: UIViewController, UITableViewDelegate, 
     var userChattingWith = ""
     var keyboardHeight = 0
     var messages: [ConversationViewController.ChatMessage] = []
+    var pusher: Pusher!
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,6 +52,35 @@ class InitialConversationViewController: UIViewController, UITableViewDelegate, 
         //TODO
         //load in conversation between currentUser and userChattingWith into messages array
         
+        // listen for messages
+              let options = PusherClientOptions(
+                  host: .cluster("us2")
+              )
+              
+              pusher = Pusher(
+                  key: "0abb5543b425a847ea81",
+                  options: options
+              )
+              pusher.connect()
+              
+              
+              // subscribe to channel
+              let channelName = currentUser + "-" + userChattingWith
+              print(channelName)
+              let channel = pusher.subscribe(channelName)
+              
+              // bind a callback to handle an event
+              let _ = channel.bind(eventName: "my-event", callback: { (data: Any?) -> Void in
+                  if let data = data as? [String : AnyObject] {
+                      if let message = data["message"] as? String {
+                          print(message)
+                          self.messages.append(ConversationViewController.ChatMessage(message: message, isIncoming: true))
+                          self.conversationTableView.reloadData()
+                          self.scrollToBottom()
+                      }
+                  }
+              })
+        
     }
     
     override func viewWillLayoutSubviews() {
@@ -70,7 +102,9 @@ class InitialConversationViewController: UIViewController, UITableViewDelegate, 
                 var conversationID = ""
             }
             
-            let details = parameters(userSender: self.currentUser, userReceiver: self.userChattingWith, message: messageTextField.text ?? "", conversationID: "")
+            let details = parameters(userSender: self.currentUser, userReceiver: self.userChattingWith, message: messageTextField.text ?? "", conversationID: self.conversationID)
+            
+            print("conversation id is \(self.conversationID)")
             
             self.messageTextField.text = ""
             
@@ -92,8 +126,15 @@ class InitialConversationViewController: UIViewController, UITableViewDelegate, 
                     // display alert
                     self.present(alert, animated: true)
                 } else {
-                    
-
+                     
+                    if let info = response.value {
+                        let JSON = info as! NSDictionary
+                        self.conversationID = JSON["_id"] as! String
+//                        if (JSON.value(forKey: "reversed") != nil) { // make sure it is not empty
+//                            let conversations: NSArray =  JSON.value(forKey: "reversed") as! NSArray
+//
+//                        }
+                    }
                 }
                 
                 

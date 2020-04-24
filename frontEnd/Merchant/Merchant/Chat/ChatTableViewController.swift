@@ -59,7 +59,7 @@ class ChatTableViewController: UITableViewController {
                 self.present(alert, animated: true)
                 
             }
-            
+            print("conversattion IDs are \(self.conversationIDs)")
             completion(0)
             
         }.resume()
@@ -118,6 +118,7 @@ class ChatTableViewController: UITableViewController {
         self.users = []
         self.previews = []
         self.messages = []
+        self.conversationIDs = []
         self.messagesTransfer = []
         
         
@@ -132,6 +133,7 @@ class ChatTableViewController: UITableViewController {
         self.previews = []
         self.messages = []
         self.messagesTransfer = []
+        self.conversationIDs = []
         
         
         getConversations() { (validCode) in

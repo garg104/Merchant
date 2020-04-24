@@ -31,6 +31,8 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
 
     
     override func viewDidLoad() {
+        
+        print("Conversattion ID is \(self.conversationID)")
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
@@ -110,6 +112,8 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
             }
             
             let details = parameters(userSender: self.currentUser, userReceiver: self.userChattingWith, message: messageTextField.text ?? "", conversationID: self.conversationID)
+            
+            print("sending to channel \(self.userChattingWith)-\(self.currentUser)")
             
             self.messageTextField.text = ""
             
