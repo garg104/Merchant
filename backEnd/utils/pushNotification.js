@@ -32,6 +32,11 @@ export const dispatchAPNViaFirebase = async (senderUsername, receiverUsername, u
             return
         }
 
+        if (registrationTokens.length == 0) {
+            resolve({ msg: 'No registration tokens found' })
+            return
+        }
+
         //get the name of the sender
         let senderName = senderUsername
         try {

@@ -103,6 +103,9 @@ class StateManager {
             } else if let result = result {
                 debugPrint("Remote instance ID token: \(result.token)")
                 let token = result.token
+                if (!UserDefaults.standard.getDeviceToken().elementsEqual(token)) {
+                    removeDeviceTokenFromDB(authToken: UserDefaults.standard.getAuthToken(), deviceToken: UserDefaults.standard.getDeviceToken())
+                }
                 UserDefaults.standard.setDeviceToken(tokenID: token)
                 
                 if (token.elementsEqual("")) {
@@ -155,6 +158,30 @@ class StateManager {
         AF.request(API.URL + "/user/removeDeviceToken", method: .post, parameters: parameter(token: deviceToken), encoder: URLEncodedFormParameterEncoder.default, headers: headers).responseJSON { response in
             let status = (response.response?.statusCode ?? 0)
             if (status == 200) {
+                debugPrint(deviceToken)
+                debugPrint("Removed device token for the user: \(UserDefaults.standard.getUsername())")
+            } else {
+                debugPrint("Failed to remove device token")
+            }
+        }
+    }
+    
+    static func removeDeviceTokenFromDB(authToken: String, deviceToken: String) {
+        //getting updated device token
+        
+        struct parameter: Encodable {
+            var token: String
+        }
+        
+        let headers: HTTPHeaders = [
+            "Authorization": authToken,
+            "Accept": "application/json"
+        ]
+        
+        AF.request(API.URL + "/user/removeDeviceToken", method: .post, parameters: parameter(token: deviceToken), encoder: URLEncodedFormParameterEncoder.default, headers: headers).responseJSON { response in
+            let status = (response.response?.statusCode ?? 0)
+            if (status == 200) {
+                debugPrint(deviceToken)
                 debugPrint("Removed device token for the user: \(UserDefaults.standard.getUsername())")
             } else {
                 debugPrint("Failed to remove device token")
