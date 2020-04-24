@@ -153,6 +153,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         mapView.addAnnotation(currLocation)
         mapView.centerToLocation(CLLocation(latitude: currLocation.coordinate.latitude, longitude: currLocation.coordinate.longitude))
         mapView.selectAnnotation(currLocation, animated: true)
+        shareCurrentLocation(currLocation)
     }
     
     @IBAction func getSuggestedAddress(_ sender: Any) {
