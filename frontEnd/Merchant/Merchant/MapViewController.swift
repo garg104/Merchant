@@ -137,7 +137,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         //TODO change the fill of button
         mapView.addAnnotation(currLocation)
         mapView.centerToLocation(CLLocation(latitude: currLocation.coordinate.latitude, longitude: currLocation.coordinate.longitude))
-        
+        mapView.selectAnnotation(currLocation, animated: true)
     }
     
     @IBAction func getSuggestedAddress(_ sender: Any) {
