@@ -127,9 +127,10 @@ class InitialConversationViewController: UIViewController, UITableViewDelegate, 
                     self.present(alert, animated: true)
                 } else {
                      
-                    if let info = response.value {
-                        let JSON = info as! NSDictionary
-                        self.conversationID = JSON["_id"] as! String
+                    if response.value != nil {
+                        print(response)
+//                        let JSON = info as! NSDictionary
+//                        self.conversationID = JSON["_id"] as! String
 //                        if (JSON.value(forKey: "reversed") != nil) { // make sure it is not empty
 //                            let conversations: NSArray =  JSON.value(forKey: "reversed") as! NSArray
 //

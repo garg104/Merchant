@@ -794,7 +794,8 @@ router.post('/message', async (req, res) => {
       ret = await User.findByIdAndUpdate({ _id: userSender._id }, { chats: userSender.chats })
       ret = await dispatchAPNViaFirebase(userSender.username, userReceiver.username, message)
       pusher.trigger(channelName, 'my-event', {"message": message});
-      res.status(200).json({ conversation})
+      let id = conversation._id
+      res.status(200).json({ id })
     } else {
       // the chat alrady exists
       console.log("Conversation already exists")
