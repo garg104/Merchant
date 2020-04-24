@@ -67,7 +67,7 @@ router.post('/meetingLocations', authenticate, async (req, res) => {
         //sending the push notification
         const ret = await dispatchAPNViaFirebase(req.userInfo.username,
           receiverUsername,
-          `${receiverUsername} has updated the meeting location`)
+          `${req.userInfo.username} has updated the meeting location`)
         pusher.trigger(channelName, 'map-location', { "location": location });
         res.status(200).json({ location, msg: "Location has been saved" })
       } catch (e) {
