@@ -16,6 +16,7 @@ class InitialConversationViewController: UIViewController, UITableViewDelegate, 
     @IBOutlet weak var conversationTableView: UITableView!
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var messageTextField: UITextField!
+    @IBOutlet weak var usernameLabel: UILabel!
     
     var conversationID = ""
     var currentUser = ""
@@ -29,6 +30,8 @@ class InitialConversationViewController: UIViewController, UITableViewDelegate, 
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
+        self.usernameLabel.text! = userChattingWith
+        
         self.messageTextField.delegate = self
         self.conversationTableView.delegate = self
         self.conversationTableView.dataSource = self

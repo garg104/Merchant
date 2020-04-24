@@ -99,6 +99,12 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Will you allow this app to always know your location?</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Do you allow this app to know your current location while using the app and in background?</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Do you allow this app to know your current location while using the app?</string>
 	<key>UIUserInterfaceStyle</key>
 	<string>Light</string>
 </dict>
