@@ -82,14 +82,26 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         let _ = channel.bind(eventName: "map-location", callback: { (data: Any?) -> Void in
             if let data = data as? [String : AnyObject] {
                 if let location = data["location"] as? NSDictionary {
+                    //getting the function response parameters
                     let latitude : NSNumber =  location.value(forKey: "latitude") as! NSNumber
                     let longitude : NSNumber =  location.value(forKey: "longitude") as! NSNumber
                     let title : String =  location.value(forKey: "title") as! String
                     let address : String =  location.value(forKey: "address") as! String
                     debugPrint("GOT LOCATION", latitude, longitude)
+                    
+                    //cantering the map to that point
                     self.mapView.centerToLocation(CLLocation(latitude: CLLocationDegrees(truncating: latitude), longitude: CLLocationDegrees(truncating: longitude)))
-//                    let place = Place(title: title, address: address, coordinate: )
-//                    self.mapView.addAnnotation(place)
+                    
+                    //adding annotation
+                    let point = CGPoint(x: CGFloat(truncating: latitude), y: CGFloat(truncating: longitude))
+                    
+                    //make the map coordinate
+                    let coordinate = self.mapView.convert(point, toCoordinateFrom: self.mapView)
+            
+                    // Add annotation
+                    let place = Place(title: "\(self.userChattingWith)'s suggestion: \(title)",
+                        address: "\(address)", coordinate: coordinate)
+                    self.mapView.addAnnotation(place)
                 }
             }
         })
