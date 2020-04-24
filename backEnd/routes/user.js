@@ -847,7 +847,8 @@ router.get('/conversations/:username', async (req, res) => {
         let temp = {
           user: otherUser.username,
           messages: messages,
-          lastMessage: conversation.lastMessage
+          lastMessage: conversation.lastMessage,
+          conversationID: conversationID
         }
         conversations.push(temp)
         resolve()

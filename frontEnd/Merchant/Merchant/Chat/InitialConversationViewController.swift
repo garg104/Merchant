@@ -20,20 +20,7 @@ class InitialConversationViewController: UIViewController, UITableViewDelegate, 
     var currentUser = ""
     var userChattingWith = ""
     var keyboardHeight = 0
-    var messages = [
-        ChatMessage(message: "Hello", isIncoming: true),
-        ChatMessage(message: "Hey!", isIncoming: false),
-        ChatMessage(message: "What's up?", isIncoming: true),
-        ChatMessage(message: "This is a longer message that should wrap down to multiple lines", isIncoming: false),
-        ChatMessage(message: "Hello", isIncoming: true),
-        ChatMessage(message: "Hey!", isIncoming: false),
-        ChatMessage(message: "What's up?", isIncoming: true),
-        ChatMessage(message: "This is a longer message that should wrap down to multiple lines", isIncoming: false),
-        ChatMessage(message: "Hello", isIncoming: true),
-        ChatMessage(message: "Hey!", isIncoming: false),
-        ChatMessage(message: "What's up?", isIncoming: true),
-        ChatMessage(message: "This is a longer message that should wrap down to multiple lines", isIncoming: false)
-    ]
+    var messages: [ConversationViewController.ChatMessage] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,7 +61,7 @@ class InitialConversationViewController: UIViewController, UITableViewDelegate, 
         if (messageTextField.text != "") {
             // nothing should happen if it is a empty message
             
-            self.messages.append(ChatMessage(message: self.messageTextField.text ?? "", isIncoming: false))
+            self.messages.append(ConversationViewController.ChatMessage(message: self.messageTextField.text ?? "", isIncoming: false))
             
             struct parameters: Encodable {
                 var userSender = ""

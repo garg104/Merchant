@@ -15,6 +15,9 @@ class ChatTableViewController: UITableViewController {
     var users: [String] = []
     var previews: [String] = []
     var messages: [NSArray] = []
+    var conversationIDs: [String] = []
+    var messagesTransfer: [ConversationViewController.ChatMessage] = []
+    
     
     func getConversations(completion: @escaping (_ validCode: Int)->()) {
         // #warning Incomplete implementation, return the number of sections
@@ -24,21 +27,18 @@ class ChatTableViewController: UITableViewController {
             if (response.response?.statusCode == 200) {
                 if let info = response.value {
                     let JSON = info as! NSDictionary
-                    debugPrint("JSON")
-//                    debugPrint(JSON)
-                    let conversations : NSArray =  JSON.value(forKey: "reversed") as! NSArray
-                    for conversation in conversations {
-                        let details = conversation as! NSDictionary
-                        let temp = details.value(forKey: "lastMessage")! as! NSDictionary
-                        let messages = details.value(forKey: "messages")! as! NSArray
-                        print(messages)
-                        self.users.append(details.value(forKey: "user")! as! String)
-                        self.previews.append(temp["text"]! as! String)
-                        self.messages.append(messages)
-                        
-//                        self.messages.append(temp["description"]! as! String)
-//                        self.itemIDs.append(temp["_id"]! as! String)
-//                        self.categories.append(Int(temp["category"] as! String)!)
+                    if (JSON.value(forKey: "reversed") != nil) { // make sure it is not empty
+                        let conversations: NSArray =  JSON.value(forKey: "reversed") as! NSArray
+                        for conversation in conversations {
+                            let details = conversation as! NSDictionary
+                            let temp = details.value(forKey: "lastMessage")! as! NSDictionary
+                            let messages = details.value(forKey: "messages")! as! NSArray
+                            print(messages)
+                            self.users.append(details.value(forKey: "user")! as! String)
+                            self.previews.append(temp["text"]! as! String)
+                            self.messages.append(messages)
+                            self.conversationIDs.append(details.value(forKey: "conversationID")! as! String)
+                        }
                     }
                 }
             } else {
@@ -62,8 +62,6 @@ class ChatTableViewController: UITableViewController {
             
         }.resume()
     }
-    
-    
     
     
     override func viewDidLoad() {
@@ -111,6 +109,15 @@ class ChatTableViewController: UITableViewController {
     
     @IBAction func refreshFeed(_ sender: UIBarButtonItem) {
         // TODO implement refresh functionality
+        self.users = []
+        self.previews = []
+        self.messages = []
+        self.messagesTransfer = []
+        
+        
+        getConversations() { (validCode) in
+            self.tableView.reloadData()
+        }
     }
     /*
      // Override to support conditional editing of the table view.
@@ -175,8 +182,23 @@ class ChatTableViewController: UITableViewController {
             
             let selectedItemIndex = indexPath.row
             itemDetailViewController.currentUser = currentUser
-//            itemDetailViewController.messages = messages[selectedItemIndex]
-            itemDetailViewController.userChattingWith = users[selectedItemIndex]
+            
+            
+            
+            
+            for message in self.messages[selectedItemIndex] {
+                print("HERERERRERERERERER")
+                let messageDictionary = message as! NSDictionary
+                print(messageDictionary["text"]!)
+                if (messageDictionary["sender"]! as! String == currentUser) {
+                    self.messagesTransfer.append(ConversationViewController.ChatMessage(message: messageDictionary["text"]! as! String , isIncoming: false))
+                } else {
+                    self.messagesTransfer.append(ConversationViewController.ChatMessage(message: messageDictionary["text"]! as! String , isIncoming: true))
+                }
+            }
+            itemDetailViewController.messages = self.messagesTransfer
+            itemDetailViewController.conversationID = self.conversationIDs[selectedItemIndex]
+            itemDetailViewController.userChattingWith = self.users[selectedItemIndex]
         }
     }
     

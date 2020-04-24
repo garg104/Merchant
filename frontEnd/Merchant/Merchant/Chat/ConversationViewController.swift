@@ -7,11 +7,9 @@
 //
 
 import UIKit
+import Alamofire
 
-struct ChatMessage {
-    let message: String
-    let isIncoming: Bool
-}
+
 
 class ConversationViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
     
@@ -20,24 +18,16 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var messageTextField: UITextField!
     
+    struct ChatMessage {
+        let message: String
+        let isIncoming: Bool
+    }
+    
     var conversationID = ""
     var currentUser = ""
     var userChattingWith = ""
     var keyboardHeight = 0
-    let messages = [
-        ChatMessage(message: "Hello", isIncoming: true),
-        ChatMessage(message: "Hey!", isIncoming: false),
-        ChatMessage(message: "What's up?", isIncoming: true),
-        ChatMessage(message: "This is a longer message that should wrap down to multiple lines", isIncoming: false),
-        ChatMessage(message: "Hello", isIncoming: true),
-        ChatMessage(message: "Hey!", isIncoming: false),
-        ChatMessage(message: "What's up?", isIncoming: true),
-        ChatMessage(message: "This is a longer message that should wrap down to multiple lines", isIncoming: false),
-        ChatMessage(message: "Hello", isIncoming: true),
-        ChatMessage(message: "Hey!", isIncoming: false),
-        ChatMessage(message: "What's up?", isIncoming: true),
-        ChatMessage(message: "This is a longer message that should wrap down to multiple lines", isIncoming: false)
-    ]
+    var messages: [ChatMessage] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,7 +64,54 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
     
     @IBAction func sendPressed(_ sender: UIButton) {
         //send the message
-        self.messageTextField.endEditing(true)
+//        self.messageTextField.endEditing(true)
+        if (messageTextField.text != "" && self.conversationID != "") {
+            // nothing should happen if message is empty or conversation ID doesn not exist
+            
+
+            
+            self.messages.append(ConversationViewController.ChatMessage(message: self.messageTextField.text ?? "", isIncoming: false))
+            
+            struct parameters: Encodable {
+                var userSender = ""
+                var userReceiver = ""
+                var message = ""
+                var conversationID = ""
+            }
+            
+            let details = parameters(userSender: self.currentUser, userReceiver: self.userChattingWith, message: messageTextField.text ?? "", conversationID: self.conversationID)
+            
+            self.messageTextField.text = ""
+            
+            AF.request(API.URL + "/user/message", method: .post, parameters: details, encoder: URLEncodedFormParameterEncoder.default).response { response in
+                
+                // deal with the request
+                if (response.response?.statusCode != 200) {
+                    debugPrint("ERROR")
+                    let alert = UIAlertController(title: "Error!", message: "Message could not be sent", preferredStyle: .alert)
+                    
+                    
+                    // Create Confirm button with action handler
+                    let confirm = UIAlertAction(title: "OK",
+                                                style: .default)
+                    
+                    // add actions to the alert
+                    alert.addAction(confirm)
+                    
+                    // display alert
+                    self.present(alert, animated: true)
+                } else {
+                    
+
+                }
+                
+                
+            }.resume()
+            
+            
+        } else {
+            debugPrint("empty message or conversation ID")
+        }
     }
     
     func scrollToBottom() {
