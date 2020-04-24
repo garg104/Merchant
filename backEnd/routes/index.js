@@ -16,9 +16,10 @@ router.get('/', function (req, res, next) {
 
 /* Route for adding a meeting location for the conversation */
 router.post('/meetingLocations', authenticate, async (req, res) => {
-  const { conversationID, latitude, longitude, address, title, receiverUsername } = req.body
+  const { id, latitude, longitude, address, title, receiverUsername } = req.body
+  console.log(id)
   try {
-    const conversation = await Conversations.findById(conversationID)
+    const conversation = await Conversations.findOne({ _id: id })
 
     //create a pusher instance
     let pusher = new Pusher({
@@ -33,10 +34,11 @@ router.post('/meetingLocations', authenticate, async (req, res) => {
 
     if (conversation) {
       try {
+        console.log(latitude, longitude, address, title)
         const location = new Location({ latitude, longitude, address, title })
         const savedLocation = await location.save()
         conversation.meeting = savedLocation._id
-        await Conversations.findByIdAndUpdate(conversationID, { ...conversation })
+        await Conversations.findByIdAndUpdate(id, { meeting: conversation.meeting })
         //sending the push notification
         const ret = await dispatchAPNViaFirebase(req.userInfo.username,
           receiverUsername,
@@ -44,8 +46,11 @@ router.post('/meetingLocations', authenticate, async (req, res) => {
         pusher.trigger(channelName, 'map-location', { "location": location });
         res.status(200).json({ location, msg: "Location has been saved" })
       } catch (e) {
+        console.log(e.message)
         res.status(400).json({ msg: "Location couldn't be updated" })
       } //end try-catch
+    } else {
+      res.status(404).send({ msg: 'Could not find a conversation' })
     }
   } catch (e) {
     console.log(e.message)

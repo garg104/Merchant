@@ -84,8 +84,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                 if let location = data["location"] as? NSDictionary {
                     let latitude : NSNumber =  location.value(forKey: "latitude") as! NSNumber
                     let longitude : NSNumber =  location.value(forKey: "longitude") as! NSNumber
-                    let title : String =  location.value(forKey: "latitude") as! String
-                    let address : String =  location.value(forKey: "latitude") as! String
+                    let title : String =  location.value(forKey: "title") as! String
+                    let address : String =  location.value(forKey: "address") as! String
                     debugPrint("GOT LOCATION", latitude, longitude)
                     self.mapView.centerToLocation(CLLocation(latitude: CLLocationDegrees(truncating: latitude), longitude: CLLocationDegrees(truncating: longitude)))
 //                    let place = Place(title: title, address: address, coordinate: )
@@ -196,6 +196,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                                longitude: placeCoords.longitude,
                                address: placeAddress ?? "",
                                title: placeName ?? "")
+        
+        debugPrint("PARAMS", params)
         
         AF.request(API.URL + "/meetingLocations", method: .post,
                    parameters: params, headers: headers).responseJSON { response in
