@@ -70,7 +70,9 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
         
         
         // subscribe to channel
-        let channel = pusher.subscribe("my-channel")
+        let channelName = currentUser + "-" + userChattingWith
+        print(channelName)
+        let channel = pusher.subscribe(channelName)
         
         // bind a callback to handle an event
         let _ = channel.bind(eventName: "my-event", callback: { (data: Any?) -> Void in

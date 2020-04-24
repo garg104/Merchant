@@ -769,6 +769,9 @@ router.post('/message', async (req, res) => {
       cluster: 'us2',
       encrypted: true
     });
+
+    let channelName = userReceiver.username + "-" + userSender.username
+    console.log(channelName)
     
     console.log("converation ID is " + conversationID)
 
@@ -777,7 +780,7 @@ router.post('/message', async (req, res) => {
       console.log("in new Conversation")
       let messages = []
       messages.push({ userIDSender: userSender._id, userIDReceiver: userReceiver._id, sender: userSender.username, text: message , time : dateTime})
-      console.log(messages)
+      // console.log(messages)
       let last = {
         time: dateTime,
         text: message
@@ -790,7 +793,7 @@ router.post('/message', async (req, res) => {
       let ret = await User.findByIdAndUpdate({ _id: userReceiver._id }, { chats: userReceiver.chats })
       ret = await User.findByIdAndUpdate({ _id: userSender._id }, { chats: userSender.chats })
       ret = await dispatchAPNViaFirebase(userSender.username, userReceiver.username, message)
-      pusher.trigger('my-channel', 'my-event', {"message": message});
+      pusher.trigger(channelName, 'my-event', {"message": message});
       res.status(200).json({ msg: "success",  conversation: conversation})
     } else {
       // the chat alrady exists
@@ -813,9 +816,9 @@ router.post('/message', async (req, res) => {
 
       // ret = await User.findByIdAndUpdate({ _id: userIDSender._id }, {  })
 
-      console.log(ret)
+      // console.log(ret)
       ret = await dispatchAPNViaFirebase(userSender.username, userReceiver.username, message)
-      pusher.trigger('my-channel', 'my-event', {"message": message});
+      pusher.trigger(channelName, 'my-event', {"message": message});
       res.status(200).json({ msg: "success",  conversation: conversation})
 
     }
