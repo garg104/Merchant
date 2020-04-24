@@ -25,7 +25,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     var receiver = ""
     var userChattingWith = ""
     var selectedAnnotation: MKPointAnnotation?
-    var proposedPlace = Place(title: "Temporary place", address: "123 Sesame St", coordinate: CLLocationCoordinate2D(latitude: 40.4237, longitude: -86.9200))
+    var proposedPlace = Place(title: "Not chosen", address: "Not chosen", coordinate: CLLocationCoordinate2D(latitude: 40.4237, longitude: -86.9200))
     var locationManager = CLLocationManager()
     var currLocation: Place!
 
@@ -128,15 +128,14 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     // locationManager delegate
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        print("GETTING CURRENT LOCATION")
         guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
         let title = currentUser + "'s Current Location"
         currLocation = Place(title: title, address: "Not specified", coordinate: locValue)
-        print("HERE")
     }
     
     @IBAction func shareLocationPressed(_ sender: Any) {
         //TODO change the fill of button
+        mapView.addAnnotation(currLocation)
         
     }
     
@@ -157,6 +156,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
 //        annotation.coordinate = coordinate
 //        annotation.title = "Custom pin"
         mapView.addAnnotation(place)
+        mapView.centerToLocation(CLLocation(latitude: place.coordinate.latitude, longitude: place.coordinate.longitude))
     }
     
     //function to take the response from web service center the point
