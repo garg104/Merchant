@@ -136,6 +136,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     @IBAction func shareLocationPressed(_ sender: Any) {
         //TODO change the fill of button
         mapView.addAnnotation(currLocation)
+        mapView.centerToLocation(CLLocation(latitude: currLocation.coordinate.latitude, longitude: currLocation.coordinate.longitude))
         
     }
     
