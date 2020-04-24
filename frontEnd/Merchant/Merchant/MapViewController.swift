@@ -37,7 +37,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                    if let res = response.value {
                        let responseJSON = res as! NSDictionary
                        let location : NSDictionary =  responseJSON.value(forKey: "location") as! NSDictionary
-                       self.addPointToMapAndRecenter(location: location)
+                       self.addPointToMapAndRecenter(location: location, current: false)
                    } //end if
                } //end if
            }.resume()
@@ -83,7 +83,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                 if let res = response.value {
                     let responseJSON = res as! NSDictionary
                     let location : NSDictionary =  responseJSON.value(forKey: "location") as! NSDictionary
-                    self.addPointToMapAndRecenter(location: location)
+                    self.addPointToMapAndRecenter(location: location, current: false)
                 } //end if
             } //end if
         }.resume()
@@ -110,7 +110,23 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             if let data = data as? [String : AnyObject] {
                 if let location = data["location"] as? NSDictionary {
                     //getting the function response parameters
-                    self.addPointToMapAndRecenter(location: location)
+                    self.addPointToMapAndRecenter(location: location, current: false)
+                } //end if
+            } //end if
+        })
+        
+        
+        // subscribe to channel
+        let channelNameCurrent = userChattingWith + "-" + currentUser + "-maps-current"
+        print(channelName)
+        let channelCurrent = pusher.subscribe(channelNameCurrent)
+        
+        // bind a callback to handle an event
+        let _ = channelCurrent.bind(eventName: "map-location-current", callback: { (data: Any?) -> Void in
+            if let data = data as? [String : AnyObject] {
+                if let location = data["location"] as? NSDictionary {
+                    //getting the function response parameters
+                    self.addPointToMapAndRecenter(location: location, current: true)
                 } //end if
             } //end if
         })
@@ -123,7 +139,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             locationManager.delegate = self
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             locationManager.startUpdatingLocation()
-
         }
     }
     
@@ -159,7 +174,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     }
     
     //function to take the response from web service center the point
-    func addPointToMapAndRecenter(location: NSDictionary) {
+    func addPointToMapAndRecenter(location: NSDictionary, current: Bool) {
         //getting the function response parameters
         let latitude : NSNumber =  location.value(forKey: "latitude") as! NSNumber
         let longitude : NSNumber =  location.value(forKey: "longitude") as! NSNumber
@@ -170,8 +185,14 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         let coordinate = CLLocationCoordinate2D(latitude: CLLocationDegrees(Double(truncating: latitude)), longitude: CLLocationDegrees(Double(truncating: longitude)))
 
         // Add annotation
-        let place = Place(title: "\(self.userChattingWith)'s suggestion: \(title)",
+        var place: Place
+        if (current == true) {
+            place = Place(title: "\(title)",
+                address: "\(address)", coordinate: coordinate)
+        } else {
+            place = Place(title: "\(self.userChattingWith)'s suggestion: \(title)",
             address: "\(address)", coordinate: coordinate)
+        }
     
         //adding annotation
         self.mapView.addAnnotation(place)
@@ -270,6 +291,51 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                 } else {
                     debugPrint("ERROR")
                     let alert = UIAlertController(title: "Meeting Location", message: "Your suggested meeting location couldn't be shared. Try Again!", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
+                    self.present(alert, animated: true)
+                }
+            }.resume()
+    }
+    
+    // handler for when share button is pressed
+    func shareCurrentLocation(_ place: Place) {
+        let placeName = place.title
+        let placeAddress = place.address
+        let placeCoords = place.coordinate
+    
+        // TODO: Aakarshit - please store coordinates (placeCoords.latitude and placeCoords.longitude) in the database however you see fit
+        
+        let headers: HTTPHeaders = [
+            "Authorization": Authentication.getAuthToken(),
+            "Accept": "application/json"
+        ]
+        
+        struct parameter: Encodable {
+            var latitude: Double
+            var longitude: Double
+            var address: String
+            var title: String
+            var receiverUsername: String
+        }
+        
+        let params = parameter(latitude: placeCoords.latitude,
+                               longitude: placeCoords.longitude,
+                               address: placeAddress ?? "",
+                               title: "\(userChattingWith)'s current location",
+                               receiverUsername: self.userChattingWith)
+        
+        debugPrint("PARAMS", params)
+        
+        AF.request(API.URL + "/sendCurrentLocation", method: .post,
+                   parameters: params, headers: headers).responseJSON { response in
+                if (response.response?.statusCode == 200) {
+                   //the meeting location for the conversation has been saved
+                    let alert = UIAlertController(title: "Meeting Location", message: "Your current location has been shared with \(self.userChattingWith)", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
+                    self.present(alert, animated: true)
+                } else {
+                    debugPrint("ERROR")
+                    let alert = UIAlertController(title: "Meeting Location", message: "Your current location couldn't be shared. Try Again!", preferredStyle: .alert)
                     alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
                     self.present(alert, animated: true)
                 }
