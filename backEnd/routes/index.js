@@ -84,6 +84,48 @@ router.post('/meetingLocations', authenticate, async (req, res) => {
   }
 })
 
+/* Route for adding a meeting location for the conversation */
+router.post('/sendCurrentLocation', authenticate, async (req, res) => {
+  const { latitude, longitude, address, title, receiverUsername } = req.body
+  try {
+    // const conversation = await Conversations.findOne({ _id: id })
+
+    //create a pusher instance
+    let pusher = new Pusher({
+      appId: '988508',
+      key: '0abb5543b425a847ea81',
+      secret: '28b34e176e9568cd6048',
+      cluster: 'us2',
+      encrypted: true
+    });
+
+    let channelName = req.userInfo.username + '-' + receiverUsername + '-maps-current'
+
+    // if (conversation) {
+    try {
+      console.log(latitude, longitude, address, title)
+      const location = new Location({ latitude, longitude, address, title })
+      const savedLocation = await location.save()
+      //sending the push notification
+      const ret = await dispatchAPNViaFirebase(req.userInfo.username,
+        receiverUsername,
+        `${receiverUsername} has updated their current location`)
+      pusher.trigger(channelName, 'map-location-current', { "location": location });
+      res.status(200).json({ location, msg: "Location has been sent" })
+    } catch (e) {
+      console.log(e.message)
+      res.status(400).json({ msg: "Location couldn't be sent" })
+    } //end try-catch
+    // } else {
+    //   res.status(404).send({ msg: 'Could not find a conversation' })
+    // }
+  } catch (e) {
+    console.log(e.message)
+    res.status(401).json({ msg: e.message })
+
+  }
+})
+
 router.get('/safeLocations', authenticate, async (req, res) => {
   try {
     const safeLocations = await Location.find({ isSafe: true })
