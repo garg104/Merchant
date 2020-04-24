@@ -77,8 +77,9 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
             if let data = data as? [String : AnyObject] {
                 if let message = data["message"] as? String {
                     print(message)
-                    self.messages.append(ConversationViewController.ChatMessage(message: message, isIncoming: false))
-
+                    self.messages.append(ConversationViewController.ChatMessage(message: message, isIncoming: true))
+                    self.conversationTableView.reloadData()
+                    self.scrollToBottom()
                 }
             }
         })

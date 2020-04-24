@@ -187,9 +187,7 @@ class ChatTableViewController: UITableViewController {
             
             
             
-            
             for message in self.messages[selectedItemIndex] {
-                print("HERERERRERERERERER")
                 let messageDictionary = message as! NSDictionary
                 print(messageDictionary["text"]!)
                 if (messageDictionary["sender"]! as! String == currentUser) {
@@ -198,7 +196,7 @@ class ChatTableViewController: UITableViewController {
                     self.messagesTransfer.append(ConversationViewController.ChatMessage(message: messageDictionary["text"]! as! String , isIncoming: true))
                 }
             }
-            itemDetailViewController.messages = self.messagesTransfer
+            itemDetailViewController.messages = self.messagesTransfer.reversed()
             itemDetailViewController.conversationID = self.conversationIDs[selectedItemIndex]
             itemDetailViewController.userChattingWith = self.users[selectedItemIndex]
         }

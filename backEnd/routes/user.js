@@ -13,6 +13,7 @@ import { config, getProfilePictureSchemas } from '../utils/fileHandling'
 const upload = config('profile-pictures')
 const randomstring = require('../node_modules/randomstring')
 import { dispatchAPNViaFirebase } from  '../utils/pushNotification'
+const Pusher = require('pusher')
 
 /* GET users listing. (for debugging) */
 router.get('/', async (req, res) => {
@@ -761,6 +762,14 @@ router.post('/message', async (req, res) => {
     var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
     var dateTime = date + ' ' + time;
 
+    var pusher = new Pusher({
+      appId: '988508',
+      key: '0abb5543b425a847ea81',
+      secret: '28b34e176e9568cd6048',
+      cluster: 'us2',
+      encrypted: true
+    });
+    
     console.log("converation ID is " + conversationID)
 
     if(conversationID == "") {
@@ -781,8 +790,8 @@ router.post('/message', async (req, res) => {
       let ret = await User.findByIdAndUpdate({ _id: userReceiver._id }, { chats: userReceiver.chats })
       ret = await User.findByIdAndUpdate({ _id: userSender._id }, { chats: userSender.chats })
       ret = await dispatchAPNViaFirebase(userSender.username, userReceiver.username, message)
+      pusher.trigger('my-channel', 'my-event', {"message": message});
       res.status(200).json({ msg: "success",  conversation: conversation})
-
     } else {
       // the chat alrady exists
       console.log("Conversation already exists")
@@ -806,11 +815,10 @@ router.post('/message', async (req, res) => {
 
       console.log(ret)
       ret = await dispatchAPNViaFirebase(userSender.username, userReceiver.username, message)
+      pusher.trigger('my-channel', 'my-event', {"message": message});
       res.status(200).json({ msg: "success",  conversation: conversation})
 
     }
-
-
 
     // res.status(200).json({ msg: "success",  conversation: conversation})
   } catch (error) {
