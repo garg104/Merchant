@@ -72,6 +72,9 @@ class BuyDetailViewController: UIViewController {
     var imageHeight = CGRect()
     var imageWidth = CGRect()
     
+    var messages: [NSArray] = []
+
+    
     @IBOutlet weak var wishlistButton: UIBarButtonItem!
     @IBOutlet weak var itemImageView: UIImageView!
     @IBOutlet weak var itemPriceLabel: UILabel!
@@ -383,13 +386,24 @@ class BuyDetailViewController: UIViewController {
             vc.currentUser = self.currentUser
         }
         if (segue.identifier == "toInitialConversation") {
-            checkIfChatExists()
             let vc = segue.destination as! InitialConversationViewController
+            checkIfChatExists()
+            print("after function")
+
+            for message in self.messages {
+                let messageDictionary = message as! NSDictionary
+                print(messageDictionary["text"]!)
+//                if (messageDictionary["sender"]! as! String == currentUser) {
+//                    self.messagesTransfer.append(ConversationViewController.ChatMessage(message: messageDictionary["text"]! as! String , isIncoming: false))
+//                } else {
+//                    self.messagesTransfer.append(ConversationViewController.ChatMessage(message: messageDictionary["text"]! as! String , isIncoming: true))
+//                }
+            }
             vc.currentUser = self.currentUser
             vc.userChattingWith = self.itemSeller
         }
     }
-    func checkIfChatExists() {
+    func checkIfChatExists(completion: @escaping (_ validCode: Int)->()) {
         struct parameters: Encodable {
             var userSender = ""
             var userReceiver = ""
@@ -417,21 +431,15 @@ class BuyDetailViewController: UIViewController {
             } else {
                 if let info = response.value {
                     let JSON = info as! NSDictionary
-                    print(JSON)
-//                    if (JSON.value(forKey: "chatExists") == true) { // make sure it is not empty
-//                        let conversations: NSArray =  JSON.value(forKey: "reversed") as! NSArray
-//                        for conversation in conversations {
-//                            let details = conversation as! NSDictionary
-//                            let temp = details.value(forKey: "lastMessage")! as! NSDictionary
-//                            let messages = details.value(forKey: "messages")! as! NSArray
-//                            print(messages)
-////                            self.users.append(details.value(forKey: "user")! as! String)
-////                            self.previews.append(temp["text"]! as! String)
-////                            self.messages.append(messages)
-////                            self.conversationIDs.append(details.value(forKey: "conversationID")! as! String)
-//
-//                        }
-//                    }
+                    print(JSON.value(forKey: "chatExists")!)
+                    if (JSON.value(forKey: "chatExists") as! Int? == 1) {
+                        // make sure it is not empty
+//                        print(JSON.value(forKey: "messages")!)
+                        let conversation: NSDictionary =  JSON.value(forKey: "messages") as! NSDictionary
+                        let messages: NSArray = conversation["messages"] as! NSArray
+                        print(messages)
+                        self.messages.append(messages)
+                    }
                 }
 
             }
