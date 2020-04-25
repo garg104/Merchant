@@ -138,7 +138,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             self.locationManager.requestAlwaysAuthorization()
             self.locationManager.requestWhenInUseAuthorization()
             locationManager = CLLocationManager()
-            locationAllowed = true
             locationManager.delegate = self
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             locationManager.startUpdatingLocation()
@@ -148,6 +147,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     // locationManager delegate
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         print("UPDATING LOCATION")
+        self.locationAllowed = true
         guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
         let title = currentUser + "'s Current Location"
         currLocation = Place(title: title, address: "Not specified", coordinate: locValue)
