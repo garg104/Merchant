@@ -388,6 +388,38 @@ class BuyDetailViewController: UIViewController {
             vc.userChattingWith = self.itemSeller
         }
     }
+    func checkIfChatExists(<#parameters#>) -> <#return type#> {
+        struct parameters: Encodable {
+            var userSender = ""
+            var userReceiver = ""
+        }
+        
+        let details = parameters(userSender: self.currentUser,
+                                 userReceiver: self.itemSeller)
+        AF.request(API.URL + "/user/chatExists", method: .post, parameters: details, encoder: URLEncodedFormParameterEncoder.default).responseJSON { response in
+            
+            // deal with the request
+            if (response.response?.statusCode != 200) {
+                debugPrint("ERROR")
+                let alert = UIAlertController(title: "Error!", message: "Message could not be sent", preferredStyle: .alert)
+                
+                
+                // Create Confirm button with action handler
+                let confirm = UIAlertAction(title: "OK",
+                                            style: .default)
+                
+                // add actions to the alert
+                alert.addAction(confirm)
+                
+                // display alert
+                self.present(alert, animated: true)
+            } else {
+                
+
+            }
+            
+        }.resume()
+    }
     
     func getItems(completion: @escaping (_ validCode: Int)->()) {
             

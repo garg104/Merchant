@@ -901,12 +901,48 @@ router.post('/chatExists', async (req, res) => {
     console.log(userSender)
     console.log(userReceiver)
 
-    userSender.chats.forEach(chat => {
-      
-    })
-    
+    let tempIdentifier1 = userReceiver._id + "-" + userSender._id 
+    let tempIdentifier2 = userSender._id + "-" + userReceiver._id 
+    let chatExists = false
+    let prevConversation = {}
+    await Promise.all(userSender.chats.map(async chat =>  {
+      return new Promise(async (resolve, reject) => {
+        let conversation = await Conversations.findById({ _id: chat })
+        console.log(tempIdentifier1)
+        console.log(tempIdentifier2)
+        console.log(conversation.identifier)
+        if ((`${tempIdentifier1}`.localeCompare(`${conversation.identifier}`) === 0) ||
+            (`${tempIdentifier2}`.localeCompare(`${conversation.identifier}`) === 0)) {
+          chatExists = true
+          prevConversation = conversation
+        }
+        resolve()
+      })
+    }))
 
-    // res.status(200).json({ msg: "success",  conversation: conversation})
+    if (chatExists) {
+      let conversation = prevConversation
+      let otherUser = {}
+      let messages = conversation.messages.reverse()
+      console.log(conversation.user2)
+      console.log(`${userSender._id}`.localeCompare(`${conversation.user2}`) === 0)
+      if (`${userSender._id}`.localeCompare(`${conversation.user2}`) === 0) {
+        otherUser = await User.findById({ _id : conversation.user1._id })
+      } else {
+        otherUser = await User.findById({ _id : conversation.user2._id })
+      }
+      let temp = {
+        user: otherUser.username,
+        messages: messages,
+        lastMessage: conversation.lastMessage,
+        conversationID: conversation._id
+      }
+      res.status(200).json({ chatExists: chatExists, messages: temp })
+    } else {
+      res.status(200).json({ chatExists: chatExists, messages: {} })
+    }
+
+
   } catch (error) {
     console.log(error)
     res.status(404).json({ msg: error })
