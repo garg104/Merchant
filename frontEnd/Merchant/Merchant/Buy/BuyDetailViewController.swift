@@ -383,12 +383,13 @@ class BuyDetailViewController: UIViewController {
             vc.currentUser = self.currentUser
         }
         if (segue.identifier == "toInitialConversation") {
+            checkIfChatExists()
             let vc = segue.destination as! InitialConversationViewController
             vc.currentUser = self.currentUser
             vc.userChattingWith = self.itemSeller
         }
     }
-    func checkIfChatExists(<#parameters#>) -> <#return type#> {
+    func checkIfChatExists() {
         struct parameters: Encodable {
             var userSender = ""
             var userReceiver = ""
@@ -414,7 +415,24 @@ class BuyDetailViewController: UIViewController {
                 // display alert
                 self.present(alert, animated: true)
             } else {
-                
+                if let info = response.value {
+                    let JSON = info as! NSDictionary
+                    print(JSON)
+//                    if (JSON.value(forKey: "chatExists") == true) { // make sure it is not empty
+//                        let conversations: NSArray =  JSON.value(forKey: "reversed") as! NSArray
+//                        for conversation in conversations {
+//                            let details = conversation as! NSDictionary
+//                            let temp = details.value(forKey: "lastMessage")! as! NSDictionary
+//                            let messages = details.value(forKey: "messages")! as! NSArray
+//                            print(messages)
+////                            self.users.append(details.value(forKey: "user")! as! String)
+////                            self.previews.append(temp["text"]! as! String)
+////                            self.messages.append(messages)
+////                            self.conversationIDs.append(details.value(forKey: "conversationID")! as! String)
+//
+//                        }
+//                    }
+                }
 
             }
             
