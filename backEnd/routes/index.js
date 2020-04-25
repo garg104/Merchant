@@ -170,10 +170,12 @@ router.post('/deleteConversation', authenticate, async (req, res) => {
       if (`${element}`.localeCompare(`${id}`) === 0) {
   
       } else {
+        console.log(element)
+        console.log(id)
         chats.push(element)
       }
     });
-    let ret = User.findByIdAndUpdate({ _id: user._id }, { chats: chats })
+    let ret = await User.findByIdAndUpdate({ _id: user._id }, { chats: chats })
     // check if the other user has the chat or not
     let chatPresent = false
     otherUser.chats.forEach(element => {
