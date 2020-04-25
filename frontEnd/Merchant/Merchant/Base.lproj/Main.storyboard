@@ -338,14 +338,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="0000" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="NDP-Nm-Tqt">
-                                <rect key="frame" x="16" y="119" width="343" height="96"/>
+                                <rect key="frame" x="16" y="119" width="343" height="97"/>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="68"/>
                                 <textInputTraits key="textInputTraits" keyboardType="numberPad" textContentType="one-time-code"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9eI-F4-kOL">
-                                <rect key="frame" x="16" y="223" width="343" height="64"/>
+                                <rect key="frame" x="16" y="224" width="343" height="64"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="64" id="732-RP-2EY"/>
@@ -365,7 +365,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jfG-bE-Z7Z">
-                                <rect key="frame" x="16" y="299" width="343" height="36"/>
+                                <rect key="frame" x="16" y="300" width="343" height="36"/>
                                 <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="17"/>
                                 <state key="normal" title="Resend Code">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1383,7 +1383,7 @@
                                         <string key="content">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                         <attributes>
                                             <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                            <font key="NSFont" metaFont="menu" size="14"/>
+                                            <font key="NSFont" metaFont="system" size="14"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
                                     </fragment>
@@ -1413,7 +1413,7 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <action selector="initiateConversationClicked:" destination="nrs-E5-yiA" eventType="touchUpInside" id="bVR-1N-2Es"/>
+                                    <segue destination="roS-DU-Ek9" kind="presentation" identifier="toInitialConversation" id="Sev-go-wQ7"/>
                                 </connections>
                             </button>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="98z-wJ-4CF">
@@ -1521,7 +1521,6 @@
                         <outlet property="rewiewButton" destination="DmA-DY-tft" id="ZJp-LQ-UgB"/>
                         <outlet property="viewProfileButton" destination="XBm-xw-byP" id="ZfN-fH-gxe"/>
                         <outlet property="wishlistButton" destination="P5i-Lt-lZS" id="A7W-Bl-RLe"/>
-                        <segue destination="roS-DU-Ek9" kind="presentation" identifier="toInitialConversation" id="k4I-eP-acr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RI1-EP-axY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1708,7 +1707,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qnQ-np-RKV">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qnQ-np-RKV">
                                 <rect key="frame" x="0.0" y="140" width="375" height="223.33333333333337"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="223.33000000000001" id="RpY-gy-93Y"/>
@@ -1731,7 +1730,7 @@
                                         <string key="content">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                         <attributes>
                                             <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                            <font key="NSFont" metaFont="menu" size="14"/>
+                                            <font key="NSFont" metaFont="system" size="14"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
                                     </fragment>
@@ -2258,7 +2257,7 @@
                                         <string key="content">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                         <attributes>
                                             <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                            <font key="NSFont" metaFont="menu" size="14"/>
+                                            <font key="NSFont" metaFont="system" size="14"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
                                     </fragment>
@@ -2419,21 +2418,29 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="7AG-rl-qWf">
-                                <rect key="frame" x="0.0" y="63" width="375" height="695"/>
+                                <rect key="frame" x="0.0" y="62" width="375" height="696"/>
                             </mapView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nxD-Mu-7Me">
-                                <rect key="frame" x="16" y="20" width="292" height="30"/>
-                                <state key="normal" title="Button"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="29"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <state key="normal" title="waiting for suggestion..."/>
                                 <connections>
                                     <action selector="getSuggestedAddress:" destination="ARO-pI-igT" eventType="touchUpInside" id="2SX-aj-olG"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LCB-D1-n9A">
-                                <rect key="frame" x="329" y="20" width="30" height="30"/>
+                                <rect key="frame" x="317" y="82" width="42" height="42"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="30" id="xYu-jw-UKv"/>
+                                    <constraint firstAttribute="height" constant="42" id="Jnf-RL-YqR"/>
+                                    <constraint firstAttribute="width" constant="42" id="fUy-PD-26f"/>
                                 </constraints>
                                 <state key="normal" image="location" catalog="system"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="shareLocationPressed:" destination="ARO-pI-igT" eventType="touchUpInside" id="o5Y-2U-isq"/>
                                 </connections>
@@ -2441,16 +2448,15 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="nxD-Mu-7Me" firstAttribute="top" secondItem="LCB-D1-n9A" secondAttribute="top" id="F3n-BT-ai3"/>
-                            <constraint firstItem="nxD-Mu-7Me" firstAttribute="leading" secondItem="JmW-s5-gi4" secondAttribute="leadingMargin" id="KR4-Nw-obZ"/>
-                            <constraint firstItem="nxD-Mu-7Me" firstAttribute="bottom" secondItem="LCB-D1-n9A" secondAttribute="bottom" id="Lbq-Ru-7Xd"/>
-                            <constraint firstItem="7AG-rl-qWf" firstAttribute="centerX" secondItem="JmW-s5-gi4" secondAttribute="centerX" id="OrJ-GN-vd2"/>
-                            <constraint firstItem="LCB-D1-n9A" firstAttribute="leading" secondItem="nxD-Mu-7Me" secondAttribute="trailing" constant="21" id="Prv-uh-Z91"/>
-                            <constraint firstAttribute="bottomMargin" secondItem="7AG-rl-qWf" secondAttribute="bottom" constant="-34" id="W2V-SX-gZI"/>
-                            <constraint firstItem="nxD-Mu-7Me" firstAttribute="top" secondItem="omL-1g-7Xe" secondAttribute="top" constant="20" id="cNx-w8-SUh"/>
-                            <constraint firstItem="7AG-rl-qWf" firstAttribute="leading" secondItem="omL-1g-7Xe" secondAttribute="leading" id="ccG-zO-YtC"/>
-                            <constraint firstItem="LCB-D1-n9A" firstAttribute="trailing" secondItem="JmW-s5-gi4" secondAttribute="trailingMargin" id="jBX-yL-Yhd"/>
-                            <constraint firstItem="7AG-rl-qWf" firstAttribute="top" secondItem="nxD-Mu-7Me" secondAttribute="bottom" constant="13" id="xTL-Aa-WDa"/>
+                            <constraint firstItem="nxD-Mu-7Me" firstAttribute="leading" secondItem="omL-1g-7Xe" secondAttribute="leading" id="6gy-mu-arf"/>
+                            <constraint firstItem="nxD-Mu-7Me" firstAttribute="trailing" secondItem="omL-1g-7Xe" secondAttribute="trailing" id="E9Q-gB-A12"/>
+                            <constraint firstItem="7AG-rl-qWf" firstAttribute="trailing" secondItem="omL-1g-7Xe" secondAttribute="trailing" id="IvX-cX-LnR"/>
+                            <constraint firstItem="LCB-D1-n9A" firstAttribute="leading" secondItem="7AG-rl-qWf" secondAttribute="trailing" constant="-58" id="czY-OE-9fr"/>
+                            <constraint firstItem="7AG-rl-qWf" firstAttribute="leading" secondItem="omL-1g-7Xe" secondAttribute="leading" id="dki-LQ-538"/>
+                            <constraint firstItem="7AG-rl-qWf" firstAttribute="top" secondItem="LCB-D1-n9A" secondAttribute="bottom" constant="-62" id="tfx-Cc-NLh"/>
+                            <constraint firstAttribute="bottom" secondItem="7AG-rl-qWf" secondAttribute="bottom" id="uKz-g4-2FN"/>
+                            <constraint firstItem="nxD-Mu-7Me" firstAttribute="top" secondItem="omL-1g-7Xe" secondAttribute="top" constant="20" id="wAD-PV-Kaj"/>
+                            <constraint firstItem="7AG-rl-qWf" firstAttribute="top" secondItem="nxD-Mu-7Me" secondAttribute="bottom" constant="13" id="zzx-KW-so5"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="omL-1g-7Xe"/>
                     </view>
@@ -2766,7 +2772,7 @@
                                         <string key="content">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                         <attributes>
                                             <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                            <font key="NSFont" metaFont="menu" size="14"/>
+                                            <font key="NSFont" metaFont="system" size="14"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
                                     </fragment>
