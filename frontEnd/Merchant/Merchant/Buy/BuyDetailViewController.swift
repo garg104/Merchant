@@ -385,27 +385,31 @@ class BuyDetailViewController: UIViewController {
             vc.itemSeller = self.itemSeller
             vc.currentUser = self.currentUser
         }
+        
         if (segue.identifier == "toInitialConversation") {
             let vc = segue.destination as! InitialConversationViewController
-            checkIfChatExists() {(validCode) in
-                print("after function")
-//                for message in self.messages {
-//                                let messageDictionary = message as! NSDictionary
-//                                print(messageDictionary["text"]!)
-//                //                if (messageDictionary["sender"]! as! String == currentUser) {
-//                //                    self.messagesTransfer.append(ConversationViewController.ChatMessage(message: messageDictionary["text"]! as! String , isIncoming: false))
-//                //                } else {
-//                //                    self.messagesTransfer.append(ConversationViewController.ChatMessage(message: messageDictionary["text"]! as! String , isIncoming: true))
-//                //                }
-//                            }
-
-            }
-
-            
             vc.currentUser = self.currentUser
             vc.userChattingWith = self.itemSeller
         }
     }
+    
+    @IBAction func initiateConversationClicked(_ sender: Any) {
+        checkIfChatExists() {(validCode) in
+            print("after function")
+        //                for message in self.messages {
+        //                                let messageDictionary = message as! NSDictionary
+        //                                print(messageDictionary["text"]!)
+        //                //                if (messageDictionary["sender"]! as! String == currentUser) {
+        //                //                    self.messagesTransfer.append(ConversationViewController.ChatMessage(message: messageDictionary["text"]! as! String , isIncoming: false))
+        //                //                } else {
+        //                //                    self.messagesTransfer.append(ConversationViewController.ChatMessage(message: messageDictionary["text"]! as! String , isIncoming: true))
+        //                //                }
+        //                            }
+            self.performSegue(withIdentifier: "toInitialConversation", sender: nil)
+        }
+        
+    }
+    
     func checkIfChatExists(completion: @escaping (_ validCode: Int)->()) {
         struct parameters: Encodable {
             var userSender = ""
@@ -444,10 +448,10 @@ class BuyDetailViewController: UIViewController {
                         self.messages.append(messages)
                     }
                 }
-
+                completion(0)
             }
         }.resume()
-        completion(0)
+        
         
     }
     
