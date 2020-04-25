@@ -88,16 +88,6 @@ class ChatTableViewController: UITableViewController {
             self.tableView.reloadData()
         }
         
-        
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-        
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
-        
-        //TODO
-        //load in conversations for current user with both the user they are chatting with
-        //and a preview (the last message sent)
     }
     
     // MARK: - Table view data source

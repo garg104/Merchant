@@ -10,7 +10,7 @@ import UIKit
 import Alamofire
 
 public extension UIDevice {
-
+    
     static let modelName: String = {
         var systemInfo = utsname()
         uname(&systemInfo)
@@ -19,7 +19,7 @@ public extension UIDevice {
             guard let value = element.value as? Int8, value != 0 else { return identifier }
             return identifier + String(UnicodeScalar(UInt8(value)))
         }
-
+        
         func mapToDevice(identifier: String) -> String { // swiftlint:disable:this cyclomatic_complexity
             #if os(iOS)
             switch identifier {
@@ -49,10 +49,10 @@ public extension UIDevice {
             }
             #endif
         }
-
+        
         return mapToDevice(identifier: identifier)
     }()
-
+    
 }
 
 class BuyDetailViewController: UIViewController {
@@ -73,7 +73,9 @@ class BuyDetailViewController: UIViewController {
     var imageWidth = CGRect()
     
     var messages: [NSArray] = []
-
+    var messagesTransfer: [ConversationViewController.ChatMessage] = []
+    var conversationID: String = ""
+    
     
     @IBOutlet weak var wishlistButton: UIBarButtonItem!
     @IBOutlet weak var itemImageView: UIImageView!
@@ -99,22 +101,22 @@ class BuyDetailViewController: UIViewController {
         ]
         
         if (itemInWishlist) {
-           //Removing the item from wish list
-           let itemDetail = removeParams(itemID: self.itemId)
-           AF.request(API.URL + "/items/removeFromWishlist/", method: .post, parameters: itemDetail, headers: headers).responseJSON { response in
-               var title = "Error in wishlist"
-               var message = "Item couldn't be removed from the wish list, try again"
-               if (response.response?.statusCode == 200) {
-                   title = "Item succesfully removed"
-                   message = "Item has been successfully removed from the wishlist"
-                   StateManager.updateWishlist = true;
-                   self.itemInWishlist = false
-                   self.updateWishlistStatus(exists: false)
-               } //end if
-               let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-               alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
-               self.present(alert, animated: true)
-           }
+            //Removing the item from wish list
+            let itemDetail = removeParams(itemID: self.itemId)
+            AF.request(API.URL + "/items/removeFromWishlist/", method: .post, parameters: itemDetail, headers: headers).responseJSON { response in
+                var title = "Error in wishlist"
+                var message = "Item couldn't be removed from the wish list, try again"
+                if (response.response?.statusCode == 200) {
+                    title = "Item succesfully removed"
+                    message = "Item has been successfully removed from the wishlist"
+                    StateManager.updateWishlist = true;
+                    self.itemInWishlist = false
+                    self.updateWishlistStatus(exists: false)
+                } //end if
+                let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+                alert.addAction(UIAlertAction( title: "Ok", style: .cancel, handler: nil))
+                self.present(alert, animated: true)
+            }
         } else {
             //Adding the item to wishlist
             let itemDetail = parameter(id: self.itemId)
@@ -143,6 +145,10 @@ class BuyDetailViewController: UIViewController {
         // Do any additional setup after loading the view.
         itemInWishlist = itemExistsInWishlist()
         
+        self.messages = []
+        self.messagesTransfer = []
+        self.conversationID = ""
+        
         //imageScrollView.frame = self.view.frame
         
         modelName = UIDevice.modelName
@@ -160,6 +166,12 @@ class BuyDetailViewController: UIViewController {
         itemPicturesHandler()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        self.messages = []
+        self.messagesTransfer = []
+        self.conversationID = ""
+    }
+    
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         contactSellerButton.titleLabel?.text = "Contact " + itemSeller
@@ -175,17 +187,17 @@ class BuyDetailViewController: UIViewController {
         debugPrint("requesting wishlist")
         AF.request(API.URL + "/user/wishlist/exists/\(self.itemId)", method: .get,
                    headers: headers).responseJSON { response in
-            if (response.response?.statusCode == 200) {
-                debugPrint("EXISTS IN WISHLIST")
-                exists = true;
-            } else {
-                debugPrint("NOT EXISTS IN WISHLIST")
-                exists = false;
-            }//end if
-            if (self.itemInWishlist != exists) {
-                self.updateWishlistStatus(exists: exists)
-                self.itemInWishlist = exists
-            }
+                    if (response.response?.statusCode == 200) {
+                        debugPrint("EXISTS IN WISHLIST")
+                        exists = true;
+                    } else {
+                        debugPrint("NOT EXISTS IN WISHLIST")
+                        exists = false;
+                    }//end if
+                    if (self.itemInWishlist != exists) {
+                        self.updateWishlistStatus(exists: exists)
+                        self.itemInWishlist = exists
+                    }
         }
         return exists;
     }
@@ -212,7 +224,7 @@ class BuyDetailViewController: UIViewController {
             let fileURL = documentsURL.appendingPathComponent("com.merchant.turkeydaddy/pictures/items/item_\(self.itemId).data")
             return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
         }
-
+        
         //checking cache
         checkCacheForItemPicture()
         
@@ -344,27 +356,27 @@ class BuyDetailViewController: UIViewController {
     
     
     func base64ToUIImage(base64String: String?, index: Int) -> UIImage{
-      if (base64String?.isEmpty)! {
-          debugPrint("No picture found")
-          return UIImage(imageLiteralResourceName: "no-image")
-      } else {
-          // Separating the metadata from the base64 data
-          let temp = base64String?.components(separatedBy: ",")
-          let dataDecoded : Data = Data(base64Encoded: temp![1], options: .ignoreUnknownCharacters)!
-          let decodedimage = UIImage(data: dataDecoded)
-        if (decodedimage != nil) {
-          return decodedimage!
+        if (base64String?.isEmpty)! {
+            debugPrint("No picture found")
+            return UIImage(imageLiteralResourceName: "no-image")
         } else {
-            debugPrint("decoded image null")
-            ///return self.itemImageView.image!
-            return self.imagesForView[index]
-        }
-      } //end if
+            // Separating the metadata from the base64 data
+            let temp = base64String?.components(separatedBy: ",")
+            let dataDecoded : Data = Data(base64Encoded: temp![1], options: .ignoreUnknownCharacters)!
+            let decodedimage = UIImage(data: dataDecoded)
+            if (decodedimage != nil) {
+                return decodedimage!
+            } else {
+                debugPrint("decoded image null")
+                ///return self.itemImageView.image!
+                return self.imagesForView[index]
+            }
+        } //end if
     }
-
+    
     
     // MARK: - Navigation
-
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
@@ -388,6 +400,8 @@ class BuyDetailViewController: UIViewController {
         
         if (segue.identifier == "toInitialConversation") {
             let vc = segue.destination as! InitialConversationViewController
+            vc.messages = self.messagesTransfer.reversed()
+            vc.conversationID = self.conversationID
             vc.currentUser = self.currentUser
             vc.userChattingWith = self.itemSeller
         }
@@ -395,22 +409,36 @@ class BuyDetailViewController: UIViewController {
     
     @IBAction func initiateConversationClicked(_ sender: Any) {
         checkIfChatExists() {(validCode) in
-            print("after function")
-        //                for message in self.messages {
-        //                                let messageDictionary = message as! NSDictionary
-        //                                print(messageDictionary["text"]!)
-        //                //                if (messageDictionary["sender"]! as! String == currentUser) {
-        //                //                    self.messagesTransfer.append(ConversationViewController.ChatMessage(message: messageDictionary["text"]! as! String , isIncoming: false))
-        //                //                } else {
-        //                //                    self.messagesTransfer.append(ConversationViewController.ChatMessage(message: messageDictionary["text"]! as! String , isIncoming: true))
-        //                //                }
-        //                            }
+            print("after function \(validCode)")
+            if (validCode == 1) {
+                for messages in self.messages {
+                    print(messages)
+                    for message in messages {
+                        let messageDictionary = message as! NSDictionary
+                        print(messageDictionary["text"]!)
+                        if (messageDictionary["sender"]! as! String == self.currentUser) {
+                            self.messagesTransfer.append(ConversationViewController.ChatMessage(message: messageDictionary["text"]! as! String , isIncoming: false))
+                        } else {
+                            self.messagesTransfer.append(ConversationViewController.ChatMessage(message: messageDictionary["text"]! as! String , isIncoming: true))
+                        }
+                    }
+                }
+            } else {
+                self.messages = []
+                self.messagesTransfer = []
+                self.conversationID = ""
+            }
             self.performSegue(withIdentifier: "toInitialConversation", sender: nil)
         }
         
     }
     
     func checkIfChatExists(completion: @escaping (_ validCode: Int)->()) {
+        
+        self.messages = []
+        self.messagesTransfer = []
+        self.conversationID = ""
+        
         struct parameters: Encodable {
             var userSender = ""
             var userReceiver = ""
@@ -436,19 +464,24 @@ class BuyDetailViewController: UIViewController {
                 // display alert
                 self.present(alert, animated: true)
             } else {
+                var validCode = 0
                 if let info = response.value {
                     let JSON = info as! NSDictionary
                     print(JSON.value(forKey: "chatExists")!)
                     if (JSON.value(forKey: "chatExists") as! Int? == 1) {
+                        validCode = 1
                         // make sure it is not empty
-//                        print(JSON.value(forKey: "messages")!)
+                        //                        print(JSON.value(forKey: "messages")!)
                         let conversation: NSDictionary =  JSON.value(forKey: "messages") as! NSDictionary
+                        //                        print(JSON)
+                        self.conversationID = conversation.value(forKey: "conversationID") as! String
+                        print(self.conversationID)
                         let messages: NSArray = conversation["messages"] as! NSArray
                         print(messages)
                         self.messages.append(messages)
                     }
                 }
-                completion(0)
+                completion(validCode)
             }
         }.resume()
         
@@ -456,44 +489,44 @@ class BuyDetailViewController: UIViewController {
     }
     
     func getItems(completion: @escaping (_ validCode: Int)->()) {
-            
-            struct parameter: Encodable {
-                var username = ""
-            }
-            let details = parameter(username: self.itemSeller)
-            
-            AF.request(API.URL + "/user/viewRating", method: .post, parameters: details, encoder: URLEncodedFormParameterEncoder.default).responseJSON { response in
-                var stars = 0
-                if (response.response?.statusCode == 200) {
-                    if let info = response.value {
-                        let JSON = info as! NSDictionary
-                        debugPrint(JSON)
-                        stars =  JSON.value(forKey: "currentRating") as! Int
-                        debugPrint("stars")
-                        debugPrint(stars)
-                        completion(stars)
-                    }
-                } else {
-                    debugPrint("ERROR")
-                    let alert = UIAlertController(title: "Error!", message: "Something went wrong. Please try again", preferredStyle: .alert)
-                    
-                    
-                    // Create Confirm button with action handler
-                    let confirm = UIAlertAction(title: "OK",
-                                                style: .default)
-                    
-                    // add actions to the alert
-                    alert.addAction(confirm)
-                    
-                    // display alert
-                    self.present(alert, animated: true)
-                    
-                }
-                
-                completion(stars)
-                
-            }.resume()
+        
+        struct parameter: Encodable {
+            var username = ""
         }
+        let details = parameter(username: self.itemSeller)
+        
+        AF.request(API.URL + "/user/viewRating", method: .post, parameters: details, encoder: URLEncodedFormParameterEncoder.default).responseJSON { response in
+            var stars = 0
+            if (response.response?.statusCode == 200) {
+                if let info = response.value {
+                    let JSON = info as! NSDictionary
+                    debugPrint(JSON)
+                    stars =  JSON.value(forKey: "currentRating") as! Int
+                    debugPrint("stars")
+                    debugPrint(stars)
+                    completion(stars)
+                }
+            } else {
+                debugPrint("ERROR")
+                let alert = UIAlertController(title: "Error!", message: "Something went wrong. Please try again", preferredStyle: .alert)
+                
+                
+                // Create Confirm button with action handler
+                let confirm = UIAlertAction(title: "OK",
+                                            style: .default)
+                
+                // add actions to the alert
+                alert.addAction(confirm)
+                
+                // display alert
+                self.present(alert, animated: true)
+                
+            }
+            
+            completion(stars)
+            
+        }.resume()
+    }
     
-
+    
 }
