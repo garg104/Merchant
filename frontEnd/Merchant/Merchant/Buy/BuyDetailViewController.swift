@@ -387,18 +387,21 @@ class BuyDetailViewController: UIViewController {
         }
         if (segue.identifier == "toInitialConversation") {
             let vc = segue.destination as! InitialConversationViewController
-            checkIfChatExists()
-            print("after function")
+            checkIfChatExists() {(validCode) in
+                print("after function")
+//                for message in self.messages {
+//                                let messageDictionary = message as! NSDictionary
+//                                print(messageDictionary["text"]!)
+//                //                if (messageDictionary["sender"]! as! String == currentUser) {
+//                //                    self.messagesTransfer.append(ConversationViewController.ChatMessage(message: messageDictionary["text"]! as! String , isIncoming: false))
+//                //                } else {
+//                //                    self.messagesTransfer.append(ConversationViewController.ChatMessage(message: messageDictionary["text"]! as! String , isIncoming: true))
+//                //                }
+//                            }
 
-            for message in self.messages {
-                let messageDictionary = message as! NSDictionary
-                print(messageDictionary["text"]!)
-//                if (messageDictionary["sender"]! as! String == currentUser) {
-//                    self.messagesTransfer.append(ConversationViewController.ChatMessage(message: messageDictionary["text"]! as! String , isIncoming: false))
-//                } else {
-//                    self.messagesTransfer.append(ConversationViewController.ChatMessage(message: messageDictionary["text"]! as! String , isIncoming: true))
-//                }
             }
+
+            
             vc.currentUser = self.currentUser
             vc.userChattingWith = self.itemSeller
         }
@@ -443,8 +446,9 @@ class BuyDetailViewController: UIViewController {
                 }
 
             }
-            
         }.resume()
+        completion(0)
+        
     }
     
     func getItems(completion: @escaping (_ validCode: Int)->()) {
