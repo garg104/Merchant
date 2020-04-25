@@ -779,13 +779,13 @@ router.post('/message', async (req, res) => {
       // this is the first message between the users for a particular item
       console.log("in new Conversation")
       let messages = []
+      let identifier = userSender._id + "-" + userReceiver._id
       messages.push({ userIDSender: userSender._id, userIDReceiver: userReceiver._id, sender: userSender.username, text: message , time : dateTime})
-      // console.log(messages)
       let last = {
         time: dateTime,
         text: message
       }
-      const conversation = new Conversations({ user1: userSender._id, user2: userReceiver._id, lastMessage: last, messages: messages })
+      const conversation = new Conversations({ identifier: identifier, user1: userSender._id, user2: userReceiver._id, lastMessage: last, messages: messages })
       const savedConversation = await conversation.save()
       userReceiver.chats.push(conversation._id)
       userSender.chats.push(conversation._id)
@@ -885,6 +885,33 @@ router.get('/conversations/:username', async (req, res) => {
     res.status(404).json({ msg: e.message })
   }
 });
+
+
+
+
+router.post('/chatExists', async (req, res) => {
+  // user 1 is the user who is sending the message. 
+  // user 2 is the user to whom the message is being sent.
+
+  const { userSender, userReceiver } = req.body
+
+  try {
+    const userSender = await User.findOne({ username: req.body.userSender })
+    const userReceiver = await User.findOne({ username: req.body.userReceiver })
+    console.log(userSender)
+    console.log(userReceiver)
+
+    userSender.chats.forEach(chat => {
+      
+    })
+    
+
+    // res.status(200).json({ msg: "success",  conversation: conversation})
+  } catch (error) {
+    console.log(error)
+    res.status(404).json({ msg: error })
+  }
+})
 
 
 
