@@ -76,7 +76,7 @@ class ChatTableViewController: UITableViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        //refreshFeed()
+        refreshFeed()
     }
     
     
