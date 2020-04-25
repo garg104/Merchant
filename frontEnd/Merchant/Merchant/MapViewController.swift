@@ -28,6 +28,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     var proposedPlace = Place(title: "Not chosen", address: "Not chosen", coordinate: CLLocationCoordinate2D(latitude: 40.4237, longitude: -86.9200))
     var locationManager = CLLocationManager()
     var currLocation: Place!
+    var locationAllowed = false
 
     
     override func viewDidAppear(_ animated: Bool) {
@@ -134,6 +135,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         self.locationManager.requestWhenInUseAuthorization()
         
         if CLLocationManager.locationServicesEnabled() {
+            self.locationManager.requestAlwaysAuthorization()
+            self.locationManager.requestWhenInUseAuthorization()
             locationManager = CLLocationManager()
             locationManager.delegate = self
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
@@ -143,6 +146,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     // locationManager delegate
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        print("UPDATING LOCATION")
+        self.locationAllowed = true
         guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
         let title = currentUser + "'s Current Location"
         currLocation = Place(title: title, address: "Not specified", coordinate: locValue)
@@ -150,9 +155,15 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     @IBAction func shareLocationPressed(_ sender: Any) {
         //TODO change the fill of button
-        mapView.addAnnotation(currLocation)
-        mapView.centerToLocation(CLLocation(latitude: currLocation.coordinate.latitude, longitude: currLocation.coordinate.longitude))
-        mapView.selectAnnotation(currLocation, animated: true)
+        print(locationAllowed)
+        if (locationAllowed) {
+            mapView.addAnnotation(currLocation)
+            mapView.centerToLocation(CLLocation(latitude: currLocation.coordinate.latitude, longitude: currLocation.coordinate.longitude))
+            mapView.selectAnnotation(currLocation, animated: true)
+        } else {
+            self.locationManager.requestAlwaysAuthorization()
+            self.locationManager.requestWhenInUseAuthorization()
+        }
     }
     
     @IBAction func getSuggestedAddress(_ sender: Any) {
