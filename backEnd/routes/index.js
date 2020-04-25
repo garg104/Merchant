@@ -146,40 +146,47 @@ router.post('/sendPushNotifications', async (req, res) => {
   }
 })
 
-router.delete('/deleteConversation/:id', authenticate, async (req, res) => {
-  const { id } = req.params
+router.post('/deleteConversation', authenticate, async (req, res) => {
+  const { id, toDeleteUsername } = req.body
   try {
+    //finding the userID of the user
+    const user = await User.findOne({ username: toDeleteUsername })
+    const toDeleteUserID = user._id
     //finding the conversation based on the ids
     const conversation = await Conversations.findById(id)
     //getting the receiver object
     const user1 = await User.findById(conversation.user1)
     const user2 = await User.findById(conversation.user2)
-    //removing the conversation id from the receivers array
-    if (user1.chats) {
-      const index = user1.chats.indexOf(id)
-      if (index != -1) {
-        user1.chats.splice(index, 1)
-      } //end if
-    } //end if
-    //removing the conversation id from the sender's array
-    if (user2.chats) {
-      const index = user2.chats.indexOf(id)
-      if (index != -1) {
-        user2.chats.splice(index, 1)
-      } //end if
-    } //end if
-    //deleting the actual conversation
-    await User.findOneAndUpdate({ _id: user1._id }, { chats: user1.chats })
-    await User.findOneAndUpdate({ _id: user2._id }, { chats: user2.chats })
-    //deleting the meeting location if exists
-    if (conversation.meeting) {
-      try {
-        await Location.findByIdAndDelete(conversation.meeting)
-      } catch (e) {
-        console.log(e)
+    let otherUser = {}
+    let toDeleteUser = {}
+    if (`${conversation.user1}`.localeCompare(`${user._id}`) === 0) {
+      otherUser = user2
+    } else {
+      otherUser = user1
+    }
+    // remove user who deleted the chat
+    let chats = []
+    user.chats.forEach(element => {
+      if (`${element}`.localeCompare(`${id}`) === 0) {
+  
+      } else {
+        console.log(element)
+        console.log(id)
+        chats.push(element)
       }
-    } //end if
-    await conversation.delete()
+    });
+    let ret = await User.findByIdAndUpdate({ _id: user._id }, { chats: chats })
+    // check if the other user has the chat or not
+    let chatPresent = false
+    otherUser.chats.forEach(element => {
+      if (`${element}`.localeCompare(`${id}`) === 0) {
+        chatPresent = true
+      }
+    });
+    if (!chatPresent) {
+      // delete from the database
+      await conversation.delete()
+    }
     res.status(200).json({ msg: 'The conversation has been deleted' })
   } catch (e) {
     console.log(e.message)

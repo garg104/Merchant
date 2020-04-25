@@ -800,24 +800,35 @@ router.post('/message', async (req, res) => {
       // the chat alrady exists
       console.log("Conversation already exists")
 
-      const conversation = await Conversations.findById({ _id: conversationID})
+      let conversation = await Conversations.findById({ _id: conversationID })
+
+      let chatInReciever = false
+      userReceiver.chats.forEach(chat => {
+        if (`${chat}`.localeCompare(`${conversationID}`) === 0) {
+          console.log("inside the if condition")
+          chatInReciever = true
+          return
+        }
+      })
+
+      if (!chatInReciever) {
+        // reciever deleted the chat
+        console.log("the chat was deleted by the reciever")
+        userReceiver.chats.push(conversationID)
+        let ret = await User.findByIdAndUpdate({ _id: userReceiver._id },  { chats: userReceiver.chats })
+        console.log(ret)
+      }
+
+      // console.log(conversation)
       
-      // console.log(conversation.messages)
       conversation.messages.push({ userIDSender: userSender._id, userIDReceiver: userReceiver._id, sender: userSender.username, text: message , time : dateTime})
-      // console.log(conversation.messages)
       let last = {
         time: dateTime,
         text: message
       }
       console.log(last)
-      // let ret = await Conversations.findByIdAndUpdate({ _id: conversationID }, { "$set": {messages: conversation.messages, lastMessage: last }})
-      let ret1 = await Conversations.findByIdAndUpdate({ _id: conversationID }, { lastMessage: last })
-
-      let ret = await Conversations.findByIdAndUpdate({ _id: conversationID },  { messages: conversation.messages })
-
-      // ret = await User.findByIdAndUpdate({ _id: userIDSender._id }, {  })
-
-      // console.log(ret)
+      let ret = await Conversations.findByIdAndUpdate({ _id: conversationID }, { lastMessage: last })
+      ret = await Conversations.findByIdAndUpdate({ _id: conversationID },  { messages: conversation.messages })
       ret = await dispatchAPNViaFirebase(userSender.username, userReceiver.username, message)
       pusher.trigger(channelName, 'my-event', {"message": message});
       res.status(200).json({ msg: "success",  conversation: conversation})

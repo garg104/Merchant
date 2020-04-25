@@ -168,7 +168,16 @@ class ChatTableViewController: UITableViewController {
                 "Authorization": Authentication.getAuthToken(),
                 "Accept": "application/json"
             ]
-            AF.request(API.URL + "/deleteConversation/\(self.conversationIDs[indexPath.row])", method: .delete, headers: headers).responseJSON { response in
+            
+            struct param: Encodable {
+                var id: String
+                var toDeleteUsername: String
+            }
+            
+            let params = param(id: self.conversationIDs[indexPath.row], toDeleteUsername: self.currentUser)
+            
+            AF.request(API.URL + "/deleteConversation", method: .post,
+                       parameters: params, headers: headers).responseJSON { response in
         
                 if (response.response?.statusCode == 200) {
                     self.users.remove(at: indexPath.row)
