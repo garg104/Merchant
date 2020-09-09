@@ -44,9 +44,9 @@ router.post('/meetingLocations', authenticate, async (req, res) => {
 
     //create a pusher instance
     let pusher = new Pusher({
-      appId: '988508',
-      key: '0abb5543b425a847ea81',
-      secret: '28b34e176e9568cd6048',
+      appId: process.env.pusherAppId,
+      key: process.env.pusherKey,
+      secret: process.env.pusherSecret,
       cluster: 'us2',
       encrypted: true
     });
@@ -92,9 +92,9 @@ router.post('/sendCurrentLocation', authenticate, async (req, res) => {
 
     //create a pusher instance
     let pusher = new Pusher({
-      appId: '988508',
-      key: '0abb5543b425a847ea81',
-      secret: '28b34e176e9568cd6048',
+      appId: process.env.pusherAppId,
+      key: process.env.pusherKey,
+      secret: process.env.pusherSecret,
       cluster: 'us2',
       encrypted: true
     });
