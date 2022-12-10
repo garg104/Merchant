@@ -22,7 +22,7 @@
     "debug": "~2.6.9",
     "dotenv": "^8.2.0",
     "esm": "^3.2.25",
-    "express": "~4.16.1",
+    "express": "~4.18.2",
     "firebase-admin": "^8.10.0",
     "gridfs-stream": "^1.1.1",
     "http-errors": "^1.7.3",
